@@ -1,0 +1,44 @@
+
+
+
+
+
+div.add-user-form {
+    margin: 20px;
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+
+div.add-user-form > * {
+    /* margin: 0px; */
+    margin-bottom: 12px;
+}
+
+div.add-user-form > *:last-child {
+    margin-bottom: 0px;
+}
+
+
+
+div.add-user-form > div.message {
+    font-weight: bold;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+}
+
+div.add-user-form > div.error-message {
+    color: #D8000C;
+}
+
+div.add-user-form > div.success-message {
+    color: #4F8A10;
+}
+
+
+

@@ -1,0 +1,398 @@
+@import '../../base';
+
+$active-background-color: white;
+
+$active-radius: 3px;
+$container-radius: 8px;
+
+$active-border: 1px solid #DDD;
+
+
+
+div.stepper {
+
+
+    display: flex;
+    flex-flow: column;
+
+    border-radius: $active-radius;
+
+    div.step-header {
+        z-index: 1;
+
+        margin-bottom: 0px;
+
+        display: flex;
+        flex-flow: row;
+
+        & > span.header-padding {
+            width: 6%;
+            // border-bottom: $active-border;
+            border-bottom: 1px solid transparent;
+        }
+        
+        & > div.label-container:first-of-type {
+            border-top-left-radius: $container-radius;
+            & > div.label {
+                border-left-color: transparent;
+            }
+        }
+
+        & > div.label-container:last-of-type {
+            border-top-right-radius: $container-radius;
+            & > div.label {
+            }
+        }
+
+
+        & > div.label-container.active + div.label-container {
+            & > div.label {
+                border-left: 1px solid transparent;
+            }
+        }
+
+
+        & > div.label-container {
+            flex: 1;
+
+            background-color: #e5e5e5;
+
+            display: flex;
+            flex-flow: column;
+
+            font-family: "Roboto";
+            font-weight: 500;
+            font-size: 13px;
+            text-transform: uppercase;
+           
+            & > div.progress {
+                display: none;
+            }
+
+            & > div.label {
+                flex: 1;
+    
+                display: flex;
+                flex-flow: row;
+                align-items: center;
+    
+                padding: 2px 4px;
+                
+                border-top: 1px solid transparent;
+                border-bottom: $active-border;
+
+                border-right: 1px solid transparent;
+                border-left: 1px solid transparent;
+                border-left: 1px dashed rgba(0,0,0,0.10);
+
+                /*
+                // border-left: $active-border;
+                border-left: 1px dashed red;
+                */
+
+                background-color: transparent;
+                position: relative;
+                
+                & > span {
+                }
+    
+                & > div.index {
+                    display: flex;
+                    flex-flow: row;
+                    align-items: center;
+                    justify-content: center;
+                    margin-right: 0px;
+                    width: 34px;
+                    height: 34px;
+                    font-size: 1.1em;
+                }
+    
+                & > span.text {
+                }
+            }
+
+            &:first-child > div.label {
+                border-left: none;
+            }
+    
+
+
+            &.active {
+
+                & > div.label {
+
+                    border-top-left-radius: $active-radius;
+                    border-top-right-radius: $active-radius;
+
+                    border: $active-border;
+                    border-bottom-color: transparent;
+
+                    font-weight: bold;
+                    background-color: $active-background-color;
+                    color: #444;
+        
+                    & > div.index {
+                        color: white;
+                        @include label-index-background('1976d2',0.5);
+                    }
+                }
+            }
+    
+            &.completed, &.pending {
+                & > div.label {
+                    // background-color: rgba(0,0,0,0.1);
+                    // color: rgba(0,0,0,0.2);
+
+                    // background-color: #e5e5e5;
+                    color: #b7b7b7;
+        
+                    & > div.index {
+                        color: rgba(255,255,255,0.4);
+                        @include label-index-background('AAA',0.3);
+                    }
+                }
+            }
+
+
+                        /*
+            &.completed > div.label {
+                // border-bottom-color: rgba(0,0,0,0.1);
+
+                // background-color: rgba(0,0,0,0.1);
+                // color: rgba(0,0,0,0.8);
+
+                // background-color: #e5e5e5;
+                color: #222;
+    
+                & > div.index {
+                    color: rgba(255,255,255,0.8);
+                    @include label-index-background('AAA',0.5);
+                }
+            }
+            */
+
+
+
+            & > div.progress {
+                height: 8px;
+                border-left: $active-border;
+                background-color: rgba(0,0,0,0.2);
+                background-color: #CCCCCC;
+            }
+
+            &:first-child > div.progress {
+                border-left: none;
+            }
+
+            &.completed > div.progress {
+                
+            }
+
+            &.active > div.progress {
+                background-color: transparent;
+                border-left: 1px solid rgba(0,0,0,0.3);
+            }
+
+            &.pending > div.progress {
+                background-color: transparent;
+                border-left: 1px solid transparent;
+            }
+
+
+            /*
+            & > div.label::after {
+                content: "";
+                height: 14px;
+                position: absolute;
+                bottom: -20px;
+                left: 0px;
+                width: 100%;
+                // border-right: 1px solid red;
+                box-sizing: border-box;
+                border: none;
+                border-left: 1px solid red;
+                margin-left: -1px;
+            }
+    
+            & > div.label:first-child::after {
+                border-left: none;
+            }
+    
+            & > div.label.pending::after,
+            & > div.label.active::after {
+                background-color: transparent;
+            }
+            */
+
+    
+
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+    div.content-container {
+
+        flex: 1;
+
+        background-color: $active-background-color;
+
+        position: relative;
+        overflow: hidden;
+
+        // border: $active-border;     // wenn border, dann sollte der header margin auf -1 gesetzt werden
+        // border-top: none;
+        // border-bottom: none;
+
+        border-top-left-radius: $container-radius;
+        border-top-right-radius: $container-radius;
+
+
+
+        & > div.step-content {
+
+            // border: 2px solid blue;
+
+            overflow: hidden;
+
+
+            // padding: 0px;
+
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+
+
+            position: absolute;
+            top: 0px;
+            left: 0px;
+
+            // border: 2px solid red;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            
+            transform: translateX(0px);
+            transition: transform 0.5s, -webkit-transform 0.5s;
+
+            &.pos-right {
+                transform: translateX(100%);
+            }
+
+            &.pos-left {
+                transform: translateX(-100%);
+            }
+
+
+            // & > * {
+            //     flex: 1;
+            // }
+        }
+    }
+
+    div.step-actions {
+
+        display: flex;
+        flex-flow: row;
+        align-items: center;
+        justify-content: space-between;
+
+        border-bottom-left-radius: $container-radius;
+        border-bottom-right-radius: $container-radius;
+
+        background-color: $active-background-color;
+        background-color: rgba(255,255,255,0.7);
+        border-top: 1px dashed rgba(0,0,0,0.2);
+
+
+
+        /*
+        & > button.previous-step {
+            margin-right: auto;
+        }
+
+        & > button.confirm-step {
+            margin-left: auto;
+        }
+        */
+
+
+
+        & > button {
+            
+            margin: 6px;
+
+            padding: 4px 10px;
+            border-radius: 3px;
+
+            line-height: 1.0;
+
+            &:hover {
+                background-color: rgba(9, 30, 66, 0.13);
+            }
+
+            & > .MuiButton-startIcon > svg,
+            & > .MuiButton-endIcon > svg {
+                font-size: 22px;
+            }
+        }
+
+        & > div.message {
+            padding: 4px 8px;
+            border-radius: 5px;
+            display: flex;
+            flex-flow: row;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 0.85em;
+            font-weight: bold;
+            // background-color: rgba(0,0,0,0.05);
+
+            & > svg {
+                opacity: 0.9;
+                font-size: 1.2em;
+                margin-right: 8px;
+            }
+
+            &.error > svg {
+                // color: #c62828;
+                // color: #ef5350;
+                font-size: 2.2em;
+                color: #d32f2f;
+            }
+
+            &.warning > svg {
+                font-size: 2em;
+                color: #e65100;
+                color: #ff9800;
+            }
+
+            &.info > svg {
+                font-size: 2em;
+                color: #01579b;
+                // color: #03a9f4;
+                color: #0288d1;
+            }
+        }
+    }
+}
+
+
+
+
+
+/*
+    jetzt:
+        1. die transition bem wehcsel
+        2. neues design des dialog kopfzeile.
+            idee: links ein bestimmte teil der header zile mit einer hintergrud svg um ein dezentes farbformen runde zu erzeuge
+        3. der grüne haken bei completed, nur falls nicht zu aufdringlich
+*/

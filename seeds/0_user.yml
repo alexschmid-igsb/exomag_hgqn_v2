@@ -1,0 +1,21 @@
+---
+summary: Seed users
+description: longer description blablabla
+target: CORE_users
+data:
+  - username: ASchmid
+    email: schmida@uni-bonn.de
+    firstname: Alex
+    lastname: Schmid
+    password: $argon2id$v=19$m=65536,t=3,p=4$l66ENw51oOc9md1BpueYfg$W/9zL7Tf2N7+mweoh3r16J7gmAT/ZXXXPpvj2O8BPog
+    superuser: true
+    state:
+      id: ACTIVE
+  - username: HTester
+    email: alexschmid@gmx.de
+    firstname: Heribert
+    lastname: Tester
+    password: $argon2id$v=19$m=65536,t=3,p=4$l66ENw51oOc9md1BpueYfg$W/9zL7Tf2N7+mweoh3r16J7gmAT/ZXXXPpvj2O8BPog
+    superuser: false
+    state:
+      id: ACTIVE

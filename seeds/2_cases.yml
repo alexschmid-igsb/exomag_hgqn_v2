@@ -1,0 +1,229 @@
+---
+summary: Testdaten Minimal
+description: longer description blablabla
+target: GRID_cases
+data:
+  - _id: 8246ef45-4601-49f7-ae3f-fd347bbd2e90
+    internalCaseId: X24A97HU3434E2
+    sequencingLab: Bonn
+    externalCaseId: MAT3_X892_82
+    gestaltMatcherId: 23048092
+    face2GeneId: 98384234
+    sex: female
+    singleDuoTrio: trio
+    caseStatus: unclear
+    testConducted: Exome
+    selektivvertrag: nein
+    diseaseCategory: dings
+    # enum: [neurodevelopmental, neurological/neuromuscular, organ abnormality, haematopoiesis/immune system, endocrine, metabolic, mitochondrial nutritional, cardiovascular, other]
+    referringClinician: C. Müller
+    bisherigeDiagnostik: none
+    wetlabMetainfo: empty
+    AutoCasc: wjfjwiefjoiwjf
+    prenatal: 12
+    ageInMonths: 34
+    ageinYears: 2
+    autozygosity: 1.4
+    dateOfBirth: 12.05.2020
+    startDerDiagnostik: 21.08.2022
+    befunddatum: 28.09.2022
+    variants:
+      - gene: SOX9
+        # enum: [primary, incidental, candidate]
+        variantSolvesCase: primary
+        ifNewDiseaseGeneLevelOfEvidence: bla
+        acmg:
+            class: pathogenic
+            criteria:
+              - PS1
+              - PM4
+              - PP3
+              - BS2
+              - BP3
+        # enum: [heterozygous, homozygous, comp het, hemi, homoplasmic, heteroplasmic]
+        zygosity: heterozygous
+        # enum: [not performed, de novo, transmitted from father, transmitted from mother]
+        segregationsanalyse: not performed
+        # enum: [dominant, recessive, X-linked, mitochondrial, unclear]
+        modeOfInheritance: dominant
+        variant:
+            reference: GRCh38-7-73570818-C-T
+            transcript: abcd
+  - _id: 984be0d2-2938-4a96-810d-e39d92335641
+    internalCaseId: HU7281931_AFH
+    sequencingLab: München
+    externalCaseId: xUI-29391-21
+    gestaltMatcherId: 109823
+    face2GeneId: 8889219
+    sex: male
+    singleDuoTrio: single
+    caseStatus: solved
+    testConducted: Panel
+    selektivvertrag: ja
+    diseaseCategory: organ abnormality
+    referringClinician: M. Meier
+    bisherigeDiagnostik: keine
+    wetlabMetainfo: keine
+    AutoCasc: id_3b2c5f33e
+    prenatal: 8
+    ageInMonths: 14
+    ageinYears: 1
+    autozygosity: 1.2
+    dateOfBirth: 06.02.2018
+    startDerDiagnostik: 09.05.2019
+    befunddatum: 28.05.
+    variants:
+      - gene: MLH3
+        # enum: [primary, incidental, candidate]
+        variantSolvesCase: candidate
+        ifNewDiseaseGeneLevelOfEvidence: bla
+        acmg:
+            class: likely pathogenic
+            criteria:
+              - PVS1
+              - PS3
+              - BP6
+              - BP3
+        # enum: [heterozygous, homozygous, comp het, hemi, homoplasmic, heteroplasmic]
+        zygosity: comp het
+        # enum: [not performed, de novo, transmitted from father, transmitted from mother]
+        segregationsanalyse: de novo
+        # enum: [dominant, recessive, X-linked, mitochondrial, unclear]
+        modeOfInheritance: recessive
+        variant:
+            reference: GRCh38-7-73570818-C-T
+            transcript: abcd
+      - gene: TBL2
+        # enum: [primary, incidental, candidate]
+        variantSolvesCase: incidental
+        ifNewDiseaseGeneLevelOfEvidence: bla
+        acmg:
+            class: unclear
+            criteria:
+              - BA1
+              - PS3
+              - BS4
+              - BP3
+              - PP3
+              - BP4
+        # enum: [heterozygous, homozygous, comp het, hemi, homoplasmic, heteroplasmic]
+        zygosity: homoplasmic
+        # enum: [not performed, de novo, transmitted from father, transmitted from mother]
+        segregationsanalyse: transmitted from father
+        # enum: [dominant, recessive, X-linked, mitochondrial, unclear]
+        modeOfInheritance: mitochondrial
+        variant:
+            reference: GRCh38-17-72121764-GACCAGTACC-G
+            transcript: abcd
+  - _id: ce28651c-bf57-4f77-8036-6c89027e9b1c
+    internalCaseId: A7-95c-362
+    sequencingLab: Berlin
+    externalCaseId: AB_345
+    gestaltMatcherId: 239472743
+    face2GeneId: 7478234
+    sex: female
+    singleDuoTrio: duo
+    caseStatus: unsolved
+    testConducted: Genome
+    selektivvertrag: nein
+    diseaseCategory: neurodevelopmental
+    referringClinician: X. Huber
+    bisherigeDiagnostik: blabla
+    wetlabMetainfo: nein
+    AutoCasc: 49234923
+    prenatal: 8
+    ageInMonths: 26
+    ageinYears: 5
+    autozygosity: 1.1
+    dateOfBirth: 12.05.2017
+    startDerDiagnostik: 21.09.2017
+    befunddatum: 28.10.2017
+    variants:
+      - gene: PIGV
+        # enum: [primary, incidental, candidate]
+        variantSolvesCase: primary
+        ifNewDiseaseGeneLevelOfEvidence: bla
+        acmg:
+            class: likely benign
+            criteria:
+              - BS2
+              - PM4
+              - PP2
+              - BP6
+        # enum: [heterozygous, homozygous, comp het, hemi, homoplasmic, heteroplasmic]
+        zygosity: homozygous
+        # enum: [not performed, de novo, transmitted from father, transmitted from mother]
+        segregationsanalyse: not performed
+        # enum: [dominant, recessive, X-linked, mitochondrial, unclear]
+        modeOfInheritance: X-linked
+        variant:
+            reference: GRCh38-7-73570818-C-T
+            transcript: abcd
+      - gene: POR
+        # enum: [primary, incidental, candidate]
+        variantSolvesCase: incidental
+        ifNewDiseaseGeneLevelOfEvidence: bla
+        acmg:
+            class: benign
+            criteria:
+              - PM1
+              - PM5
+              - PM6
+              - PP3
+              - BA1
+              - BA1
+        # enum: [heterozygous, homozygous, comp het, hemi, homoplasmic, heteroplasmic]
+        zygosity: heteroplasmic
+        # enum: [not performed, de novo, transmitted from father, transmitted from mother]
+        segregationsanalyse: transmitted from mother
+        # enum: [dominant, recessive, X-linked, mitochondrial, unclear]
+        modeOfInheritance: unclear
+        variant:
+            reference: GRCh38-14-75018816-G-C
+            transcript: abcd
+      - gene: MLH3
+        # enum: [primary, incidental, candidate]
+        variantSolvesCase: primary
+        ifNewDiseaseGeneLevelOfEvidence: bla
+        acmg:
+            class: likely pathogenic
+            criteria:
+              - PVS1
+              - PS1
+              - PS2
+              - PS3
+              - PS4
+              - PM1
+              - PM2
+              - PM3
+              - PM4
+              - PM5
+              - PM6
+              - PP1
+              - PP2
+              - PP3
+              - PP4
+              - PP5
+              - BP1
+              - BP2
+              - BP3
+              - BP4
+              - BP5
+              - BP6
+              - BP7
+              - BS1
+              - BS2
+              - BS3
+              - BS4
+              - BA1
+        # enum: [heterozygous, homozygous, comp het, hemi, homoplasmic, heteroplasmic]
+        zygosity: hemi
+        # enum: [not performed, de novo, transmitted from father, transmitted from mother]
+        segregationsanalyse: de novo
+        # enum: [dominant, recessive, X-linked, mitochondrial, unclear]
+        modeOfInheritance: X-linked
+        variant:
+            reference: GRCh38-7-75980326-CCT-C
+            transcript: abcd
+
+

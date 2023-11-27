@@ -1,0 +1,41 @@
+
+
+
+div.admin-links {
+    margin: 30px;
+}
+
+div.admin-links,
+div.admin-links > div.category {
+    display: flex;
+    flex-flow: column;
+}
+
+div.admin-links > div.category > a {
+    text-decoration: none;
+    font-weight: bold;
+    margin-bottom: 8px;
+    margin-left: 16px;
+    color: #1976d2;
+
+    /* border: 1px solid red;   */
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+
+}
+
+
+div.admin-links > div.category > a > * {
+    /* border: 1px solid blue; */
+    margin: 0px;
+    padding: 0px;
+}
+
+
+div.admin-links > div.category > a > span {
+    font-size: 0.95em;
+
+}
+
+

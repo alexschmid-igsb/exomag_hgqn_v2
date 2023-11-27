@@ -1,0 +1,134 @@
+@import '../../base';
+
+
+
+
+div.simple-table {
+
+    font-size: 0.8125rem;
+
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    align-items: stretch;
+
+    & > div.title {
+        // border: 1px solid rgba(0,0,0,0.1);
+        align-self: flex-start;
+
+        border-radius: 3px;
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+
+        font-weight: bold;
+        padding: 4px 8px;
+        // margin-bottom: -1px;
+        z-index: 1;
+
+        /*
+        background-color: #8DB9E6;
+        background-color: #5597DB;
+        background-color: #99a8b7;
+        background-color: #8ebae8;
+        */
+
+        font-family: "Roboto";
+        font-weight: 500;
+        font-size: 13px;
+        text-transform: uppercase;
+
+        // color: white;
+
+        display: flex;
+        flex-flow: row;
+        align-items: center;
+
+        & > div.icon {
+            display: flex;
+            font-size: 1.4em;
+        }
+
+        & > div.icon.left {
+            margin-right: 4px;
+        }
+
+        & > div.icon.right {
+            margin-left: 4px;
+        }
+
+        & > span.label {
+
+        }
+
+        & > * {
+            // background-color: rgba(255,0,0,0.2)
+        }
+    }
+
+
+    & > div.table {
+        display: table;
+        background-color: rgba(0,0,0,0.05);
+        padding: 8px 8px;
+        border-radius: 5px;
+        
+        // border-top-left-radius: 0px;
+        // border: 1px solid rgba(0,0,0,0.2);
+    
+        // border-collapse: separate;
+        // border-spacing: 5px;
+    
+        & > div.header {
+            display: table-header-group;
+    
+            & > div.cell {
+                display: table-cell;
+                font-weight: bold;
+                // border-bottom: 1px solid rgba(0,0,0,0.2);
+                // padding: 4px 8px 0px 4px;
+                padding: 4px 8px;
+                // background-color: lightcyan;
+                // border-left: 1px solid rgba(0,0,0,0.1);
+            }
+        }
+    
+        & > div.body {
+            display: table-row-group;
+    
+            & > div.row {
+                display: table-row;
+    
+                & > div.cell {
+                    display: table-cell;
+                    padding: 4px 8px;
+                    // border-bottom: 1px dashed rgba(0,0,0,0.1);
+                    // background-color: lightgoldenrodyellow;
+                    // border-left: 1px solid rgba(0,0,0,0.1);
+                }
+    
+                & > div.cell:last-child {
+                }
+            }
+    
+            & > div.row:last-child {
+                & > div.cell {
+                    border-bottom: none;
+                }
+            }
+        }
+    
+        & > div.footer {
+            display: table-footer-group;
+    
+            & > div.cell {
+                display: table-cell;
+            }
+        }
+    }
+
+}
+
+
+
+
+

@@ -1,0 +1,302 @@
+@import '../base';
+
+div.fade-container {
+    flex: 1;
+    display: flex;
+    flex-flow: column;
+    align-items: stretch;
+    justify-content: flex-start;
+}
+
+
+div.login-screen {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+
+    background-color: #F0F0F0;
+    /* background-color: white; */
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0.8;
+    z-index: 100;
+    width: 100vw;
+    height: 100vh;
+    background-color: transparent;
+    /*
+    border: 5px dashed red;
+    box-sizing: border-box;
+    */
+}
+
+
+div.login-screen > div.login-box {
+
+    background-color: $BGCOLOR_A;
+    border: 1px solid #999;
+    padding: 20px 30px;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    display: flex;
+    flex-flow: column;
+    color: white;
+
+    width: 300px;
+
+    transition: 'height 1s';
+}
+
+
+
+div.login-screen > div.login-box > h2 {
+    color: #444;
+    padding: 0px;
+    margin: 0px;
+    color: #FFF;
+    margin-bottom: 8px;
+
+    line-height: 1.75;
+    letter-spacing: 0.02857em;
+
+    text-transform: uppercase;
+}
+
+
+div.login-screen > div.login-box > span {
+    margin-bottom: 8px;
+    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 1.75;
+    letter-spacing: 0.02857em;
+    text-transform: uppercase;
+}
+
+div.login-screen > div.login-box > span.light {
+    margin-bottom: 12px;
+    font-weight: normal;
+    font-size: 0.875rem;
+    letter-spacing: 0.02857em;
+    text-transform: none;
+
+}
+
+
+div.login-screen > div.login-box .inputfield {
+    flex: 1;
+}
+
+div.login-screen > div.login-box .inputfield.username {
+    margin-bottom: 8px;
+}
+
+
+
+div.login-screen > div.login-box .inputfield > .MuiInputLabel-root {
+    color: rgba(0,0,0,0.4);
+}
+
+div.login-screen > div.login-box .inputfield > .MuiInputLabel-root.Mui-focused {
+    /* color: #99a8b7; */
+    color: rgba(0,0,0,0.7);
+}
+
+div.login-screen > div.login-box .inputfield > .MuiFilledInput-root {
+    background-color: rgba(255,255,255,0.8);
+    border-radius: 3px;
+    /* border: 1px solid rgba(0,0,0,0.2) */
+}
+
+div.login-screen > div.login-box .inputfield > .MuiFilledInput-root::before {
+    border-color: transparent;
+}
+
+div.login-screen > div.login-box .inputfield > .MuiFilledInput-root.Mui-focused::before {
+    border-color: black;
+}
+
+
+div.login-screen > div.login-box .inputfield > .MuiFilledInput-root:hover {
+    background-color: rgba(255,255,255,1.0);
+}
+
+div.login-screen > div.login-box .inputfield > .MuiFilledInput-root:hover::before {
+    border-color: rgba(0,0,0,0.1);
+}
+
+
+
+div.login-screen > div.login-box > button {
+    align-self: center;
+    padding: 8px 16px;
+    background-color: rgba(255,255,255,0.8);
+    margin-top: 0px;
+}
+
+div.login-screen > div.login-box > button:hover {
+    background-color: rgba(255,255,255,1.0);
+}
+
+
+
+
+div.login-screen > div.login-box div.password-box {
+    position: relative;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: flex-start;    
+    margin-bottom: 8px;
+}
+
+div.login-screen > div.login-box .password-button {
+    position: absolute;
+    right: 18px;
+    border-radius: 5px;
+}
+
+
+div.login-screen > div.login-box .sublink {
+    text-align: center;
+
+    a {
+        color: #FFF;
+        font-size: 0.85rem;
+        text-decoration: underline;
+        font-weight: bold;
+        cursor:pointer;
+    }
+
+    a.disabled {
+        color: #EEE;
+        text-decoration: none;
+        cursor: unset;
+    }
+}
+
+
+div.login-screen > div.login-box .main-button {
+    margin-bottom: 16px;
+}
+
+
+
+
+div.login-screen > div.login-box div.message {
+    display: flex;
+    flex-flow: row;
+
+    align-items: stretch;
+    justify-content: flex-start;
+
+    margin-bottom: 8px;
+    margin-top: 8px;
+
+    /*
+    background-color: rgba(0,0,0,0.07);
+    */
+
+    border: 1px solid rgba(0,0,0,0.1);
+
+    padding: 0px;
+    border-radius: 10px;
+
+    font-weight: 500;
+    font-size: 0.875rem;
+
+    div.icon-container {
+        // background-color: rgb(25, 118, 210);
+        // width: 50px;
+        display: flex;
+        flex-flow: row;
+        align-items: center;
+        justify-content: stretch;
+
+        border-radius: 10px;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+
+        // border: 1px solid rgba(0,0,0,0.1);
+        border-right: 1px dashed rgba(0,0,0,0.1);
+        padding: 4px;
+
+        background-color: rgba(255,255,255,0.1);
+
+
+        .icon {
+
+            width: 30px;
+            height: 30px;
+        }
+    
+    }  
+
+    div.text-container {
+        flex: 1;
+        padding: 6px 10px;  
+
+        border-radius: 10px;
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+
+        background-color: rgba(0,0,0,0.05);
+
+        font-weight: normal;
+
+        display: block;
+
+
+
+
+
+    }
+
+}
+
+
+div.login-screen > div.login-box div.message.old {
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+
+    align-items: stretch;
+
+    margin-bottom: 8px;
+    margin-top: 8px;
+
+    border: none;
+}
+
+
+div.login-screen > div.login-box div.message.error {
+    align-items: center;
+    color: #D8000C;
+}
+
+div.login-screen > div.login-box div.success {
+    color: #4F8A10;
+}
+
+div.login-screen > div.login-box div.message > * {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+
+div.login-screen > div.login-box div.message > div.icon {
+    margin-right: 4px;
+}
+
+
+
+
+
+
+
+

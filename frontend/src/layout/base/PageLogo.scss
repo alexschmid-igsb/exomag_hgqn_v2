@@ -1,0 +1,10 @@
+@import '../../base';
+
+div.page-logo {
+    width: 250px;
+    margin: 0px;
+    /* margin-right: 10px; */
+    background-color: rgba(0,0,0,0.1);
+    align-self: stretch;
+    border-left: 1px solid $HEADER_INNER_BORDER_COLOR;
+}

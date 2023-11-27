@@ -1,0 +1,30 @@
+
+div.linkout {
+    padding: 4px 10px;
+    border-radius: 3px;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    color: rgba(0,0,0,0.9);
+
+    & > span.text {
+        line-height: 14px;
+    }
+
+    & > img.logo {
+        height: 14px;
+    }
+
+    & .icon {
+        margin-left: 8px;
+    }
+
+    cursor: pointer;
+
+    &:hover {
+        background-color: rgba(9, 30, 66, 0.13);
+    }
+}
+
+
+

@@ -1,0 +1,712 @@
+
+@import '../../base';
+
+
+
+/* hack.. muss woanders richtig definiert werden */
+.MuiDialogContent-root {
+    padding: 0px !important;
+}
+
+
+
+div.abc {
+    background-color: $BGCOLOR_A;
+    position: absolute;
+    top: 0px;
+    left: 200px;
+    height:32px;
+    width: 500px;
+}
+
+
+$bg: #F8F8F8;
+
+div.data-validation-view > div.grid-container {
+    height: 100%;
+
+    padding: 20px;
+
+
+
+    & div.ag-root-wrapper {
+        border: none;
+        border-radius: 8px;
+        // border: 1px solid rgba(0,0,0,0.15);
+        // box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+        border: 1px solid rgba(0,0,0,0.1);
+        background-color: $bg;
+
+
+        & div.ag-header {
+            & div.ag-header-container {
+                padding: 0px;
+
+                & div.ag-header-cell {
+                    padding: 12px;
+                }
+            }
+        }
+
+
+        & div.ag-root-wrapper-body {
+            & div.ag-body-viewport {
+
+                // padding-top: 4px;
+                padding: 0px;
+
+
+                div.ag-row {
+                    // border: none;
+
+
+                    border: none;
+                    // border-top: 4px solid $bg;
+                    // border-bottom: 4px solid $bg;
+
+                    box-sizing: content-box;
+
+
+                    // background-color: #198754;
+                    // background-color:#24c278;
+
+                    // background-color: white;
+
+
+                    border-bottom: 1px dashed rgba(0,0,0,0.3);
+                    border-radius: 0px;
+
+                    background-color: rgba(255,255,255,0.7);
+
+                    &.ag-row-hover {
+                        background-color: rgba(0,0,0,0.2);
+                        background-color: #ecf0f1
+                    }
+                
+                }
+
+
+                div.ag-row:last-of-type {
+                    border-bottom-style: solid;
+                }
+
+
+
+                & div.ag-cell {
+
+                    line-height: 28px;
+
+                    padding: 8px 8px;
+
+                    & div.ag-cell-wrapper {
+                        & span.ag-cell-value {
+                            & div.validation-cell-renderer {
+                                & div.single,
+                                & div.multiple {
+                                    padding: 0px 8px;
+                                    border-radius: 3px;
+                                    position: relative;
+
+                                    & span.icon {
+                                        // border: 1px solid black;
+                                        margin-top: 2px;
+                                        font-size: 1.3em;
+                                        color: white;
+                                        position: absolute;
+                                        right: 3px;
+                                        top: 3px;
+                                        height: 100%;
+                                        background-color: #c32232;
+                                        border-radius: 5px;
+
+                                        background-color: rgba(255,255,255,0.3);
+                                        // border: 1px solid rgba(0,0,0,0.3);
+                                        box-sizing: border-box;
+                                        width: 22px;
+                                        height: 22px;
+                                        margin: 0px;
+                                        display: flex;
+                                        flex-flow: row;
+                                        align-items: center;
+                                        justify-content: center;
+                                        /* display: flex; */
+                                    }
+                                }
+                            }
+                            & div.validation-cell-renderer.error {
+                                cursor: pointer;
+                                & div.single {
+                                    background-color: #c32232;
+                                    color: white;
+                                }
+                            }
+
+
+                        }
+                    }
+
+                }
+
+                div.ag-cell.validation-state {
+                    // border: 1px solid red;
+                    // padding: 0px;
+
+                    display: flex;
+                    flex-flow: row;
+                    align-items: flex-start;
+                    justify-content: center;
+
+                    & div.ag-cell-wrapper {
+                        // border: 1px solid red;
+
+                        & span.ag-cell-value {
+                            // border: 1px solid blue;
+
+                            & div.state-renderer {
+                                margin: 4px 0px 0px 0px;
+
+                                &.has-errors {
+                                    width: 20px;
+                                    height: 20px;
+                                    border-radius: 5px;
+                                    display: flex;
+                                    flex-flow: row;
+                                    align-items: center;
+                                    justify-content: center;
+                                    background-color: #c32232;
+                                    color: white;
+                                }
+
+                            }
+
+
+                        }
+                    }
+
+
+
+                }
+
+
+                span.ag-cell-value {
+                    // border: 1px solid red !important;
+
+
+                }
+
+
+
+            }
+        }
+
+        // box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    }
+
+
+
+
+    //
+    // border: 1px solid #AAA;
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+div.ag-theme-alpine-modified div.ag-row div.ag-cell div.ag-cell-wrapper {
+    font-weight: bold;    
+}
+
+div.ag-theme-alpine-modified div.ag-row div.cell-content {
+    margin: 0px;
+}
+
+/*
+div.ag-theme-alpine-modified div.has-expanded-rows div.ag-row.expanded * {
+    border: 1px solid red;
+    margin: 2px;
+    padding: 2px;
+}
+*/
+
+
+
+
+
+
+
+
+
+
+/* ENUM CELL VALUES */
+
+div.ag-theme-alpine-modified div.enum-value-renderer > span.enum-value {
+
+    /*
+    border-radius: 6px;
+    padding: 2px 4px;
+    */
+
+    border-radius: 2px;
+    padding: 1.3px 2.5px;
+
+
+    font-weight: bold;
+    margin-right: 4px;
+
+    // border: 1px solid rgba(0,0,0,0.1);
+    // background-color: rgba(0,0,0,0.1);
+
+    border: 1px solid rgba(0,0,0,0.15);
+    background-color: rgba(0,0,0,0.35);
+    color: white;
+}
+
+div.ag-theme-alpine-modified div.enum-value-renderer > span.enum-value:last-child {
+    margin-right: 0px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ACMG Class */
+
+div.ag-theme-alpine-modified div.enum-value-renderer.acmgClass > span.enum-value {
+
+    &.VALUE-benign {
+        background-color: rgb(7, 100, 24);
+    }
+
+    &.VALUE-likelybenign {
+        background-color: rgb(80, 168, 56);
+    }
+
+    &.VALUE-unclear {
+        background-color: rgb(255, 171, 69);
+    }
+
+    &.VALUE-likelypathogenic {
+        background-color: rgb(235, 91, 43);
+    }
+
+    &.VALUE-pathogenic {
+        background-color: rgb(199, 7, 0);
+    }
+}
+
+
+
+/* ACMG Criteria */
+
+div.ag-theme-alpine-modified div.enum-value-renderer.acmgCriteria > span.enum-value {
+    
+    border-radius: 2px;
+
+
+    &.VALUE-PVS1 {
+        background-color: rgb(199, 7, 0);
+    }
+
+    &.VALUE-PS1,
+    &.VALUE-PS2,
+    &.VALUE-PS3,
+    &.VALUE-PS4 {
+        background-color: rgb(217, 49, 21);
+    }
+
+    &.VALUE-PM1,
+    &.VALUE-PM2,
+    &.VALUE-PM3,
+    &.VALUE-PM4,
+    &.VALUE-PM5,
+    &.VALUE-PM6 {
+        background-color: rgb(235, 91, 43);
+    }
+
+    &.VALUE-PP1,
+    &.VALUE-PP2,
+    &.VALUE-PP3,
+    &.VALUE-PP4,
+    &.VALUE-PP5 {
+        background-color: rgb(253, 133, 64);
+    }
+
+    &.VALUE-BP1,
+    &.VALUE-BP2,
+    &.VALUE-BP3,
+    &.VALUE-BP4,
+    &.VALUE-BP5,
+    &.VALUE-BP6,
+    &.VALUE-BP7 {
+        background-color: rgb(80, 168, 56);
+    }
+
+    &.VALUE-BS1,
+    &.VALUE-BS2,
+    &.VALUE-BS3,
+    &.VALUE-BS4 {
+        background-color: rgb(37, 136, 49);
+    }
+
+    &.VALUE-BA1 {
+        background-color: rgb(7, 100, 24);
+    }
+
+    // in varsome gibt es noch eine sehr hellgrüne farbe: rgb(115, 195, 111)
+    // es ist mir nicht klar, was diese farbe kodiert
+
+
+    /*
+
+    &.VALUE-PVS1,
+    &.VALUE-PP5 {
+        // background-color: rgb(199, 7, 0);
+    }
+
+    &.VALUE-PS1,
+    &.VALUE-PS2,
+    &.VALUE-PS3,
+    &.VALUE-PS4,
+    &.VALUE-PM1,
+    &.VALUE-PM5,
+    &.VALUE-PP3 {
+    }
+
+    &.VALUE-PM3,
+    &.VALUE-PM4,
+    &.VALUE-PM6 {
+    }
+
+    &.VALUE-PM2,
+    &.VALUE-PP1,
+    &.VALUE-PP2,
+    &.VALUE-PP4 {
+
+    }
+    
+    &.VALUE-BP1,
+    &.VALUE-BP2,
+    &.VALUE-BP3,
+    &.VALUE-BP4,
+    &.VALUE-BP5,
+    &.VALUE-BP6 {
+
+    }
+
+    &.VALUE-BS1,
+    &.VALUE-BS2,
+    &.VALUE-BS3,
+    &.VALUE-BS4 {
+        rgb(80, 168, 56)
+    }
+
+    &.VALUE-BA1 {
+        background-color: rgb(7, 100, 24);
+    }
+
+    */
+
+}
+
+
+
+
+
+/*
+    PVS1    pathogenic very strong          ganz dunkles rot (very strong)
+
+    PS1     pathogenic strong               dunkles rot in varsome (strong)
+    PS2     pathogenic strong               dunkles rot in varsome (strong)
+    PS3     pathogenic strong               dunkles rot in varsome (strong)
+    PS4     pathogenic strong               dunkles rot in varsome (strong)
+
+    PM1     pathogenic moderate             dunkles rot (strong)
+    PM2     pathogenic moderate             helles orange (supporting)
+    PM3     pathogenic moderate             dunkles orange (moderate)
+    PM4     pathogenic moderate             dunkles orange (moderate)
+    PM5     pathogenic moderate             dunkles rot (strong)
+    PM6     pathogenic moderate             dunkles orange (moderate)
+
+    PP1     pathogenic supporting           helles orange (supporting)
+    PP2     pathogenic supporting           helles orange (supporting)
+    PP3     pathogenic supporting           dunkles rot (strong)
+    PP4     pathogenic supporting           helles orange (supporting)
+    PP5     pathogenic supporting           ganz dunkles rot (very strong, WIESO?)
+
+    BP1     benign supporting           alle die gleiche farbe bei varsome (das leichte grün)
+    BP2     benign supporting
+    BP3     benign supporting
+    BP4     benign supporting
+    BP5     benign supporting
+    BP6     benign supporting
+    BP7     benign supporting
+
+    BS1     benign strong               alle die gleiche farbe bei varsome (das dunklere grün)
+    BS2     benign strong
+    BS3     benign strong
+    BS4     benign strong
+
+    BA1     benign stand alone (das höchste level an benign)           das ganz dunkle grün
+
+
+
+
+
+    PVS1
+
+    PS1
+    PS2
+    PS3
+    PS4
+
+    PM1
+    PM2
+    PM3
+    PM4
+    PM5
+    PM6
+
+    PP1
+    PP2
+    PP3
+    PP4
+    PP5
+
+    BP1
+    BP2
+    BP3
+    BP4
+    BP5
+    BP6
+    BP7
+
+    BS1
+    BS2
+    BS3
+    BS4
+
+    BA1
+
+*/
+
+
+
+
+
+
+
+div.validation-popover {
+    background-color: rgba(0,0,0,0.15);
+
+    & div.MuiPaper-root.MuiPopover-paper {
+        background-color: unset !important;
+        box-shadow: unset !important;
+        border-radius: unset !important;
+
+        & div.container {
+
+            padding: 0px 20px 20px 20px;
+            // border: 1px solid green;
+
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+            justify-content: center;
+
+            & span.arrow {
+                color: rgba(0,0,0,0.5);
+                margin-top: -2px;
+                height: 13px;
+            }
+
+            & div.content {
+
+                line-height: 20px;
+
+                width: 450px;
+                background-color: white;
+
+                box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+                // box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+                border-radius: 3px;
+                // border: 1px solid rgba(0,0,0,0.4);
+                position: relative;
+
+                display: flex;
+                flex-flow: column;
+                align-items: center;
+
+                & button.close-button {
+                    // border: 1px solid red;
+                    border-radius: 0px;
+                    padding:0px;
+                    position: absolute;
+                    right: 8px;
+                    top: 8px;
+                    color: white;
+                }
+
+                & > div.box {
+                    padding: 12px;
+                    font-family: "Roboto";
+                    font-weight: normal;
+                    font-size: 13px;
+                    // background-color: #ABCDEF;
+                    // border: 1px solid red;
+                    box-sizing: border-box;
+                    width: 100%;
+                }
+
+                & > div.box:first-of-type {
+                    border-radius: 3px;
+                    border-bottom-left-radius: 0px;
+                    border-bottom-right-radius: 0px;
+                    padding-right: 24px;
+                    background-color: #c32232;
+                    color: rgba(255,255,255,1.0);
+                }
+
+                & div.separator {
+                    display: none;
+                    align-self: center;
+                    width: 60%;
+                    height: 0px;
+                    border-bottom: 1px dashed rgba(0,0,0,0.3);
+                    margin: 8px 0px;
+
+                }
+
+                & div.replacement-form {
+
+                    display: flex;
+                    flex-flow: row;
+
+                    margin-top: 8px;
+
+                    & > div.replacement-select {
+
+                        width: 100%;
+    
+                        // background default
+                        // background-color: rgba(123,222,90,0.2);
+                        // background-color: white;
+                
+                        &:hover {
+                            // background hover
+                            // background-color: green;
+                            // background-color: white;
+                
+                        }
+                
+                        &.Mui-focused {
+                            // background geöffnet
+                            // background-color: white;
+                            // box-shadow: rgb(0 0 0 / 24%) 0px 3px 8px;
+                        }
+                
+                        &::before {
+                            //border bottom default
+                            border-bottom: 1px solid rgba(0,0,0,0.2);
+                        }
+                        &:hover::before {
+                            //border bottom wenn hover
+                            border-bottom: 1px solid rgba(0,0,0,0.5);
+                        }
+                
+                        &::after {
+                            // die border color wenn geöffnet
+                            // border-bottom-color: cyan;
+                        }
+                
+                        & > div.MuiSelect-filled {
+                            padding: 4px 10px;
+                            font-size: 0.8em;
+                            font-weight: bold;
+                        }
+                    }
+
+
+
+                    & > button.replacement-confirm {
+                        padding: 0px;
+                        margin: 0px;
+                        border-radius: 0px;
+
+                        height: 31px;
+                        width: 31px;
+
+                        // background-color: rgba(198,176,145,0.7) !important;
+
+                        margin-left: 4px;
+
+
+                        &, &:hover {
+                            background-color: transparent;
+                        }
+
+                        &:hover {
+                            color: rgba(0,0,0,0.7)
+                        }
+
+                        & > svg {
+                            height: 100%;
+                            height: 31px;
+                            width: 31px;
+                        }
+
+
+
+
+
+                    }
+
+                }
+
+
+            
+
+
+            }
+        }
+
+
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

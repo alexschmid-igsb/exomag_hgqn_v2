@@ -1,0 +1,58 @@
+
+@import '../../base';
+
+
+
+
+
+div.data-validation-view {
+
+    flex: 1;
+
+
+
+    // height: 100%;
+    overflow: hidden;
+
+    // box-sizing: border-box;
+
+
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+
+
+
+    
+
+    // background-color: rgba(0,0,0,0.05);
+    border-radius: 5px;
+    align-self: stretch;
+    margin: 30px 30px;
+    // padding: 20px 30px;
+
+    border-radius: 10px;
+
+
+
+
+
+    div.grid-container {
+        flex: 1;
+
+
+
+
+    }
+
+
+    
+
+
+
+
+
+
+
+
+}

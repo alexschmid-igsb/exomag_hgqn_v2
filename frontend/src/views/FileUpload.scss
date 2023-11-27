@@ -1,0 +1,102 @@
+
+
+
+
+
+
+
+
+
+div.file-upload {
+    /*
+    min-width: 500px;
+    max-width: 500px;
+    width: 500px;
+    */
+
+    position: relative;
+    padding: 34px;
+}
+
+
+div.file-upload div.MuiStep-root {
+    background-color: #F0F0F0;
+    border: 1px solid #DDD;
+    border-radius: 5px;
+    padding: 10px 10px 0px 10px;
+}
+
+div.file-upload div.MuiStep-root span.MuiStepLabel-root {
+    padding: 0px;
+    margin-bottom: 6px;
+}
+
+div.file-upload div.MuiStep-root div.MuiStepContent-root {
+    border: none;
+    /*
+    padding: 0px;
+    margin: 0px;
+    */
+    margin-bottom: 10px;
+}
+
+div.file-upload div.MuiStepConnector-vertical {
+    margin-left: 23px;
+}
+
+
+
+
+
+
+
+div.file-upload .MuiSelect-select.MuiSelect-standard {
+    background-color: #F0F0F0;
+    border-radius: 2px;
+    padding-left: 6px;
+    padding-top: 6px;
+}
+
+
+div.file-upload div.upload-result {
+    font-weight: 500;
+    font-size: 0.8125rem;
+    line-height: 1.75;
+    letter-spacing: 0.02857em;
+    /* text-transform: uppercase; */
+    transition: inherit;
+    margin-top: 8px;
+
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+
+    background-color: white;
+    border-radius: 5px;
+    padding: 6px 10px;
+    border: 1px solid #EEE;
+
+}
+
+
+// div.file-upload div.upload-result.success {
+// }
+
+
+// div.file-upload div.upload-result.error {
+// }
+
+
+div.file-upload div.select-sheet-form div.MuiSelect-select {
+    padding: 7px;
+}
+
+
+div.file-upload div.select-sheet-form .Mui-disabled::before {
+    border: none !important;
+}
+
+
+
+
+

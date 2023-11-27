@@ -1,0 +1,84 @@
+div.json-view {
+    margin: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #1e1e1e;
+    font-size: 13px;
+    font-weight: normal;
+    font-family: "Courier New", Courier, monospace;
+
+    span {
+        color: #d4d4d4;
+    }
+
+    span.prop-name {
+        color: #9cdcfe;
+    }
+
+    span.object-bracket {
+        color: #da70d6;
+    }
+
+    span.array-bracket {
+        color: #179fff;
+    }
+
+    span.number {
+        color: #b5cea8;
+    }
+
+    span.string {
+        color: #ce9178;
+    }
+
+    span.boolean {
+        color: #569cd6;
+    }
+
+    span.null,
+    span.undefined {
+        color: #808080;
+    }
+
+    span.symbol {
+        color: #E0E0E0;
+    }
+
+    span.function {
+        color: #E0E0E0;
+    }
+
+    span.array-content:not(.empty),
+    span.object-content:not(.empty) {
+        cursor: pointer;
+    }
+
+    span.header {
+        font-size: 15px;
+        font-weight: bold;
+        color: white;
+        vertical-align: middle;
+        margin-right: 4px;
+    }
+
+    span.title {
+        color: #569cd6;
+    }
+
+    .icon-button {
+        border: 1px solid rgba(255,255,255,0.2);
+        background-color: rgba(255,255,255,0.15);
+        color: #569cd6;
+        color: white;
+        border-radius: 5px;
+        margin-left:8px;
+        width: 28px;
+        height: 28px;
+        padding: 4px;
+
+        /* font-size: 20px; */
+    }
+
+}
+
+

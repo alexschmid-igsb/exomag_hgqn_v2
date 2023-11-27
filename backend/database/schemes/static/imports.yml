@@ -1,0 +1,51 @@
+---
+scheme:
+    _id:
+        type: UUID
+    name:
+        type: string
+        required: true
+    progress:
+        type: string
+        required: true
+    uploadFormat:
+        type: string
+        required: true
+        enum:
+          - excel_template
+          - excel_clinvar
+          - phenopacket
+    uploadedFiles:
+      - id:
+            type: string
+            required: true
+        name: 
+            type: string
+            reuqired: true
+        size:
+            type: integer
+            required: true
+        type:
+            type: string
+            reuqired: true
+        source:
+            type: string
+            reuqired: true
+        data:
+            type: buffer
+            reuqired: true
+    valueMapping:
+        type: any
+    data:
+        bla:
+            type: string
+        validated:
+            type: any
+    user:
+        type: UUID
+        reference: CORE_users
+        required: true
+    created:
+        type: timestamp
+        required: true
+layouts: {}

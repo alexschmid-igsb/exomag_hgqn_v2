@@ -1,0 +1,38 @@
+
+@import '../base';
+@import '../fonts';
+
+div.custom-dialog-title {
+    /* background-color: rgba(0,0,0,0.2); */
+    background-color: $BGCOLOR_A;
+    background-color: #99a8b7;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    padding: 0px 0px 0px 10px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    color:white;
+
+    font: $DIALOG_HEADER_FONT;
+
+    letter-spacing: 0.02857em;
+    text-transform: uppercase;
+}
+
+div.custom-dialog-title > div.title {
+    flex: 1;
+    /* border: 1px solid red; */
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+}
+
+// div.custom-dialog-title > div.title > * {
+    /* border: 1px solid red; */
+// }
+
+div.custom-dialog-title > button.close-button {
+    color: white;
+    flex: 0;
+    margin: 4px 4px 4px 0px;
+}

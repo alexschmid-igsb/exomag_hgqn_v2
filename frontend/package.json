@@ -1,0 +1,53 @@
+{
+    "name": "create-react-app-with-express",
+    "version": "0.1.0",
+    "license": "MIT",
+    "dependencies": {
+        "@emotion/react": "^11.9.0",
+        "@emotion/styled": "^11.8.1",
+        "@fontsource/roboto": "^4.5.8",
+        "@fontsource/ubuntu": "^4.5.11",
+        "@iconify/react": "^3.2.2",
+        "@mui/icons-material": "^5.6.2",
+        "@mui/lab": "^5.0.0-alpha.82",
+        "@mui/material": "^5.6.3",
+        "@react-email/components": "^0.0.6",
+        "ag-grid-community": "^27.2.1",
+        "ag-grid-react": "^27.2.1",
+        "downloadjs": "^1.4.7",
+        "immer": "^9.0.14",
+        "jquery": "^3.7.1",
+        "lodash": "^4.17.21",
+        "material-ui-popup-state": "^2.0.1",
+        "node-sass": "^7.0.3",
+        "pretty-bytes": "^6.1.1",
+        "prop-types": "^15.8.1",
+        "react": "^18.1.0",
+        "react-dom": "^18.1.0",
+        "react-dropzone": "^14.2.1",
+        "react-email": "^1.9.3",
+        "react-error-boundary": "^3.1.4",
+        "react-redux": "^8.0.1",
+        "react-router-dom": "^6.3.0",
+        "react-scripts": "5.0.1",
+        "redux": "^4.2.0",
+        "stacktrace-js": "^2.0.2",
+        "xlsx-js-style": "^1.2.0"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test --env=jsdom",
+        "eject": "react-scripts eject"
+    },
+    "proxy": "http://localhost:9000/",
+    "browserslist": [
+        ">0.2%",
+        "not dead",
+        "not ie <= 11",
+        "not op_mini all"
+    ],
+    "devDependencies": {
+        "sass": "^1.55.0"
+    }
+}

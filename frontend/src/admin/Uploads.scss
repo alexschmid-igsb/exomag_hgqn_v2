@@ -1,0 +1,113 @@
+
+@import '../base';
+
+div.admin-view-uploads {
+    margin: 30px;
+}
+
+
+div.admin-view-uploads > div.list {
+    display: flex;
+    flex-flow: column;
+}
+
+
+
+div.admin-view-uploads > div.list > div.header,
+div.admin-view-uploads > div.list > div.row {
+    display: flex;
+    flex-flow: row;
+}
+
+
+
+div.admin-view-uploads > div.list div.cell {
+    font-size: 14px;
+    /* border: 1px solid red; */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 6px 12px;
+    margin-top: 1px;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+
+}
+
+div.admin-view-uploads > div.list div.cell.grid {
+    width: 150px;
+    max-width: 150px;
+    min-width: 150px;
+}
+
+div.admin-view-uploads > div.list div.cell.user {
+    width: 150px;
+    max-width: 150px;
+    min-width: 150px;
+}
+
+div.admin-view-uploads > div.list div.cell.time {
+    width: 200px;
+    max-width: 200px;
+    min-width: 200px;
+}
+
+div.admin-view-uploads > div.list div.cell.type {
+    width: 150px;
+    max-width: 150px;
+    min-width: 150px;
+}
+
+div.admin-view-uploads > div.list div.cell.file {
+    width: 150px;
+    max-width: 150px;
+    min-width: 150px;
+}
+
+
+
+div.admin-view-uploads > div.list > div.header {
+}
+
+
+
+div.admin-view-uploads > div.list > div.header > div.cell {
+    font-weight: bold;
+    background-color: rgba(0,0,0,0.2);
+    background-color: $BGCOLOR_A;
+}
+
+div.admin-view-uploads > div.list > div.row {
+}
+
+
+div.admin-view-uploads > div.list > div.row > div.cell {
+    background-color: rgba(0,0,0,0.1);
+    background-color: #DDD;
+}
+
+
+
+
+
+div.admin-view-uploads > div.list > div.header > div.cell:first-child {
+    border-top-left-radius: 5px;
+}
+
+div.admin-view-uploads > div.list > div.header > div.cell:last-child {
+    border-top-right-radius: 5px;
+}
+
+div.admin-view-uploads > div.list > div.row:last-child > div.cell:first-child {
+    border-bottom-left-radius: 5px;
+}
+
+div.admin-view-uploads > div.list > div.row:last-child > div.cell:last-child {
+    border-bottom-right-radius: 5px;
+}
+
+
+
+
+

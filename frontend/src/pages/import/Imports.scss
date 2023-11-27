@@ -1,0 +1,87 @@
+
+
+
+
+
+div.imports, div.create-import-dialog {
+
+    & button {
+        padding: 4px 10px;
+        margin-top: 12px;
+        align-self: center;
+        justify-self: center;
+        &:hover {
+            background-color: rgba(9, 30, 66, 0.13);
+        }
+    }
+
+
+}
+
+
+
+
+div.create-import-dialog {
+    & .title {
+        margin: 4px 20px;
+        padding: 0px;
+    }
+    & .content {
+        margin: 10px 10px 0px 10px;
+        padding: 0px;
+        width: 300px;
+        & .name-input {
+            padding: 0px;
+            margin: 0px;
+        }
+    }
+    & div.actions {
+        display: flex;
+        flex-flow: row;
+        align-items: center;
+        justify-content: space-around;
+    }
+}
+
+
+
+div.imports {
+
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+
+    padding: 20px;
+
+    & div.grid-container {
+    }
+    
+
+    & div.ag-theme-alpine-modified {
+
+        div.ag-root-wrapper {
+            border-radius: 8px;
+            border: none;
+
+            & div.ag-row.open {
+                & div.ag-cell {
+                    font-weight: bold;
+                    color: rgba(0,0,0,0.8)
+                }
+            }
+
+            & div.ag-row.closed {
+                & div.ag-cell {
+                    color: rgba(0,0,0,0.6)
+                }
+            }
+
+        }
+
+    }
+    
+
+
+}
+
+

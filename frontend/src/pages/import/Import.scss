@@ -1,0 +1,28 @@
+@mixin label-index-background($fill, $fill-opacity, $stroke, $stroke-opacity) {
+    background-image: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="2 2 20 20"%3E%3Cg fill="%23#{$fill}" fill-opacity="#{$fill-opacity}" stroke="%23#{$stroke}" stroke-opacity="#{$stroke-opacity}" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"%3E%3Cpath d="M12 3c7.2 0 9 1.8 9 9s-1.8 9-9 9s-9-1.8-9-9s1.8-9 9-9z"%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+
+
+div.import-container {
+    flex: 1;
+    // border: 2px solid red;
+
+    padding: 20px;
+
+    display: flex;
+    flex-flow: column;
+    align-items: stretch;
+    justify-content: stretch;
+
+    & > div.stepper.main {
+        flex: 1;
+        // background-color: white;
+    }
+
+
+
+
+}

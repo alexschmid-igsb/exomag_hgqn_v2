@@ -1,0 +1,56 @@
+
+
+
+
+
+
+div.excel-export {
+    position: relative;
+    padding: 34px;
+
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+
+
+
+
+div.excel-export div.message {
+
+    display: flex;
+    flex-flow: row;
+
+    border: 1px solid rgba(0,0,0,0.1);
+    background-color: rgba(0,0,0,0.1);
+
+    padding:10px;
+    margin: 0px;
+
+    border-radius: 5px;
+
+}
+
+div.excel-export div.message div.icon {
+    font-size: 36px;
+    color: #1976d2;
+    padding:0px;
+    margin: 0px;
+    margin-right: 8px;
+
+}
+
+div.excel-export div.message div.icon * 
+{
+    padding:0px;
+    margin: 0px;
+    
+}
+
+
+div.excel-export div.message div.text {
+    padding-top: 6px;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.5em;
+}

@@ -1,0 +1,75 @@
+{
+    "name": "exom-ag-database",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "@sendinblue/client": "^3.3.1",
+        "@testing-library/jest-dom": "^5.16.4",
+        "@testing-library/react": "^11.2.7",
+        "@testing-library/user-event": "^12.8.3",
+        "adm-zip": "^0.5.10",
+        "argon2": "^0.28.5",
+        "commander": "^11.0.0",
+        "cookie-parser": "~1.4.4",
+        "debug": "~2.6.9",
+        "decompress": "^4.2.1",
+        "express": "~4.16.1",
+        "express-async-errors": "^3.1.1",
+        "http-errors": "~1.6.3",
+        "jade": "~1.11.0",
+        "js-yaml": "^4.1.0",
+        "jsonwebtoken": "^8.5.1",
+        "lodash": "^4.17.21",
+        "md5": "^2.3.0",
+        "mongoose": "^7.4.5",
+        "morgan": "~1.9.1",
+        "multer": "^1.4.4",
+        "nocache": "^3.0.4",
+        "nodemailer": "^6.7.5",
+        "nodemon": "^2.0.16",
+        "pg": "^8.7.3",
+        "react": "^18.1.0",
+        "react-dom": "^18.1.0",
+        "react-scripts": "5.0.1",
+        "redis": "^4.6.7",
+        "stacktrace-js": "^2.0.2",
+        "tar-stream": "^3.0.0",
+        "uuid": "^8.3.2",
+        "web-vitals": "^1.1.2",
+        "xlsx": "^0.18.5",
+        "xz": "^2.0.2"
+    },
+    "scripts": {
+        "inst": "./npm_reinstall.sh",
+        "clean": "./clean.sh",
+        "build": "cd frontend && react-scripts build",
+        "dev": "concurrently --kill-others-on-fail \"yarn backend:dev\" \"yarn frontend:dev\"",
+        "redis:start": "./backend/redis/start.sh",
+        "redis:stop": "./backend/redis/stop.sh",
+        "backend:dev": "./dev.sh",
+        "backend:dev:execute": "INSTANCE_CONFIG_PATH=./config/new_db PROFILE=development_default nodemon backend/run",
+        "frontend:dev": "cd frontend && react-scripts start",
+        "seed": "INSTANCE_CONFIG_PATH=./config/new_db PROFILE=development_default ./seed.sh"
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app",
+            "react-app/jest"
+        ]
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "devDependencies": {
+        "concurrently": "^5.3.0"
+    }
+}

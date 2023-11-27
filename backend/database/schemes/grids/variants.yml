@@ -1,0 +1,91 @@
+---
+scheme:
+    _id:
+        type: string
+        required: true
+    GRCh37:
+        build:
+            type: string
+            required: true
+        chrom:
+            type: integer
+            required: true
+        pos:
+            type: integer
+            required: true
+        ref:
+            type: string
+            required: true        
+        alt:
+            type: string
+            required: true        
+    GRCh38:
+        build:
+            type: string
+            required: true
+        chrom:
+            type: integer
+            required: true
+        pos:
+            type: integer
+            required: true
+        ref:
+            type: string
+            required: true        
+        alt:
+            type: string
+            required: true        
+    gDNA:
+        type: string
+        required: true
+layouts:
+    default:
+      - label: Identifikation
+        type: 
+            id: primary
+        fields:
+          - id: _id
+            label: ID
+            majorField: true
+            pinned: true
+          - id: gDNA
+            label: HGVS gDNA
+            majorField: true
+            pinned: true
+          - id: links
+            label: Externe Links
+            customValueRenderer: variant_external_links
+            majorField: true
+            pinned: true
+      - label: GRCh37
+        type: 
+            id: nested
+            root: GRCh37
+        fields:
+          - id: build
+            label: Build
+          - id: chrom
+            label: Chromosome
+          - id: pos
+            label: Position
+          - id: ref
+            label: Ref
+          - id: alt
+            label: Alt
+      - label: GRCh38
+        type: 
+            id: nested
+            root: GRCh38
+        fields:
+          - id: build
+            label: Build
+          - id: chrom
+            label: Chromosome
+          - id: pos
+            label: Position
+          - id: ref
+            label: Ref
+          - id: alt
+            label: Alt
+
+        

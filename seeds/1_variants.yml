@@ -1,0 +1,62 @@
+---
+summary: Testdaten Minimal
+description: longer description blablabla
+target: GRID_variants
+data:
+  - _id: GRCh38-7-73570818-C-T
+    GRCh37:
+        build: GRCh37
+        chrom: 7
+        pos: 72985148
+        ref: C
+        alt: T
+    GRCh38:
+        build: GRCh38
+        chrom: 7
+        pos: 73570818
+        ref: C
+        alt: T
+    gDNA: NC_000007.14:g.73570818C>T
+  - _id: GRCh38-17-72121764-GACCAGTACC-G
+    GRCh37:
+        build: GRCh37
+        chrom: 17
+        pos: 70117905
+        ref: GACCAGTACC
+        alt: G
+    GRCh38:
+        build: GRCh38
+        chrom: 17
+        pos: 72121764
+        ref: GACCAGTACC
+        alt: G
+    gDNA: NC_000017.11:g.72121765_72121773del
+  - _id: GRCh38-14-75018816-G-C
+    GRCh37:
+        build: GRCh37
+        chrom: 14
+        pos: 75485519
+        ref: G
+        alt: C
+    GRCh38:
+        build: GRCh38
+        chrom: 14
+        pos: 75018816
+        ref: G
+        alt: C
+    gDNA: NC_000014.9:g.75018816G>C
+  - _id: GRCh38-7-75980326-CCT-C
+    GRCh37:
+        build: GRCh37
+        chrom: 7
+        pos: 75609644
+        ref: CCT
+        alt: C
+    GRCh38:
+        build: GRCh38
+        chrom: 7
+        pos: 75980326
+        ref: CCT
+        alt: C
+    gDNA: NC_000007.14:g.75980327_75980328del
+  

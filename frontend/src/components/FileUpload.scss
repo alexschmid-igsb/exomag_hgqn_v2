@@ -1,0 +1,90 @@
+
+
+
+
+
+
+
+
+div.file-upload-dropzone {
+    background-color: #fafafa;
+    // background-color: red;
+    border: 1px solid #eaeaea;
+    border-radius: 5px;
+    min-height: 100px;
+    max-height: 100px;
+    height: 100px;
+    display: flex;
+    flex-flow: column;
+    align-items: stretch;
+    justify-content: stretch;
+    opacity: 1.0;
+
+    transition: all 0.2s, opacity 1s, height 1s, min-height 1s, max-height 1s, border-color 1s;
+}
+
+
+// div.file-upload-dropzone.disabled {
+    /*
+    height: 0px;
+    min-height: 0px;
+    max-height: 0px;
+    overflow: hidden;
+    border-color: transparent;
+    opacity: 0.0;
+    */
+// }
+
+
+
+
+div.file-upload-dropzone > div.inner {
+    flex: 1;
+    margin: 5px;
+    border: 1px dashed #dfdfdf;
+    border-radius: 3px;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+
+    transition: inherit;
+}
+
+div.file-upload-dropzone > div.inner > p {
+    font-weight: 500;
+    font-size: 0.8125rem;
+    line-height: 1.75;
+    letter-spacing: 0.02857em;
+    text-transform: uppercase;
+    transition: inherit;
+    display: flex;
+}
+
+div.file-upload-dropzone > div.inner svg.blocked {
+    // color: green;
+}
+
+
+
+
+
+div.file-upload-dropzone:not(.disabled):hover,
+div.file-upload-dropzone:not(.disabled).drag-active {
+    border: 1px solid #ccc;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+div.file-upload-dropzone:not(.disabled):hover > div.inner,
+div.file-upload-dropzone:not(.disabled).drag-active > div.inner {
+    border: 1px dashed #aaa;
+    color: #1976d2;
+    // background-color: rgba(0,0,0,0.01)
+    background-color: white;
+
+}
+
+
+
+

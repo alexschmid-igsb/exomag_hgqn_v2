@@ -1,0 +1,104 @@
+
+div.activation-page {
+    flex: 1;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+}
+
+div.activation-page > div.activation-form {
+    padding: 20px;
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+    justify-content: center;
+
+    background-color: #FFF;
+    border-radius: 5px;
+    border: 1px solid rgba(0,0,0,0.2);
+}
+
+div.activation-page > div.activation-form > h1 {
+    color: rgba(0,0,0,0.6);
+    margin-bottom: 24px;
+}
+
+div.activation-page > div.activation-form > div.MuiTextField-root {
+    margin-bottom: 10px;
+    width: 90%;
+    align-self: center;
+}
+
+div.activation-page > div.activation-form > div.password-match-message {
+    font-size: 11px;
+    width: 90%;
+    align-self: center;
+    display: none;
+    font-weight: bold;
+}
+
+div.activation-page > div.activation-form > div.password-match-message.show {
+    display: block;
+}
+
+div.activation-page > div.activation-form > div.password-match-message.show.error > span.error {
+    color: #D8000C;
+}
+
+div.activation-page > div.activation-form > div.password-match-message.show.error > span.success {
+    display: none;
+}
+
+div.activation-page > div.activation-form > div.password-match-message.show.success > span.error {
+    display: none;
+}
+
+div.activation-page > div.activation-form > div.password-match-message.show.success > span.success {
+    color: #4F8A10;
+}
+
+div.activation-page > div.activation-form > div.password-format-message {
+    font-size: 11px;
+    width: 90%;
+    align-self: center;
+}
+
+div.activation-page > div.activation-form > div.password-format-message > ul > li.error {
+    font-weight: bold;
+    color: #D8000C;
+}
+
+div.activation-page > div.activation-form > div.password-format-message > ul > li.success {
+    font-weight: bold;
+    color: #4F8A10;
+}
+
+div.activation-page > div.activation-form > div.password-format-message > ul {
+    margin-top: 4px;
+    padding-left: 24px;
+}
+
+div.activation-page > div.activation-form > div.message {
+    align-self: center;
+    font-weight: bold;
+}
+
+div.activation-page > div.activation-form > div.message.error {
+    color: #D8000C;
+}
+
+div.activation-page > div.activation-form > div.message.success {
+    color: #4F8A10;
+}
+
+
+div.activation-page > div.activation-form > div.spacer {
+    align-self: stretch;
+    height: 0px;
+    /* border-bottom: 1px dashed rgba(0,0,0,0.2); */
+    margin:0px;
+    margin-bottom: 24px;
+}
+
+

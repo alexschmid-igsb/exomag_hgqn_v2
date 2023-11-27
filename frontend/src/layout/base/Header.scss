@@ -1,0 +1,114 @@
+
+@import '../../base';
+@import '../../fonts';
+
+div#page-layout {
+
+    & > div.page-header {
+
+        background-color: $BGCOLOR_A;
+        flex: 0;
+        display: flex;
+        flex-flow: row;
+        align-items: center;
+    
+        /*
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+        */
+    
+        /*
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+        border-bottom: 2px solid $HEADER_OUTER_BORDER_COLOR;
+        */
+
+        border-bottom: 1px solid $HEADER_OUTER_BORDER_COLOR;
+
+
+    
+        z-index: 20;
+
+        & > div.menuarea {
+
+            flex: 1;
+    
+            display: flex;
+            flex-flow: column;
+            align-items: stretch;
+            justify-content: flex-start;
+
+            & >  div.menubar {
+
+                display: flex;
+                flex-flow: row;
+                align-items: stretch;
+            
+                height: 56px;
+                min-height: 56px;
+                max-height: 56px;
+                /* padding: 0px 10px; */
+            
+                border-bottom: 1px solid $HEADER_INNER_BORDER_COLOR;
+
+                & > div.menu {
+
+                    display: flex;
+                    flex-flow:row;
+                    align-items: stretch;
+                    justify-content: flex-start;
+                    /* border: 2px solid green; */
+                    color: white; 
+                    margin: 0px;
+
+                    .menu-button {
+                        font: $MAIN_MENU_FONT;
+                        margin: 0px 12px;
+                        color: inherit;
+                        padding: 0px 16px;
+                    }
+
+                    .menu-button:last-child {
+                        margin-right: 0px;
+                    }
+
+                    .menu-button:hover {
+                        // background-color: red;
+                        // background-color: rgba(25, 118, 210, 0.04);
+                        background-color: rgba(0, 0, 0, 0.04);
+                    }
+                }
+            }
+
+            & > div.toolbar-area {
+
+                height: 40px;
+                min-height: 40px;
+                max-height: 40px;
+                // background-color: #e2d4ba;
+                background-color: $TOOLBAR_BG_COLOR;
+                
+                display: flex;
+                flex-flow: row;
+                align-items: stretch;
+
+                & > div.breadcrumbs {
+                    display: flex;
+                    flex-flow: row;
+                    align-items: center;
+                    background-color: rgba(0,0,0,0.05);
+                    padding: 0px 10px;
+                    border-right: 1px solid $HEADER_INNER_BORDER_COLOR;
+                }
+
+                & > div.toolbar {
+                    display: flex;
+                    flex-flow: row;
+                    align-items: center;
+                    padding: 0px 10px;
+                    background-color: rgba(255,255,255,0.05);
+                }
+            }
+        }
+    }
+}

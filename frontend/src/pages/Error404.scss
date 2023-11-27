@@ -1,0 +1,60 @@
+
+
+
+div.error-page-404 {
+    flex: 1;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+div.error-page-404 > h1.error {
+    margin-top: -100px;
+    font-family: "Ubuntu";
+    font-size: 265px;
+    margin: 0px;
+    padding: 0px;
+    margin-top: -150px;
+    color: rgba(0,0,0,0.4);
+    color: #99a8b7;
+}
+
+
+div.error-page-404 > span.message {
+    font-family: "Ubuntu";
+    font-weight: 700;
+    font-size: 28px;
+    letter-spacing: 2px;
+    color: rgba(0,0,0,0.6);
+    margin-top: -16px;
+}
+
+
+div.error-page-404 > span.return a {
+    display: block;
+    margin-top: 20px;
+    text-decoration: none;
+    font-weight: 500;
+    font-family: "Ubuntu";
+    font-size: 20px;
+    color: #1976d2;
+    color: #7FDCFF;
+    color: rgba(25,118,210, 0.6);
+    padding: 0px 4px;
+    transition: all 0.2s;
+    background-color: transparent;
+    padding: 4px 10px;
+    border-radius: 3px;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+}
+
+div.error-page-404 > span.return a:hover {
+    color: rgba(25,118,210, 0.9);
+    background-color: rgba(255,255,255,0.7);
+}

@@ -1,0 +1,41 @@
+
+
+
+
+div.excel-upload div.upload-preview {
+    border: 1px solid rgba(0,0,0,0.1);
+    background-color: white;
+    padding: 16px;
+    margin-bottom: 8px;
+}
+
+div.excel-upload div.upload-preview div.block {
+    margin-bottom: 16px;
+}
+
+div.excel-upload div.upload-preview div.block:last-child {
+    margin-bottom: 0px;
+}
+
+
+div.excel-upload div.upload-preview div.block div.label {
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+
+div.excel-upload div.upload-preview div.block div.entry {
+    font-size: 13px;
+    font-weight: normal;
+    margin-left: 12px;
+}
+
+div.excel-upload div.upload-preview div.block div.entry span.value {
+    font-weight: bold
+}
+
+
+
+
+

@@ -1,0 +1,207 @@
+
+@import '../base';
+
+
+
+
+
+div.grid-filter-toolbar {
+    border-top: 1px solid rgba(0,0,0,0.1);
+    background-color: #f8f8f8;
+    padding: 8px 18px;
+
+    display: flex;
+    flex-flow: row;
+    align-items: stretch;
+    justify-content: flex-start;
+}
+
+div.grid-filter-toolbar > div.separator {
+    align-self: center;
+    margin: 0px 24px;
+    width: 0px;
+    height: 80%;
+    border-left: 1px solid rgba(186, 191, 199, 0.5)
+}
+
+div.grid-filter-toolbar > div.category {
+    display: flex;
+    flex-flow: row;
+    align-items: stretch;
+    justify-content: flex-start;
+    color: #CCC;
+}
+
+/* div.grid-filter-toolbar > div.category { */
+
+
+div.grid-filter-toolbar > div.category > .category-icon {
+    height: 32px;
+    width: 32px;
+    background-color: rgba(255,255,255,0.5);
+    color: rgba(0,0,0,0.1);
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 8px;
+    margin-right: 10px;
+    /*
+    color:#1976d2;
+    color: $BGCOLOR_A;
+    */
+}
+
+
+
+
+
+div.grid-filter-toolbar > div.category > .toolbar-button {
+    /* border-radius: 5px; */   
+    /* margin-left: 8px; */
+    /* color: $BGCOLOR_A; */
+    /* color: rgba(0,0,0,0.4); */
+    /* padding:0px; */
+    margin-left: 2px;
+    width: 38px;
+    height: 38px;
+    color: inherit;
+}
+
+div.grid-filter-toolbar > div.category > div.text {
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+div.grid-filter-toolbar > div.category > div.text > span.primary {
+    font-weight: 700;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+}
+
+div.grid-filter-toolbar > div.category > div.text > span.primary .inline-button {
+    margin-left: 4px;
+    margin-right: 0px;
+    padding: 0px;
+}
+
+div.grid-filter-toolbar > div.category > div.text > span.primary .inline-button:hover {
+    background-color: unset;
+}
+
+div.grid-filter-toolbar > div.category > div.text > span.primary .inline-button svg {
+    width: 18px;
+    height: 18px;
+    padding: 0px;
+}
+
+
+
+div.grid-filter-toolbar > div.category > div.text > span.secondary {
+    margin-top: 4px;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+}
+
+div.grid-filter-toolbar > div.category > div.text > span.secondary .inline-button {
+    margin-left: 2px;
+    margin-right: 10px;
+    padding: 0px;
+}
+
+div.grid-filter-toolbar > div.category > div.text > span.secondary .inline-button:hover {
+    background-color: unset;
+}
+
+div.grid-filter-toolbar > div.category > div.text > span.secondary .inline-button svg {
+    width: 16px;
+    height: 16px;
+    padding: 0px;
+}
+
+
+
+
+
+
+
+
+div.grid-filter-toolbar > div.category.active > .category-icon {
+    background-color: rgba(255,255,255,1.0);
+    color:#1976d2;
+}
+
+
+div.grid-filter-toolbar > div.category.active {
+    color: #444;
+}
+
+
+div.grid-filter-toolbar > div.category.active > div.text > span.secondary {
+    color: #888;
+}
+
+
+
+
+
+
+
+
+
+
+
+div.column-state-control {
+    padding: 2px;
+}
+
+div.column-state-control > div.buttons {
+    /* border: 1px solid black; */
+    margin: 0px;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px;
+}
+
+
+div.column-state-control > ul.list {
+    /* border: 3px solid red; */
+    padding: 0px;
+}
+
+
+div.column-state-control > ul.list > li.item {
+    padding: 5px 6px 4px 6px;
+    /* border: 2px solid green; */
+    border-top: 1px dashed #CCC;
+}
+
+
+div.column-state-control > ul.list > li.item > div.icon {
+    /* background-color: $BGCOLOR_A; */
+    /* border: 1px solid blue; */
+    padding: 0px;
+    margin: 0px;
+    min-width: unset;
+    margin-right: 4px;
+}
+
+div.column-state-control > ul.list > li.item > div.icon > .checkbox {
+    padding: 0px;
+    margin: 0px;
+}
+
+div.column-state-control > ul.list > li.item > div.label {
+    /* border: 1px solid red; */
+    margin: 0px;
+}
+
+
+div.column-state-control > ul.list > li.item > div.label > span.MuiListItemText-primary {
+    font-size: 13px;
+    font-weight: 700;
+    color: #444;
+}

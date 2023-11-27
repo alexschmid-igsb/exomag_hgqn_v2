@@ -1,0 +1,462 @@
+
+
+
+
+div.column-mapping {
+    // background-color: white;
+    // border: 1px solid green;
+
+    margin-top: -38px;
+
+    overflow: hidden;
+
+    display: flex;
+    flex-flow: column;
+
+
+
+    & div.grid-container {
+
+        // border-radius: 10px;
+        // padding: 4px;
+
+        overflow: hidden;
+        & > div {
+            height: 100%;
+            overflow: hidden;
+            & > div.ag-root-wrapper {
+                height: 100%;
+                overflow: hidden;
+                & > div.ag-root-wrapper-body {
+                    height: 100%;
+                    overflow: hidden;
+                    & > div.ag-root {
+                        height: 100%;
+                        overflow: hidden;
+                        & > div.ag-body-viewport {
+                            overflow-y: auto;
+                            padding: 0px;
+                        }
+                        & > div.ag-header {
+                            & > div.ag-header-viewport {
+                                & > div.ag-header-container {
+                                    padding: 0px;
+                                    margin: 0px;
+                                    margin-right: 40px;
+
+                                    & > div.ag-header-row {
+                                        padding:0px;
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+div.column-mapping div.buttons {
+    margin-bottom: 8px;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+div.column-mapping div.buttons Button {
+    margin-right: 8px;
+
+    padding: 4px 10px;
+    border-radius: 3px;
+
+    line-height: 1.0;
+
+    &:hover {
+        background-color: rgba(9, 30, 66, 0.13);
+    }
+
+    & > .MuiButton-startIcon > svg,
+    & > .MuiButton-endIcon > svg {
+        font-size: 22px;
+    }
+
+    // background-color: rgba(255,255,255,0.9);
+    // border: 1px solid rgba(0,0,0,0.1);
+}
+
+div.column-mapping div.buttons Button:last-child {
+    margin-right: 16px;
+}
+
+div.column-mapping div.ag-header-row div.ag-header-cell:first-child {
+    border-top-left-radius: 5px !important;
+}
+
+div.column-mapping div.ag-header-row div.ag-header-cell:last-child {
+    border-top-right-radius: 5px !important;
+}
+
+div.column-mapping div.validation-message {
+    /*
+    padding: 0px;
+    background-color: white;
+    border-radius: 3px;
+    margin-top: 4px;
+    font-size: 13px;
+    font-weight: normal;
+    border: 1px solid rgba(0,0,0,0.2);
+    display: flex;
+    flex-flow: row;
+    */
+
+    padding: 0px;
+    background-color: white;
+    border-radius: 0px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    margin-top: 0px;
+    font-size: 13px;
+    font-weight: normal;
+    border-top: 1px solid #CCC;
+    display: flex;
+    flex-flow: row;
+    // margin-bottom: 8px;
+}
+
+div.column-mapping.disabled div.validation-message {
+    color: #BBB !important;
+}
+
+
+div.column-mapping div.validation-message.valid {
+    color: #4F8A10;
+}
+
+div.column-mapping div.validation-message.error {
+    color: #D8000C;
+}
+
+div.column-mapping div.validation-message div.message {
+    display: flex;
+    flex-flow: row;
+}
+
+div.column-mapping div.validation-message div.message div.icon {
+    /* background-color: rgba(0,0,0,0.05); */
+    padding: 2px 4px;
+    /* font-size: 40px; */
+    display: flex;
+    flex-flow: column;
+}
+
+div.column-mapping div.validation-message div.message div.icon svg {
+    width: 30px;
+    height: 30px;
+    margin: 0px;
+/*    border: 1px solid red; */
+}
+
+div.column-mapping div.validation-message div.message div.text {
+    /* height: 30px; */
+    /* border: 1px solid green; */
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    padding: 9px 11px 8px 11px;
+    line-height: 16px;
+}
+
+
+
+
+
+
+div.column-mapping div.ag-row.activated {
+    background-color: white;
+}
+
+div.column-mapping div.ag-row.deactivated {
+    background-color: #F0F0F0;
+}
+
+div.column-mapping div.ag-header {
+    background-color: unset !important;
+}
+
+div.column-mapping div.ag-root-wrapper {
+    background-color: #F0F0F0;
+    border: none;
+}
+
+div.column-mapping div.ag-row {
+    border: none;
+    border-bottom: 1px dashed #CCC;
+    border-radius: 2px;
+}
+
+/*
+div.column-mapping div.ag-row:last-child {
+    border: none;
+}
+*/
+
+div.column-mapping div.ag-header-row div.ag-header-cell {
+    background-color: white;
+    padding: 0px 4px;
+}
+
+div.column-mapping.disabled div.ag-header-row div.ag-header-cell {
+    color: #BBB !important;
+}
+
+div.column-mapping.disabled div.ag-header-row div.ag-header-cell Button {
+    display: none;
+}
+
+div.column-mapping div.ag-header-row div.ag-header-cell.toggle,
+div.column-mapping div.ag-header-row div.ag-header-cell.arrow {
+}
+
+div.column-mapping div.ag-header-row div.ag-header-cell:first-child {
+    border-top-left-radius: 3px;
+}
+
+div.column-mapping div.ag-header-row div.ag-header-cell:last-child {
+    border-top-right-radius: 3px;
+}
+
+div.column-mapping div.ag-cell.source-column {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: stretch;
+    /* border: 2px solid red; */
+}
+
+
+
+div.column-mapping div.ag-row div.ag-cell .MuiFormControl-root {
+    flex: 1;
+
+    padding: 0px;
+    margin: 0px;
+    /* border: 2px solid red; */
+    padding: 0px;
+}
+
+div.column-mapping div.ag-row div.ag-cell .MuiFormControl-root .MuiFilledInput-root {
+    background-color: rgba(0,0,0,0.05);
+
+    font-size: 12px;
+    font-weight: bold;
+
+    padding: 0px;
+    margin: 0px;
+    height: 20px;
+    padding: 0px 26px 0px 6px;
+
+    border-radius: 5px;
+
+    /* border: 2px solid blue; */
+}
+
+div.column-mapping.enabled div.ag-row div.ag-cell .MuiFormControl-root .MuiFilledInput-root:hover {
+    background-color: rgba(0,0,0,0.1);
+}
+
+div.column-mapping div.ag-row div.ag-cell .MuiFormControl-root .MuiFilledInput-root::before,
+div.column-mapping div.ag-row div.ag-cell .MuiFormControl-root .MuiFilledInput-root::after {
+    border: none !important;
+}
+
+div.column-mapping div.ag-row div.ag-cell .MuiFormControl-root .MuiFilledInput-root .MuiSelect-select {
+    background-color: unset !important;
+
+    padding: 0px;
+    margin: 0px;
+
+    /* height: 29px; */
+
+    /* border: 2px solid green; */
+    padding: 0px;
+}
+
+div.column-mapping div.ag-row.deactivated div.ag-cell .MuiFormControl-root .MuiFilledInput-root.Mui-disabled,
+div.column-mapping div.ag-row.deactivated div.ag-cell .MuiFormControl-root .MuiFilledInput-root.Mui-disabled .MuiSelect-select.Mui-disabled {
+    background-color: #F0F0F0;
+    color: #F0F0F0;
+    -webkit-text-fill-color: unset;
+}
+
+div.column-mapping.enabled div.ag-row div.ag-cell .MuiFormControl-root .MuiFilledInput-root.Mui-disabled .MuiSelect-select.Mui-disabled {
+    display: none;
+}
+
+
+div.column-mapping div.ag-row div.ag-cell .MuiFormControl-root .MuiFilledInput-root .MuiSvgIcon-root {
+    right: 0px;
+}
+
+div.column-mapping.disabled div.ag-row.deactivated div.ag-cell .MuiFormControl-root .MuiFilledInput-root .MuiSvgIcon-root {
+    color: #F0F0F0;
+}
+
+div.column-mapping.enabled div.ag-row.deactivated div.ag-cell .MuiFormControl-root .MuiFilledInput-root.Mui-disabled .MuiSvgIcon-root.Mui-disabled {
+    color: #F0F0F0;
+}
+
+
+
+
+
+
+
+
+div.column-mapping div.ag-row div.ag-cell {
+    /* border: 1px solid red; */
+    font-size: 12px;
+    padding: 0px 4px;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: flex-start;
+
+    border: none;
+}
+
+div.column-mapping div.ag-row div.ag-cell.arrow,
+div.column-mapping div.ag-row div.ag-cell.toggle {
+    /* border: 1px solid red; */
+    width: 36px;
+    max-width: 36px;
+    min-width: 36px;
+    padding: 0px;
+    justify-content: center;
+}
+
+div.column-mapping div.ag-row div.ag-cell.toggle .MuiCheckbox-root {
+    padding: 0px;
+}
+
+div.column-mapping div.ag-cell.arrow .iconify {
+    font-size: 20px;
+}
+
+div.column-mapping.enabled div.ag-row.activated div.ag-cell.arrow {
+    color: #1976d2;
+}
+
+
+
+div.column-mapping div.ag-row div.ag-cell.source-column {
+    /* border: 1px solid blue; */
+}
+
+
+
+
+
+
+
+/*
+MuiFormControl-root
+MuiFilledInput-root
+MuiSelect-select
+*/
+
+
+
+div.column-mapping div.ag-row.activated div.ag-cell {
+    font-weight: bold;
+}
+
+div.column-mapping div.ag-row.deactivated div.ag-cell,
+div.column-mapping.disabled div.ag-row div.ag-cell {
+    color: #BBB !important;
+}
+
+
+
+
+
+
+
+
+
+div.update-mode-info-dialog {
+    border-radius: 0px;
+}
+
+div.update-mode-info-dialog .MuiPaper-root {
+    border-radius: 3px;
+}
+
+div.update-mode-info-dialog .MuiDialogTitle-root {
+    font-size: 14px;
+    color: #222;
+    font-weight: bold;
+    padding: 16px 0px 0px 16px;
+}
+
+
+div.update-mode-info-dialog .MuiDialogContent-root {
+    font-size: 13px;
+    color: #222;
+    font-weight: normal;
+    padding: 16px 16px 0px 16px !important;
+}
+
+div.update-mode-info-dialog .MuiDialogContent-root div.row {
+    display: flex;
+    flex-flow: row;
+    align-items: flex-start;
+    margin-bottom: 16px;
+    // border-top: 1px dashed #ccc;
+    padding-top: 16px;
+}
+
+div.update-mode-info-dialog .MuiDialogContent-root div.row div.mode {
+    flex: 0;
+    width: 120px;
+    min-width: 120px;
+    max-width: 120px;
+    /* border: 1px solid red; */
+}
+
+div.update-mode-info-dialog .MuiDialogContent-root div.row div.description {
+    flex: 1;
+    /* border: 1px solid blue; */
+}
+
+
+div.update-mode-info-dialog .MuiDialogActions-root {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: center;
+    // border-top: 1px dashed #ccc;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

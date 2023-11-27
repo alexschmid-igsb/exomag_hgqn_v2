@@ -1,0 +1,225 @@
+
+
+/* generischer style für ag-grids */
+
+div.ag-theme-alpine-modified {
+}
+
+div.ag-theme-alpine-modified div.ag-root-wrapper {
+    // border-radius: 5px;
+    border: 1px solid rgba(0,0,0,0.2);
+}
+
+div.ag-theme-alpine-modified div.ag-header {
+    /*
+    background-color: #EEE;
+    */
+}
+
+div.ag-theme-alpine-modified div.ag-header-row {
+    padding: 0px 8px;
+
+    & > div.ag-header-cell {
+        &:last-child {
+            & > div.ag-header-cell-resize {
+                display: none;
+            }
+        }
+    }
+}
+
+/*
+div.ag-theme-alpine-modified div.ag-header-row > div.ag-header-cell:first-of-type {
+    margin-left: 40px;
+}
+*/
+
+div.ag-theme-alpine-modified div.ag-header-container {
+    padding: 0px 8px;
+}
+
+div.ag-theme-alpine-modified div.ag-body-viewport {
+    padding: 8px;
+    /*
+    background-color: #f1f2eb;
+    background-color: #EBF0F2;
+    background-color: #EBF0F2;
+    background-color: #EBF2F2;
+    background-color: #FAFAFA;
+    background-color: #eef0f2;
+    */
+}
+
+div.ag-theme-alpine-modified div.ag-row {
+    border-radius: 5px;
+
+    transition: background-color 0.2s, height 0.2s;
+
+    // border: 1px solid transparent;
+
+    border: none;
+    // border-bottom: 2px solid transparent;
+
+    border: 1px solid white;
+
+    overflow: hidden;
+
+
+}
+
+div.ag-theme-alpine-modified div.ag-row-even {
+    background-color: unset;
+}
+
+div.ag-theme-alpine-modified div.ag-row-odd {
+    background-color: rgba(0,0,0,0.1);
+    background-color: unset;
+}
+
+div.ag-theme-alpine-modified div.ag-row-hover {
+    background-color: #ecf0f1;
+}
+
+div.ag-theme-alpine-modified div.ag-row-selected {
+    /* alternativen */
+    background-color: #FAE3C8;
+    background-color: #DEE2FF;
+    background-color: #efd3d7;
+    background-color: #cbc0d3;
+    background-color: #ffd97d;
+    background-color: #ff9b85;
+    background-color: #f8dda4;
+    background-color: #ddf9c1;
+    background-color: #aed9e0;
+}
+
+
+
+div.ag-theme-alpine-modified {
+}
+
+
+div.ag-theme-alpine-modified .ag-header-cell-resize::after {
+    width: 1px;
+    height: 50%;
+    top: calc((100% - 50%)/2)
+}
+
+div.ag-theme-alpine-modified > div.ag-root-wrapper {
+    /* border: none; */
+}
+
+div.ag-theme-alpine-modified div.ag-header {
+}
+
+div.ag-theme-alpine-modified div.ag-row {
+}
+
+div.ag-theme-alpine-modified span.ag-cell-value {
+        
+}
+
+div.ag-theme-alpine-modified div.ag-row div.ag-cell {
+
+    height: unset;
+
+    border: none;
+    border-right: 1px dashed rgba(0,0,0,0.2);
+    // border-right: 1px solid rgba(0,0,0,0.1);
+
+    &:last-child {
+        border-right: none;
+    }
+
+
+    // border: 1px solid red;
+    // background-color: rgba(0,0,255,0.2);
+
+
+    transition: padding 0.1s;
+
+    box-sizing: border-box;
+
+
+}
+
+div.ag-theme-alpine-modified div.ag-row div.ag-cell div.cell-content {
+    margin: 0px;
+    overflow-x: hidden;
+
+    // border: 1px solid blue;
+    // background-color: rgba(255,0,0,0.2);
+    
+}
+
+
+
+
+
+/* EXPANDED ROWS */
+
+
+
+div.ag-theme-alpine-modified div.has-expanded-rows div.ag-row.expanded {
+
+    
+    background-color: #aed9e0;
+    background-color: rgba(174, 217, 224, 0.8);
+    background-color: #c4e0ed;
+    background-color: #f7f3e3;
+
+
+
+    // border: 1px solid rgba(0,0,0,0.05);
+    // box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+
+    // border: 2px solid white;
+
+    // border: 1px solid #8896a2;
+    // padding-top: 20px;
+    // padding-bottom: 20px;
+
+}
+
+div.ag-theme-alpine-modified div.has-expanded-rows div.ag-row.expanded + div.ag-row.expanded {
+    // border-top: none;
+}
+
+div.ag-theme-alpine-modified div.has-expanded-rows div.ag-row:not(.expanded) {
+    /* border: 1px solid green; */
+    opacity: 0.2;
+    box-sizing: border-box;
+}
+
+
+div.ag-theme-alpine-modified div.has-expanded-rows div.ag-row.expanded div.ag-cell div.ag-cell-wrapper {
+    font-weight: bold;    
+}
+
+
+div.ag-theme-alpine-modified div.has-expanded-rows div.ag-row.expanded div.ag-cell div.ag-cell-wrapper span.ag-cell-value {
+
+    // background-color:rgba(0,0,0,0.1);
+
+}
+
+div.ag-theme-alpine-modified div.has-expanded-rows div.ag-row.expanded div.cell-content {
+
+    // margin: 8px 0px;
+}
+
+div.ag-theme-alpine-modified div.has-expanded-rows div.ag-row.expanded div.ag-cell {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+
+/*
+div.ag-theme-alpine-modified div.has-expanded-rows div.ag-row.expanded * {
+    border: 1px solid red;
+    margin: 2px;
+    padding: 2px;
+}
+*/
+
