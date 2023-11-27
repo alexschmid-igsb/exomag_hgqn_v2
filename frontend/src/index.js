@@ -10,7 +10,7 @@ import ErrorHandler from './error/ErrorHandler'
 import LoginProvider from './user/UserProvider'
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 
-import Layout from './layout/base/Layout'
+import Layout from './layout/hgqn/Layout'
 import Home from './pages/Home'
 import Grid from './pages/Grid'
 import Grids from './pages/Grids'
@@ -25,25 +25,6 @@ import Uploads from './admin/Uploads'
 import EmailTemplatesPreview from './admin/EmailTemplatesPreview'
 import Imports from './pages/import/Imports'
 import Import from './pages/import/Import'
-
-
-import './fonts/IBMPlexSans/IBMPlexSans-Thin.ttf'
-import './fonts/IBMPlexSans/IBMPlexSans-ExtraLight.ttf'
-import './fonts/IBMPlexSans/IBMPlexSans-Light.ttf'
-import './fonts/IBMPlexSans/IBMPlexSans-Regular.ttf'
-import './fonts/IBMPlexSans/IBMPlexSans-Medium.ttf'
-import './fonts/IBMPlexSans/IBMPlexSans-SemiBold.ttf'
-import './fonts/IBMPlexSans/IBMPlexSans-Bold.ttf'
-
-import './fonts/Raleway/Raleway-Thin.ttf'
-import './fonts/Raleway/Raleway-ExtraLight.ttf'
-import './fonts/Raleway/Raleway-Light.ttf'
-import './fonts/Raleway/Raleway-Regular.ttf'
-import './fonts/Raleway/Raleway-Medium.ttf'
-import './fonts/Raleway/Raleway-SemiBold.ttf'
-import './fonts/Raleway/Raleway-Bold.ttf'
-import './fonts/Raleway/Raleway-ExtraBold.ttf'
-import './fonts/Raleway/Raleway-Black.ttf'
 
 const root = ReactDOM.createRoot(document.getElementById("root"))
 root.render(

@@ -6,13 +6,17 @@ const border = '1px solid #AAA'
 const styles = {
 
     body: {
-        backgroundColor: '#efeef1',
+        // backgroundColor: '#efeef1',
+        backgroundColor: 'white',
         fontFamily,
+
     },
 
     container: {
         width: '580px',
-        margin: '30px auto'
+        margin: '30px auto',
+        boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
+        borderRadius: '3px',
     },
 
     paragraph: {
@@ -36,10 +40,11 @@ const styles = {
         display: 'flex',
         justifyContent: 'center',
         alingItems: 'center',
-        padding: '30px',
-        backgroundColor: '#BCA',
+        padding: '20px',
+        // backgroundColor: '#8AAAC7',
+        backgroundColor: '#FFFFFF',
         border: border,
-        borderBottom: 'none',
+        borderBottom: '1px dashed rgba(0,0,0,0.2)',
         borderBottomLeftRadius: '0px',
         borderBottomRightRadius: '0px',
     },

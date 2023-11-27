@@ -1,0 +1,55 @@
+@import '../../base';
+@import '../../hgqn';
+
+div.page-logo {
+    width: 250px;
+    margin: 0px;
+    // background-color: rgba(255,255,255,0.6);
+    background-color: white;
+    align-self: stretch;
+    border-left: 1px solid $HEADER_OUTER_BORDER_COLOR;
+
+    display: flex;
+    flex-flow: column;
+    align-items: stretch;
+    justify-content: center;
+
+
+    // div.img {
+    //     // background: no-repeat center/84% url("../../../public/hgqn_logo_dev.svg");
+    //     // background: no-repeat center/84% url("../../../public/hgqn_logo.svg");
+    //     flex: 1;
+    //     align-self: stretch;
+    //     // border: 1px solid red;
+    // }
+
+    div.logo-container {
+
+        flex: 1;
+        display: flex;
+        flex-flow: row;
+        align-items: center;
+        justify-content: center;
+
+        img.logo {
+            width: 80%;
+            display: block;
+        }
+    }
+
+
+    span.text {
+
+        text-align: center; 
+
+        background-color: rgba(0,0,0,0.1);
+        color: rgba(207,0,15,0.8);
+
+        font-size: 0.8em;
+        font-weight: 700;
+        // letter-spacing: 1.8px;
+        border-top: 1px dashed #CCC;
+
+        padding: 2px 0px;
+    }
+}
