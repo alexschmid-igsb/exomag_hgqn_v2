@@ -49,7 +49,7 @@
         "backend:dev": "./dev.sh",
         "backend:dev:execute": "INSTANCE_CONFIG_PATH=./config/new_db PROFILE=development_default nodemon backend/run",
         "frontend:dev": "cd frontend && react-scripts start",
-        "seed": "INSTANCE_CONFIG_PATH=./config/new_db PROFILE=development_default ./seed.sh"
+        "seed": "INSTANCE_CONFIG_PATH=./config/base PROFILE=development_default ./seed.sh"
     },
     "eslintConfig": {
         "extends": [
