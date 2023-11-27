@@ -362,7 +362,7 @@ class Connector {
 
             const options = {}
 
-            const str = `mongodb://${self.config.user}:${self.config.password}@${self.config.host}:${self.config.port}/${self.config.database}`
+            const str = `mongodb://${self.config.user}:${encodeURIComponent(self.config.password)}@${self.config.host}:${self.config.port}/${self.config.database}`
             self.connection = await mongoose.createConnection(str, options).asPromise()
             console.log('   - connected to database')
 
