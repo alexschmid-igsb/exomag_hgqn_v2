@@ -37,6 +37,10 @@ export default function DefaultEnumValueRenderer(props) {
 
     const renderValue = () => {
 
+        if(props.value == null) {
+            return
+        }
+
         let values = props.value
         let content = []
 
