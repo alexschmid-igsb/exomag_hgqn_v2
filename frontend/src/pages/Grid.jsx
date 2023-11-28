@@ -788,7 +788,7 @@ export default function Grid() {
 
             const rootData = params.data[context.groupType.root]
 
-            if(context.groupType.rowExpansion === true) {
+            if(rootData != null && context.groupType.rowExpansion === true) {
                 cellValue = []
                 for(let item of rootData) {
                     let itemValue = lodash.get(item, context.dataPath)

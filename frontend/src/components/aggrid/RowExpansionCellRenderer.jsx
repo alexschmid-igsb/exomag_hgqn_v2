@@ -40,6 +40,9 @@ export default function RowExpansionCellRenderer(props) {
     }
 
     const renderItems = () => {
+        if(props.value == null) {
+            return
+        }
         let content = []
         let first = true
         for(let [index,item] of props.value.entries()) {
