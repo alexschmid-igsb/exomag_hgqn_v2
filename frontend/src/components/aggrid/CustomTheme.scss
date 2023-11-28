@@ -60,7 +60,7 @@ div.ag-theme-alpine-modified div.ag-row {
     border: none;
     // border-bottom: 2px solid transparent;
 
-    border: 1px solid white;
+    border: 1.5px solid white;
 
     overflow: hidden;
 
@@ -162,13 +162,34 @@ div.ag-theme-alpine-modified div.ag-row div.ag-cell div.cell-content {
 
 div.ag-theme-alpine-modified div.has-expanded-rows div.ag-row.expanded {
 
+
     
     background-color: #aed9e0;
     background-color: rgba(174, 217, 224, 0.8);
     background-color: #c4e0ed;
     background-color: #f7f3e3;
+    background-color: #EACBD2;
+    background-color: #F7B538;
+    background-color: #DB7C26;
+    background-color: #D8572A;
+    background-color: #DEBAC0;
+    background-color: #8D9EC6;
+    background-color: #A06B9A;
+    background-color: #EDD382;
+    background-color: #F4D35E;
+    background-color: #D0CFCF;
+    background-color: #AEA4BF;
+    background-color: #D5CAD6;
+    background-color: #79B473;
+    background-color: #D5C6E0;
+    background-color: #EAAC8B;
+    background-color: #E3E4DB;
+    background-color: #90bba4;
+    background-color: #71a88a;
+    background-color: #66A182;
+    background-color: #81b197;
 
-
+    color: white;
 
     // border: 1px solid rgba(0,0,0,0.05);
     // box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
@@ -212,6 +233,7 @@ div.ag-theme-alpine-modified div.has-expanded-rows div.ag-row.expanded div.cell-
 div.ag-theme-alpine-modified div.has-expanded-rows div.ag-row.expanded div.ag-cell {
     padding-top: 10px;
     padding-bottom: 10px;
+    font-weight: bold;
 }
 
 

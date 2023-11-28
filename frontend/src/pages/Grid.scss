@@ -23,12 +23,12 @@ div.abc {
 main.page-content > div.grid-container {
     height: 100%;
 
-    padding: 20px;
+    padding: 10px;
 
     & div.ag-root-wrapper {
         border: none;
-        border-radius: 8px;
-        // border: 1px solid rgba(0,0,0,0.15);
+        border-radius: 4px;
+        // border: 1px solid rgba(0,0,0,0.4);
         // box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     }
 
@@ -55,24 +55,37 @@ main.page-content > div.grid-container {
 
 div.ag-theme-alpine-modified div.enum-value-renderer > span.enum-value {
 
-    /*
-    border-radius: 6px;
+    border-radius: 3px;
     padding: 2px 4px;
-    */
+    margin-right: 4px;
+    font-weight: bold;
 
+    /*
     border-radius: 2px;
     padding: 1.3px 2.5px;
-
-
     font-weight: bold;
     margin-right: 4px;
-
+    */
     // border: 1px solid rgba(0,0,0,0.1);
     // background-color: rgba(0,0,0,0.1);
 
-    border: 1px solid rgba(0,0,0,0.15);
-    background-color: rgba(0,0,0,0.35);
     color: white;
+
+    border: 1px solid rgba(0,0,0,0.45);
+
+    // background-color: rgba(0,0,0,0.35);
+    // background-color: #796465;
+    // background-color: #6A2E35;
+    // background-color: #556F44;
+    // background-color: #344966;
+    // background-color: #B4CDED;
+    // background-color: #276FBF;
+    // background-color: #364156;
+    // background-color: #087E8B;
+    // background-color: #84ace1;
+    background-color: #5b91d7;
+
+
 }
 
 div.ag-theme-alpine-modified div.enum-value-renderer > span.enum-value:last-child {
@@ -115,7 +128,7 @@ div.ag-theme-alpine-modified div.enum-value-renderer.acmgClass > span.enum-value
 
 div.ag-theme-alpine-modified div.enum-value-renderer.acmgCriteria > span.enum-value {
     
-    border-radius: 2px;
+    // border-radius: 2px;
 
 
     &.VALUE-PVS1 {
