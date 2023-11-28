@@ -5,7 +5,7 @@ target: GRID_cases
 data:
   - _id: 8246ef45-4601-49f7-ae3f-fd347bbd2e90
     internalCaseId: X24A97HU3434E2
-    sequencingLab: Bonn
+    sequencingLab: 9145fba9-0f39-4b13-882d-3e4e34d82549
     externalCaseId: MAT3_X892_82
     gestaltMatcherId: 23048092
     face2GeneId: 98384234
@@ -51,7 +51,7 @@ data:
             transcript: abcd
   - _id: 984be0d2-2938-4a96-810d-e39d92335641
     internalCaseId: HU7281931_AFH
-    sequencingLab: München
+    sequencingLab: 2b66b109-60ba-493e-a669-25b97eb3d013
     externalCaseId: xUI-29391-21
     gestaltMatcherId: 109823
     face2GeneId: 8889219
@@ -117,7 +117,7 @@ data:
             transcript: abcd
   - _id: ce28651c-bf57-4f77-8036-6c89027e9b1c
     internalCaseId: A7-95c-362
-    sequencingLab: Berlin
+    sequencingLab: f6138815-6f60-4cb2-9934-1f5cbd7b052a
     externalCaseId: AB_345
     gestaltMatcherId: 239472743
     face2GeneId: 7478234

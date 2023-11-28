@@ -6,6 +6,14 @@ scheme:
         type: string
         required: true
         unique: true
+    website:
+        type: string
+        required: true
+        unique: true
+    email:
+        type: string
+        required: true
+        unique: true
 layouts: {}
 
 

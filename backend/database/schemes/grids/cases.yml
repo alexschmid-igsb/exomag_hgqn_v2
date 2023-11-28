@@ -7,14 +7,9 @@ scheme:
         type: string
         required: true
     sequencingLab:
-        # WICHTIG: Bei DNPM:DIP bzw. RD:DIP werden für die StandortID/KnotenID die Festlegungen der MII (Medizininformatikinititive) 
-        # verwendet. Diese sollten unbedingt auch für hier bei uns in der Exomag/HGQN als lab ids verwendet werden.
-        # https://www.medizininformatik-initiative.de/de/konsortien/datenintegrationszentren
-        # allerdings haben bei weitem nicht alle standorte so eine ID
-        #type: UUID
-        #reference: STATIC_lab
-        #required: true
-        type: string
+        #type: string
+        type: UUID
+        ref: STATIC_labs
         required: true
     externalCaseId:
         type: string
