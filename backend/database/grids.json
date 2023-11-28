@@ -1,8 +1,10 @@
 [
     {
-        "id": "cases"
+        "id": "cases",
+        "label": "Cases"
     },
     {
-        "id": "variants"
+        "id": "variants",
+        "label": "Variants"
     }
 ]

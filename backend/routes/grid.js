@@ -6,6 +6,9 @@ const db = require('../../backend/database/connector').connector
 const auth = require('../users/auth')
 
 const BackendError = require('../util/BackendError')
+const gridInfos = require('../database/grids.json')
+
+const lodash = require('lodash')
 
 function validateUUID(uuid) {
   return UUID.validate(uuid) && UUID.version(uuid) === 4;
@@ -21,11 +24,16 @@ function validateUUID(uuid) {
 
 
 
-// router.get('/get/:gridId', [auth], async function (req, res, next) {
-    router.get('/get/:gridId', async function (req, res, next) {
+// router.get('/get/:gridId', async function (req, res, next) {
+router.get('/get/:gridId', [auth], async function (req, res, next) {
 
     let gridId = req.params['gridId'] 
     if(gridId == null ) {
+        throw new BackendError(`Could not find grid with id ${gridId}`, 404)
+    }
+
+    let gridInfo = lodash.find(gridInfos, item => item.id === gridId)
+    if(gridInfo == null) {
         throw new BackendError(`Could not find grid with id ${gridId}`, 404)
     }
 
@@ -42,6 +50,8 @@ function validateUUID(uuid) {
     }
 
     const dbRes = await db.find(target)
+
+    dbRes.gridInfo = gridInfo
 
     res.send(dbRes)
     

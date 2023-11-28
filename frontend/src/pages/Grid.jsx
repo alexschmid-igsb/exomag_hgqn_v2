@@ -219,6 +219,7 @@ export default function Grid() {
 
 
 
+    const [gridInfo,setGridInfo] = React.useState(null)
     
     // const [expandedRows, setExpandedRows] = React.useState(new Map())
     const [hasExpandedRows, setHasExpandedRows] = React.useState(false)
@@ -233,7 +234,6 @@ export default function Grid() {
 
     // const [test, setTest] = React.useState(0)
 
-    const [gridMetadata, setGridMetadata] = React.useState({})
     const [columnDefs, setColumnDefs] = React.useState(null)
     const [data, setData] = React.useState(null)
 
@@ -243,39 +243,39 @@ export default function Grid() {
 
 
 
-
-
-
-    const buildBreadcrumbs = () => [
-        {
-            key: 'home',
-            label: 'Home',
-            path: '/home',
-            icon: HomeIcon
-        },
-        {
-            key: 'grids',
-            label: 'Data Grids',
-            path: '/grids',
-            icon: GridsIcon
-        },
-        {
-            key: 'grid',
-            label: gridMetadata.name,
-            path: `/grids/${gridMetadata.id}`,
-            icon: GridIcon
-        }
-    ]
-
     React.useEffect(() => {
-        // setUploadId(uuidv4())
-        dispatch(setToolbar(renderToolbar()))
-        // dispatch(setGridSettings(gridId,123))
+        // dispatch(setToolbar(renderToolbar()))
+        dispatch(setToolbar(null))
     }, [gridId])
 
+
     React.useEffect(() => {
-        dispatch(setBreadcrumbs(buildBreadcrumbs()))
-    }, [gridMetadata])
+        if(gridInfo == null || gridInfo.id == null || gridInfo.label == null) {
+            return
+        }
+
+        const breadcrumbs = [
+            {
+                key: 'home',
+                label: 'Home',
+                path: '/home',
+                icon: HomeIcon
+            },
+            {
+                key: 'grid',
+                label: gridInfo.label,
+                path: `/grids/${gridId}`,
+                icon: GridIcon
+            }
+        ]
+
+        dispatch(setBreadcrumbs(breadcrumbs))
+    }, [gridInfo])
+
+
+
+
+
 
 
 
@@ -406,9 +406,7 @@ export default function Grid() {
             console.log(response)
 
             buildColumnDefs(response.scheme)
-
-            // setGridMetadata(data.gridMetadata)
-            // setData(response.data)
+            setGridInfo(response.gridInfo)
 
             console.log(response.data)
             // console.log(cleanOut(response.data))
