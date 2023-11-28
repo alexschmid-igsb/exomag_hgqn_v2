@@ -5,17 +5,23 @@
 div#page-layout > div.page-footer {
     background-color: $BGCOLOR_A;
     flex: 0;
-    height: 32px;
-    min-height: 32px;
-    max-height: 32px;
+    height: 24px;
+    min-height: 24px;
+    max-height: 24px;
     display: flex;
     flex-flow: row;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
 
     /* box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px; */
 
-    border-top: 2px solid $HEADER_OUTER_BORDER_COLOR;
+    // border-top: 2px solid $HEADER_OUTER_BORDER_COLOR;
+
+    font: $MAIN_MENU_FONT;
+    color: rgba(255,255,255,0.85);
+    // font-weight: normal;
+    font-size: 0.7em;
+    padding-right: 4px;
 
     z-index: 20;
 }

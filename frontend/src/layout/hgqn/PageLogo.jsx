@@ -10,7 +10,6 @@ export default function PageLogo() {
             </div>
             {/* <div className="img"></div> */}
             {/* <span className="text">&ndash;&nbsp;Entwicklerversion&nbsp;&ndash;</span> */}
-            <span className="text">v2.0 Testversion</span>
         </div>
     )
 }

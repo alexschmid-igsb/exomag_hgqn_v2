@@ -38,6 +38,8 @@ function Header() {
         <div className="page-header" >
             {/* { bla.abc }
             { renderAsJSON(process.env) } */}
+            <PageLogo />
+
             <div className="menuarea">
                 <div className="menubar">
                     <MainMenu />
@@ -52,7 +54,6 @@ function Header() {
                     </div>
                 </div>
             </div>
-            <PageLogo />
         </div>
     )
 }

@@ -19,8 +19,14 @@ div#page-layout {
         box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
         */
     
+        /*
         box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-        border-bottom: 1px solid $HEADER_OUTER_BORDER_COLOR;
+        border-bottom: 2px solid $HEADER_OUTER_BORDER_COLOR;
+        */
+
+        // border-bottom: 1px solid $HEADER_OUTER_BORDER_COLOR;
+
+
     
         z-index: 20;
 
@@ -59,11 +65,11 @@ div#page-layout {
                     .menu-button {
                         
                         font: $MAIN_MENU_FONT;
-                        margin-top: 0px;
-                        margin-bottom: 0px;
+                        margin: 8px 8px;
                         color: inherit;
                         padding: 0px 16px;
-                        margin-right: 10px;
+                        // margin-right: 10px;
+                        // border: 1px solid red;
                     }
 
                     .menu-button:last-child {
@@ -73,7 +79,8 @@ div#page-layout {
                     .menu-button:hover {
                         // background-color: red;
                         // background-color: rgba(25, 118, 210, 0.04);
-                        background-color: rgba(0, 0, 0, 0.04);
+                        // background-color: rgba(0, 0, 0, 0.04);
+                        background-color: rgba(255,255,255,0.2)
                     }
                 }
             }
@@ -94,9 +101,9 @@ div#page-layout {
                     display: flex;
                     flex-flow: row;
                     align-items: center;
-                    background-color: rgba(0,0,0,0.05);
+                    background-color: rgba(0,0,0,0.1);
                     padding: 0px 10px;
-                    border-right: 1px solid $HEADER_INNER_BORDER_COLOR;
+                    // border-right: 1px solid $HEADER_INNER_BORDER_COLOR;
                 }
 
                 & > div.toolbar {
