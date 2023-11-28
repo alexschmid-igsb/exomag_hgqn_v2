@@ -2,11 +2,7 @@
 scheme:
     _id:
         type: UUID
-    label:
-        type: string
-        required: true
-        unique: true
-    fullName:
+    name:
         type: string
         required: true
         unique: true
