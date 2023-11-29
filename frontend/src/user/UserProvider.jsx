@@ -28,6 +28,8 @@ import { Icon as IconifyIcon, InlineIcon as IconifyIconInline } from "@iconify/r
 
 import templates from '../util/mail/base/Templates'
 
+import PageLogo from '../layout/hgqn/PageLogo'
+
 import './UserProvider.scss'
 
 const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -179,6 +181,8 @@ export default function LoginProvider({ children }) {
 
     const renderLogin = () =>
         <div className="login-screen">
+            
+            <PageLogo/>
 
             <div className="login-box">
 
@@ -215,7 +219,7 @@ export default function LoginProvider({ children }) {
                             startIcon={<IconifyIcon icon="material-symbols:lock-reset-rounded"/>}
                             loading={passwordResetInProgress}
                             loadingPosition="center"
-                            style={{marginTop: '8px'}}
+                            style={{marginTop: '16px'}}
                         >
                             Reset Password
                         </LoadingButton>
@@ -250,7 +254,7 @@ export default function LoginProvider({ children }) {
                     <>
                         <h2>Login</h2>
 
-                        <span>Please login to use this service</span>
+                        <span>Please login to use the database</span>
 
                         <TextField
                             className="inputfield username"
@@ -331,13 +335,13 @@ export default function LoginProvider({ children }) {
     return (
         <>
 
-            <Fade timeout={{ enter: 1000, exit: 1000 }} in={user._id == null} mountOnEnter unmountOnExit>
+            <Fade timeout={{ enter: 2000, exit: 2000 }} in={user._id == null} mountOnEnter unmountOnExit>
                 {
                     renderLogin()
                 }
             </Fade>
 
-            <Fade timeout={{ enter: 1000, exit: 1000 }} in={user._id != null} mountOnEnter unmountOnExit>
+            <Fade timeout={{ enter: 2000, exit: 2000 }} in={user._id != null} mountOnEnter unmountOnExit>
                 <div className="fade-container">
                     { children }
                 </div>
