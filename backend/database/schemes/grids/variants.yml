@@ -7,7 +7,7 @@ scheme:
         build:
             type: string
             required: true
-        chrom:
+        chr:
             type: integer
             required: true
         pos:
@@ -23,7 +23,7 @@ scheme:
         build:
             type: string
             required: true
-        chrom:
+        chr:
             type: integer
             required: true
         pos:
@@ -64,7 +64,7 @@ layouts:
         fields:
           - id: build
             label: Build
-          - id: chrom
+          - id: chr
             label: Chromosome
           - id: pos
             label: Position
@@ -79,7 +79,7 @@ layouts:
         fields:
           - id: build
             label: Build
-          - id: chrom
+          - id: chr
             label: Chromosome
           - id: pos
             label: Position
