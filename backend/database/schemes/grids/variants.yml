@@ -4,9 +4,11 @@ scheme:
         type: string
         required: true
     GRCh37:
-        build:
+        gDNA:
             type: string
             required: true
+        build:
+            type: string
         chr:
             type: integer
             required: true
@@ -20,6 +22,9 @@ scheme:
             type: string
             required: true        
     GRCh38:
+        gDNA:
+            type: string
+            required: true
         build:
             type: string
             required: true
@@ -35,9 +40,8 @@ scheme:
         alt:
             type: string
             required: true        
-    gDNA:
-        type: string
-        required: true
+    supplement:
+        type: any
 layouts:
     default:
       - label: Identifikation

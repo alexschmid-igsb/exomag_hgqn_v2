@@ -87,6 +87,8 @@ scheme:
         type: date
     befunddatum:
         type: date
+    kommentar:
+        type: string
     variants:
       - gene:
             type: string

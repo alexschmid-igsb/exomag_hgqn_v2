@@ -1,0 +1,69 @@
+---
+summary: Seed labs
+description: longer description blablabla
+target: STATIC_labs
+data:
+  - id: bf94f69e-f902-451d-b36d-d7bd4710537b
+    name: "Zentrum für Humangenetik Tübingen"
+    website: "https://www.humangenetik-tuebingen.de/"
+    email: "info@humangenetik-tuebingen.de"
+  - id: 0d5c23c3-1571-438e-bb98-bbc01fc99877
+    name: "diagnosticum - Zentrum für Humangenetik"
+    website: "https://genetik.diagnosticum.eu/"
+    email: "info@genetik.diagnosticum.eu"
+  - id: 0f784349-2054-40eb-bc70-372275784d71
+    name: "Praxis für Humangenetik und Prävention Stuttgart"
+    website: "https://www.humangenetik-stuttgart.de/"
+    email: "hering@humangenetik-stuttgart.de"
+  - id: 9145fba9-0f39-4b13-882d-3e4e34d82549
+    name: "Mitteldeutscher Praxisverbund Humangenetik"
+    website: "https://www.praxisverbund-humangenetik.de/"
+    email: "mvz@praxisverbund-humangenetik.de"
+  - id: 2770cc7b-8eed-4bba-8414-c2de94a7ba66
+    name: "Pränatal Medizin, Gynäkologie und Genetik"
+    website: "https://www.praenatal.com/"
+    email: "h.nelle@praenatal.com"
+  - id: b9d018ef-e4a3-4f0a-a5bf-c02b8e24ea98
+    name: "MVZ der Universitätsmedizin Mainz"
+    website: "http://www.mvz.unimedizin-mainz.de/"
+    email: "info@mvz.unimedizin-mainz.de"
+  - id: 8449e683-0f4b-4d4a-b838-76ec66b9b972
+    name: "MGZ - Medizinisch Genetisches Zentrum München"
+    website: "https://www.mgz-muenchen.de/"
+    email: "yvonne.schneider@mgz-muenchen.de"
+  - id: 2febc8ab-2987-40a6-bb08-1b039b9951f7
+    name: "Labor Lademannbogen, Abt. Humangenetik"
+    website: "https://www.labor-lademannbogen.de/"
+    email: "genetische-beratung@labor-lademannbogen.de"
+  - id: 7cec90ab-7979-492a-8b54-ccf7c13d1932
+    name: "MVZ Labor Dr. Limbach & Kollegen Heidelberg"
+    website: "https://www.labor-limbach.de/"
+    email: "peter.ruppersberger@labor-limbach.de"
+  - id: b9bc7d61-a9e0-4315-9b01-e3e9c0311c0a
+    name: "Medicover Humangenetik Berlin-Lichtenberg"
+    website: "https://www.medicover.de/"
+    email: "humangenetik-berlin-lichtenberg@medicover.de"
+  - id: 4ea5069a-f680-4e1b-a3d7-b3574a9a96d1
+    name: "Gemeinschaftspraxis für Humangenetik & Genetische Labore Hamburg"
+    website: "https://www.dna-diagnostik.hamburg/"
+    email: "info@dna-diagnostik.hamburg"
+  - id: 79003b59-1d79-4c66-a8bd-6a1c2e1f9e3c
+    name: "SYNLAB MVZ Humangenetik Mannheim"
+    website: "https://www.zhma.de/"
+    email: "info@zhma.de"
+  - id: f6138815-6f60-4cb2-9934-1f5cbd7b052a
+    name: "MVZ Martinsried"
+    website: "https://www.medizinische-genetik.de/"
+    email: "mvz-martinsried-info@medicover.com"
+  - id: fb6e66d0-4cfe-40c5-8f35-f90595a866d1
+    name: "MVZ Dr. Eberhard & Partner Dortmund"
+    website: "https://www.medizin-zentrum-dortmund.de/"
+    email: "genetik@labmed.de"
+  - id: edb022ac-1337-4a3e-a544-3753657cec26
+    name: "Gemeinschaftspraxis für Humangenetik Dresden"
+    website: "https://medizinische-genetik-dresden.de/"
+    email: "praxis@medizinische-genetik-dresden.de"
+  - id: 2b66b109-60ba-493e-a669-25b97eb3d013
+    name: "Amedes Genetics"
+    website: "https://www.amedes-group.com/"
+    email: "genservice@amedes-group.com"
