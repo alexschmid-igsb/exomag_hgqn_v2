@@ -47,11 +47,7 @@
         "redis:start": "./backend/redis/start.sh",
         "redis:stop": "./backend/redis/stop.sh",
         "backend:dev": "./dev.sh",
-<<<<<<< HEAD
         "backend:dev:execute": "INSTANCE_CONFIG_PATH=./config/hgqn PROFILE=development_default nodemon backend/run",
-=======
-        "backend:dev:execute": "INSTANCE_CONFIG_PATH=./config/base PROFILE=development_default nodemon backend/run",
->>>>>>> master
         "frontend:dev": "cd frontend && react-scripts start",
         "seed:dev": "INSTANCE_CONFIG_PATH=./config/hgqn PROFILE=development_default ./seed.sh",
         "seed:production": "INSTANCE_CONFIG_PATH=./config/hgqn PROFILE=production_default ./seed.sh"
