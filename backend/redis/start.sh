@@ -35,7 +35,7 @@ fi
 : > ${APP_ROOT}/runtime/redis/redis.log
 
 $REDIS_CMD \
-    --bind 127.0.0.1 ::1 \
+    --bind 127.0.0.1 \
     --port 8482 \
     --protected-mode yes \
     --daemonize yes \
