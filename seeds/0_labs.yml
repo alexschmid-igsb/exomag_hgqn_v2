@@ -2,45 +2,134 @@ summary: Seed Labs
 description: description
 target: STATIC_labs
 data:
-  - id: 1a9c5f37-98eb-4599-a30b-55ee807fa6ae
+  - _id: 8495a274-5483-4122-973b-f3702bbd24e3
+    shortName: Humangenetik Tübingen und CeGaT
+    name: Zentrum für Humangenetik Tübingen und CeGaT GmbH
+    website: https://www.humangenetik-tuebingen.de/
+    email: info@humangenetik-tuebingen.de
+  - _id: 0b557542-658d-4242-83ad-9f33ce99592b
+    shortName: MVZ diagnosticum Frankfurt
+    name: MVZ diagnosticum Frankfurt - Zentrum für Humangenetik
+    website: https://genetik.diagnosticum.eu/
+    email: info@genetik.diagnosticum.eu
+  - _id: b1857977-5af1-4a44-a159-8901d8085d3a
+    shortName: Humangenetik Stuttgart
+    name: Praxis für Humangenetik und Prävention Stuttgart
+    website: https://www.humangenetik-stuttgart.de/
+    email: hering@humangenetik-stuttgart.de
+  - _id: 88a2b92f-0afa-4f14-a7f5-95485df170a5
+    shortName: Mitteldeutscher Praxisverbund Humangenetik
+    name: >-
+      Medizinisches Versorgungszentrum Mitteldeutscher Praxisverbund
+      Humangenetik GmbH
+    website: https://www.praxisverbund-humangenetik.de/
+    email: mvz@praxisverbund-humangenetik.de
+  - _id: 29813466-ec18-48d2-8310-633ee023757b
+    shortName: Pränatalmedizin Nürnberg
+    name: Pränatal Medizin, Gynäkologie und Genetik Nürnberg
+    website: https://www.praenatal.com/
+    email: h.nelle@praenatal.com
+  - _id: 7783b25c-022c-4801-888d-821bfa9505a3
+    shortName: MVZ Uni Mainz
+    name: MVZ der Universitätsmedizin Mainz
+    website: http://www.mvz.unimedizin-mainz.de/
+    email: info@mvz.unimedizin-mainz.de
+  - _id: b5bc2795-a221-4a38-97c3-4e68c938d939
+    shortName: MGZ München
+    name: MGZ - Medizinisch Genetisches Zentrum München
+    website: https://www.mgz-muenchen.de/
+    email: yvonne.schneider@mgz-muenchen.de
+  - _id: ef5da585-7f8f-48a9-8753-6ee94189059d
+    shortName: Labor Lademannbogen
+    name: Labor Lademannbogen, Abt. Humangenetik
+    website: https://www.labor-lademannbogen.de/
+    email: genetische-beratung@labor-lademannbogen.de
+  - _id: 81cb2d53-c45f-41ad-be86-1533ccb3ea41
+    shortName: Praxis Dr. Limbach und Kollegen
+    name: MVZ Labor Dr. Limbach & Kollegen Heidelberg
+    website: https://www.labor-limbach.de/
+    email: peter.ruppersberger@labor-limbach.de
+  - _id: f129fa49-e004-4a1c-a372-afd48cf5bf7c
+    shortName: Medicover Humangenetik Berlin-Lichtenberg
+    name: Medicover Humangenetik Berlin-Lichtenberg MVZ
+    website: https://www.medicover.de/
+    email: humangenetik-berlin-lichtenberg@medicover.de
+  - _id: 839cfbaa-84fd-49ba-9ea6-56e3730dd7fa
+    shortName: Gemeinschaftspraxis für Humangenetik Hamburg
+    name: Gemeinschaftspraxis für Humangenetik & Genetische Labore Hamburg
+    website: https://www.dna-diagnostik.hamburg/
+    email: info@dna-diagnostik.hamburg
+  - _id: d60f348a-88a9-47a8-9bd9-f0a8ca3c093b
+    shortName: ZHMA Mannheim
+    name: SYNLAB MVZ Humangenetik Mannheim
+    website: https://www.zhma.de/
+    email: info@zhma.de
+  - _id: 001587b9-dd31-4760-bdba-970451bc92d5
+    shortName: MVZ Martinsried
+    name: MVZ Martinsried GmbH
+    website: https://www.medizinische-genetik.de/
+    email: mvz-martinsried-info@medicover.com
+  - _id: 7db93563-b51f-40aa-bf1a-9024c4752394
+    shortName: MVZ Dortmund
+    name: MVZ Dortmund - Dr. Eberhard & Partner
+    website: https://www.medizin-zentrum-dortmund.de/
+    email: genetik@labmed.de
+  - _id: ef151b49-146b-4d9a-ad89-316d0aba4932
+    shortName: Gemeinschaftspraxis für Humangenetik Dresden
+    name: >-
+      Gemeinschaftspraxis für Humangenetik Dres. med. A. Bier, St. Krüger, S.
+      Reif, M. Timmer
+    website: https://medizinische-genetik-dresden.de/
+    email: praxis@medizinische-genetik-dresden.de
+  - _id: 9d6ff288-3aa4-41d5-8e6e-70daa76756c6
+    shortName: Amedes Genetics
+    name: Amedes Genetics
+    website: https://www.amedes-group.com/
+    email: genservice@amedes-group.com
+  - _id: 70d468c4-48b5-4753-8bda-e9677db89833
+    shortName: IGSB Bonn
+    name: >-
+      Institut für genomische Statistik und Bioinformatik, Universitätsklinikum
+      Bonn
+    website: https://www.igsb.uni-bonn.de/
+    email: pkrawitz@uni-bonn.de
+  - _id: 0e017ab0-9708-49da-b029-bbc4384f87e8
+    shortName: GeneTalk GmbH
+    name: GeneTalk GmbH
+    website: https://www.gene-talk.de/
+    email: tom@gene-talk.de
+  - _id: 866e38a5-432c-4bb2-9c1f-840a81d74672
     shortName: UKE Hamburg
     name: >-
       UKE Hamburg, Universitätsklinikum Hamburg-Eppendorf, Institut für
       Humangenetik, Universität Hamburg
     website: http://www.ihg.uke.uni-hamburg.de
     email: c.kubisch@uke.de
-  - id: 47a6283d-e527-4388-bb1d-cba86d189f60
+  - _id: 1a532bc2-06bf-49ba-b483-1cee8197bc76
     shortName: 'Labor Berlin '
     name: >-
       Labor Berlin , Labor Berlin - Charité Vivantes GmbH, Humangenetik,
       Charité, Universitätsmedizin Berlin Campus Virchow
     website: ''
     email: karl.sperling@charite.de
-  - id: bc6e028e-7d37-4983-9383-d33a0c1cddc1
+  - _id: 9e11d448-b91e-4f18-9918-4cd3963d1a97
     shortName: MVZ genetikum GmbH
     name: MVZ genetikum GmbH, MVZ genetikum GmbH, Genetikum
     website: http://www.genetikum.de
     email: info@genetikum.de
-  - id: e604ba57-d4df-4309-b338-e2e81046a51e
+  - _id: 21064521-2791-4cfc-a530-c2fcb5d9fad7
     shortName: MVZ Walther & Weindel
     name: MVZ Walther & Weindel, MVZ Walther & Weindel
     website: ''
     email: gaillard@laborarztpraxis.de
-  - id: cd599d40-94f0-4aa9-bf4b-5b275c5b865b
-    shortName: Labor Lademannbogen
-    name: Labor Lademannbogen, Abt. Humangenetik
-    website: https://www.labor-lademannbogen.de/
-    email: genetische-beratung@labor-lademannbogen.de
-    clinvar:
-      organzationId: '506063'
-  - id: 8ddaebb2-a94b-4180-981b-4443376c7413
+  - _id: 78430ae0-6af6-45fb-83ef-81e7ef6e9c9d
     shortName: Institut für Humangenetik, Bonn
     name: >-
       Institut für Humangenetik, Bonn, Institut für Humangenetik,
       Universitätsklinikum Bonn AöR
     website: ''
     email: markus.noethen@uni-bonn.de
-  - id: 3367b7c9-c6df-4564-99f4-d2a1d7a988b7
+  - _id: 5f925ad9-a933-4693-941c-f512faad7ad4
     shortName: Biozentrum, Uni Würzburg
     name: >-
       Biozentrum, Uni Würzburg, Institut für Humangenetik (Prof. Dr. H. Höhn)
@@ -48,97 +137,92 @@ data:
       Würzburg
     website: http://humgen.biozentrum.uni-wuerzburg.de/
     email: tgrimm@biozentrum.uni-wuerzburg.de
-  - id: 49b5ba33-4006-4dda-976e-248ab0d75fbc
+  - _id: 1435ec97-593c-4c21-b336-ed6a447e6307
     shortName: Labor Dr. Fenner & Kollegen MVZ GmbH
     name: >-
       Labor Dr. Fenner & Kollegen MVZ GmbH, Labor Dr. Fenner & Kollegen MVZ
       GmbH, Abteilung für Humangenetik
     website: http://www.fennerlabor.de
     email: ekrasemann@fennerlabor.de
-  - id: e08ff29a-84a7-45a6-843c-02607327b7cd
+  - _id: 33ae646a-3a53-492f-ac22-f30745ddf0d9
     shortName: MVZ Laborärzte Singen
     name: MVZ Laborärzte Singen, Institut für Laboratoriumsmedizin und Humangenetik
     website: http://www.labor-blessing.de
     email: steinmueller-magin@labor-blessing.de
-  - id: e5e2062b-4fe7-44a8-9f21-696ab3a8080d
+  - _id: 7e7d08b9-4311-4e2d-b44f-e11848d5f7b4
     shortName: LMU Klinikum München
     name: >-
       LMU Klinikum München, Klinikum der Ludwig-Maximilians-Universität München,
       Institut für Humangenetik, Ludwig-Maximilians-Universität München
     website: http://humangenetik.klinikum.uni-muenchen.de/
     email: humangenetik@med.uni-muenchen.de
-  - id: 177baaf3-2840-4249-8093-05beb65a6edb
-    shortName: MVZ Martinsried
-    name: MVZ Martinsried GmbH
-    website: https://www.medizinische-genetik.de/
-    email: mvz-martinsried-info@medicover.com
-  - id: ec198670-a7b4-4ba9-9a4a-d0a186b75bee
+  - _id: 67bde180-3095-4f46-a362-c80e93228c3d
     shortName: ' Uni Tübingen, Molekulargenetisches Labor'
     name: ' Uni Tübingen, Molekulargenetisches Labor, Molekulargenetisches Labor, Forschungsinstitut für Augenheilkunde, Universitätsklinikum Tübingen'
     website: http://www.mgl-eye-tuebingen.de
     email: susanne.kohl@uni-tuebingen.de
-  - id: d6d77ea6-e1e9-4041-9d22-758672eb27c5
+  - _id: 9b6a3216-931f-483a-8e07-bea9af236631
     shortName: H.-Heine Universität, Düsseldorf
     name: >-
       H.-Heine Universität, Düsseldorf, Institut für Humangenetik, Heinrich
       Heine Universität und Universitätsklinikum, Düsseldorf
     website: ''
     email: Dagmar.Wieczorek@uni-duesseldorf.de
-  - id: b3f1c180-8c07-4c04-90f8-b083220e91ab
+  - _id: a8398a14-928e-42b8-9bd7-1a4dfb65336d
     shortName: Praenatal.de Düsseldorf
     name: Praenatal.de Düsseldorf, Praenatal-Medizin und Genetik
     website: http://www.praenatal.de
     email: institut@praenatal.de
-  - id: 4e09907c-0e29-426f-8e50-87b473955160
+  - _id: 24dc9cda-4697-48d5-8895-dbde78247dde
     shortName: Medizinische Genetik Tübingen
     name: >-
       Medizinische Genetik Tübingen, Medizinische Genetik, Universitätsklinikum
       Tübingen
     website: ''
     email: olaf.riess@med.uni-tuebingen.de
-  - id: 4460b0c6-e0d7-413b-a45e-404ebc0e9729
+  - _id: fb27373d-850a-4d15-bfbb-89cffa7c85aa
     shortName: Humangenetik Ulm
     name: >-
       Humangenetik Ulm, Universitätsklinikum, Institut für Humangenetik,
       Universität Ulm
     website: http://www.uni-ulm.de/humangenetik
     email: sekretariat.humangenetik@uni-ulm.de
-  - id: ecd2dbe0-7a10-455c-84bb-427a61ecbbf7
+  - _id: 32a5f363-3ed0-44af-9d02-5faeda31a088
     shortName: Institut für Humangenetik, Lübeck
     name: >-
       Institut für Humangenetik, Lübeck, Institut für Humangenetik,
       Universitätsklinikum Schleswig Holstein, Campus Lübeck
     website: http://www.humangenetik-luebeck.uk-sh.de
     email: RechnungenAZgGmbH@uksh.de
-  - id: 1c4e1a5a-aab4-448d-b31a-c3c627db567b
+  - _id: aab00691-fee2-4a91-a8b5-57d1cbefd99d
     shortName: Humangenetik Uni Kiel
     name: >-
       Humangenetik Uni Kiel, Institut für Humangenetik, Universitätsklinikum
       Schleswig-Holstein, Campus Kiel
     website: http://www.uni-kiel.de/medgen
     email: caliebe@medgen.uni-kiel.de
-  - id: a60f4c81-a9f2-4e2c-9e8d-cbab54fe8953
+  - _id: 0548caf9-ce74-48a6-8199-7a11500a8aa7
     shortName: Humangenetik, Uni Erlangen
     name: >-
       Humangenetik, Uni Erlangen, Institut für Humangenetik, Universität
       Erlangen-Nürnberg
     website: http://www.humgenet.uni-erlangen.de
     email: reis@humgenet.uni-erlangen.de
-  - id: 0bd95a7e-f38d-4cf3-8ccf-bc468b85b141
+  - _id: d7a1acce-d7e3-40f9-9bca-96926c6deaeb
     shortName: Ambulanzzentrum der MHH GmbH
     name: >-
       Ambulanzzentrum der MHH GmbH, Ambulanzzentrum der MHH GmbH, Institut für
       Humangenetik, MVZ-Ambulanzzentrum
     website: http://www.mh-hannover.de/humangenetik.html
     email: auber.bernd@mh-hannover.de
-  - id: e7613535-1411-4a46-a283-d8debdf6d899
+  - _id: 4ae1a7cc-2a6c-4fcf-bec9-4271207846dc
     shortName: Frauenklinik, TU München
     name: >-
       Frauenklinik, TU München, Klinikum rechts der Isar der Technischen
       Universität München, Frauenklinik
     website: http://www.med.tum.de/
     email: direktion.frauenklinik@mri.tum.de
-  - id: 0390baa4-3ecf-435c-8f2d-86268b5875e0
+  - _id: 4463bb88-6c3c-4389-8e43-6f003f0c48d3
     shortName: Universitätsklinikum Freiburg
     name: >-
       Universitätsklinikum Freiburg, Universitätsklinikum Freiburg, Zentrum für
@@ -146,7 +230,7 @@ data:
     website: >-
       http://www.uniklinik-freiburg.de/paed-allgemein/schwerpunkte/sektion-paediatrische-genetik.html
     email: uta.matysiak@uniklinik-freiburg.de
-  - id: cb125d63-76f5-42bd-8e01-beab5de2210a
+  - _id: 05c53696-e630-4490-833d-9144d204eae9
     shortName: LADR
     name: >-
       LADR, LADR Medizinisches Versorgungszentrum Dres. Bachg, Haselhorst &
@@ -154,21 +238,21 @@ data:
       Haselhorst
     website: http://www.ladr.de
     email: recklinghausen@LADR.de
-  - id: ef079d7d-a1e8-44a3-a950-61c053b0af9e
+  - _id: e93a548b-556d-467e-82fa-e607739c97f4
     shortName: Neurologie, Uniklinik Rostock
     name: >-
       Neurologie, Uniklinik Rostock, Klinik für Neurologie, Neurobiologisches
       Labor, Universität Rostock
     website: http://www.neurobiology.med.uni-rostock.de
     email: arndt.rolfs@med.uni-rostock.de
-  - id: 866caaf9-c499-4738-8bd7-80582fbdd052
+  - _id: 0a707d53-1563-4127-ba89-ad7ee30762ec
     shortName: Labor für Stoffwechselgenetik
     name: >-
       Labor für Stoffwechselgenetik, Labor für Stoffwechselgenetik Dr. med. T.
       Podskarbi
     website: http://www.metabolic-genetic-disease.gmxhome.de
     email: metabolic-genetic-diseasei@gmx.de
-  - id: 53cae41a-d374-435e-bd00-bca7a77ebc40
+  - _id: 91c9dde0-892a-468b-8bb9-5aec1bdaec11
     shortName: Med. Genetik, Kinder- und Jugendklinik, Uni Rostock
     name: >-
       Med. Genetik, Kinder- und Jugendklinik, Uni Rostock, Medizinische
@@ -176,73 +260,66 @@ data:
       Universität Rostock
     website: ''
     email: gabriele.krueger@med.uni-rostock.de
-  - id: f97cbcbf-8eec-4f1a-8b87-33b0e4eca812
+  - _id: 9e2bbfcc-55a2-4bd2-b5c6-7032c98af5d1
     shortName: MVZ Labor Saar GmbH Praxis für Humangenetik
     name: >-
       MVZ Labor Saar GmbH Praxis für Humangenetik, MVZ Labor Saar GmbH Praxis
       für Humangenetik, Biomedizinisches Zentrum
     website: http://www.genetik-saar.de
     email: thomas.martin@genetik-saar.de
-  - id: 3cc830d1-1786-4f49-bc14-1c6afc97bf28
-    shortName: Mitteldeutscher Praxisverbund Humangenetik
-    name: >-
-      Medizinisches Versorgungszentrum Mitteldeutscher Praxisverbund
-      Humangenetik GmbH
-    website: https://www.praxisverbund-humangenetik.de/
-    email: mvz@praxisverbund-humangenetik.de
-  - id: a5a03d58-4ae6-4d10-b587-15bbc7e1d6d9
+  - _id: 30d744b0-2aea-4c36-aef3-abd626423a7d
     shortName: Humangenetik, Göttingen
     name: >-
       Humangenetik, Göttingen, Institut für Humangenetik, Universitätsmedizin
       Göttingen, Georg-August-Universität
     website: http://www.humangenetik-umg.de
     email: bernd.wollnik@med.uni-goettingen.de
-  - id: a34770d3-b3d5-4fbe-a280-3af7e5e169aa
+  - _id: a43795de-d76e-438c-a920-94b2b54ac346
     shortName: Diagenos
     name: Diagenos, Gemeinschaftspraxis & Praxisgemeinschaft Dres. Gencik
     website: http://www.diagenos.com
     email: info@diagenos.com
-  - id: b66684c6-f4c6-445f-957f-84910f2794e2
+  - _id: eb21f823-5693-4e3e-84a1-a9d26e2b6f15
     shortName: Humangenetik Freiburg
     name: >-
       Humangenetik Freiburg, Institut für Humangenetik, Universitätsklinikum
       Freiburg
     website: http://www.uniklinik-freiburg.de/humangenetik.html
     email: sekretariat.humangenetik@uniklinik-freiburg.de
-  - id: baa7213a-4b5c-417c-b676-a59e3cd7c886
+  - _id: 8002daac-af94-41c0-8d15-29b6f869211d
     shortName: Humangenetik, Frankfurt/ M.
     name: >-
       Humangenetik, Frankfurt/ M., Institut für Humangenetik,
       Universitätsklinikum Frankfurt/ M.
     website: ''
     email: r.koenig@em.uni-frankfurt.de
-  - id: 8c06a225-a0bd-40a2-879f-d15e59bf439b
+  - _id: a99e1af4-4b45-4ec0-a3f4-68edc6d58f73
     shortName: Humangenetik, Ruhr-Universität Bochum
     name: >-
       Humangenetik, Ruhr-Universität Bochum, Abteilung für Humangenetik,
       Ruhr-Universität Bochum
     website: http://www.ruhr-uni-bochum.de/mhg/
     email: huu.nguyen-r7w@rub.de
-  - id: f132b6d7-61a3-4751-a999-e04862300b42
+  - _id: da06128a-05b5-4df0-b5d9-9e553a805a16
     shortName: Humangenetik Innsbruck
     name: >-
       Humangenetik Innsbruck, Institut für Humangenetik, Department für Genetik
       und Pharmakologie, Medizinische Universität Innsbruck
     website: http://www.humgen.at
     email: humgen@i-med.ac.at
-  - id: 3eeb5395-6428-480c-9e7d-89017054fd45
+  - _id: 14a5306f-8d65-4e51-91b5-319735f0dca7
     shortName: Pränatal-Medizin München
     name: >-
       Pränatal-Medizin München, Pränatal-Medizin München - Frauenärzte und 
       Humangenetiker MVZ
     website: http://www.praenatal-medizin.de
     email: info@praenatal-medizin.de
-  - id: cd11b638-6a3a-4cda-9608-e9144c27501b
+  - _id: 286cb62c-b578-472d-b529-c61dea208afe
     shortName: MVZ PD Dr. Volkmann & Kollegen GbR
     name: MVZ PD Dr. Volkmann & Kollegen GbR, MVZ PD Dr. Volkmann & Kollegen GbR
     website: http://www.laborvolkmann.de
     email: d.meier@laborvolkmann.de
-  - id: 2c16973e-ab12-4c11-ad97-ae76989cd415
+  - _id: 688c5ef0-cf7d-411d-b9bf-65561dc5673f
     shortName: Medicover Humangenetik - Berlin-Mitte
     name: >-
       Medicover Humangenetik - Berlin-Mitte, Medicover Humangenetik -
@@ -250,21 +327,21 @@ data:
     website: >-
       http://www.medicover.de/de/facilities/medicover-berlin-mitte-genetische-beratung/about
     email: Kathrin.Poetschick@medicover.de
-  - id: 35b417fd-ddc7-4d93-93ef-45ab0d393f9a
+  - _id: b5884ac6-1c10-4756-a030-0f689fe85eb5
     shortName: Humangenetik, Otto-von-Guericke-Univ., Magdeburg
     name: >-
       Humangenetik, Otto-von-Guericke-Univ., Magdeburg, Institut für
       Humangenetik, O
     website: ''
     email: martin.zenker@med.ovgu.de
-  - id: 85b882b8-be53-40ce-9494-8b961d4f3583
+  - _id: 5526fb20-b29b-4166-80e1-fa31058a8352
     shortName: Humangenetik, Heidelberg
     name: >-
       Humangenetik, Heidelberg, Institut für Humangenetik, Universität
       Heidelberg
     website: https://www.klinikum.uni-heidelberg.de/humangenetik
     email: Christian.Schaaf@med.uni-heidelberg.de
-  - id: 32623a6b-2115-4cfe-a106-7f91458b238c
+  - _id: 71d16d4c-ba24-499c-b5be-5311ef80cc22
     shortName: Zotz Klimas, Düsseldorf
     name: >-
       Zotz Klimas, Düsseldorf, Zotz Klimas - ÜBAG für Laboratoriumsmedizin,
@@ -272,56 +349,56 @@ data:
       für Medizinische Genetik Düsseldorf | Köln | Aachen | Essen | Limburg
     website: http://zotzklimas.de/genetik/
     email: mitter@zotzklimas.de
-  - id: ebd0c554-2d47-44a5-81ec-9c1ecedea68b
+  - _id: c3d12f9f-c26c-4a8c-970b-c97c79e93cb4
     shortName: Humangenetik, Uni Bern
     name: >-
       Humangenetik, Uni Bern, Abteilung für Humangenetik,
       Universitäts-Kinderklinik
     website: http://www.kinderkliniken.insel.ch/kiheil-humangenetik.html
     email: andre.schaller@insel.ch
-  - id: a78c814e-ab7e-4d3e-a9f0-9a22adca66a8
+  - _id: 33c25c43-f8a6-43d0-81e6-3952e701e5bc
     shortName: Zentrum für Humangenetik, Marburg
     name: >-
       Zentrum für Humangenetik, Marburg, Zentrum für Humangenetik, Universität
       Marburg
     website: http://www.uni-marburg.de/humgen
     email: fritzb@staff.uni-marburg.de
-  - id: cccb6413-83ef-4224-9aa6-da7b09e47f95
+  - _id: baa455c5-129f-4fed-b28e-cbe1b189ab87
     shortName: Praxis für Humangenetik Gießen
     name: >-
       Praxis für Humangenetik Gießen, Praxis für Humangenetik Gießen, Genetische
       Sprechstunde
     website: https://www.humangenetik-giessen.de/
     email: axel.weber@medgen-frankfurt.de
-  - id: 1ad757b5-bebf-4c15-970e-78a9d4d8ae8c
+  - _id: 2f47c1c5-7534-43d6-ae41-fa000f0965d9
     shortName: Humangenetik & Onkogenetik
     name: >-
       Humangenetik & Onkogenetik, Institut für angewandte Humangenetik und
       Onkogenetik Professor Froster
     website: http://www.humangenetik-prof-froster.de
     email: praxis@humangenetik-prof-froster.de
-  - id: 613480a6-3c62-4056-a9ad-a41c092f40e1
+  - _id: c1f85f33-7524-4a26-a11a-36066d6bbfe8
     shortName: Medizinischen Universität Wien
     name: >-
       Medizinischen Universität Wien, Institut für Medizinische Genetik, Sektion
       Klinische Genetik, Medizinische Universität Wien
     website: http://www.human-genetik.com
     email: humangenetik@meduniwien.ac.at  brigitte.hofer@meduniwein.ac.at
-  - id: 0ce9338b-04fc-4966-9e44-d83664e5493d
+  - _id: 82ff1e2e-4c8f-4c7e-b384-c9c1dbc1ea23
     shortName: Institut für Laboratoriumsmedizin
     name: >-
       Institut für Laboratoriumsmedizin, Carl-Thiem-Klinikum Cottbus gGmbH,
       Institut für Laboratoriumsmedizin, Molekulare Zytogenetik
     website: http://www.ctk.de
     email: labor@ctk.de
-  - id: 7862cfbc-fd7e-49be-bded-777f1902a24a
+  - _id: 45548e99-4939-482c-9130-34de384709e8
     shortName: Humangenetik Halle
     name: >-
       Humangenetik Halle, Institut für Humangenetik, Halle,
       Martin-Luther-Universität Halle-Wittenberg
     website: ''
     email: katrin.hoffmann@uk-halle.de
-  - id: 0048d959-d7e1-4dea-9785-16528c45933d
+  - _id: e011e79f-21cd-4df4-a19b-904fba0ad19b
     shortName: Bioscientia Institut für Medizinische Diagnostik GmbH
     name: >-
       Bioscientia Institut für Medizinische Diagnostik GmbH, Bioscientia
@@ -329,14 +406,14 @@ data:
       Humangenetik
     website: https://genetik.bioscientia.de/
     email: humangenetik@bioscientia.de
-  - id: 83820981-1fa5-437a-a4c0-ef92ca3c0357
+  - _id: ad31a819-e2e8-404f-83c1-32678c68f6f0
     shortName: Labor Berlin – Charité Vivantes GmbH
     name: >-
       Labor Berlin – Charité Vivantes GmbH, Labor Berlin – Charité Vivantes
       GmbH, Humangenetik, Charité Campus Virchow-Klinikum
     website: https://www.laborberlin.com/fachbereiche/humangenetik/
     email: buchhaltung@laborberlin.com
-  - id: 90425252-ff9a-49f5-813d-bcddd3badf2c
+  - _id: 01f6f310-4ef4-4eb5-afe3-5edd29d26347
     shortName: Humangenetik, Universität Duisburg-Essen
     name: >-
       Humangenetik, Universität Duisburg-Essen, Institut für Humangenetik der
@@ -344,14 +421,14 @@ data:
       Ambulante Versorgung am Universitätsklinikum Essen - Bereich Humangenetik
     website: http://www.uk-essen.de/humangenetik/
     email: frank.kaiser@uk-essen.de
-  - id: dc3a1d4b-421c-4bb7-ab4f-d491265ef415
+  - _id: 7b01261a-b76c-417d-a37b-541864ce9d8e
     shortName: Institut für Klinische Genetik, Stuttgart
     name: >-
       Institut für Klinische Genetik, Stuttgart, Institut für Klinische Genetik,
       Klinikum Stuttgart
     website: http://www.klinikum-stuttgart.de
     email: h.pander@klinikum-stuttgart.de
-  - id: 27b673fe-f7de-4a5b-ba0a-143470aba033
+  - _id: 267bc76c-d9a2-49fe-8746-705f1583ca3e
     shortName: Humangenetik Greifswald
     name: >-
       Humangenetik Greifswald, Universitätsmedizin Greifswald (KöR), Institut
@@ -359,38 +436,31 @@ data:
       Greifswald/ KöR
     website: http://www.medizin.uni-greifswald.de/humangen/
     email: felbor@uni-greifswald.de
-  - id: 625fe927-1920-4d43-bf1c-6efbd0c09632
+  - _id: 2458b5d8-5b72-4b29-9ca7-bb5c88c9a6f8
     shortName: genetikum Böblingen/Stuttgart
     name: genetikum Böblingen/Stuttgart, genetikum Böblingen/Stuttgart
     website: https://www.genetikum.de/
     email: info@genetikum.de
-  - id: a8ac1d6e-097a-4943-a6ae-4529f310814b
+  - _id: b7288fc5-1ad9-493a-b418-d474606f8b76
     shortName: Humangenetik, Uni Münster
     name: Humangenetik, Uni Münster, Institut für Humangenetik, Universität Münster
     website: ''
     email: wieacker@uni-muenster.de
-  - id: fd34d057-d205-496e-9513-4d429be0d099
+  - _id: fdbc2ff5-8f25-45a1-8b5a-cad0d1a63171
     shortName: Universitütsklinikum Jena
     name: >-
       Universitütsklinikum Jena, Universitätsklinikum Jena, Institut für
       Humangenetik, Universitätsklinikum Jena
     website: http://www.humangenetik.uniklinikum-jena.de
     email: christian.huebner@mti.uni-jena.de
-  - id: 01c0429d-3b34-403e-9d13-c2641818c2b0
+  - _id: 5c8fe17e-1557-4c76-9786-dfb60fdba5e1
     shortName: Zentrum für Diagnostik GmbH am Klinikum Chemnitz
     name: >-
       Zentrum für Diagnostik GmbH am Klinikum Chemnitz, Zentrum für Diagnostik
       GmbH am Klinikum Chemnitz
     website: ''
     email: d.mueller@skc.de
-  - id: da60be9a-a5dd-4f64-bcd3-ca5f54cffc7a
-    shortName: Pränatalmedizin Nürnberg
-    name: Pränatal Medizin, Gynäkologie und Genetik Nürnberg
-    website: https://www.praenatal.com/
-    email: h.nelle@praenatal.com
-    clinvar:
-      organzationId: '505997'
-  - id: b585ab85-c10b-48f6-ad07-535d53ee40eb
+  - _id: f25df890-4813-4dc2-b7cc-bf42c5aa9b51
     shortName: >-
       Gemeinschaftspraxis Dr. med. Michael Pruggmayer, Dr. med. Margarete
       Dietrich, Dr
@@ -400,59 +470,35 @@ data:
       Margarete Dietrich, Dr. med. Michael Wilhelm
     website: ''
     email: labor@humgenpeine.de
-  - id: aac03192-6ca6-44fc-b675-7dcb77b00298
-    shortName: Praxis Dr. Limbach und Kollegen
-    name: MVZ Labor Dr. Limbach & Kollegen Heidelberg
-    website: https://www.labor-limbach.de/
-    email: peter.ruppersberger@labor-limbach.de
-  - id: a1b38b07-ecaf-4df0-aa1c-c0d1cb884255
+  - _id: 3ca2961e-681a-4629-952f-532303728d76
     shortName: Senckenberg Zentrum für Humangenetik
     name: >-
       Senckenberg Zentrum für Humangenetik, Senckenberg Zentrum für Humangenetik
       der Facharztzentrum Frankfurt Nordend gGmbH
     website: http://www.senckenberg-humangenetik.de
     email: info@senckenberg-humangenetik.de
-  - id: 4c81059b-a9d7-4e9e-98ce-e9ba287c84da
-    shortName: Medicover Humangenetik Berlin-Lichtenberg
-    name: Medicover Humangenetik Berlin-Lichtenberg MVZ
-    website: https://www.medicover.de/
-    email: humangenetik-berlin-lichtenberg@medicover.de
-    clinvar:
-      organzationId: '507452'
-  - id: 958ecad5-e70e-4658-9be7-a0c3ffc2c24e
+  - _id: fe094308-ef06-4861-8e49-041a91427f9b
     shortName: University of Michigan
     name: >-
       University of Michigan, University of Michigan, Departments of Pediatrics
       and of Human Genetics, University of Michigan
     website: http://www.renalgenes.org
     email: mutation@renalgenes.org
-  - id: 2f6aaa96-3047-42f9-abda-02d6b69a0b83
+  - _id: f5a3fa79-91fc-431c-885b-d81ff078dfba
     shortName: Humangenetische Praxis Dr. Schmidt, Mautner
     name: >-
       Humangenetische Praxis Dr. Schmidt, Mautner, Humangenetische Praxis Dr.
       Bernd J. Schmidt, Helga Mautner
     website: ''
     email: humangenetische-praxis-giessen@t-online.de
-  - id: 9a031462-1658-4cbc-b81f-828b543eac55
+  - _id: a593684c-0116-4d20-bbae-0a9c0a43ac15
     shortName: Neuropathologie LMU, München
     name: >-
       Neuropathologie LMU, München, Institut für Neuropathologie, Zentum für
       Neuropatholgie udn Prionforschung, LMU München
     website: ''
     email: Hans.Kretzschmar@med.uni-muenchen.de
-  - id: d50c24bd-5c9e-4662-a7eb-f8f8cc808258
-    shortName: Amedes Genetics
-    name: Amedes Genetics
-    website: https://www.amedes-group.com/
-    email: genservice@amedes-group.com
-  - id: 69d9cde6-67bf-4362-b7db-f5c1a07c7da7
-    shortName: ZHMA Mannheim
-    name: SYNLAB MVZ Humangenetik Mannheim
-    website: https://www.zhma.de/
-    email: info@zhma.de
-    clinvar:
-      organzationId: '506842'
-  - id: 4bb7bcea-6a1a-43c1-b119-e23eefa2e375
+  - _id: 839f4f61-5443-4d26-b7ed-26c400a80bd5
     shortName: Stoffwechselzentrum München Schwabing
     name: >-
       Stoffwechselzentrum München Schwabing, Stoffwechselzentrum München
@@ -460,7 +506,7 @@ data:
       Mitochondriale Genetik
     website: http://www.stoffwechselzentrum-muenchen.de
     email: Roswitha.Dolhofer@lrz.uni-muenchen.de
-  - id: 37e6c211-b93b-4942-a21d-ff0dc96b1d56
+  - _id: 7be4c15c-7c5d-4fcd-8ef5-a24d6ffafcf9
     shortName: Molekulare Ophthalmologie Giessen
     name: >-
       Molekulare Ophthalmologie Giessen, Klinik und Poliklinik für
@@ -468,14 +514,14 @@ data:
       Giessen and Marburg GmbH, Standort Giessen
     website: http://www.ukgm.de/ugm_2/deu/ugi_aug/index.html
     email: birgit.lorenz@uniklinikum-giessen.de
-  - id: 4ecc511d-ac7b-4108-a904-9834164f13ea
+  - _id: f7475e43-222f-47af-bc91-f91fabaf5947
     shortName: Klinische Genetik, LKA, Salzburg
     name: >-
       Klinische Genetik, LKA, Salzburg, Humangenetische Beratungs- und
       Untersuchungsstelle, St. Johanns-Spital
     website: ''
     email: o.rittinger@salk.at
-  - id: 3aafeea5-4120-47fa-9931-b614d0aaf9a1
+  - _id: 5190c5d7-246b-4e05-85cf-927365459439
     shortName: Humangenetik, Uni Aachen
     name: >-
       Humangenetik, Uni Aachen, Institut für Humangenetik und Genommedizin,
@@ -483,14 +529,14 @@ data:
     website: >-
       https://www.ukaachen.de/kliniken-institute/institut-fuer-humangenetik-und-genommedizin/
     email: humangenetik@ukaachen.de
-  - id: 89dec30e-ac61-4a25-b894-67c9dd165923
+  - _id: 13ec5dd1-bf9b-4976-8d0c-d1d2967416c1
     shortName: MVZ Dr. Reising-Ackermann und Partner
     name: >-
       MVZ Dr. Reising-Ackermann und Partner, MVZ Dr. Reising-Ackermann und
       Partner
     website: http://www.labor-leipzig.de
     email: b.thamm@labor-leipzig.de
-  - id: 66f2c42a-5406-4d63-86a5-43463f30888e
+  - _id: 32f2de01-570d-42b3-952e-ed9ad9cd830f
     shortName: Sektion Molekulare Gastroenterologische Onkologie, Halle
     name: >-
       Sektion Molekulare Gastroenterologische Onkologie, Halle, Sektion
@@ -499,31 +545,24 @@ data:
       für Innere Medizin
     website: ''
     email: wolfgang.ballhausen@medizin.uni-halle.de
-  - id: ef3b8f4e-c810-46c0-a8a3-90a9f66c57e0
+  - _id: 4392c0d0-0f2e-4906-900e-c55d347ff4a1
     shortName: MVZ Dr. Staber & Kollegen GmbH
     name: MVZ Dr. Staber & Kollegen GmbH, MVZ Dr. Staber & Kollegen GmbH
     website: http://www.genetik-regensburg.de
     email: genetik@staber-kollegen.de
-  - id: 3999bc3a-c15b-42f2-9387-070617b99a56
-    shortName: MVZ Dortmund
-    name: MVZ Dortmund - Dr. Eberhard & Partner
-    website: https://www.medizin-zentrum-dortmund.de/
-    email: genetik@labmed.de
-    clinvar:
-      organzationId: '320136'
-  - id: b0d50252-dd56-4b7e-acd5-7def01189e23
+  - _id: 8587a129-b52a-40a8-84ea-5998db48c980
     shortName: Zentrum für Humangenetik Regensburg, Prof. Dr. Hehr
     name: >-
       Zentrum für Humangenetik Regensburg, Prof. Dr. Hehr, Zentrum für
       Humangenetik Regensburg
     website: http://www.humangenetik-regensburg.de
     email: info@humangenetik-regensburg.de
-  - id: b2e7247f-928a-4db7-8d19-e9c255adecaa
+  - _id: 615e0772-e667-49c5-a102-730faf4ae4b4
     shortName: IMoGen GmbH
     name: IMoGen GmbH, IMoGen GmbH
     website: www.imogen.de
     email: ''
-  - id: 765aef19-11b4-411b-8126-3d817b216260
+  - _id: e67b1ef4-16f7-4d73-a7ba-b833abcb43bc
     shortName: Labor Prof. Knabbe
     name: >-
       Labor Prof. Knabbe, Institut für Laboratoriums- und Transfusionsmedizin,
@@ -532,45 +571,38 @@ data:
     website: >-
       http://www.hdz-nrw.de/de/zentrum/institute/laboratoriums_und_transfusionsmedizin.php
     email: cknabbe@hdz-nrw.de
-  - id: 0fc66bb9-59be-43f2-a907-a584d9b3d0d6
+  - _id: db634704-32b8-46ed-8c28-8795f3f3a16e
     shortName: SYNLAB MVZ Humane Genetik München
     name: SYNLAB MVZ Humane Genetik München, SYNLAB MVZ Humane Genetik München
     website: http://www.humane-genetik.de
     email: info@humane-genetik.de
-  - id: 0f814b08-03da-402e-8e9d-85e65115800f
-    shortName: MGZ München
-    name: MGZ - Medizinisch Genetisches Zentrum München
-    website: https://www.mgz-muenchen.de/
-    email: yvonne.schneider@mgz-muenchen.de
-    clinvar:
-      organzationId: '255845'
-  - id: 0b8cf07e-e240-48bc-b20d-1736442222d6
+  - _id: 452e6c93-f8f4-464c-bf58-8d8eea2d0ea4
     shortName: Institut für Humangenetik, TUM, HelmholtzZentrum München
     name: >-
       Institut für Humangenetik, TUM, HelmholtzZentrum München, Institut für
       Humangenetik, Technische Universität München
     website: https://www.mri.tum.de/humangenetik
     email: julia.hoefele@mri.tum.de
-  - id: cd6dfb15-1951-425c-92c1-0a0e4a79483e
+  - _id: d0f18848-18e3-48ed-a5e3-e6804e698b0d
     shortName: Praxis für Medizinische Genetik Düsseldorf
     name: >-
       Praxis für Medizinische Genetik Düsseldorf, Praxis für Medizinische
       Genetik Düsseldorf, Claudia Behrend
     website: http://www.claudia-behrend.de/
     email: claudia.behrend@t-online.de
-  - id: 31847474-d2a4-427f-bc30-f819f1665000
+  - _id: f3f2b58f-b5a2-4fbf-a365-29d182ec3bbe
     shortName: Praxis für Humangenetik Cottbus
     name: "Praxis für Humangenetik Cottbus, Praxis für Humangenetik Cottbus\r\nDr. med. Wolfram Heinritz"
     website: ''
     email: w.heinritz@humangenetik-cottbus.de
-  - id: efa66091-f672-4682-9c6a-e62d80d8eb1d
+  - _id: 745d7ec4-6948-4af8-a1eb-9af668044ae3
     shortName: Zentrum für Reproduktionsmedizin, Würzburg
     name: >-
       Zentrum für Reproduktionsmedizin, Würzburg, Zentrum für
       Reproduktionsmedizin Dr. med. Wolfgang Schmitt, Dr. med. Reinhard Mai
     website: ''
     email: kontakt@drs-mai-schmitt-mulfinger.de
-  - id: a1bb9f30-6350-41e6-bada-41f6bb7b5880
+  - _id: 6536fabe-d0f2-47d3-9d2c-f1a4c88f94d1
     shortName: Zentrum für Reproduktionsmedizin  und Humangenetik, Hildesheim
     name: >-
       Zentrum für Reproduktionsmedizin  und Humangenetik, Hildesheim,
@@ -578,7 +610,7 @@ data:
       Molekulargenetik
     website: http://www.kinderwunsch-hildesheim.de/human/index.htm
     email: ngraf.genetik@kinderwunsch-hildesheim.de
-  - id: 2477f9fd-f996-40ee-8f51-a0f36c334e56
+  - _id: 31b9f270-8a20-492c-aabd-dd01ecdf7e60
     shortName: MVZ für Laboratoriumsmedizin und Humangenetik Hamburg GmbH
     name: >-
       MVZ für Laboratoriumsmedizin und Humangenetik Hamburg GmbH, MVZ für
@@ -586,31 +618,31 @@ data:
       Laboratoriumsmedizin und Humangenetik Hamburg GmbH
     website: http://www.amedes-genetics.de/
     email: info@amedes-genetics.de
-  - id: 3739f06a-5af6-4414-8393-4a444d3bfe42
+  - _id: 5e2ddf3b-01bc-4c40-b5b2-3ee701f9aae8
     shortName: Arbeitsgruppe Neurogenetik, Regensburg
     name: >-
       Arbeitsgruppe Neurogenetik, Regensburg, Klinik und Poliklinik für
       Neurologie, Universität Regensburg
     website: ''
     email: juergen.winkler@klinik.uni-regensburg.de
-  - id: f9ad7f44-0052-4cea-bb78-94a7de2f2821
+  - _id: 17d7bc7d-b77e-4bff-bc46-e7a1e99f90d2
     shortName: Praxis Kaminsky
     name: Praxis Kaminsky, Praxis für Humangenetik, Dr. med. Elke Kaminsky
     website: ''
     email: dr.kaminsky@t-online.de
-  - id: a4d61305-e3f1-41a1-88c4-3f64d893e4ac
+  - _id: 8f657d76-1526-4a6b-9479-ed39d9f60e9d
     shortName: MVZ genteQ GmbH
     name: MVZ genteQ GmbH, MVZ genteQ GmbH
     website: http://www.genteQ.de
     email: held@genteQ.de
-  - id: 7a651da4-ceeb-402e-8a5f-3d88e4475c42
+  - _id: 27a81ce7-2997-46ed-bbd0-4ca50fad9907
     shortName: Moldiag, Weißwasser
     name: >-
       Moldiag, Weißwasser, Zentrum für Nephrologie und Stoffwechsel, Labor für
       Molekulargenetische Diagnostik, Facharzt für Innere Medizin / Nephrologie
     website: http://www.moldiag.de
     email: labor@moldiag.de
-  - id: b3e65146-8f8d-41bc-a14e-2318c23179dd
+  - _id: 02104770-33d6-408c-a823-9a5bf708848d
     shortName: Neuropädiatrie, HU, Berlin
     name: >-
       Neuropädiatrie, HU, Berlin, Kliniken und Polikliniken für Kinderheilkunde
@@ -618,33 +650,28 @@ data:
       Charité, Humboldt-Universität zu Berlin
     website: ''
     email: christoph.huebner@charite.de
-  - id: 1156ec2f-d113-45e2-8336-0d8d81d86d81
+  - _id: efd67b87-3993-4e91-a5ee-9f2aeb352076
     shortName: Kinderspital, Salzburg
     name: >-
       Kinderspital, Salzburg, Universitätsklinik für Kinder- und
       Jugendheilkunde, Salzburger Landeskliniken
     website: http://www.salk.at
     email: w.sperl@lks.at
-  - id: 2887c61d-7a1b-40ac-8892-c99da7697c41
-    shortName: Gemeinschaftspraxis für Humangenetik Hamburg
-    name: Gemeinschaftspraxis für Humangenetik & Genetische Labore Hamburg
-    website: https://www.dna-diagnostik.hamburg/
-    email: info@dna-diagnostik.hamburg
-  - id: 026c6308-f1b6-4688-85f0-9969c0757c78
+  - _id: ba4e77e4-beaa-49d0-bf13-a5a88ad687c2
     shortName: Praxis für Humangenetik, Bremen
     name: >-
       Praxis für Humangenetik, Bremen, Praxis für Humangenetik, Priv.Doz. Dr.
       med. Stephanie Spranger
     website: http://praxis-fuer-humangenetik.de
     email: sspranger@aol.com
-  - id: d25cb9a8-179d-4b48-838e-602d6d253c95
+  - _id: 9c1566af-002d-4417-a745-41c2c417fcec
     shortName: Institut für Humangenetik, Mainz
     name: >-
       Institut für Humangenetik, Mainz, Institut für Humangenetik, Klinikum der
       Johannes Gutenberg-Universität Mainz
     website: http://www.klinik.uni-mainz.de/Humangenetik
     email: haaf@humgen.klinik.uni-mainz.de
-  - id: c72ffcbf-e3bb-4992-83c2-244c072fe917
+  - _id: ee09bb05-c4a1-48c3-9c1c-3350973549bc
     shortName: Universitätsklinikum Freiburg Abt. Innere Medizin IV, Nephrologie
     name: >-
       Universitätsklinikum Freiburg Abt. Innere Medizin IV, Nephrologie,
@@ -652,14 +679,14 @@ data:
       Universitätsklinikum Freiburg
     website: ''
     email: neumann@med1.ukl-freiburg.de
-  - id: ef962280-49f6-4b9e-a484-5df451e60e33
+  - _id: b9415a6e-f8ad-41aa-9749-634ac2d39a6a
     shortName: Institut für Medizinische Molekulargenetik, Schlieren
     name: >-
       Institut für Medizinische Molekulargenetik, Schlieren, Institut für
       Medizinische Molekulargenetik, Universität Zürich
     website: http://www.medmolgen.uzh.ch
     email: berger@medmolgen.uzh.ch
-  - id: fa817f08-2c97-4d62-a02f-6d86d787e533
+  - _id: b3dc3679-8114-4744-a635-6fce3cecba4a
     shortName: MVZ für Laboratoriumsmedizin, Mönchengladbach
     name: >-
       MVZ für Laboratoriumsmedizin, Mönchengladbach, MVZ für
@@ -667,38 +694,38 @@ data:
       Stein und Kollegen
     website: http://www.maiwald-genetik.de
     email: rmaiwald@labor-stein.de
-  - id: 63fcddea-da8d-48cc-b8f6-f268d0e28d3b
+  - _id: 1dc75398-e3f8-41b9-afac-8ce9907696f1
     shortName: Kepler Universitätsklinikum
     name: >-
       Kepler Universitätsklinikum, Humangenetische Untersuchungs- und
       Beratungsstelle
     website: http://www.frauen-kinderklinik-linz.at
     email: hans-christoph.duba@gespag.at
-  - id: d7f7f8a2-ef0e-4b03-accd-0c05d8438681
+  - _id: 74d49f7a-eb5a-4b99-9f5c-a222b278b470
     shortName: Unilabs, St. Gallen
     name: Unilabs, St. Gallen, Unilabs Dr. Weber
     website: http://www.unilabs.ch
     email: dvonau@unilabs.ch
-  - id: eb67ee1e-727a-4d93-a4b0-2c0dce433eb5
+  - _id: ef3fd4e5-4c0a-4ff0-9bb7-4772a36107c3
     shortName: Klinische Genetik Dresden
     name: >-
       Klinische Genetik Dresden, Institut für Klinische Genetik, Technische
       Universität Dresden
     website: www.tu-dresden.de/medgen/
     email: evelin.schroeck@uniklinikum-dresden.de
-  - id: b24fbb95-2360-4f52-ad2a-e6f4a07f3c38
+  - _id: 1a155a65-29e6-46b5-bb33-f1c86f7d7047
     shortName: Kinderzentrum München
     name: >-
       Kinderzentrum München, kbo-Kinderzentrum München gemeinnützige GmbH,
       kbo-Kinderzentrum München gemeinnützige GmbH
     website: ''
     email: M.Cohen@kinderzentrum-muenchen.de
-  - id: 1c3015be-2287-4b0d-8f16-e2d291c82c20
+  - _id: e4b64d27-e7e2-47ea-9086-852a8566982c
     shortName: Genetica AG
     name: Genetica AG, Humangenetisches Labor und genetische Beratungsstelle
     website: http://www.genetica-ag.ch
     email: info@genetica-ag.ch
-  - id: 58bb0cb4-fb25-453d-8417-e092e745d193
+  - _id: 635097d7-8783-4309-b87c-7d3ec671ab5e
     shortName: Medizinisches Versorgungszentrum Humangenetik Limbach Berlin
     name: >-
       Medizinisches Versorgungszentrum Humangenetik Limbach Berlin,
@@ -706,98 +733,98 @@ data:
       Joachim Bürger, Dr. med. Ute Knoll
     website: http://www.mvz-humangenetik-limbach-berlin.de
     email: kontakt@mvz-humangenetik-limbach-berlin.de
-  - id: 51b040ec-91eb-4adf-8948-bb11da973bac
+  - _id: ffbba1e1-a003-419e-9045-dc3db87b163c
     shortName: Laboratoire AURIGEN S.A
     name: Laboratoire AURIGEN S.A, Centre de Génétique et Pathologie Suisse Romand
     website: ''
     email: charlotte.silacci@aurigen.ch
-  - id: b49a2554-5b03-4058-a70e-4e3aa9c2b333
+  - _id: 034dc831-08e8-4142-aa9f-ffbaf1cf4ac0
     shortName: Gemeinschaftspraxis Dres. med. Wisplinghoff
     name: Gemeinschaftspraxis Dres. med. Wisplinghoff, Laboratoriumsmedizin
     website: www.wisplinghoff.de
     email: labor@wislab.de
-  - id: 3cbe6a31-8301-43c9-a688-604a89d6dd24
+  - _id: 5b8e53ae-1e38-45a7-ae3c-8fcd3ed6182e
     shortName: Medizinische Genetik USB, Basel
     name: >-
       Medizinische Genetik USB, Basel, Medizinische Genetik USB, Universität
       Basel
     website: http://www.unispital-basel.ch/index.php?id=4419
     email: isabel.filges@usb.ch
-  - id: 3a18a55a-85a3-48f0-9c46-d4138c88ca13
+  - _id: 7ed37df0-1342-47d4-89e7-815ed36c8e7a
     shortName: Praxis für Humangenetik, Köln
     name: Praxis für Humangenetik, Köln, Praxis für Humangenetik
     website: ''
     email: a.hansel@pan-klinik.de
-  - id: 75631204-edd5-480f-978e-47577d3b82ee
+  - _id: 3872a7ed-aa80-4d55-8775-0e429d769b68
     shortName: mcl Medizinische Laboratorien AG, Niederwangen
     name: >-
       mcl Medizinische Laboratorien AG, Niederwangen, mcl Medizinische
       Laboratorien AG, Genetik und Fertilität
     website: http://www.mcl.ch
     email: ''
-  - id: 7f354dc3-91ce-40d5-9962-cb635fa4486d
+  - _id: 27763592-8f1c-4a1a-aed4-8ff691751df4
     shortName: Institut für Klinische Genetik und Zytogenetik, Oldenburg
     name: >-
       Institut für Klinische Genetik und Zytogenetik, Oldenburg, Institut für
       Klinische Genetik und Zytogenetik, Klinikum Oldenburg
     website: http://www.klinikum-oldenburg.de
     email: humangenetik@klinikum-oldenburg.de
-  - id: 01586024-ddd3-4ab1-b754-3ad126b92c9f
+  - _id: 693ce8fd-6a05-482d-aec9-3a9e96b0a6a1
     shortName: MVZ SYNLAB Leverkusen GmbH
     name: MVZ SYNLAB Leverkusen GmbH, MVZ SYNLAB Leverkusen GmbH
     website: http://www.labor-leverkusen.de
     email: Post@labor-leverkusen.de
-  - id: 634d95c3-599a-4b15-b1a5-43d532e92c04
+  - _id: 302ae5da-7d9c-45e3-bd4b-254e45ba2fcf
     shortName: Humangenetische Beratung und Diagnostik, Bad Honnef - Bonn
     name: >-
       Humangenetische Beratung und Diagnostik, Bad Honnef - Bonn,
       Humangenetische Beratung und Diagnostik
     website: http://www.genetik-praenatal.de
     email: info@dr-hansmann.de
-  - id: a176d1b4-6f63-4d82-901c-87aef5057eac
+  - _id: e5d0ca16-3c22-4810-a06c-322d132bcdbe
     shortName: Praxis Prof. Dr. Gödde
     name: Praxis Prof. Dr. Gödde, Facharztpraxis für Humangenetik
     website: www.atcgene.de
     email: Prof.Goedde@atcgene.de
-  - id: f849e1c0-5cf1-451e-ab54-5aec4e8d0454
+  - _id: a8ec5580-4970-4f72-b30b-93f9e3d75bec
     shortName: Institut für Klinische Genetik Mainz Dr. Friedrich-Freksa
     name: >-
       Institut für Klinische Genetik Mainz Dr. Friedrich-Freksa, Institut für
       Klinische Genetik Mainz Dr. Friedrich-Freksa
     website: ''
     email: freksa@ikg-mainz.de
-  - id: 6abe3af2-0af1-4cc1-896b-5ad89968bc63
+  - _id: aea5e0f9-3440-4742-aaa3-7f04453e16b0
     shortName: Labor Renner, Graz
     name: Labor Renner, Graz, Labor Renner
     website: http://www.labor-renner.at
     email: office@labor-renner.at
-  - id: 467aa207-7c36-47e0-8283-d9b553e25aaf
+  - _id: c5321a7d-52bd-4326-a696-97b025289cff
     shortName: Humangenetik Uni Köln
     name: >-
       Humangenetik Uni Köln, Institut für Humangenetik, Klinikum der Universität
       zu Köln
     website: https://humangenetik.uk-koeln.de/erkrankungen-therapien/
     email: brunhilde.wirth@uk-koeln.de
-  - id: 5b835908-c396-48d1-b2ad-bae0a0b466d0
+  - _id: d42aa7f6-a5f8-47f2-b217-0290185cb34d
     shortName: Abt. Chirurg. Forschung, TUDresden
     name: >-
       Abt. Chirurg. Forschung, TUDresden, Abteilung Chirurgische Forschung,
       Technische Universität Dresden
     website: http://cf.uniklinikum-dresden.de
     email: schacker@rcs.urz.tu-dresden.de
-  - id: bff43dc4-1825-427d-92eb-5bd46722687c
+  - _id: 7c519f4c-210d-4ce9-8358-d3e21cc1db92
     shortName: Praxis für Humangenetik Dr. Suk
     name: >-
       Praxis für Humangenetik Dr. Suk, Praxis für Humangenetik Dr. med. Eun
       Kyung Suk & Kollegen/Kolleginnen
     website: http://www.humangenetik-berlin.de
     email: eun-kyung.suk@humangenetik-berlin.de
-  - id: 3920edd4-e380-49a8-bd99-484a5acbfddc
+  - _id: fbcfb1e0-8f79-49f8-8464-66856ed52fd0
     shortName: Labor Dr. med. Hentze/ Dr. rer.nat. A Louis
     name: Labor Dr. med. Hentze/ Dr. rer.nat. A Louis, Synlab Labor für Zytogenetik
     website: http://www.humangenetik-louis-hentze.de
     email: humangenetik-louis.hentze@t-online.de
-  - id: 1a8cf1e8-14b8-4bf0-822d-40e380f61a1f
+  - _id: d53ddc93-7895-4a1a-8adb-ef7823980a8f
     shortName: Klinik und Poliklinik für Neurologie, Halle/Saale
     name: >-
       Klinik und Poliklinik für Neurologie, Halle/Saale, Klinik und Poliklinik
@@ -805,52 +832,52 @@ data:
       Martin-Luther-Universität Halle-Wittenberg
     website: http://www1.medizin.uni-halle.de/neuro
     email: marcus.deschauer@medizin.uni-halle.de
-  - id: cc86114b-0f4c-4495-a03a-4c6383593db3
+  - _id: dd4a2686-fcf9-4cd4-9653-cfb9dc8fae31
     shortName: Dr. Jürgen Götz, T. Denker
     name: >-
       Dr. Jürgen Götz, T. Denker, Humangenetische Beratung & Diagnostik, Dr. J.
       Götz, T. Denker, Partnerschaft
     website: http://www.humangenetik-wetzlar.de
     email: info@humangenetik-wetzlar.de
-  - id: 6e8d4105-5109-41e2-a390-8902f9e7742c
+  - _id: fca0a801-a7fb-46ad-8fd3-4716d496d644
     shortName: Labor Dr. Withold
     name: >-
       Labor Dr. Withold, Dr. med. Wolfgang Withold, Facharzt für
       Laboratoriumsmedizin, Klinischer Chemiker
     website: http://wwwlabor-withold.de
     email: drwithold@gmx.de
-  - id: 81c59815-9d46-466f-8140-6b7832808bda
+  - _id: f16a46c2-1b4f-4975-a680-9c7100b583da
     shortName: UZH-Institut für Medizinische Genetik, Schlieren
     name: >-
       UZH-Institut für Medizinische Genetik, Schlieren, Institut für
       Medizinische Genetik, Universität Zürich
     website: http://www.medgen.uzh.ch/index.html
     email: anita.rauch@medgen.uzh.ch
-  - id: a3f9bc1e-5486-4cf7-a20e-457ff1cd048b
+  - _id: 159da8df-60ad-4c0a-881b-fcd535734520
     shortName: Humangenetik Ostbayern
     name: >-
       Humangenetik Ostbayern, Humangenetik Ostbayern, in Kooperation mit dem
       Institut für Humangenetik,, Universität Regensburg
     website: http://www-huge.uni-regensburg.de
     email: BWeb@klinik.uni-regensburg.de
-  - id: 90846b52-4e63-4dba-86c8-595bee195b63
+  - _id: 3c9a570f-868c-4021-8419-0a6a4f1d76a6
     shortName: MGZ-Medizinisch Genetisches Zentrum, Deggendorf
     name: >-
       MGZ-Medizinisch Genetisches Zentrum, Deggendorf, Medizinisch Genetisches
       Zentrum, Zweigpraxis Deggendorf
     website: http://mgz-muenchen.de
     email: info@mgz-muenchen.de
-  - id: 1fe8a845-10e8-466a-a1aa-e60c2be05077
+  - _id: 4d647902-629b-461f-bcd1-964f2feab1eb
     shortName: Praxis Dr. med. G. Strobl-Wildemann
     name: Praxis Dr. med. G. Strobl-Wildemann, Praxis Dr. med. G. Strobl-Wildemann
     website: ''
     email: info@strobl-wildemann.de
-  - id: 9e8d1d18-b883-49b4-90ea-9fe35d7ecdb7
+  - _id: 5cb5f817-0ac5-4026-8d03-4d030c7139b8
     shortName: Praxis für Humangenetik Marburg
     name: Praxis für Humangenetik Marburg, Praxis für Humangenetik Marburg
     website: http://www.humangenetik-marburg.de
     email: drdagmarlang@web.de
-  - id: 93951f3c-e05b-4537-a0af-06f9a7c5229a
+  - _id: a2148a14-826f-410f-a79d-e0b1a4c405f6
     shortName: Genetische Beratungsstelle der Universität, Homburg/Saar
     name: >-
       Genetische Beratungsstelle der Universität, Homburg/Saar, Institut für
@@ -858,122 +885,101 @@ data:
     website: >-
       http://wwwalt.med-rz.uniklinik-saarland.de/med_fak/humangenetik/genetische_beratungsstelle.html
     email: gen.beratung@uniklinikum-saarland.de
-  - id: 944c1b48-c33f-4330-97e8-2aa6f73abef9
+  - _id: fc8756d6-ac05-451c-a843-5519fc406098
     shortName: Centre Hospitalier Universitaire Vaudois - CHUV
     name: >-
       Centre Hospitalier Universitaire Vaudois - CHUV, Centre Hospitalier
       Universitaire Vaudois - CHUV
     website: ''
     email: joelle.mizrahi@chuv.ch
-  - id: 4032f65a-cc1d-4ac5-a900-df1b3ab990d0
+  - _id: ee1ade82-e4ed-441d-9409-ede6fa27be79
     shortName: Klinikum Ernst von Bergmann gGmbH, Potsdam
     name: >-
       Klinikum Ernst von Bergmann gGmbH, Potsdam, Klinikum Ernst von Bergmann
       gGmbH
     website: ''
     email: ikplonka@klinikumevb.de
-  - id: 2b371095-48f7-4e66-ad23-84890d818474
+  - _id: 26b1c345-8f53-4e7a-bd88-3216200ebc6b
     shortName: Ärztliche Partnerschaft WagnerStibbe
     name: >-
       Ärztliche Partnerschaft WagnerStibbe, Ärztliche Partnerschaft
       WagnerStibbe, Praxis für Humangenetik, Laborkooperationsgemeinschaft
     website: http://www.wagnerstibbe.de
     email: Poupak.Javaher@amedes-group.com
-  - id: 30ffd892-12bf-4d89-94fc-e0c570082fa8
+  - _id: dd76a9a2-fa42-4d8d-837b-16f5ecf734c3
     shortName: Laborärztliche Gemeinschaftspraxis Lübeck
     name: >-
       Laborärztliche Gemeinschaftspraxis Lübeck, Laborärztliche
       Gemeinschaftspraxis Lübeck
     website: ''
     email: andreas.bobrowski@dgn.de
-  - id: b530475a-743b-48be-a9f6-4f392c58a025
+  - _id: e7fdc82c-6e8e-4c44-a913-0c8ac9b31404
     shortName: MUW-Medizinische Universität Wien
     name: >-
       MUW-Medizinische Universität Wien, Medizinische Universität Wien, Univ.
       Klinik für Allgemeinchirurgie
     website: ''
     email: brigitte.wolf@meduniwien.ac.at
-  - id: c999bcb6-da06-4f6d-b9f7-575b2d86ed25
+  - _id: 928d4ae3-1c71-47c9-9ad0-bda80927a0de
     shortName: Institut für Humangenetik, Graz
     name: >-
       Institut für Humangenetik, Graz, Institut für Humangenetik, Medizinische
       Universität Graz
     website: http://www.medunigraz.at/humangenetik/
     email: 'rechnungseingang@medunigraz.at  '
-  - id: 531442b0-770f-4a76-9dbc-827a683f115a
+  - _id: 734bf6fd-7b26-40fe-8124-88e7ba430970
     shortName: Neuromuskuläres Forschungszentrum- Meduni- Wien
     name: >-
       Neuromuskuläres Forschungszentrum- Meduni- Wien, Zentrum f. Anatomie &
       Zellbiologie- Neuromuskuläres Forschungszentrum, Meizin Universität Wien
     website: ''
     email: reginald.bittner@meduniwien.ac.at
-  - id: 4b3df09a-9fec-4653-8c1c-84007fbfe0cf
+  - _id: ca9f2b6a-acf0-4255-96e7-3965f4ab52af
     shortName: MLL Münchner Leukämielabor GmbH
     name: MLL Münchner Leukämielabor GmbH, MLL Münchner Leukämielabor GmbH
     website: http://www.mll.com
     email: claudia.haferlach@mll.com
-  - id: 6784fa73-92d3-4620-920a-1b2384cf1125
+  - _id: 7a72e9da-768b-4b72-9f3c-91ff0384278f
     shortName: Aalborg Hospital
     name: >-
       Aalborg Hospital, Aalborg Hospital, Abteilung für Klinische Biochemie,
       Århus Universität
     website: ''
     email: aas.p33a@nja.dk
-  - id: 0df771fa-a08b-48c2-bc6a-524274eaa899
+  - _id: d0f83aa0-bc9a-4d82-9629-c2281e686cc9
     shortName: Praxis Dr. med. Gertrud Strobl-Wildemann
     name: >-
       Praxis Dr. med. Gertrud Strobl-Wildemann, Praxis Dr. med. Gertrud
       Strobl-Wildemann
     website: ''
     email: info@strobl-wildemann.de
-  - id: c1e171ec-e1c3-4a46-8096-fa7b3ded95df
-    shortName: Praxis Dr. med. Gertrud Strobl-Wildemann
-    name: >-
-      Praxis Dr. med. Gertrud Strobl-Wildemann, Praxis Dr. med. Gertrud
-      Strobl-Wildemann
-    website: ''
-    email: info@strobl-wildemann.de
-  - id: a70b1d18-1326-40af-ac4f-359d424debdb
+  - _id: 17303252-a074-4bbe-abf0-070d06de7466
     shortName: Praxis Dr. med. Vera Gloning/Dr. med. Gertrud Strobl-Wildemann
     name: >-
       Praxis Dr. med. Vera Gloning/Dr. med. Gertrud Strobl-Wildemann, Praxis Dr.
       med. Vera Gloning/Dr. med. Gertrud Strobl-Wildemann
     website: ''
     email: info@humangenetik-ulm.de
-  - id: 2c144e19-c513-4c28-b152-79a6b377ea7b
+  - _id: 9a5462bb-97dd-4656-b34c-d75aacc57779
     shortName: Institut für Humangenetik, Regensburg
     name: >-
       Institut für Humangenetik, Regensburg, Institut für Humangenetik,
       Universität Regensburg
     website: ''
     email: regina.gellner@klinik.uni-rgensburg.der
-  - id: 93baddf0-0d8f-4bdd-90ce-814555399c2d
+  - _id: 56171071-235d-43a7-9cb6-ea02f2429a37
     shortName: Praxis für Humangenetik, Würzburg
     name: Praxis für Humangenetik, Würzburg, Praxis für Humangenetik
     website: ''
     email: ''
-  - id: 4292745f-67c8-4fad-a230-fe61fff2f389
-    shortName: Medizinische Genetik Tübingen
-    name: >-
-      Medizinische Genetik Tübingen, Universitätsklinikum Tübingen, Medizinische
-      Genetik, Universität Tübingen
-    website: ''
-    email: peter.bauer@med.uni-tuebingen.de
-  - id: 8d864a31-ccb8-49ca-abaf-5f417a95d33b
+  - _id: d5a25e67-7f50-4742-b434-1c54cfef30f8
     shortName: Institut für Humangenetik, Berlin
     name: >-
       Institut für Humangenetik, Berlin, Humangenetik, Berlin, Uni, Moleculare
       Genetik, Humboldt Universität
     website: ''
     email: raymonda.varon-mateeva@charite.de
-  - id: 69415e31-5403-4a24-a614-d6f559cc87ea
-    shortName: Zentrum für Humangenetik, Marburg
-    name: >-
-      Zentrum für Humangenetik, Marburg, Zentrum für Humangenetik, Philipps
-      Universität Marburg
-    website: http://web.uni-marburg.de/humgen/
-    email: fritzb@staff.uni-marburg.de
-  - id: 4ac8507b-b6a1-4012-811a-90e6efaf4563
+  - _id: 8ff0a0be-edae-47bb-9332-2837205bb7c8
     shortName: Med.Univ.Wien, KIM 3, Endokrinologie
     name: >-
       Med.Univ.Wien, KIM 3, Endokrinologie, Mediz.Univ.Wien,
@@ -981,19 +987,19 @@ data:
       Klin.Abt.f.Endokrinologie und Stoffwechsel, Medizinische Universität Wien
     website: ''
     email: sabina.baumgartner-parzer@meduniwien.ac.at
-  - id: dcdd0f7f-0fbf-4ac7-928c-bd0479b69cac
+  - _id: 786dca29-8a60-4bcb-8ef4-9911cdabd0cd
     shortName: Virga Jesse Krankenhaus
     name: Virga Jesse Krankenhaus, Virga Jesse Krankenhaus, Klinisches Laboratorium
     website: http://www.virgajesse.be
     email: jean-luc.rummens@virgajesse.be
-  - id: 2535e5f2-cf26-40b9-94c7-03bc4466ad9e
+  - _id: 6999d4d2-1d53-4891-bffb-dec1fde10f4a
     shortName: UKM-Universitätsklinikum Münster
     name: >-
       UKM-Universitätsklinikum Münster, Universitätsklinikum Münster, Institut
       für Humangenetik
     website: ''
     email: ''
-  - id: 72d2067c-4f0e-4258-899e-5b778974fbb2
+  - _id: 38e4aaef-eaab-4b73-a609-cc63a729e846
     shortName: >-
       Department für Medizinische Genetik, Molekulare und Klinische
       Pharmakologie
@@ -1003,19 +1009,19 @@ data:
       Klinische Pharmakologie, Medizinische Universität Innsbruck
     website: ''
     email: Gerd.Utermann@i-med.ac.at
-  - id: efc29a3e-c6ff-4731-b30d-f304b17ea518
+  - _id: 8613ddee-dba7-4513-a766-b49fcd0d3f77
     shortName: test instution
     name: test instution, test
     website: ''
     email: a@b.com
-  - id: d46fae44-38a4-4f6d-871f-392b0ea8b3de
+  - _id: 404cdace-53dd-40fe-89a6-745740201f40
     shortName: Neurobiologisches Labor, Universität Rostock
     name: >-
       Neurobiologisches Labor, Universität Rostock, Neurobiologisches Labor,
       Klinik für Neurologie, Universität Rostock
     website: http://neurologie.med.uni-rostock.de
     email: arndt.rolfs@med.uni-rostock.de
-  - id: 63a67427-9877-4ff3-9c15-b7c11a398716
+  - _id: 3eb6a4e6-766b-4949-8f80-d200f95e75e0
     shortName: Med.Uni.Wien, Univ.Klin.f.Innere Medizin III
     name: >-
       Med.Uni.Wien, Univ.Klin.f.Innere Medizin III, Med.Uni.Wien,
@@ -1023,48 +1029,41 @@ data:
       Stoffwechsel, Medizinische Universität Wien
     website: ''
     email: sabina.baumgartner-parzer@meduniwien.ac.at
-  - id: 31696c87-91e1-4eb0-b075-a2679e8f4e76
-    shortName: Humangenetik Freiburg
-    name: >-
-      Humangenetik Freiburg, SYNLAB MVZ Humangenetik Freiburg GmbH, Prof. Dr.
-      med. Jürgen Kohlhase, Ärztl. Leiter
-    website: http://www.humangenetik-freiburg.de
-    email: juergen.kohlhase@synlab.com
-  - id: 3f465c52-dd9f-4491-aca9-54eb450962f2
+  - _id: 1d410d9b-181b-4415-a4c1-7fa8cfa5b163
     shortName: Labor WagnerStibbe
     name: Labor WagnerStibbe, Labor WagnerStibbe, Molekulargenetik
     website: ''
     email: invoice@amedes-group.com
-  - id: efebbba1-c970-42cc-9aeb-1b9fbd4c5d75
+  - _id: aa6ad895-c69f-4ce5-8265-26ddf0e30a80
     shortName: Gemeinschaftspraxis Dres. Mai, Schmitt und Mulfinger
     name: >-
       Gemeinschaftspraxis Dres. Mai, Schmitt und Mulfinger, Gemeinschaftspraxis
       Dres. Mai, Schmitt und Mulfinger, Humangenetisches Labor
     website: ''
     email: kontakt@drs-mai-schmitt-mulfinger.de
-  - id: 204a1482-72f5-4db1-a93f-cc4f161db07b
+  - _id: fde21565-3038-478c-9a2d-f48e00230fd4
     shortName: Labor Krone, Bad Salzuflen
     name: Labor Krone, Bad Salzuflen, Labor Krone
     website: http://www.laborkrone.de
     email: info@laborkrone.de
-  - id: 387257f5-737b-41b9-a474-a0b6b67c8144
+  - _id: 416f68d9-8cb3-43b5-8412-9dfa7bda75ca
     shortName: MVZ für Gerinnungsdiagnostik und Medizinische Genetik Aachen
     name: "MVZ für Gerinnungsdiagnostik und Medizinische Genetik Aachen, MVZ für Gerinnungsdiagnostik und Medizinische Genetik Aachen\r\n"
     website: ''
     email: Lemmens@zotzklimas.de
-  - id: 580284bb-dfc7-4501-9581-a749da0de4c2
+  - _id: e93105f6-133d-4742-aa04-832c24ab80c5
     shortName: Labor Froreich
     name: Labor Froreich, Labor Dr. v. Froreich & Kollegen
     website: ''
     email: Rolf.Meyer-Kawohl@labor-froreich.de
-  - id: b17b8509-cf33-413c-8014-8d300abcd2d0
+  - _id: 0f34288c-1af7-48db-ae0c-b835dc728239
     shortName: CHUV Centre Hospitalier Universitaire Vaudois
     name: >-
       CHUV Centre Hospitalier Universitaire Vaudois, CHUV Centre Hospitalier
       Universitaire Vaudois, Service de Genetique Medicale
     website: http://www.chuv.ch
     email: martin.hergersberg@chuv.ch
-  - id: d307e913-f070-4e0b-85b5-2858e1b90679
+  - _id: 7d20ecdc-7d48-4f9a-bedb-8f3bdacc57fa
     shortName: Institut für Klinische Genetik und Tumorgenetik Bonn
     name: >-
       Institut für Klinische Genetik und Tumorgenetik Bonn, Institut für
@@ -1072,66 +1071,66 @@ data:
       und Tumorgenetik Bonn
     website: http://www.genetik-bonn.de
     email: info@genetik-bonn.de
-  - id: 1cdc86b1-52a9-4f55-a2ab-a760e511a8cf
+  - _id: ed0d9949-7022-4477-a680-a3a8f45953a8
     shortName: SYNLAB Praxis für Humangenetik Karlsruhe
     name: >-
       SYNLAB Praxis für Humangenetik Karlsruhe, SYNLAB Praxis für Humangenetik
       Karlsruhe, Zweigpraxis des SYNLAB MVZ Humangenetik Mannheim GmbH
     website: http://www.zhma.de/
     email: humangenetik-karlsruhe@synlab.com
-  - id: b3ec4bdd-603b-4f80-8236-8338dba3c5a5
+  - _id: 53fd383d-20c4-4183-850c-bae964fe8b93
     shortName: Centogene GmbH, Rostock
     name: >-
       Centogene GmbH, Rostock, Centogene GmbH, Institute of Molecular
       Diagnostics
     website: http://www.centogene.de
     email: mail@centogene.de
-  - id: 83606a6e-e5aa-4ce6-bab6-ee4b28421c95
+  - _id: 5353cee3-3f57-44b7-a820-c95cbc79bdac
     shortName: LMZ Dr. Risch, Liebefeld/Bern
     name: >-
       LMZ Dr. Risch, Liebefeld/Bern, Labormedizinisches Zentrum Dr. Risch,
       Medizinische Genetik
     website: http://www.risch.ch
     email: genetik@lmz-risch.ch
-  - id: d6e56f2e-9862-4576-98ab-5d85fde0c5e3
+  - _id: cc8c9966-05f7-42eb-a6e2-f3a07b881bf6
     shortName: Dr. Dagmar Hansmann
     name: Dr. Dagmar Hansmann, Dr. Dagmar Hansmann
     website: http://www.genetik-praenatal.de
     email: info@dr-hansmann.de
-  - id: 1b3ac1d7-ca4a-48bf-ab3e-1d07096d00a8
+  - _id: 26955f4f-df86-488a-951e-7621db3f2ad8
     shortName: Medizinische Genetik Düsseldorf
     name: >-
       Medizinische Genetik Düsseldorf, Praxisgemeinschaft für Medizinische
       Genetik
     website: http://www.genetik-maringa.de
     email: info@genetik-maringa.de
-  - id: 6f0f09b2-dc38-4895-aebb-268f79c03bb2
+  - _id: a9e7aa61-e54b-4785-acaa-8b03cfb50783
     shortName: medgen.at GmbH, Wien
     name: medgen.at GmbH, Wien, medgen.at GmbH
     website: http://www.medgen.at
     email: petra.zeitlhofer@medgen.at
-  - id: 0b83e4e4-14a8-49c3-acfd-bacfc394f1f6
+  - _id: 95ea885b-82c7-4155-9b3f-7f505ab7fbeb
     shortName: Klinik für Kinder- und Jugendmedizin, Dresden
     name: >-
       Klinik für Kinder- und Jugendmedizin, Dresden, Klinik für Kinder- und
       Jugendmedizin, Technische Universität Dresden
     website: ''
     email: minae.lee-kirsch@uniklinikum-dresden.de
-  - id: b16db316-8b1d-4539-98ee-682db726ef14
+  - _id: 555e0de9-bc5d-4d1c-83ca-3e03c3f7060b
     shortName: Institut für Klinische Genetik und Tumorgenetik - Standort Koblenz
     name: >-
       Institut für Klinische Genetik und Tumorgenetik - Standort Koblenz,
       Klinische Genetik Koblenz - Dr. Nicolai Kohlschmidt
     website: http://www.genetik-bonn.de
     email: info@genetik-bonn.de
-  - id: 7d7e496c-e9c2-42f9-9be0-eaa88468d106
+  - _id: 42fb827d-c3dc-4692-b4f9-fa4b665c478d
     shortName: Praxis für genetische Beratung und Psychotherapie, Duisburg
     name: >-
       Praxis für genetische Beratung und Psychotherapie, Duisburg, Praxis für
       genetische Beratung und Psychotherapie
     website: http://www.hauss-albert.de
     email: hauss-genetik@t-online.de
-  - id: d8200fed-e16b-439c-8546-443aebe2bcd6
+  - _id: 87754f73-92aa-45d7-8041-1b085051c91a
     shortName: IKBZ-Institut für Klinische Biochemie und Pathobiochemie, Würzburg
     name: >-
       IKBZ-Institut für Klinische Biochemie und Pathobiochemie, Würzburg,
@@ -1139,38 +1138,38 @@ data:
     website: >-
       http://www-i.klinik.uni-wuerzburg.de/deutsch/einrichtungen/kliniken/ikbz/content.html
     email: s.herterich@medizin.uni-wuerzburg.de
-  - id: 903cdb23-d691-438e-b5b9-9db023323edb
+  - _id: a06aef16-0803-4047-a9b3-3c82199c6177
     shortName: Centrum für Laboratoriumsmedizin, Münster
     name: >-
       Centrum für Laboratoriumsmedizin, Münster, Centrum für
       Laboratoriumsmedizin - Zentrallaboratorium, Universitätsklinikum Münster
     website: http://zlabor.klinikum.uni-muenster.de/
     email: Zentrallabor@uni-muenster.de
-  - id: dd28f83e-b238-495e-8078-345343cfcf08
+  - _id: 48623473-f1e6-4cf0-9ef0-ec6f61f43e93
     shortName: Gyn-Gen-Lehel MVZ, München
     name: Gyn-Gen-Lehel MVZ, München, Gyn-Gen-Lehel MVZ
     website: http://www.gyn-gen-lehel.de
     email: info@gyn-gen-lehel.de
-  - id: 34a008a6-f540-4598-8833-221c8f98021e
+  - _id: bb953264-2ade-44c2-aa65-7c126fe484ef
     shortName: Institut für Chromosomendiagnostik, Kaiserslautern
     name: >-
       Institut für Chromosomendiagnostik, Kaiserslautern, Institut für
       Chromosomendiagnostik
     website: http://www.chromosomendiagnostik.de
     email: info@chromosomendiagnostik.de
-  - id: 6f19be3d-abf9-4c82-bd80-41e88e92b8a9
+  - _id: aa59574c-f6c1-4346-af76-86bb396146b8
     shortName: BioRep s.r.l., Milan
     name: BioRep s.r.l., Milan, BioRep s.r.l.
     website: http://www.biorep.it/
     email: info@biorep.it
-  - id: c584d667-da82-4ad1-b061-fd59bd32cd33
+  - _id: e29a5e91-dda6-4103-89f0-3e179295589b
     shortName: Genetische Beratungsstelle am Ubbo-Emmius-Krankenhaus, Aurich
     name: >-
       Genetische Beratungsstelle am Ubbo-Emmius-Krankenhaus, Aurich, Genetische
       Beratungsstelle am Ubbo-Emmius-Krankenhaus Aurich
     website: ''
     email: kleen-edlinger@gmx.de
-  - id: 716dcd66-0cff-4f02-b71f-ce0fa3de67fe
+  - _id: 6f75c95b-ad55-4756-90e0-b3344ac462b6
     shortName: HDZ-NRW - Herz- und Diabeteszentrum NRW, Bad Oeynhausen
     name: >-
       HDZ-NRW - Herz- und Diabeteszentrum NRW, Bad Oeynhausen, Herz- und
@@ -1179,156 +1178,130 @@ data:
       Ruhr-Universität Bochum
     website: http://www.hdz-nrw.de
     email: hmilting@hdz-nrw.de
-  - id: ec245c37-1365-487d-92e5-e81bdb4566b1
-    shortName: Gemeinschaftspraxis für Humangenetik Dresden
-    name: >-
-      Gemeinschaftspraxis für Humangenetik Dres. med. A. Bier, St. Krüger, S.
-      Reif, M. Timmer
-    website: https://medizinische-genetik-dresden.de/
-    email: praxis@medizinische-genetik-dresden.de
-    clinvar:
-      organzationId: '508479'
-  - id: f4d038d8-bf48-452d-9dfd-9aa39c2aa269
-    shortName: Humangenetik Stuttgart
-    name: Praxis für Humangenetik und Prävention Stuttgart
-    website: https://www.humangenetik-stuttgart.de/
-    email: hering@humangenetik-stuttgart.de
-  - id: 097f80db-abac-412a-8232-6f579ee055df
+  - _id: 05abbb79-12fd-4c8c-bf00-50fd4d68d3ac
     shortName: Unilabs Dr. Weber
     name: Unilabs Dr. Weber, Unilabs Dr. Weber
     website: http://www.unilabs.ch
     email: dieter.vonau@unilabs.com
-  - id: 30345c57-2fff-4654-ba5a-22fb146e5e38
+  - _id: c222ca20-1599-4c05-b009-30b3881a3b96
     shortName: Praxis für Humangenetik, Wiesbaden
     name: Praxis für Humangenetik, Wiesbaden, Praxis für Humangenetik
     website: http://www.humangenetik-online.de/
     email: Dr_Schwaab@t-online.de
-  - id: ff4445b7-9a87-441f-9fba-4e39c28eea53
+  - _id: 8f0518ba-e946-4d88-8530-c6b91021639d
     shortName: CCG-Cologne Center for Genomics, Köln
     name: >-
       CCG-Cologne Center for Genomics, Köln, Cologne Center for Genomics,
       Dermatogenetik, Universität zu Köln
     website: http://www.ccg.uni-koeln.de/
     email: h.hennies@uni-koeln.de
-  - id: 54634a08-e140-40e7-b91e-a7d1020f5283
-    shortName: MVZ diagnosticum Frankfurt
-    name: MVZ diagnosticum Frankfurt - Zentrum für Humangenetik
-    website: https://genetik.diagnosticum.eu/
-    email: info@genetik.diagnosticum.eu
-  - id: 0eaf8133-268e-41d9-b1e6-62767956bfb8
+  - _id: 927836e2-5b90-4ada-a8ac-db7e28e914ea
     shortName: LGM-Laboratory of Molecular Genetics, Poznań
     name: >-
       LGM-Laboratory of Molecular Genetics, Poznań, Laboratory of Molecular
       Genetics
     website: http://www.lgm.net.pl
     email: slomski@up.poznan.pl
-  - id: 8e466898-0f40-4f1f-889b-2da990c06c4c
+  - _id: a0741b8f-0522-4ae6-92dc-f793d473f84e
     shortName: Interdisziplinäre Gemeinschaftspraxis, Lüneburg
     name: >-
       Interdisziplinäre Gemeinschaftspraxis, Lüneburg, Interdisziplinäre
       Gemeinschaftspraxis
     website: ''
     email: orthobraun@gmx.net
-  - id: 847ec9a4-0506-4c99-b8db-5f825776f58b
+  - _id: 1abbc3e7-95ff-4a06-a76b-ae4fcd936c0f
     shortName: BUNTH-BENIN UNIVERSITY TEACHING HOSPITAL
     name: >-
       BUNTH-BENIN UNIVERSITY TEACHING HOSPITAL, BENIN UNIVERSITY TEACHING
       HOSPITAL, Molecular Genetics, BENIN UNIVERSITY TEACHING HOSPITAL
     website: ''
     email: bernardkloussahdjako8@yahoo.com
-  - id: 225f637e-d725-4362-8586-48bdb7e2cf35
+  - _id: 673301b7-e5a2-4b9d-b2d2-0e451b46a1f1
     shortName: Labor Chemnitz
     name: Labor Chemnitz, Labor Chemnitz - Zentrum für Diagnostik GmbH, Humangenetik
     website: http://www.laborchemnitz.de/fachbereiche-abteilungen/humangenetik.html
     email: a.kobelt@skc.de
-  - id: 2b6c2524-c00e-4972-a35d-f2fbf2f5afca
+  - _id: bd5748d2-98bc-4bf2-8964-a4db254414fc
     shortName: Diagenom GmbH, Rostock
     name: Diagenom GmbH, Rostock, Diagenom GmbH
     website: http://www.diagenom.de
     email: mail@diagenom.de
-  - id: 855df62a-ddc2-4b06-9d82-3619c55c2fcf
+  - _id: c6176fed-8c49-4273-99e3-c32b0f08293f
     shortName: Labormedizinisches Versorgungszentrum, Rostock
     name: >-
       Labormedizinisches Versorgungszentrum, Rostock, Labormedizinisches
       Versorgungszentrum
     website: http://www.labormedicus.de
     email: mail@labormedicus.de
-  - id: cb65795b-1480-4119-8267-4d866bf9f90d
+  - _id: 7796e354-60db-414d-8acc-97db42cd9c40
     shortName: Praxis für Humangenetik Dr. med. Ellen Jessen
     name: >-
       Praxis für Humangenetik Dr. med. Ellen Jessen, Praxis für Humangenetik Dr.
       med. Ellen Jessen
     website: http://www.humangenetik-jessen.de
     email: praxis@humangenetik-jessen.de
-  - id: c9370f2e-a81a-4ee7-98db-977895ccfc50
+  - _id: 67823092-7940-4200-97f4-1c6827b4f18f
     shortName: DKFZ-Deutsches Krebsforschungszentrum, Berlin
     name: >-
       DKFZ-Deutsches Krebsforschungszentrum, Berlin, Deutsches
       Krebsforschungszentrum
     website: ''
     email: b.radlwimmer@dkfz.de
-  - id: 73e508b2-1f2d-44d3-8a1e-52d70c8e80ed
+  - _id: 3300d2da-e86f-469c-9781-c494e4a00fba
     shortName: Novartis Pharma GmbH, Nürnberg
     name: Novartis Pharma GmbH, Nürnberg, Novartis Pharma GmbH
     website: ''
     email: ruebel@novartis.com
-  - id: 55bf4701-f1b3-4635-80af-28eb79d48262
-    shortName: Humangenetik Tübingen und CeGaT
-    name: Zentrum für Humangenetik Tübingen und CeGaT GmbH
-    website: https://www.humangenetik-tuebingen.de/
-    email: info@humangenetik-tuebingen.de
-    clinvar:
-      organzationId: '505870'
-  - id: f8a93d11-2d02-42e4-bdd6-55f0f721e87d
+  - _id: 1cf959d2-f367-4cd8-9914-8b74d9a46443
     shortName: Zentrum Medizinische Genetik Würzburg
     name: >-
       Zentrum Medizinische Genetik Würzburg, Zentrum Medizinische Genetik
       Würzburg, Universität Würzburg
     website: http://www.humgen.biozentrum.uni-wuerzburg.de/
     email: kunstmann@biozentrum.uni-wuerzburg.de
-  - id: 17a647fb-51b5-4ee2-98ee-cb3dd9950392
+  - _id: 5bf51acb-f061-4c6b-81e5-992d722cff4a
     shortName: Praxis für Humangenetik Wiesbaden
     name: >-
       Praxis für Humangenetik Wiesbaden, Praxis für Humangenetik Wiesbaden, Dr.
       Eva Schwaab
     website: ''
     email: Dr_Schwaab@t-online.de
-  - id: 9ab110d2-187b-484c-b5ba-f326831fbd5f
+  - _id: 233e40ab-4fd7-46c3-af6a-fe3ec1e993cb
     shortName: IMD, Berlin
     name: >-
       IMD, Berlin, IMD Institut für Medizinische Diagnostik Berlin-Potsdam GbR,
       IMD Berlin MVZ
     website: http://www.imd-berlin.de/imd-labor/fachbereiche/humangenetik.html
     email: info@imd-berlin.de
-  - id: 7c4e7b7b-05a2-42d7-a7e9-5ce33ee49902
+  - _id: 923f54e2-69c0-4b9b-9e61-372b5a401007
     shortName: Institut für Humangenetik, Universitätsklinikum Leipzig
     name: >-
       Institut für Humangenetik, Universitätsklinikum Leipzig, Institut für
       Humangenetik, Universitätsklinikum Leipzig, Universität Leipzig
     website: https://www.uniklinikum-leipzig.de/einrichtungen/humangenetik
     email: humangenetik@medizin.uni-leipzig.de
-  - id: ac336b53-3dda-4b6d-95c5-acd31ab9c161
+  - _id: 1bdf7627-bfaa-4f2f-81fc-f57ef09ebee0
     shortName: Zentrum für Pränataldiagnostik & Humangenetik Peine
     name: >-
       Zentrum für Pränataldiagnostik & Humangenetik Peine, Zentrum  für
       Pränataldiagnostik & Humangenetik Peine, HumGen Peine
     website: http://www.humgenpeine.de
     email: labor@humgenpeine.de
-  - id: b19e7567-829f-49e5-88d3-501d7a2644c8
+  - _id: 7fd8e9d2-bc8f-40bf-99f5-50081c27d0aa
     shortName: MVZ für Humangenetik und Molekularpathologie, Rostock
     name: >-
       MVZ für Humangenetik und Molekularpathologie, Rostock, MVZ für
       Humangenetik und Molekularpathologie
     website: http://www.humangenetik-rostock.de
     email: mail@humangenetik-rostock.de
-  - id: cceac6a5-8e3d-4326-bf1b-36b69c09c280
+  - _id: 8e6835e9-69f4-4474-aa3a-f4fc33170c1c
     shortName: Institut für Humangenetik, Leipzig
     name: >-
       Institut für Humangenetik, Leipzig, Institut für Humangenetik,
       Universitätsklinikum Leipzig
     website: http://humangenetik.uniklinikum-leipzig.de/
     email: eberhard.passarge@medizin.uni-leipzig.de
-  - id: 9ea77025-44b1-4b8b-8641-e966c93e7d4f
+  - _id: fb91cbe8-473a-45c5-935b-1a58f53bd6f9
     shortName: NMRD-Zentrum für Anatomie & Zellbiologie Neuromuskuläre Forschung, Wien
     name: >-
       NMRD-Zentrum für Anatomie & Zellbiologie Neuromuskuläre Forschung, Wien,
@@ -1336,19 +1309,12 @@ data:
       Medizinische Universität Wien
     website: http://www.meduniwien.ac.at/nmrd/
     email: wolfgang.schmidt@meduniwien.ac.at
-  - id: 57fe2a78-b397-4313-97b4-ad634058d762
-    shortName: MVZ Uni Mainz
-    name: MVZ der Universitätsmedizin Mainz
-    website: http://www.mvz.unimedizin-mainz.de/
-    email: info@mvz.unimedizin-mainz.de
-    clinvar:
-      organzationId: '508830'
-  - id: 220c8e36-19b1-4fde-ac12-d916c45aa200
+  - _id: 00d875af-1fa3-43cb-8af9-e5ef06985391
     shortName: Arztpraxis Volkmann, Berlin
     name: Arztpraxis Volkmann, Berlin, Arztpraxis Volkmann
     website: ''
     email: dr.peter-volkmann@gmx.de
-  - id: 43b729b9-fd6e-498d-982d-7dfb97492167
+  - _id: 2e115cb7-d06a-409b-ab6d-e9e52cf3515b
     shortName: NMRD-Neuromuskuläre Forschungsabteilung, Wien
     name: >-
       NMRD-Neuromuskuläre Forschungsabteilung, Wien, Neuromuskuläre
@@ -1356,12 +1322,12 @@ data:
       Universität Wien
     website: http://www.meduniwien.ac.at/nmrd/
     email: wolfgang.schmidt@meduniwien.ac.at
-  - id: 8ea44845-6766-4feb-b298-6fa6a3d02e4e
+  - _id: 41e5fdac-d173-4e0a-89b5-88e3f1438f38
     shortName: Bioglobe, Hamburg
     name: Bioglobe, Hamburg, Bioglobe - The home of life science
     website: http://bioglobe.net/
     email: info@bioglobe.net
-  - id: de2c7c77-4543-4520-97c0-999dddca2f5c
+  - _id: a073dd28-d53f-408e-bbd9-0569f0f68f21
     shortName: Universitätsklinik für Kinder- und Jugendmedizin Ulm
     name: >-
       Universitätsklinik für Kinder- und Jugendmedizin Ulm, Universitätsklinik
@@ -1370,104 +1336,85 @@ data:
     website: >-
       http://www.uniklinik-ulm.de/struktur/kliniken/kinder-und-jugendmedizin/home/klinische-labore/molekulargenetik.html
     email: georgia.lahr@uniklinik-ulm.de
-  - id: 945f42aa-d737-4933-a2db-ec78b1e8eb35
+  - _id: b543eca8-8c0d-499f-a45d-56aed22fc70e
     shortName: Zentrum Pränatalmedizin & Humangenetik
     name: >-
       Zentrum Pränatalmedizin & Humangenetik, Zentrum Pränatalmedizin &
       Humangenetik Peine
     website: http://www.humgenpeine.de
     email: labor@humgenpeine.de
-  - id: 77752945-0c4b-4020-b177-8405bc9bd85a
+  - _id: 7737bfbd-9d1c-4acf-acaf-2c58e8c0377c
     shortName: MVZ Nephrocare Lahr GmbH
     name: MVZ Nephrocare Lahr GmbH, MVZ Nephrocare Lahr GmbH
     website: ''
     email: sodemann@dialyse-lahr-ettenheim.de
-  - id: a7a020ea-15da-4891-9496-966cfecf8ee7
+  - _id: 0302c1c2-15f9-4d93-82f0-d538eb692fc1
     shortName: UniversitätsSpital Zürich, Klinik für Neurologie
     name: >-
       UniversitätsSpital Zürich, Klinik für Neurologie, UniversitätsSpital
       Zürich, Klinik für Neurologie
     website: ''
     email: maria.auer@usz.ch
-  - id: 87e81110-1f87-4c70-a941-294411a86edf
-    shortName: MVZ genetikum GmbH
-    name: MVZ genetikum GmbH, MVZ genetikum GmbH
-    website: http://www.genetikum.de
-    email: info@genetikum.de
-  - id: de12559e-60dd-4947-bbd0-a3f9d452a853
+  - _id: 61c57cc9-e8ee-4377-955a-4f0226ea4ece
     shortName: Labor für Zytogenetik Baden-Baden
     name: >-
       Labor für Zytogenetik Baden-Baden, Labor für Zytogenetik Baden-Baden, Dr.
       H. Schindler, Dr. P. Emmerich
     website: https://www.dr-schindler-praenatal.de
     email: labor@dr-schindler-praenatal.de
-  - id: e51d0774-63ed-4150-81dc-5786a518e6b1
-    shortName: Labor für Zytogenetik Baden-Baden
-    name: >-
-      Labor für Zytogenetik Baden-Baden, Labor für Zytogenetik Baden-Baden, Dr.
-      H. Schindler, Dr. P. Emmerich
-    website: https://www.dr-schindler-praenatal.de
-    email: labor@dr-schindler-praenatal.de
-  - id: 2c58306c-4235-42d1-8706-3080956a906e
+  - _id: 3acaa583-f553-411f-bf97-956c227ac264
     shortName: Praxis Blickle
     name: Praxis Blickle, Praxis Blickle
     website: ''
     email: praxis.blickle@me.com
-  - id: 519607cd-c78b-4eb9-b68a-6320bf65b434
+  - _id: 231e0565-ba22-4b73-ac67-8adab9e7bd12
     shortName: SYNLAB MVZ Humangenetik Freiburg GmbH
     name: >-
       SYNLAB MVZ Humangenetik Freiburg GmbH, SYNLAB MVZ Humangenetik Freiburg
       GmbH, Zweigpraxis Baden-Baden
     website: http://www.humangenetik-freiburg.de
     email: patricia.emmerich@synlab.com
-  - id: 07fe1c52-b5ee-444b-8d3e-2a4cf07da9a1
+  - _id: 549787c9-b7a4-485f-afa9-bbb2aaf8cb7f
     shortName: Institut für Klinische Genetik Bonn-Koblenz-Mainz
     name: >-
       Institut für Klinische Genetik Bonn-Koblenz-Mainz, Institut für Klinische
       Genetik Bonn-Koblenz-Mainz, Praxis für Humangenetik Dr. Ehresmann
     website: ''
     email: ehresmann@genetik-mainz.de
-  - id: e0fa93db-262b-4de6-a7fc-f307c160433f
+  - _id: 155be445-eb1c-48bd-a7f5-02c25d7e0ea6
     shortName: Immunologie und Genetik Kaiserslautern
     name: >-
       Immunologie und Genetik Kaiserslautern, Institut für Immunologie und
       Genetik Kaiserslautern
     website: http://www.immungenetik-kl.de
     email: office@immungenetik-kl.de
-  - id: 3726ed25-508c-418f-9c0e-91527d0c9ebd
-    shortName: Immunologie und Genetik Kaiserslautern
-    name: >-
-      Immunologie und Genetik Kaiserslautern, Institut für Immunologie und
-      Genetik Kaiserslautern
-    website: http://www.immungenetik-kl.de
-    email: office@immungenetik-kl.de
-  - id: 74012f50-9733-412d-af53-3ffc86ebc3e4
+  - _id: aa654021-1750-42e7-b203-379c113793ee
     shortName: 'IFLb-Institut für Laboratoriumsmedizin Berlin '
     name: >-
       IFLb-Institut für Laboratoriumsmedizin Berlin , Institut für
       Laboratoriumsmedizin Berlin (IFLb)
     website: https://www.iflb.de/das-labor/
     email: c.landwehr@iflb.de
-  - id: d21a1de0-e2d9-442f-885a-5ab5f032ac48
+  - _id: 0bd9ba0f-df0e-4b23-b004-c891a3da6e1e
     shortName: Aurigen, Lausanne
     name: Aurigen, Lausanne, Aurigen
     website: ''
     email: maryam.mostafavi@aurigen.ch
-  - id: 5eb488ab-3b18-4ee6-971a-99ec3d59f5c8
+  - _id: d4ef4c5e-d0bd-4e7c-9da4-a883d615be43
     shortName: Institut für angewandte Humangenetik und Onkogenetik- Prof. Froster
     name: >-
       Institut für angewandte Humangenetik und Onkogenetik- Prof. Froster,
       Institut für angewandte Humangenetik und Onkogenetik Professor Froster
     website: http://www.humangenetik-prof-froster.de
     email: management@humangenetik-prof-froster.de
-  - id: fb97936b-2ccf-4224-8b1e-95c6bb48228e
+  - _id: b93e75ac-3d9b-49d1-86e0-ed74e634d95b
     shortName: Senckenberg Zentrum für Humangenetik, Frankfurt-Nordend
     name: >-
       Senckenberg Zentrum für Humangenetik, Frankfurt-Nordend, Senckenberg
       Zentrum für Humangenetik Facharztzentrum Frankfurt-Nordend gGmbH
     website: http://www.senckenberg-humangenetik.de/
     email: info@senckenberg-humangenetik.de
-  - id: 0a775310-3f1f-456f-925f-11530e2379ca
+  - _id: cfe48707-51c7-49fb-990a-7c6c6aeea686
     shortName: Praxis für Humangenetik am Werner Forßmann-Krankenhaus
     name: >-
       Praxis für Humangenetik am Werner Forßmann-Krankenhaus, Praxis für
@@ -1475,70 +1422,65 @@ data:
       Forßmann-Krankenhaus
     website: ''
     email: humangenetik@klinikum-barnim.de
-  - id: 59f46b6a-1fe6-4d83-8cce-fe6c5f56c680
+  - _id: 1b66cc65-a208-4a91-8c6a-7b0af93df32e
     shortName: Synlab Praxis für Humangenetik
     name: Synlab Praxis für Humangenetik, Synlab Praxis für Humangenetik
     website: http://www.humangenetik-jena.de
     email: anje.hering@synlab.com
-  - id: 230c4520-d2af-459d-a7a5-86a2d70eedb3
+  - _id: 091321f8-4f6b-4f0c-a167-fdd7b315d83d
     shortName: MVZ Labor Krone GbR
     name: MVZ Labor Krone GbR, MVZ Labor Krone GbR, Filialpraxis für Humangenetik
     website: https://humangenetik.laborkrone.de/
     email: humangenetik.bielefeld@laborkrone.de
-  - id: 5bfbd5e4-8418-4ca2-a8d4-436f3593326a
+  - _id: 6dc81bdb-51cc-4cbe-b9fa-7be557886ae0
     shortName: Medicover Humangentik Hannover MVZ
     name: Medicover Humangentik Hannover MVZ, Medicover Humangentik Hannover MVZ
     website: https://www.medicover.de
     email: humangentik-hannover@medicover.de
-  - id: a329984d-0530-4b89-99e1-a1e811c37391
+  - _id: 65401223-96e1-4b09-b844-27e9fdab6700
     shortName: Praxis für Genetische Beratung und Kinderneurologie, Landau
     name: >-
       Praxis für Genetische Beratung und Kinderneurologie, Landau, Genetische
       Beratung und Neuropaediatrie
     website: https://www.maria-blandfort.de
     email: neuropaed@maria-blandfort.de
-  - id: cad2132a-3df1-4f53-82f1-4a0d0a40105c
+  - _id: d1bc5540-f0eb-495d-8ee0-9411cb968365
     shortName: Test Labor
     name: Test Labor, Test Labor
     website: ''
     email: ''
-  - id: ef72ad93-1cdf-437f-866a-24abe9cf84a7
+  - _id: 4fcf260a-93a9-4a77-8310-37f4f1085479
     shortName: Praxis für Neuropädiatrie und Medizinische Genetik, Landau
     name: >-
       Praxis für Neuropädiatrie und Medizinische Genetik, Landau, Praxis für
       genetische Beratung und Neuropaediatrie
     website: https://www.maria-blandfort.de
     email: neuropaed@maria-blandfort.de
-  - id: 90e3b0e9-b88c-45d3-b78d-4ef1609e811e
+  - _id: c00cccd9-88de-41d5-86a0-2c2f8672ef61
     shortName: Praxis für Humangenetik, Heidelberg
     name: Praxis für Humangenetik, Heidelberg, Praxis für Humangenetik
     website: http://www.humangenetik-louis-hentze.de
     email: humangenetik-louis.hentze@t-online.de
-  - id: 684ddb83-daa2-42e0-9eb9-aa032e40feef
-    shortName: MVZ genetikum GmbH
-    name: MVZ genetikum GmbH, MVZ genetikum GmbH
-    website: https://www.genetikum.de/
-    email: info@genetikum.de
-  - id: c60bae6f-da37-4da6-b5d3-654db8488465
+  - _id: c5b35767-7a2b-4a0f-9518-6d1ce7127511
     shortName: MVZ Humangenetik Ulm
     name: MVZ Humangenetik Ulm, MVZ Humangenetik Ulm
     website: ''
     email: info@humangenetik-ulm.de
-  - id: c5d99e8a-659e-445c-80d3-278da3894efe
+  - _id: 9e92fea9-d20b-4021-bac9-0bb0b9548495
     shortName: Praxis für Humangenetik, Lusanum, Ludwigshafen/Rhein
     name: >-
       Praxis für Humangenetik, Lusanum, Ludwigshafen/Rhein, Praxis für
       Humangenetik, Lusanum, NBS IIG Kaiserslautern
     website: http://www.humangenetik-louis-hentze.de
     email: humangenetik-louis.hentze@t-online.de
-  - id: 02c1222c-ad57-4c1a-9466-d99d74319bd0
+  - _id: 9a2d5027-3fd1-47b4-9711-10e9b393de5c
     shortName: Humangenetische Sprechstunde MVZ Bad Nauheim
     name: >-
       Humangenetische Sprechstunde MVZ Bad Nauheim, Humangenetische Sprechstunde
       MVZ Bad Nauheim
     website: https://www.synlab.com
     email: badnauheim@synlab.com
-  - id: 32fc04a1-0b77-48f9-bd3c-b475d3d7b050
+  - _id: aa1f1801-8970-4612-a417-dc39a8bfd5e1
     shortName: Hanse Genetik
     name: Hanse Genetik, Hanse Genetik
     website: ''

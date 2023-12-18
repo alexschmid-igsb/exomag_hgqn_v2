@@ -12,7 +12,7 @@ module.exports = async function (req, res, next) {
         throw new BackendError("Authentication failed. Admin rights requried.",401)
     }
 
-    if(user.isAdmin === true) {
+    if(user.superuser === true) {
         next()
     } else {
         throw new BackendError("Authentication failed. Admin rights requried.",401)

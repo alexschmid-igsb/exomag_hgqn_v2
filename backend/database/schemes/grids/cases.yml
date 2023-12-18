@@ -95,14 +95,12 @@ scheme:
             required: true
         variantSolvesCase:
             type: string
-            required: true
             enum:
               - primary
               - incidental
               - candidate
         ifNewDiseaseGeneLevelOfEvidence:
             type: string
-            required: true
         acmg:
             class:
                 type: string
@@ -146,7 +144,6 @@ scheme:
                   - BP7
         zygosity:
             type: string
-            required: true
             enum:
               - heterozygous
               - homozygous
@@ -156,7 +153,6 @@ scheme:
               - heteroplasmic
         segregationsanalyse:
             type: string
-            required: true
             enum:
               - not performed
               - de novo
@@ -164,7 +160,6 @@ scheme:
               - transmitted from mother
         modeOfInheritance:
             type: string
-            required: true
             enum:
               - dominant
               - recessive

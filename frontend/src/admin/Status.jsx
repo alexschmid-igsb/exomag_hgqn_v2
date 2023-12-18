@@ -87,7 +87,7 @@ export default function Status() {
 
 
     return (
-        currentUser && currentUser.isAdmin ? renderView() : <Navigate replace to="/home" />
+        currentUser && currentUser.superuser === true ? renderView() : <Navigate replace to="/home" />
     )
 
 

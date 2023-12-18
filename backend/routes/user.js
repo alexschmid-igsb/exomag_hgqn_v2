@@ -6,16 +6,12 @@ const { v4: uuidv4 } = require('uuid')
 var _ = require('lodash')
 
 const auth = require('../users/auth')
-const isAdmin = require('../users/isAdmin')
-
-const Brevo = require('../util/mail/Brevo')
 
 const config = require('../../config/config')
 const jwt = require('jsonwebtoken')
 
-const fs = require('fs')
-
 const usersStore = require('../users/manager')
+const db = require('../../backend/database/connector').connector
 
 const BackendError = require('../util/BackendError')
 
@@ -107,11 +103,34 @@ router.post('/login', async function (req, res, next) {
 })
 
 
+
 // endpoint to logout user
 router.post('/logout', async function (req, res, next) {
 	res.clearCookie('x-auth-token')
 	res.send({})
 })
+
+
+
+// endpoint for public user list
+router.get('/list-public', [auth], async function (req, res, next) {
+
+    let labs = await db.find('STATIC_labs')
+    console.log(labs)
+
+    let users = await usersStore.getAllUsers()
+    for(let user of users) {
+        delete user.password
+        delete user.state
+    }
+
+    res.send({
+        users: users,
+        labs: labs.data
+    })
+})
+
+
 
 
 
@@ -179,15 +198,6 @@ router.get('/list', [auth, isAdmin], async function (req, res, next) {
 
 
 
-
-router.get('/list-public', [auth], async function (req, res, next) {
-    let users = await usersStore.getAllUsers()
-    for(let user of users) {
-        delete user.password
-        delete user.actions
-    }
-    res.send(users)
-})
 
 
 

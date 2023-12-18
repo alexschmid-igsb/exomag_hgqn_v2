@@ -52,7 +52,7 @@ export default function Admin() {
 
     return (
         <>
-            { user && user.isAdmin ?
+            { user && user.superuser === true ?
                 <div className="admin-links">
                     <div className="category">
                         <h3>Stuff</h3>

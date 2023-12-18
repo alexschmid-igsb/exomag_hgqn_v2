@@ -1247,21 +1247,6 @@ data:
       pos: '149150634'
       ref: C
       alt: T
-  - _id: GRCh38-7-70786018-G-C
-    GRCh37:
-      gDNA: NC_000007.14:g.70786018G>C
-      build: GRCh37
-      chr: '7'
-      pos: '70251004'
-      ref: G
-      alt: C
-    GRCh38:
-      gDNA: NC_000007.13:g.70251004G>C
-      build: GRCh38
-      chr: '7'
-      pos: '70786018'
-      ref: G
-      alt: C
   - _id: GRCh38-5-34007976-GC-G
     GRCh37:
       gDNA: NC_000005.10:g.34007978del
@@ -1532,21 +1517,6 @@ data:
       pos: '88038468'
       ref: A
       alt: G
-  - _id: GRCh38-X-153868354-TGCTGG-T
-    GRCh37:
-      gDNA: NC_000023.11:g.153868359_153868363del
-      build: GRCh37
-      chr: X
-      pos: '153133809'
-      ref: TGCTGG
-      alt: T
-    GRCh38:
-      gDNA: NC_000023.10:g.153133814_153133818del
-      build: GRCh38
-      chr: X
-      pos: '153868354'
-      ref: TGCTGG
-      alt: T
   - _id: GRCh38-X-20195067-T-C
     GRCh37:
       gDNA: NC_000023.11:g.20195067T>C
@@ -2087,21 +2057,6 @@ data:
       pos: '178535043'
       ref: C
       alt: G
-  - _id: GRCh38-11-47343562-C-T
-    GRCh37:
-      gDNA: NC_000011.10:g.47343562C>T
-      build: GRCh37
-      chr: '11'
-      pos: '47365113'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000011.9:g.47365113C>T
-      build: GRCh38
-      chr: '11'
-      pos: '47343562'
-      ref: C
-      alt: T
   - _id: GRCh38-1-201368204-C-T
     GRCh37:
       gDNA: NC_000001.11:g.201368204C>T
@@ -2642,21 +2597,6 @@ data:
       pos: '32441212'
       ref: C
       alt: A
-  - _id: GRCh38-3-38613799-G-A
-    GRCh37:
-      gDNA: NC_000003.12:g.38613799G>A
-      build: GRCh37
-      chr: '3'
-      pos: '38655290'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000003.11:g.38655290G>A
-      build: GRCh38
-      chr: '3'
-      pos: '38613799'
-      ref: G
-      alt: A
   - _id: GRCh38-6-75907697-A-G
     GRCh37:
       gDNA: NC_000006.12:g.75907697A>G
@@ -2972,21 +2912,6 @@ data:
       pos: '115701301'
       ref: ATCATCATCT
       alt: A
-  - _id: GRCh38-12-32841196-C-T
-    GRCh37:
-      gDNA: NC_000012.12:g.32841196C>T
-      build: GRCh37
-      chr: '12'
-      pos: '32994130'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000012.11:g.32994130C>T
-      build: GRCh38
-      chr: '12'
-      pos: '32841196'
-      ref: C
-      alt: T
   - _id: GRCh38-6-26092913-G-A
     GRCh37:
       gDNA: NC_000006.12:g.26092913G>A
@@ -3197,681 +3122,6 @@ data:
       pos: '112119209'
       ref: C
       alt: A
-  - _id: GRCh38-10-88939558-C-T
-    GRCh37:
-      gDNA: NC_000010.11:g.88939558C>T
-      build: GRCh37
-      chr: '10'
-      pos: '90699315'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000010.10:g.90699315C>T
-      build: GRCh38
-      chr: '10'
-      pos: '88939558'
-      ref: C
-      alt: T
-  - _id: GRCh38-5-128345359-T-C
-    GRCh37:
-      gDNA: NC_000005.10:g.128345359T>C
-      build: GRCh37
-      chr: '5'
-      pos: '127681051'
-      ref: T
-      alt: C
-    GRCh38:
-      gDNA: NC_000005.9:g.127681051T>C
-      build: GRCh38
-      chr: '5'
-      pos: '128345359'
-      ref: T
-      alt: C
-  - _id: GRCh38-6-32056126-G-C
-    GRCh37:
-      gDNA: NC_000006.12:g.32056126G>C
-      build: GRCh37
-      chr: '6'
-      pos: '32023903'
-      ref: G
-      alt: C
-    GRCh38:
-      gDNA: NC_000006.11:g.32023903G>C
-      build: GRCh38
-      chr: '6'
-      pos: '32056126'
-      ref: G
-      alt: C
-  - _id: GRCh38-6-32052735-T-C
-    GRCh37:
-      gDNA: NC_000006.12:g.32052735T>C
-      build: GRCh37
-      chr: '6'
-      pos: '32020512'
-      ref: T
-      alt: C
-    GRCh38:
-      gDNA: NC_000006.11:g.32020512T>C
-      build: GRCh38
-      chr: '6'
-      pos: '32052735'
-      ref: T
-      alt: C
-  - _id: GRCh38-19-55156278-GC-G
-    GRCh37:
-      gDNA: NC_000019.10:g.55156280del
-      build: GRCh37
-      chr: '19'
-      pos: '55667646'
-      ref: GC
-      alt: G
-    GRCh38:
-      gDNA: NC_000019.9:g.55667648del
-      build: GRCh38
-      chr: '19'
-      pos: '55156278'
-      ref: GC
-      alt: G
-  - _id: GRCh38-1-237700290-G-A
-    GRCh37:
-      gDNA: NC_000001.11:g.237700290G>A
-      build: GRCh37
-      chr: '1'
-      pos: '237863590'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000001.10:g.237863590G>A
-      build: GRCh38
-      chr: '1'
-      pos: '237700290'
-      ref: G
-      alt: A
-  - _id: GRCh38-2-178618188-C-T
-    GRCh37:
-      gDNA: NC_000002.12:g.178618188C>T
-      build: GRCh37
-      chr: '2'
-      pos: '179482915'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000002.11:g.179482915C>T
-      build: GRCh38
-      chr: '2'
-      pos: '178618188'
-      ref: C
-      alt: T
-  - _id: GRCh38-7-150951592-C-T
-    GRCh37:
-      gDNA: NC_000007.14:g.150951592C>T
-      build: GRCh37
-      chr: '7'
-      pos: '150648680'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000007.13:g.150648680C>T
-      build: GRCh38
-      chr: '7'
-      pos: '150951592'
-      ref: C
-      alt: T
-  - _id: GRCh38-15-73322831-C-T
-    GRCh37:
-      gDNA: NC_000015.10:g.73322831C>T
-      build: GRCh37
-      chr: '15'
-      pos: '73615172'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000015.9:g.73615172C>T
-      build: GRCh38
-      chr: '15'
-      pos: '73322831'
-      ref: C
-      alt: T
-  - _id: GRCh38-2-178658776-G-T
-    GRCh37:
-      gDNA: NC_000002.12:g.178658776G>T
-      build: GRCh37
-      chr: '2'
-      pos: '179523503'
-      ref: G
-      alt: T
-    GRCh38:
-      gDNA: NC_000002.11:g.179523503G>T
-      build: GRCh38
-      chr: '2'
-      pos: '178658776'
-      ref: G
-      alt: T
-  - _id: GRCh38-1-237654392-T-C
-    GRCh37:
-      gDNA: NC_000001.11:g.237654392T>C
-      build: GRCh37
-      chr: '1'
-      pos: '237817692'
-      ref: T
-      alt: C
-    GRCh38:
-      gDNA: NC_000001.10:g.237817692T>C
-      build: GRCh38
-      chr: '1'
-      pos: '237654392'
-      ref: T
-      alt: C
-  - _id: GRCh38-15-48437047-C-T
-    GRCh37:
-      gDNA: NC_000015.10:g.48437047C>T
-      build: GRCh37
-      chr: '15'
-      pos: '48729244'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000015.9:g.48729244C>T
-      build: GRCh38
-      chr: '15'
-      pos: '48437047'
-      ref: C
-      alt: T
-  - _id: GRCh38-7-94408198-C-A
-    GRCh37:
-      gDNA: NC_000007.14:g.94408198C>A
-      build: GRCh37
-      chr: '7'
-      pos: '94037510'
-      ref: C
-      alt: A
-    GRCh38:
-      gDNA: NC_000007.13:g.94037510C>A
-      build: GRCh38
-      chr: '7'
-      pos: '94408198'
-      ref: C
-      alt: A
-  - _id: GRCh38-12-32841196-C-T
-    GRCh37:
-      gDNA: NC_000012.12:g.32841196C>T
-      build: GRCh37
-      chr: '12'
-      pos: '32994130'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000012.11:g.32994130C>T
-      build: GRCh38
-      chr: '12'
-      pos: '32841196'
-      ref: C
-      alt: T
-  - _id: GRCh38-1-115701301-ATCATCATCT-A
-    GRCh37:
-      gDNA: NC_000001.11:g.115701310_115701318del
-      build: GRCh37
-      chr: '1'
-      pos: '116243922'
-      ref: ATCATCATCT
-      alt: A
-    GRCh38:
-      gDNA: NC_000001.10:g.116243931_116243939del
-      build: GRCh38
-      chr: '1'
-      pos: '115701301'
-      ref: ATCATCATCT
-      alt: A
-  - _id: GRCh38-12-32841196-C-T
-    GRCh37:
-      gDNA: NC_000012.12:g.32841196C>T
-      build: GRCh37
-      chr: '12'
-      pos: '32994130'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000012.11:g.32994130C>T
-      build: GRCh38
-      chr: '12'
-      pos: '32841196'
-      ref: C
-      alt: T
-  - _id: GRCh38-6-26092913-G-A
-    GRCh37:
-      gDNA: NC_000006.12:g.26092913G>A
-      build: GRCh37
-      chr: '6'
-      pos: '26093141'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000006.11:g.26093141G>A
-      build: GRCh38
-      chr: '6'
-      pos: '26092913'
-      ref: G
-      alt: A
-  - _id: GRCh38-9-134795115-C-T
-    GRCh37:
-      gDNA: NC_000009.12:g.134795115C>T
-      build: GRCh37
-      chr: '9'
-      pos: '137686961'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000009.11:g.137686961C>T
-      build: GRCh38
-      chr: '9'
-      pos: '134795115'
-      ref: C
-      alt: T
-  - _id: GRCh38-6-32095823-T-C
-    GRCh37:
-      gDNA: NC_000006.12:g.32095823T>C
-      build: GRCh37
-      chr: '6'
-      pos: '32063600'
-      ref: T
-      alt: C
-    GRCh38:
-      gDNA: NC_000006.11:g.32063600T>C
-      build: GRCh38
-      chr: '6'
-      pos: '32095823'
-      ref: T
-      alt: C
-  - _id: GRCh38-6-32068536-T-A
-    GRCh37:
-      gDNA: NC_000006.12:g.32068536T>A
-      build: GRCh37
-      chr: '6'
-      pos: '32036313'
-      ref: T
-      alt: A
-    GRCh38:
-      gDNA: NC_000006.11:g.32036313T>A
-      build: GRCh38
-      chr: '6'
-      pos: '32068536'
-      ref: T
-      alt: A
-  - _id: GRCh38-6-32064851-C-G
-    GRCh37:
-      gDNA: NC_000006.12:g.32064851C>G
-      build: GRCh37
-      chr: '6'
-      pos: '32032628'
-      ref: C
-      alt: G
-    GRCh38:
-      gDNA: NC_000006.11:g.32032628C>G
-      build: GRCh38
-      chr: '6'
-      pos: '32064851'
-      ref: C
-      alt: G
-  - _id: GRCh38-18-31524877-A-G
-    GRCh37:
-      gDNA: NC_000018.10:g.31524877A>G
-      build: GRCh37
-      chr: '18'
-      pos: '29104840'
-      ref: A
-      alt: G
-    GRCh38:
-      gDNA: NC_000018.9:g.29104840A>G
-      build: GRCh38
-      chr: '18'
-      pos: '31524877'
-      ref: A
-      alt: G
-  - _id: GRCh38-14-23423939-C-G
-    GRCh37:
-      gDNA: NC_000014.9:g.23423939C>G
-      build: GRCh37
-      chr: '14'
-      pos: '23893148'
-      ref: C
-      alt: G
-    GRCh38:
-      gDNA: NC_000014.8:g.23893148C>G
-      build: GRCh38
-      chr: '14'
-      pos: '23423939'
-      ref: C
-      alt: G
-  - _id: GRCh38-2-178548808-C-G
-    GRCh37:
-      gDNA: NC_000002.12:g.178548808C>G
-      build: GRCh37
-      chr: '2'
-      pos: '179413535'
-      ref: C
-      alt: G
-    GRCh38:
-      gDNA: NC_000002.11:g.179413535C>G
-      build: GRCh38
-      chr: '2'
-      pos: '178548808'
-      ref: C
-      alt: G
-  - _id: GRCh38-7-150957437-G-A
-    GRCh37:
-      gDNA: NC_000007.14:g.150957437G>A
-      build: GRCh37
-      chr: '7'
-      pos: '150654525'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000007.13:g.150654525G>A
-      build: GRCh38
-      chr: '7'
-      pos: '150957437'
-      ref: G
-      alt: A
-  - _id: GRCh38-1-115701253-ATCG-A
-    GRCh37:
-      gDNA: NC_000001.11:g.115701256_115701258del
-      build: GRCh37
-      chr: '1'
-      pos: '116243874'
-      ref: ATCG
-      alt: A
-    GRCh38:
-      gDNA: NC_000001.10:g.116243877_116243879del
-      build: GRCh38
-      chr: '1'
-      pos: '115701253'
-      ref: ATCG
-      alt: A
-  - _id: GRCh38-11-2585299-CTCAT-C
-    GRCh37:
-      gDNA: NC_000011.10:g.2585303_2585306del
-      build: GRCh37
-      chr: '11'
-      pos: '2606529'
-      ref: CTCAT
-      alt: C
-    GRCh38:
-      gDNA: NC_000011.9:g.2606533_2606536del
-      build: GRCh38
-      chr: '11'
-      pos: '2585299'
-      ref: CTCAT
-      alt: C
-  - _id: GRCh38-20-33408539-C-G
-    GRCh37:
-      gDNA: NC_000020.11:g.33408539C>G
-      build: GRCh37
-      chr: '20'
-      pos: '31996345'
-      ref: C
-      alt: G
-    GRCh38:
-      gDNA: NC_000020.10:g.31996345C>G
-      build: GRCh38
-      chr: '20'
-      pos: '33408539'
-      ref: C
-      alt: G
-  - _id: GRCh38-10-68195498-C-T
-    GRCh37:
-      gDNA: NC_000010.11:g.68195498C>T
-      build: GRCh37
-      chr: '10'
-      pos: '69955255'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000010.10:g.69955255C>T
-      build: GRCh38
-      chr: '10'
-      pos: '68195498'
-      ref: C
-      alt: T
-  - _id: GRCh38-6-112119209-C-A
-    GRCh37:
-      gDNA: NC_000006.12:g.112119209C>A
-      build: GRCh37
-      chr: '6'
-      pos: '112440412'
-      ref: C
-      alt: A
-    GRCh38:
-      gDNA: NC_000006.11:g.112440412C>A
-      build: GRCh38
-      chr: '6'
-      pos: '112119209'
-      ref: C
-      alt: A
-  - _id: GRCh38-10-88939558-C-T
-    GRCh37:
-      gDNA: NC_000010.11:g.88939558C>T
-      build: GRCh37
-      chr: '10'
-      pos: '90699315'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000010.10:g.90699315C>T
-      build: GRCh38
-      chr: '10'
-      pos: '88939558'
-      ref: C
-      alt: T
-  - _id: GRCh38-5-128345359-T-C
-    GRCh37:
-      gDNA: NC_000005.10:g.128345359T>C
-      build: GRCh37
-      chr: '5'
-      pos: '127681051'
-      ref: T
-      alt: C
-    GRCh38:
-      gDNA: NC_000005.9:g.127681051T>C
-      build: GRCh38
-      chr: '5'
-      pos: '128345359'
-      ref: T
-      alt: C
-  - _id: GRCh38-6-32056126-G-C
-    GRCh37:
-      gDNA: NC_000006.12:g.32056126G>C
-      build: GRCh37
-      chr: '6'
-      pos: '32023903'
-      ref: G
-      alt: C
-    GRCh38:
-      gDNA: NC_000006.11:g.32023903G>C
-      build: GRCh38
-      chr: '6'
-      pos: '32056126'
-      ref: G
-      alt: C
-  - _id: GRCh38-6-32052735-T-C
-    GRCh37:
-      gDNA: NC_000006.12:g.32052735T>C
-      build: GRCh37
-      chr: '6'
-      pos: '32020512'
-      ref: T
-      alt: C
-    GRCh38:
-      gDNA: NC_000006.11:g.32020512T>C
-      build: GRCh38
-      chr: '6'
-      pos: '32052735'
-      ref: T
-      alt: C
-  - _id: GRCh38-19-55156278-GC-G
-    GRCh37:
-      gDNA: NC_000019.10:g.55156280del
-      build: GRCh37
-      chr: '19'
-      pos: '55667646'
-      ref: GC
-      alt: G
-    GRCh38:
-      gDNA: NC_000019.9:g.55667648del
-      build: GRCh38
-      chr: '19'
-      pos: '55156278'
-      ref: GC
-      alt: G
-  - _id: GRCh38-1-237700290-G-A
-    GRCh37:
-      gDNA: NC_000001.11:g.237700290G>A
-      build: GRCh37
-      chr: '1'
-      pos: '237863590'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000001.10:g.237863590G>A
-      build: GRCh38
-      chr: '1'
-      pos: '237700290'
-      ref: G
-      alt: A
-  - _id: GRCh38-10-88939558-C-T
-    GRCh37:
-      gDNA: NC_000010.11:g.88939558C>T
-      build: GRCh37
-      chr: '10'
-      pos: '90699315'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000010.10:g.90699315C>T
-      build: GRCh38
-      chr: '10'
-      pos: '88939558'
-      ref: C
-      alt: T
-  - _id: GRCh38-5-128345359-T-C
-    GRCh37:
-      gDNA: NC_000005.10:g.128345359T>C
-      build: GRCh37
-      chr: '5'
-      pos: '127681051'
-      ref: T
-      alt: C
-    GRCh38:
-      gDNA: NC_000005.9:g.127681051T>C
-      build: GRCh38
-      chr: '5'
-      pos: '128345359'
-      ref: T
-      alt: C
-  - _id: GRCh38-6-32056126-G-C
-    GRCh37:
-      gDNA: NC_000006.12:g.32056126G>C
-      build: GRCh37
-      chr: '6'
-      pos: '32023903'
-      ref: G
-      alt: C
-    GRCh38:
-      gDNA: NC_000006.11:g.32023903G>C
-      build: GRCh38
-      chr: '6'
-      pos: '32056126'
-      ref: G
-      alt: C
-  - _id: GRCh38-6-32052735-T-C
-    GRCh37:
-      gDNA: NC_000006.12:g.32052735T>C
-      build: GRCh37
-      chr: '6'
-      pos: '32020512'
-      ref: T
-      alt: C
-    GRCh38:
-      gDNA: NC_000006.11:g.32020512T>C
-      build: GRCh38
-      chr: '6'
-      pos: '32052735'
-      ref: T
-      alt: C
-  - _id: GRCh38-19-55156278-GC-G
-    GRCh37:
-      gDNA: NC_000019.10:g.55156280del
-      build: GRCh37
-      chr: '19'
-      pos: '55667646'
-      ref: GC
-      alt: G
-    GRCh38:
-      gDNA: NC_000019.9:g.55667648del
-      build: GRCh38
-      chr: '19'
-      pos: '55156278'
-      ref: GC
-      alt: G
-  - _id: GRCh38-1-237700290-G-A
-    GRCh37:
-      gDNA: NC_000001.11:g.237700290G>A
-      build: GRCh37
-      chr: '1'
-      pos: '237863590'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000001.10:g.237863590G>A
-      build: GRCh38
-      chr: '1'
-      pos: '237700290'
-      ref: G
-      alt: A
-  - _id: GRCh38-19-11116928-G-A
-    GRCh37:
-      gDNA: NC_000019.10:g.11116928G>A
-      build: GRCh37
-      chr: '19'
-      pos: '11227604'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000019.9:g.11227604G>A
-      build: GRCh38
-      chr: '19'
-      pos: '11116928'
-      ref: G
-      alt: A
-  - _id: GRCh38-2-178714164-T-C
-    GRCh37:
-      gDNA: NC_000002.12:g.178714164T>C
-      build: GRCh37
-      chr: '2'
-      pos: '179578891'
-      ref: T
-      alt: C
-    GRCh38:
-      gDNA: NC_000002.11:g.179578891T>C
-      build: GRCh38
-      chr: '2'
-      pos: '178714164'
-      ref: T
-      alt: C
-  - _id: GRCh38-1-115740810-C-T
-    GRCh37:
-      gDNA: NC_000001.11:g.115740810C>T
-      build: GRCh37
-      chr: '1'
-      pos: '116283431'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000001.10:g.116283431C>T
-      build: GRCh38
-      chr: '1'
-      pos: '115740810'
-      ref: C
-      alt: T
   - _id: GRCh38-10-88939558-C-T
     GRCh37:
       gDNA: NC_000010.11:g.88939558C>T
@@ -4080,21 +3330,6 @@ data:
       build: GRCh38
       chr: '10'
       pos: '110821360'
-      ref: T
-      alt: C
-  - _id: GRCh38-2-178714164-T-C
-    GRCh37:
-      gDNA: NC_000002.12:g.178714164T>C
-      build: GRCh37
-      chr: '2'
-      pos: '179578891'
-      ref: T
-      alt: C
-    GRCh38:
-      gDNA: NC_000002.11:g.179578891T>C
-      build: GRCh38
-      chr: '2'
-      pos: '178714164'
       ref: T
       alt: C
   - _id: GRCh38-14-23426833-C-T
@@ -4877,36 +4112,6 @@ data:
       pos: '64314745'
       ref: T
       alt: C
-  - _id: GRCh38-11-47335897-A-T
-    GRCh37:
-      gDNA: NC_000011.10:g.47335897A>T
-      build: GRCh37
-      chr: '11'
-      pos: '47357448'
-      ref: A
-      alt: T
-    GRCh38:
-      gDNA: NC_000011.9:g.47357448A>T
-      build: GRCh38
-      chr: '11'
-      pos: '47335897'
-      ref: A
-      alt: T
-  - _id: GRCh38-2-178578125-G-A
-    GRCh37:
-      gDNA: NC_000002.12:g.178578125G>A
-      build: GRCh37
-      chr: '2'
-      pos: '179442852'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000002.11:g.179442852G>A
-      build: GRCh38
-      chr: '2'
-      pos: '178578125'
-      ref: G
-      alt: A
   - _id: GRCh38-7-128840598-G-A
     GRCh37:
       gDNA: NC_000007.14:g.128840598G>A
@@ -5057,96 +4262,6 @@ data:
       pos: '42543906'
       ref: G
       alt: A
-  - _id: GRCh38-16-2103694-G-C
-    GRCh37:
-      gDNA: NC_000016.10:g.2103694G>C
-      build: GRCh37
-      chr: '16'
-      pos: '2153695'
-      ref: G
-      alt: C
-    GRCh38:
-      gDNA: NC_000016.9:g.2153695G>C
-      build: GRCh38
-      chr: '16'
-      pos: '2103694'
-      ref: G
-      alt: C
-  - _id: GRCh38-21-46346741-A-G
-    GRCh37:
-      gDNA: NC_000021.9:g.46346741A>G
-      build: GRCh37
-      chr: '21'
-      pos: '47766655'
-      ref: A
-      alt: G
-    GRCh38:
-      gDNA: NC_000021.8:g.47766655A>G
-      build: GRCh38
-      chr: '21'
-      pos: '46346741'
-      ref: A
-      alt: G
-  - _id: GRCh38-16-2102443-G-C
-    GRCh37:
-      gDNA: NC_000016.10:g.2102443G>C
-      build: GRCh37
-      chr: '16'
-      pos: '2152444'
-      ref: G
-      alt: C
-    GRCh38:
-      gDNA: NC_000016.9:g.2152444G>C
-      build: GRCh38
-      chr: '16'
-      pos: '2102443'
-      ref: G
-      alt: C
-  - _id: GRCh38-X-134415068-G-A
-    GRCh37:
-      gDNA: NC_000023.11:g.134415068G>A
-      build: GRCh37
-      chr: X
-      pos: '133549098'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000023.10:g.133549098G>A
-      build: GRCh38
-      chr: X
-      pos: '134415068'
-      ref: G
-      alt: A
-  - _id: GRCh38-2-165991324-G-T
-    GRCh37:
-      gDNA: NC_000002.12:g.165991324G>T
-      build: GRCh37
-      chr: '2'
-      pos: '166847834'
-      ref: G
-      alt: T
-    GRCh38:
-      gDNA: NC_000002.11:g.166847834G>T
-      build: GRCh38
-      chr: '2'
-      pos: '165991324'
-      ref: G
-      alt: T
-  - _id: GRCh38-5-90653208-G-A
-    GRCh37:
-      gDNA: NC_000005.10:g.90653208G>A
-      build: GRCh37
-      chr: '5'
-      pos: '89949025'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000005.9:g.89949025G>A
-      build: GRCh38
-      chr: '5'
-      pos: '90653208'
-      ref: G
-      alt: A
   - _id: GRCh38-10-68422409-T-C
     GRCh37:
       gDNA: NC_000010.11:g.68422409T>C
@@ -5162,36 +4277,6 @@ data:
       pos: '68422409'
       ref: T
       alt: C
-  - _id: GRCh38-12-117860308-G-A
-    GRCh37:
-      gDNA: NC_000012.12:g.117860308G>A
-      build: GRCh37
-      chr: '12'
-      pos: '118298113'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000012.11:g.118298113G>A
-      build: GRCh38
-      chr: '12'
-      pos: '117860308'
-      ref: G
-      alt: A
-  - _id: GRCh38-19-39828461-G-A
-    GRCh37:
-      gDNA: NC_000019.10:g.39828461G>A
-      build: GRCh37
-      chr: '19'
-      pos: '40319101'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000019.9:g.40319101G>A
-      build: GRCh38
-      chr: '19'
-      pos: '39828461'
-      ref: G
-      alt: A
   - _id: GRCh38-4-1025286-ACT-A
     GRCh37:
       gDNA: NC_000004.12:g.1025290_1025291del
@@ -5882,81 +4967,6 @@ data:
       pos: '2092546'
       ref: CG
       alt: C
-  - _id: GRCh38-7-87417370-A-G
-    GRCh37:
-      gDNA: NC_000007.14:g.87417370A>G
-      build: GRCh37
-      chr: '7'
-      pos: '87046686'
-      ref: A
-      alt: G
-    GRCh38:
-      gDNA: NC_000007.13:g.87046686A>G
-      build: GRCh38
-      chr: '7'
-      pos: '87417370'
-      ref: A
-      alt: G
-  - _id: GRCh38-4-148194773-A-G
-    GRCh37:
-      gDNA: NC_000004.12:g.148194773A>G
-      build: GRCh37
-      chr: '4'
-      pos: '149115924'
-      ref: A
-      alt: G
-    GRCh38:
-      gDNA: NC_000004.11:g.149115924A>G
-      build: GRCh38
-      chr: '4'
-      pos: '148194773'
-      ref: A
-      alt: G
-  - _id: GRCh38-11-128840164-T-C
-    GRCh37:
-      gDNA: NC_000011.10:g.128840164T>C
-      build: GRCh37
-      chr: '11'
-      pos: '128710059'
-      ref: T
-      alt: C
-    GRCh38:
-      gDNA: NC_000011.9:g.128710059T>C
-      build: GRCh38
-      chr: '11'
-      pos: '128840164'
-      ref: T
-      alt: C
-  - _id: GRCh38-15-48220731-G-T
-    GRCh37:
-      gDNA: NC_000015.10:g.48220731G>T
-      build: GRCh37
-      chr: '15'
-      pos: '48512928'
-      ref: G
-      alt: T
-    GRCh38:
-      gDNA: NC_000015.9:g.48512928G>T
-      build: GRCh38
-      chr: '15'
-      pos: '48220731'
-      ref: G
-      alt: T
-  - _id: GRCh38-21-42375852-G-A
-    GRCh37:
-      gDNA: NC_000021.9:g.42375852G>A
-      build: GRCh37
-      chr: '21'
-      pos: '43795961'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000021.8:g.43795961G>A
-      build: GRCh38
-      chr: '21'
-      pos: '42375852'
-      ref: G
-      alt: A
   - _id: GRCh38-2-218890244-G-A
     GRCh37:
       gDNA: NC_000002.12:g.218890244G>A
@@ -5972,21 +4982,6 @@ data:
       pos: '218890244'
       ref: G
       alt: A
-  - _id: GRCh38-2-218892806-G-GTGCCACGGCACGTCAGGCAGC
-    GRCh37:
-      gDNA: NC_000002.12:g.218892812_218892832dup
-      build: GRCh37
-      chr: '2'
-      pos: '219757528'
-      ref: G
-      alt: GTGCCACGGCACGTCAGGCAGC
-    GRCh38:
-      gDNA: NC_000002.11:g.219757534_219757554dup
-      build: GRCh38
-      chr: '2'
-      pos: '218892806'
-      ref: G
-      alt: GTGCCACGGCACGTCAGGCAGC
   - _id: GRCh38-9-74665597-T-C
     GRCh37:
       gDNA: NC_000009.12:g.74665597T>C
@@ -6002,21 +4997,6 @@ data:
       pos: '74665597'
       ref: T
       alt: C
-  - _id: GRCh38-X-134415068-G-A
-    GRCh37:
-      gDNA: NC_000023.11:g.134415068G>A
-      build: GRCh37
-      chr: X
-      pos: '133549098'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000023.10:g.133549098G>A
-      build: GRCh38
-      chr: X
-      pos: '134415068'
-      ref: G
-      alt: A
   - _id: GRCh38-X-101397837-A-G
     GRCh37:
       gDNA: NC_000023.11:g.101397837A>G
@@ -6107,21 +5087,6 @@ data:
       pos: '144399905'
       ref: C
       alt: CTCCT
-  - _id: GRCh38-16-2118220-TG-T
-    GRCh37:
-      gDNA: NC_000016.10:g.2118225del
-      build: GRCh37
-      chr: '16'
-      pos: '2168221'
-      ref: TG
-      alt: T
-    GRCh38:
-      gDNA: NC_000016.9:g.2168226del
-      build: GRCh38
-      chr: '16'
-      pos: '2118220'
-      ref: TG
-      alt: T
   - _id: GRCh38-2-26244592-A-ACC
     GRCh37:
       gDNA: NC_000002.12:g.26244593_26244594dup
@@ -6587,21 +5552,6 @@ data:
       pos: '15187901'
       ref: T
       alt: C
-  - _id: GRCh38-8-117819793-AC-A
-    GRCh37:
-      gDNA: NC_000008.11:g.117819795del
-      build: GRCh37
-      chr: '8'
-      pos: '118832032'
-      ref: AC
-      alt: A
-    GRCh38:
-      gDNA: NC_000008.10:g.118832034del
-      build: GRCh38
-      chr: '8'
-      pos: '117819793'
-      ref: AC
-      alt: A
   - _id: GRCh38-8-118110120-AT-A
     GRCh37:
       gDNA: NC_000008.11:g.118110121del
@@ -9017,36 +7967,6 @@ data:
       pos: '31507416'
       ref: T
       alt: C
-  - _id: GRCh38-10-68197360-C-T
-    GRCh37:
-      gDNA: NC_000010.11:g.68197360C>T
-      build: GRCh37
-      chr: '10'
-      pos: '69957117'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000010.10:g.69957117C>T
-      build: GRCh38
-      chr: '10'
-      pos: '68197360'
-      ref: C
-      alt: T
-  - _id: GRCh38-12-2593248-G-A
-    GRCh37:
-      gDNA: NC_000012.12:g.2593248G>A
-      build: GRCh37
-      chr: '12'
-      pos: '2702414'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000012.11:g.2702414G>A
-      build: GRCh38
-      chr: '12'
-      pos: '2593248'
-      ref: G
-      alt: A
   - _id: GRCh38-15-63042897-A-C
     GRCh37:
       gDNA: NC_000015.10:g.63042897A>C
@@ -9107,21 +8027,6 @@ data:
       pos: '47332968'
       ref: C
       alt: CCACT
-  - _id: GRCh38-10-110821360-T-C
-    GRCh37:
-      gDNA: NC_000010.11:g.110821360T>C
-      build: GRCh37
-      chr: '10'
-      pos: '112581118'
-      ref: T
-      alt: C
-    GRCh38:
-      gDNA: NC_000010.10:g.112581118T>C
-      build: GRCh38
-      chr: '10'
-      pos: '110821360'
-      ref: T
-      alt: C
   - _id: GRCh38-2-178630272-AT-A
     GRCh37:
       gDNA: NC_000002.12:g.178630274del
@@ -9287,36 +8192,6 @@ data:
       pos: '237657959'
       ref: G
       alt: T
-  - _id: GRCh38-19-11116928-G-A
-    GRCh37:
-      gDNA: NC_000019.10:g.11116928G>A
-      build: GRCh37
-      chr: '19'
-      pos: '11227604'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000019.9:g.11227604G>A
-      build: GRCh38
-      chr: '19'
-      pos: '11116928'
-      ref: G
-      alt: A
-  - _id: GRCh38-11-2585299-CTCAT-C
-    GRCh37:
-      gDNA: NC_000011.10:g.2585303_2585306del
-      build: GRCh37
-      chr: '11'
-      pos: '2606529'
-      ref: CTCAT
-      alt: C
-    GRCh38:
-      gDNA: NC_000011.9:g.2606533_2606536del
-      build: GRCh38
-      chr: '11'
-      pos: '2585299'
-      ref: CTCAT
-      alt: C
   - _id: GRCh38-11-2527954-T-G
     GRCh37:
       gDNA: NC_000011.10:g.2527954T>G
@@ -9422,21 +8297,6 @@ data:
       pos: '110821356'
       ref: G
       alt: A
-  - _id: GRCh38-10-110821356-G-A
-    GRCh37:
-      gDNA: NC_000010.11:g.110821356G>A
-      build: GRCh37
-      chr: '10'
-      pos: '112581114'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000010.10:g.112581114G>A
-      build: GRCh38
-      chr: '10'
-      pos: '110821356'
-      ref: G
-      alt: A
   - _id: GRCh38-15-63064133-T-C
     GRCh37:
       gDNA: NC_000015.10:g.63064133T>C
@@ -9512,21 +8372,6 @@ data:
       pos: '178800562'
       ref: C
       alt: T
-  - _id: GRCh38-11-47335897-A-T
-    GRCh37:
-      gDNA: NC_000011.10:g.47335897A>T
-      build: GRCh37
-      chr: '11'
-      pos: '47357448'
-      ref: A
-      alt: T
-    GRCh38:
-      gDNA: NC_000011.9:g.47357448A>T
-      build: GRCh38
-      chr: '11'
-      pos: '47335897'
-      ref: A
-      alt: T
   - _id: GRCh38-7-150959593-G-C
     GRCh37:
       gDNA: NC_000007.14:g.150959593G>C
@@ -9557,51 +8402,6 @@ data:
       pos: '178682732'
       ref: T
       alt: C
-  - _id: GRCh38-11-47335897-A-T
-    GRCh37:
-      gDNA: NC_000011.10:g.47335897A>T
-      build: GRCh37
-      chr: '11'
-      pos: '47357448'
-      ref: A
-      alt: T
-    GRCh38:
-      gDNA: NC_000011.9:g.47357448A>T
-      build: GRCh38
-      chr: '11'
-      pos: '47335897'
-      ref: A
-      alt: T
-  - _id: GRCh38-2-178578125-G-A
-    GRCh37:
-      gDNA: NC_000002.12:g.178578125G>A
-      build: GRCh37
-      chr: '2'
-      pos: '179442852'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000002.11:g.179442852G>A
-      build: GRCh38
-      chr: '2'
-      pos: '178578125'
-      ref: G
-      alt: A
-  - _id: GRCh38-11-47335897-A-T
-    GRCh37:
-      gDNA: NC_000011.10:g.47335897A>T
-      build: GRCh37
-      chr: '11'
-      pos: '47357448'
-      ref: A
-      alt: T
-    GRCh38:
-      gDNA: NC_000011.9:g.47357448A>T
-      build: GRCh38
-      chr: '11'
-      pos: '47335897'
-      ref: A
-      alt: T
   - _id: GRCh38-14-23424912-C-G
     GRCh37:
       gDNA: NC_000014.9:g.23424912C>G
@@ -10007,21 +8807,6 @@ data:
       pos: '74090133'
       ref: T
       alt: A
-  - _id: GRCh38-14-23416185-A-T
-    GRCh37:
-      gDNA: NC_000014.9:g.23416185A>T
-      build: GRCh37
-      chr: '14'
-      pos: '23885394'
-      ref: A
-      alt: T
-    GRCh38:
-      gDNA: NC_000014.8:g.23885394A>T
-      build: GRCh38
-      chr: '14'
-      pos: '23416185'
-      ref: A
-      alt: T
   - _id: GRCh38-1-237454490-C-A
     GRCh37:
       gDNA: NC_000001.11:g.237454490C>A
@@ -10382,21 +9167,6 @@ data:
       pos: '2528019'
       ref: G
       alt: A
-  - _id: GRCh38-2-219418712-G-A
-    GRCh37:
-      gDNA: NC_000002.12:g.219418712G>A
-      build: GRCh37
-      chr: '2'
-      pos: '220283434'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000002.11:g.220283434G>A
-      build: GRCh38
-      chr: '2'
-      pos: '219418712'
-      ref: G
-      alt: A
   - _id: GRCh38-7-128841487-G-A
     GRCh37:
       gDNA: NC_000007.14:g.128841487G>A
@@ -10502,51 +9272,6 @@ data:
       pos: '178564323'
       ref: A
       alt: G
-  - _id: GRCh38-19-55151841-T-G
-    GRCh37:
-      gDNA: NC_000019.10:g.55151841T>G
-      build: GRCh37
-      chr: '19'
-      pos: '55663209'
-      ref: T
-      alt: G
-    GRCh38:
-      gDNA: NC_000019.9:g.55663209T>G
-      build: GRCh38
-      chr: '19'
-      pos: '55151841'
-      ref: T
-      alt: G
-  - _id: GRCh38-11-47346336-C-T
-    GRCh37:
-      gDNA: NC_000011.10:g.47346336C>T
-      build: GRCh37
-      chr: '11'
-      pos: '47367887'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000011.9:g.47367887C>T
-      build: GRCh38
-      chr: '11'
-      pos: '47346336'
-      ref: C
-      alt: T
-  - _id: GRCh38-17-80104597-G-A
-    GRCh37:
-      gDNA: NC_000017.11:g.80104597G>A
-      build: GRCh37
-      chr: '17'
-      pos: '78078396'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000017.10:g.78078396G>A
-      build: GRCh38
-      chr: '17'
-      pos: '80104597'
-      ref: G
-      alt: A
   - _id: GRCh38-14-23403364-C-G
     GRCh37:
       gDNA: NC_000014.9:g.23403364C>G
@@ -10637,21 +9362,6 @@ data:
       pos: '75822827'
       ref: A
       alt: G
-  - _id: GRCh38-11-47347856-C-T
-    GRCh37:
-      gDNA: NC_000011.10:g.47347856C>T
-      build: GRCh37
-      chr: '11'
-      pos: '47369407'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000011.9:g.47369407C>T
-      build: GRCh38
-      chr: '11'
-      pos: '47347856'
-      ref: C
-      alt: T
   - _id: GRCh38-6-123352541-T-C
     GRCh37:
       gDNA: NC_000006.12:g.123352541T>C
@@ -10696,21 +9406,6 @@ data:
       chr: '10'
       pos: '119669882'
       ref: G
-      alt: T
-  - _id: GRCh38-1-237655873-C-T
-    GRCh37:
-      gDNA: NC_000001.11:g.237655873C>T
-      build: GRCh37
-      chr: '1'
-      pos: '237819173'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000001.10:g.237819173C>T
-      build: GRCh38
-      chr: '1'
-      pos: '237655873'
-      ref: C
       alt: T
   - _id: GRCh38-1-237798079-A-G
     GRCh37:
@@ -10892,21 +9587,6 @@ data:
       pos: '128911998'
       ref: G
       alt: A
-  - _id: GRCh38-6-26092913-G-A
-    GRCh37:
-      gDNA: NC_000006.12:g.26092913G>A
-      build: GRCh37
-      chr: '6'
-      pos: '26093141'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000006.11:g.26093141G>A
-      build: GRCh38
-      chr: '6'
-      pos: '26092913'
-      ref: G
-      alt: A
   - _id: GRCh38-11-47346372-T-C
     GRCh37:
       gDNA: NC_000011.10:g.47346372T>C
@@ -10921,66 +9601,6 @@ data:
       chr: '11'
       pos: '47346372'
       ref: T
-      alt: C
-  - _id: GRCh38-11-47346372-T-C
-    GRCh37:
-      gDNA: NC_000011.10:g.47346372T>C
-      build: GRCh37
-      chr: '11'
-      pos: '47367923'
-      ref: T
-      alt: C
-    GRCh38:
-      gDNA: NC_000011.9:g.47367923T>C
-      build: GRCh38
-      chr: '11'
-      pos: '47346372'
-      ref: T
-      alt: C
-  - _id: GRCh38-6-26092913-G-A
-    GRCh37:
-      gDNA: NC_000006.12:g.26092913G>A
-      build: GRCh37
-      chr: '6'
-      pos: '26093141'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000006.11:g.26093141G>A
-      build: GRCh38
-      chr: '6'
-      pos: '26092913'
-      ref: G
-      alt: A
-  - _id: GRCh38-12-32796233-T-C
-    GRCh37:
-      gDNA: NC_000012.12:g.32796233T>C
-      build: GRCh37
-      chr: '12'
-      pos: '32949167'
-      ref: T
-      alt: C
-    GRCh38:
-      gDNA: NC_000012.11:g.32949167T>C
-      build: GRCh38
-      chr: '12'
-      pos: '32796233'
-      ref: T
-      alt: C
-  - _id: GRCh38-2-178785860-G-C
-    GRCh37:
-      gDNA: NC_000002.12:g.178785860G>C
-      build: GRCh37
-      chr: '2'
-      pos: '179650587'
-      ref: G
-      alt: C
-    GRCh38:
-      gDNA: NC_000002.11:g.179650587G>C
-      build: GRCh38
-      chr: '2'
-      pos: '178785860'
-      ref: G
       alt: C
   - _id: GRCh38-16-870835-C-G
     GRCh37:
@@ -11102,21 +9722,6 @@ data:
       pos: '3243407'
       ref: T
       alt: C
-  - _id: GRCh38-16-3243310-A-G
-    GRCh37:
-      gDNA: NC_000016.10:g.3243310A>G
-      build: GRCh37
-      chr: '16'
-      pos: '3293310'
-      ref: A
-      alt: G
-    GRCh38:
-      gDNA: NC_000016.9:g.3293310A>G
-      build: GRCh38
-      chr: '16'
-      pos: '3243310'
-      ref: A
-      alt: G
   - _id: GRCh38-2-218814752-G-A
     GRCh37:
       gDNA: NC_000002.12:g.218814752G>A
@@ -11177,36 +9782,6 @@ data:
       pos: '178707718'
       ref: C
       alt: T
-  - _id: GRCh38-3-123618662-G-A
-    GRCh37:
-      gDNA: NC_000003.12:g.123618662G>A
-      build: GRCh37
-      chr: '3'
-      pos: '123337509'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000003.11:g.123337509G>A
-      build: GRCh38
-      chr: '3'
-      pos: '123618662'
-      ref: G
-      alt: A
-  - _id: GRCh38-14-23431438-G-T
-    GRCh37:
-      gDNA: NC_000014.9:g.23431438G>T
-      build: GRCh37
-      chr: '14'
-      pos: '23900647'
-      ref: G
-      alt: T
-    GRCh38:
-      gDNA: NC_000014.8:g.23900647G>T
-      build: GRCh38
-      chr: '14'
-      pos: '23431438'
-      ref: G
-      alt: T
   - _id: GRCh38-10-74097263-T-A
     GRCh37:
       gDNA: NC_000010.11:g.74097263T>A
@@ -11221,21 +9796,6 @@ data:
       chr: '10'
       pos: '74097263'
       ref: T
-      alt: A
-  - _id: GRCh38-1-237785999-G-A
-    GRCh37:
-      gDNA: NC_000001.11:g.237785999G>A
-      build: GRCh37
-      chr: '1'
-      pos: '237949299'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000001.10:g.237949299G>A
-      build: GRCh38
-      chr: '1'
-      pos: '237785999'
-      ref: G
       alt: A
   - _id: GRCh38-2-178546795-G-A
     GRCh37:
@@ -11267,21 +9827,6 @@ data:
       pos: '178572528'
       ref: G
       alt: T
-  - _id: GRCh38-11-47335165-ATG-A
-    GRCh37:
-      gDNA: NC_000011.10:g.47335170_47335171del
-      build: GRCh37
-      chr: '11'
-      pos: '47356716'
-      ref: ATG
-      alt: A
-    GRCh38:
-      gDNA: NC_000011.9:g.47356721_47356722del
-      build: GRCh38
-      chr: '11'
-      pos: '47335165'
-      ref: ATG
-      alt: A
   - _id: GRCh38-6-7581196-T-C
     GRCh37:
       gDNA: NC_000006.12:g.7581196T>C
@@ -11401,81 +9946,6 @@ data:
       chr: '19'
       pos: '55156248'
       ref: G
-      alt: A
-  - _id: GRCh38-4-113358702-T-A
-    GRCh37:
-      gDNA: NC_000004.12:g.113358702T>A
-      build: GRCh37
-      chr: '4'
-      pos: '114279858'
-      ref: T
-      alt: A
-    GRCh38:
-      gDNA: NC_000004.11:g.114279858T>A
-      build: GRCh38
-      chr: '4'
-      pos: '113358702'
-      ref: T
-      alt: A
-  - _id: GRCh38-3-38613781-C-T
-    GRCh37:
-      gDNA: NC_000003.12:g.38613781C>T
-      build: GRCh37
-      chr: '3'
-      pos: '38655272'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000003.11:g.38655272C>T
-      build: GRCh38
-      chr: '3'
-      pos: '38613781'
-      ref: C
-      alt: T
-  - _id: GRCh38-11-47337729-A-AC
-    GRCh37:
-      gDNA: NC_000011.10:g.47337730dup
-      build: GRCh37
-      chr: '11'
-      pos: '47359280'
-      ref: A
-      alt: AC
-    GRCh38:
-      gDNA: NC_000011.9:g.47359281dup
-      build: GRCh38
-      chr: '11'
-      pos: '47337729'
-      ref: A
-      alt: AC
-  - _id: GRCh38-3-32159585-G-T
-    GRCh37:
-      gDNA: NC_000003.12:g.32159585G>T
-      build: GRCh37
-      chr: '3'
-      pos: '32201077'
-      ref: G
-      alt: T
-    GRCh38:
-      gDNA: NC_000003.11:g.32201077G>T
-      build: GRCh38
-      chr: '3'
-      pos: '32159585'
-      ref: G
-      alt: T
-  - _id: GRCh38-2-178582402-C-A
-    GRCh37:
-      gDNA: NC_000002.12:g.178582402C>A
-      build: GRCh37
-      chr: '2'
-      pos: '179447129'
-      ref: C
-      alt: A
-    GRCh38:
-      gDNA: NC_000002.11:g.179447129C>A
-      build: GRCh38
-      chr: '2'
-      pos: '178582402'
-      ref: C
       alt: A
   - _id: GRCh38-4-99611445-G-A
     GRCh37:
@@ -11792,51 +10262,6 @@ data:
       pos: '2585311'
       ref: C
       alt: T
-  - _id: GRCh38-14-23431438-G-T
-    GRCh37:
-      gDNA: NC_000014.9:g.23431438G>T
-      build: GRCh37
-      chr: '14'
-      pos: '23900647'
-      ref: G
-      alt: T
-    GRCh38:
-      gDNA: NC_000014.8:g.23900647G>T
-      build: GRCh38
-      chr: '14'
-      pos: '23431438'
-      ref: G
-      alt: T
-  - _id: GRCh38-10-74097263-T-A
-    GRCh37:
-      gDNA: NC_000010.11:g.74097263T>A
-      build: GRCh37
-      chr: '10'
-      pos: '75857021'
-      ref: T
-      alt: A
-    GRCh38:
-      gDNA: NC_000010.10:g.75857021T>A
-      build: GRCh38
-      chr: '10'
-      pos: '74097263'
-      ref: T
-      alt: A
-  - _id: GRCh38-1-237785999-G-A
-    GRCh37:
-      gDNA: NC_000001.11:g.237785999G>A
-      build: GRCh37
-      chr: '1'
-      pos: '237949299'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000001.10:g.237949299G>A
-      build: GRCh38
-      chr: '1'
-      pos: '237785999'
-      ref: G
-      alt: A
   - _id: GRCh38-6-7579323-C-T
     GRCh37:
       gDNA: NC_000006.12:g.7579323C>T
@@ -11850,66 +10275,6 @@ data:
       build: GRCh38
       chr: '6'
       pos: '7579323'
-      ref: C
-      alt: T
-  - _id: GRCh38-1-236718930-G-A
-    GRCh37:
-      gDNA: NC_000001.11:g.236718930G>A
-      build: GRCh37
-      chr: '1'
-      pos: '236882230'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000001.10:g.236882230G>A
-      build: GRCh38
-      chr: '1'
-      pos: '236718930'
-      ref: G
-      alt: A
-  - _id: GRCh38-11-47347856-C-T
-    GRCh37:
-      gDNA: NC_000011.10:g.47347856C>T
-      build: GRCh37
-      chr: '11'
-      pos: '47369407'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000011.9:g.47369407C>T
-      build: GRCh38
-      chr: '11'
-      pos: '47347856'
-      ref: C
-      alt: T
-  - _id: GRCh38-1-236718930-G-A
-    GRCh37:
-      gDNA: NC_000001.11:g.236718930G>A
-      build: GRCh37
-      chr: '1'
-      pos: '236882230'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000001.10:g.236882230G>A
-      build: GRCh38
-      chr: '1'
-      pos: '236718930'
-      ref: G
-      alt: A
-  - _id: GRCh38-11-47347856-C-T
-    GRCh37:
-      gDNA: NC_000011.10:g.47347856C>T
-      build: GRCh37
-      chr: '11'
-      pos: '47369407'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000011.9:g.47369407C>T
-      build: GRCh38
-      chr: '11'
-      pos: '47347856'
       ref: C
       alt: T
   - _id: GRCh38-15-48445432-A-C
@@ -11927,36 +10292,6 @@ data:
       pos: '48445432'
       ref: A
       alt: C
-  - _id: GRCh38-2-218814154-C-T
-    GRCh37:
-      gDNA: NC_000002.12:g.218814154C>T
-      build: GRCh37
-      chr: '2'
-      pos: '219678877'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000002.11:g.219678877C>T
-      build: GRCh38
-      chr: '2'
-      pos: '218814154'
-      ref: C
-      alt: T
-  - _id: GRCh38-6-26092913-G-A
-    GRCh37:
-      gDNA: NC_000006.12:g.26092913G>A
-      build: GRCh37
-      chr: '6'
-      pos: '26093141'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000006.11:g.26093141G>A
-      build: GRCh38
-      chr: '6'
-      pos: '26092913'
-      ref: G
-      alt: A
   - _id: GRCh38-6-26090951-C-G
     GRCh37:
       gDNA: NC_000006.12:g.26090951C>G
@@ -12137,21 +10472,6 @@ data:
       pos: '32878511'
       ref: C
       alt: T
-  - _id: GRCh38-12-32878511-C-T
-    GRCh37:
-      gDNA: NC_000012.12:g.32878511C>T
-      build: GRCh37
-      chr: '12'
-      pos: '33031445'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000012.11:g.33031445C>T
-      build: GRCh38
-      chr: '12'
-      pos: '32878511'
-      ref: C
-      alt: T
   - _id: GRCh38-19-11129552-G-A
     GRCh37:
       gDNA: NC_000019.10:g.11129552G>A
@@ -12182,21 +10502,6 @@ data:
       pos: '189009026'
       ref: G
       alt: A
-  - _id: GRCh38-6-7579323-C-T
-    GRCh37:
-      gDNA: NC_000006.12:g.7579323C>T
-      build: GRCh37
-      chr: '6'
-      pos: '7579556'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000006.11:g.7579556C>T
-      build: GRCh38
-      chr: '6'
-      pos: '7579323'
-      ref: C
-      alt: T
   - _id: GRCh38-7-92077747-A-G
     GRCh37:
       gDNA: NC_000007.14:g.92077747A>G
@@ -12242,21 +10547,6 @@ data:
       pos: '2679471'
       ref: G
       alt: A
-  - _id: GRCh38-11-47337729-A-AC
-    GRCh37:
-      gDNA: NC_000011.10:g.47337730dup
-      build: GRCh37
-      chr: '11'
-      pos: '47359280'
-      ref: A
-      alt: AC
-    GRCh38:
-      gDNA: NC_000011.9:g.47359281dup
-      build: GRCh38
-      chr: '11'
-      pos: '47337729'
-      ref: A
-      alt: AC
   - _id: GRCh38-2-178727824-G-T
     GRCh37:
       gDNA: NC_000002.12:g.178727824G>T
@@ -12317,36 +10607,6 @@ data:
       pos: '178728232'
       ref: C
       alt: A
-  - _id: GRCh38-10-68199500-G-A
-    GRCh37:
-      gDNA: NC_000010.11:g.68199500G>A
-      build: GRCh37
-      chr: '10'
-      pos: '69959257'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000010.10:g.69959257G>A
-      build: GRCh38
-      chr: '10'
-      pos: '68199500'
-      ref: G
-      alt: A
-  - _id: GRCh38-1-237781637-A-G
-    GRCh37:
-      gDNA: NC_000001.11:g.237781637A>G
-      build: GRCh37
-      chr: '1'
-      pos: '237944937'
-      ref: A
-      alt: G
-    GRCh38:
-      gDNA: NC_000001.10:g.237944937A>G
-      build: GRCh38
-      chr: '1'
-      pos: '237781637'
-      ref: A
-      alt: G
   - _id: GRCh38-14-23415681-G-A
     GRCh37:
       gDNA: NC_000014.9:g.23415681G>A
@@ -12422,36 +10682,6 @@ data:
       pos: '150951711'
       ref: G
       alt: A
-  - _id: GRCh38-6-26092913-G-A
-    GRCh37:
-      gDNA: NC_000006.12:g.26092913G>A
-      build: GRCh37
-      chr: '6'
-      pos: '26093141'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000006.11:g.26093141G>A
-      build: GRCh38
-      chr: '6'
-      pos: '26092913'
-      ref: G
-      alt: A
-  - _id: GRCh38-6-26090951-C-G
-    GRCh37:
-      gDNA: NC_000006.12:g.26090951C>G
-      build: GRCh37
-      chr: '6'
-      pos: '26091179'
-      ref: C
-      alt: G
-    GRCh38:
-      gDNA: NC_000006.11:g.26091179C>G
-      build: GRCh38
-      chr: '6'
-      pos: '26090951'
-      ref: C
-      alt: G
   - _id: GRCh38-14-23425403-C-T
     GRCh37:
       gDNA: NC_000014.9:g.23425403C>T
@@ -12692,21 +10922,6 @@ data:
       pos: '23425970'
       ref: C
       alt: T
-  - _id: GRCh38-3-46860813-G-T
-    GRCh37:
-      gDNA: NC_000003.12:g.46860813G>T
-      build: GRCh37
-      chr: '3'
-      pos: '46902303'
-      ref: G
-      alt: T
-    GRCh38:
-      gDNA: NC_000003.11:g.46902303G>T
-      build: GRCh38
-      chr: '3'
-      pos: '46860813'
-      ref: G
-      alt: T
   - _id: GRCh38-17-80116985-G-A
     GRCh37:
       gDNA: NC_000017.11:g.80116985G>A
@@ -12752,21 +10967,6 @@ data:
       pos: '150958107'
       ref: C
       alt: G
-  - _id: GRCh38-11-47335165-ATG-A
-    GRCh37:
-      gDNA: NC_000011.10:g.47335170_47335171del
-      build: GRCh37
-      chr: '11'
-      pos: '47356716'
-      ref: ATG
-      alt: A
-    GRCh38:
-      gDNA: NC_000011.9:g.47356721_47356722del
-      build: GRCh38
-      chr: '11'
-      pos: '47335165'
-      ref: ATG
-      alt: A
   - _id: GRCh38-18-3075718-GACTT-G
     GRCh37:
       gDNA: NC_000018.10:g.3075723_3075726del
@@ -12782,21 +10982,6 @@ data:
       pos: '3075718'
       ref: GACTT
       alt: G
-  - _id: GRCh38-1-237700290-G-A
-    GRCh37:
-      gDNA: NC_000001.11:g.237700290G>A
-      build: GRCh37
-      chr: '1'
-      pos: '237863590'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000001.10:g.237863590G>A
-      build: GRCh38
-      chr: '1'
-      pos: '237700290'
-      ref: G
-      alt: A
   - _id: GRCh38-10-74097240-G-A
     GRCh37:
       gDNA: NC_000010.11:g.74097240G>A
@@ -12917,51 +11102,6 @@ data:
       pos: '35231567'
       ref: T
       alt: C
-  - _id: GRCh38-2-219637644-GA-CC
-    GRCh37:
-      gDNA: NC_000002.12:g.219637644_219637645delinsCC
-      build: GRCh37
-      chr: '2'
-      pos: '220502366'
-      ref: GA
-      alt: CC
-    GRCh38:
-      gDNA: NC_000002.11:g.220502366_220502367delinsCC
-      build: GRCh38
-      chr: '2'
-      pos: '219637644'
-      ref: GA
-      alt: CC
-  - _id: GRCh38-6-26092913-G-A
-    GRCh37:
-      gDNA: NC_000006.12:g.26092913G>A
-      build: GRCh37
-      chr: '6'
-      pos: '26093141'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000006.11:g.26093141G>A
-      build: GRCh38
-      chr: '6'
-      pos: '26092913'
-      ref: G
-      alt: A
-  - _id: GRCh38-6-26090951-C-G
-    GRCh37:
-      gDNA: NC_000006.12:g.26090951C>G
-      build: GRCh37
-      chr: '6'
-      pos: '26091179'
-      ref: C
-      alt: G
-    GRCh38:
-      gDNA: NC_000006.11:g.26091179C>G
-      build: GRCh38
-      chr: '6'
-      pos: '26090951'
-      ref: C
-      alt: G
   - _id: GRCh38-11-2847858-G-GC
     GRCh37:
       gDNA: NC_000011.10:g.2847865dup
@@ -13052,21 +11192,6 @@ data:
       pos: '178785928'
       ref: C
       alt: T
-  - _id: GRCh38-2-178560805-C-T
-    GRCh37:
-      gDNA: NC_000002.12:g.178560805C>T
-      build: GRCh37
-      chr: '2'
-      pos: '179425532'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000002.11:g.179425532C>T
-      build: GRCh38
-      chr: '2'
-      pos: '178560805'
-      ref: C
-      alt: T
   - _id: GRCh38-12-2597249-T-C
     GRCh37:
       gDNA: NC_000012.12:g.2597249T>C
@@ -13127,21 +11252,6 @@ data:
       pos: '27503679'
       ref: A
       alt: G
-  - _id: GRCh38-9-104837095-A-G
-    GRCh37:
-      gDNA: NC_000009.12:g.104837095A>G
-      build: GRCh37
-      chr: '9'
-      pos: '107599376'
-      ref: A
-      alt: G
-    GRCh38:
-      gDNA: NC_000009.11:g.107599376A>G
-      build: GRCh38
-      chr: '9'
-      pos: '104837095'
-      ref: A
-      alt: G
   - _id: GRCh38-16-869041-C-T
     GRCh37:
       gDNA: NC_000016.10:g.869041C>T
@@ -13157,21 +11267,6 @@ data:
       pos: '869041'
       ref: C
       alt: T
-  - _id: GRCh38-18-31524877-A-G
-    GRCh37:
-      gDNA: NC_000018.10:g.31524877A>G
-      build: GRCh37
-      chr: '18'
-      pos: '29104840'
-      ref: A
-      alt: G
-    GRCh38:
-      gDNA: NC_000018.9:g.29104840A>G
-      build: GRCh38
-      chr: '18'
-      pos: '31524877'
-      ref: A
-      alt: G
   - _id: GRCh38-12-32896513-G-GC
     GRCh37:
       gDNA: NC_000012.12:g.32896516dup
@@ -13247,21 +11342,6 @@ data:
       pos: '156137678'
       ref: C
       alt: T
-  - _id: GRCh38-2-178689897-C-T
-    GRCh37:
-      gDNA: NC_000002.12:g.178689897C>T
-      build: GRCh37
-      chr: '2'
-      pos: '179554624'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000002.11:g.179554624C>T
-      build: GRCh38
-      chr: '2'
-      pos: '178689897'
-      ref: C
-      alt: T
   - _id: GRCh38-1-228211879-G-T
     GRCh37:
       gDNA: NC_000001.11:g.228211879G>T
@@ -13292,21 +11372,6 @@ data:
       pos: '32879021'
       ref: G
       alt: A
-  - _id: GRCh38-12-32868983-C-G
-    GRCh37:
-      gDNA: NC_000012.12:g.32868983C>G
-      build: GRCh37
-      chr: '12'
-      pos: '33021917'
-      ref: C
-      alt: G
-    GRCh38:
-      gDNA: NC_000012.11:g.33021917C>G
-      build: GRCh38
-      chr: '12'
-      pos: '32868983'
-      ref: C
-      alt: G
   - _id: GRCh38-12-32868959-C-T
     GRCh37:
       gDNA: NC_000012.12:g.32868959C>T
@@ -13321,21 +11386,6 @@ data:
       chr: '12'
       pos: '32868959'
       ref: C
-      alt: T
-  - _id: GRCh38-15-34793421-TAGA-T
-    GRCh37:
-      gDNA: NC_000015.10:g.34793424_34793426del
-      build: GRCh37
-      chr: '15'
-      pos: '35085622'
-      ref: TAGA
-      alt: T
-    GRCh38:
-      gDNA: NC_000015.9:g.35085625_35085627del
-      build: GRCh38
-      chr: '15'
-      pos: '34793421'
-      ref: TAGA
       alt: T
   - _id: GRCh38-21-34449382-C-T
     GRCh37:
@@ -13382,21 +11432,6 @@ data:
       pos: '19956018'
       ref: A
       alt: G
-  - _id: GRCh38-11-2572020-C-T
-    GRCh37:
-      gDNA: NC_000011.10:g.2572020C>T
-      build: GRCh37
-      chr: '11'
-      pos: '2593250'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000011.9:g.2593250C>T
-      build: GRCh38
-      chr: '11'
-      pos: '2572020'
-      ref: C
-      alt: T
   - _id: GRCh38-19-11113620-G-A
     GRCh37:
       gDNA: NC_000019.10:g.11113620G>A
@@ -13607,21 +11642,6 @@ data:
       pos: '178570792'
       ref: C
       alt: T
-  - _id: GRCh38-8-19956018-A-G
-    GRCh37:
-      gDNA: NC_000008.11:g.19956018A>G
-      build: GRCh37
-      chr: '8'
-      pos: '19813529'
-      ref: A
-      alt: G
-    GRCh38:
-      gDNA: NC_000008.10:g.19813529A>G
-      build: GRCh38
-      chr: '8'
-      pos: '19956018'
-      ref: A
-      alt: G
   - _id: GRCh38-12-124815013-G-A
     GRCh37:
       gDNA: NC_000012.12:g.124815013G>A
@@ -14042,51 +12062,6 @@ data:
       pos: '63061723'
       ref: G
       alt: A
-  - _id: GRCh38-11-47332813-C-A
-    GRCh37:
-      gDNA: NC_000011.10:g.47332813C>A
-      build: GRCh37
-      chr: '11'
-      pos: '47354364'
-      ref: C
-      alt: A
-    GRCh38:
-      gDNA: NC_000011.9:g.47354364C>A
-      build: GRCh38
-      chr: '11'
-      pos: '47332813'
-      ref: C
-      alt: A
-  - _id: GRCh38-15-63061723-G-A
-    GRCh37:
-      gDNA: NC_000015.10:g.63061723G>A
-      build: GRCh37
-      chr: '15'
-      pos: '63353922'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000015.9:g.63353922G>A
-      build: GRCh38
-      chr: '15'
-      pos: '63061723'
-      ref: G
-      alt: A
-  - _id: GRCh38-15-63061723-G-A
-    GRCh37:
-      gDNA: NC_000015.10:g.63061723G>A
-      build: GRCh37
-      chr: '15'
-      pos: '63353922'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000015.9:g.63353922G>A
-      build: GRCh38
-      chr: '15'
-      pos: '63061723'
-      ref: G
-      alt: A
   - _id: GRCh38-2-178605275-G-GC
     GRCh37:
       gDNA: NC_000002.12:g.178605276dup
@@ -14147,21 +12122,6 @@ data:
       pos: '119672301'
       ref: C
       alt: T
-  - _id: GRCh38-11-47337729-A-AC
-    GRCh37:
-      gDNA: NC_000011.10:g.47337730dup
-      build: GRCh37
-      chr: '11'
-      pos: '47359280'
-      ref: A
-      alt: AC
-    GRCh38:
-      gDNA: NC_000011.9:g.47359281dup
-      build: GRCh38
-      chr: '11'
-      pos: '47337729'
-      ref: A
-      alt: AC
   - _id: GRCh38-20-44159945-G-A
     GRCh37:
       gDNA: NC_000020.11:g.44159945G>A
@@ -14177,21 +12137,6 @@ data:
       pos: '44159945'
       ref: G
       alt: A
-  - _id: GRCh38-10-110821823-CA-C
-    GRCh37:
-      gDNA: NC_000010.11:g.110821824del
-      build: GRCh37
-      chr: '10'
-      pos: '112581581'
-      ref: CA
-      alt: C
-    GRCh38:
-      gDNA: NC_000010.10:g.112581582del
-      build: GRCh38
-      chr: '10'
-      pos: '110821823'
-      ref: CA
-      alt: C
   - _id: GRCh38-4-113354511-C-T
     GRCh37:
       gDNA: NC_000004.12:g.113354511C>T
@@ -14207,21 +12152,6 @@ data:
       pos: '113354511'
       ref: C
       alt: T
-  - _id: GRCh38-14-23424001-A-G
-    GRCh37:
-      gDNA: NC_000014.9:g.23424001A>G
-      build: GRCh37
-      chr: '14'
-      pos: '23893210'
-      ref: A
-      alt: G
-    GRCh38:
-      gDNA: NC_000014.8:g.23893210A>G
-      build: GRCh38
-      chr: '14'
-      pos: '23424001'
-      ref: A
-      alt: G
   - _id: GRCh38-7-150952793-G-A
     GRCh37:
       gDNA: NC_000007.14:g.150952793G>A
@@ -14312,36 +12242,6 @@ data:
       pos: '23429279'
       ref: G
       alt: A
-  - _id: GRCh38-3-38566576-C-T
-    GRCh37:
-      gDNA: NC_000003.12:g.38566576C>T
-      build: GRCh37
-      chr: '3'
-      pos: '38608067'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000003.11:g.38608067C>T
-      build: GRCh38
-      chr: '3'
-      pos: '38566576'
-      ref: C
-      alt: T
-  - _id: GRCh38-11-2572021-G-A
-    GRCh37:
-      gDNA: NC_000011.10:g.2572021G>A
-      build: GRCh37
-      chr: '11'
-      pos: '2593251'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000011.9:g.2593251G>A
-      build: GRCh38
-      chr: '11'
-      pos: '2572021'
-      ref: G
-      alt: A
   - _id: GRCh38-6-123271148-C-G
     GRCh37:
       gDNA: NC_000006.12:g.123271148C>G
@@ -14387,21 +12287,6 @@ data:
       pos: '237798056'
       ref: A
       alt: G
-  - _id: GRCh38-12-32879021-G-A
-    GRCh37:
-      gDNA: NC_000012.12:g.32879021G>A
-      build: GRCh37
-      chr: '12'
-      pos: '33031955'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000012.11:g.33031955G>A
-      build: GRCh38
-      chr: '12'
-      pos: '32879021'
-      ref: G
-      alt: A
   - _id: GRCh38-10-119676768-C-T
     GRCh37:
       gDNA: NC_000010.11:g.119676768C>T
@@ -14507,36 +12392,6 @@ data:
       pos: '92002035'
       ref: G
       alt: T
-  - _id: GRCh38-3-38587509-T-C
-    GRCh37:
-      gDNA: NC_000003.12:g.38587509T>C
-      build: GRCh37
-      chr: '3'
-      pos: '38629000'
-      ref: T
-      alt: C
-    GRCh38:
-      gDNA: NC_000003.11:g.38629000T>C
-      build: GRCh38
-      chr: '3'
-      pos: '38587509'
-      ref: T
-      alt: C
-  - _id: GRCh38-7-128853585-A-G
-    GRCh37:
-      gDNA: NC_000007.14:g.128853585A>G
-      build: GRCh37
-      chr: '7'
-      pos: '128493639'
-      ref: A
-      alt: G
-    GRCh38:
-      gDNA: NC_000007.13:g.128493639A>G
-      build: GRCh38
-      chr: '7'
-      pos: '128853585'
-      ref: A
-      alt: G
   - _id: GRCh38-1-77935986-CAAG-C
     GRCh37:
       gDNA: NC_000001.11:g.77935990_77935992del
@@ -14642,21 +12497,6 @@ data:
       pos: '156138719'
       ref: C
       alt: T
-  - _id: GRCh38-1-74342890-G-T
-    GRCh37:
-      gDNA: NC_000001.11:g.74342890G>T
-      build: GRCh37
-      chr: '1'
-      pos: '74808574'
-      ref: G
-      alt: T
-    GRCh38:
-      gDNA: NC_000001.10:g.74808574G>T
-      build: GRCh38
-      chr: '1'
-      pos: '74342890'
-      ref: G
-      alt: T
   - _id: GRCh38-2-219421436-A-T
     GRCh37:
       gDNA: NC_000002.12:g.219421436A>T
@@ -14717,21 +12557,6 @@ data:
       pos: '116836328'
       ref: A
       alt: T
-  - _id: GRCh38-3-38551111-G-A
-    GRCh37:
-      gDNA: NC_000003.12:g.38551111G>A
-      build: GRCh37
-      chr: '3'
-      pos: '38592602'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000003.11:g.38592602G>A
-      build: GRCh38
-      chr: '3'
-      pos: '38551111'
-      ref: G
-      alt: A
   - _id: GRCh38-11-47334002-G-A
     GRCh37:
       gDNA: NC_000011.10:g.47334002G>A
@@ -14897,21 +12722,6 @@ data:
       pos: '82007685'
       ref: G
       alt: T
-  - _id: GRCh38-1-237657959-G-T
-    GRCh37:
-      gDNA: NC_000001.11:g.237657959G>T
-      build: GRCh37
-      chr: '1'
-      pos: '237821259'
-      ref: G
-      alt: T
-    GRCh38:
-      gDNA: NC_000001.10:g.237821259G>T
-      build: GRCh38
-      chr: '1'
-      pos: '237657959'
-      ref: G
-      alt: T
   - _id: GRCh38-1-237784253-G-A
     GRCh37:
       gDNA: NC_000001.11:g.237784253G>A
@@ -15047,36 +12857,6 @@ data:
       pos: '38581065'
       ref: C
       alt: T
-  - _id: GRCh38-11-2585311-C-T
-    GRCh37:
-      gDNA: NC_000011.10:g.2585311C>T
-      build: GRCh37
-      chr: '11'
-      pos: '2606541'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000011.9:g.2606541C>T
-      build: GRCh38
-      chr: '11'
-      pos: '2585311'
-      ref: C
-      alt: T
-  - _id: GRCh38-11-47335165-ATG-A
-    GRCh37:
-      gDNA: NC_000011.10:g.47335170_47335171del
-      build: GRCh37
-      chr: '11'
-      pos: '47356716'
-      ref: ATG
-      alt: A
-    GRCh38:
-      gDNA: NC_000011.9:g.47356721_47356722del
-      build: GRCh38
-      chr: '11'
-      pos: '47335165'
-      ref: ATG
-      alt: A
   - _id: GRCh38-1-237705332-G-A
     GRCh37:
       gDNA: NC_000001.11:g.237705332G>A
@@ -15197,21 +12977,6 @@ data:
       pos: '39665792'
       ref: C
       alt: T
-  - _id: GRCh38-2-178546875-A-G
-    GRCh37:
-      gDNA: NC_000002.12:g.178546875A>G
-      build: GRCh37
-      chr: '2'
-      pos: '179411602'
-      ref: A
-      alt: G
-    GRCh38:
-      gDNA: NC_000002.11:g.179411602A>G
-      build: GRCh38
-      chr: '2'
-      pos: '178546875'
-      ref: A
-      alt: G
   - _id: GRCh38-6-32097336-C-T
     GRCh37:
       gDNA: NC_000006.12:g.32097336C>T
@@ -15226,36 +12991,6 @@ data:
       chr: '6'
       pos: '32097336'
       ref: C
-      alt: T
-  - _id: GRCh38-6-32084439-C-T
-    GRCh37:
-      gDNA: NC_000006.12:g.32084439C>T
-      build: GRCh37
-      chr: '6'
-      pos: '32052216'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000006.11:g.32052216C>T
-      build: GRCh38
-      chr: '6'
-      pos: '32084439'
-      ref: C
-      alt: T
-  - _id: GRCh38-6-32052940-G-T
-    GRCh37:
-      gDNA: NC_000006.12:g.32052940G>T
-      build: GRCh37
-      chr: '6'
-      pos: '32020717'
-      ref: G
-      alt: T
-    GRCh38:
-      gDNA: NC_000006.11:g.32020717G>T
-      build: GRCh38
-      chr: '6'
-      pos: '32052940'
-      ref: G
       alt: T
   - _id: GRCh38-19-55154782-T-C
     GRCh37:
@@ -15287,21 +13022,6 @@ data:
       pos: '128835355'
       ref: A
       alt: C
-  - _id: GRCh38-11-47347856-C-T
-    GRCh37:
-      gDNA: NC_000011.10:g.47347856C>T
-      build: GRCh37
-      chr: '11'
-      pos: '47369407'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000011.9:g.47369407C>T
-      build: GRCh38
-      chr: '11'
-      pos: '47347856'
-      ref: C
-      alt: T
   - _id: GRCh38-10-110781471-C-T
     GRCh37:
       gDNA: NC_000010.11:g.110781471C>T
@@ -15332,66 +13052,6 @@ data:
       pos: '64314643'
       ref: C
       alt: G
-  - _id: GRCh38-4-64314643-C-G
-    GRCh37:
-      gDNA: NC_000004.12:g.64314643C>G
-      build: GRCh37
-      chr: '4'
-      pos: '65180361'
-      ref: C
-      alt: G
-    GRCh38:
-      gDNA: NC_000004.11:g.65180361C>G
-      build: GRCh38
-      chr: '4'
-      pos: '64314643'
-      ref: C
-      alt: G
-  - _id: GRCh38-11-47335165-ATG-A
-    GRCh37:
-      gDNA: NC_000011.10:g.47335170_47335171del
-      build: GRCh37
-      chr: '11'
-      pos: '47356716'
-      ref: ATG
-      alt: A
-    GRCh38:
-      gDNA: NC_000011.9:g.47356721_47356722del
-      build: GRCh38
-      chr: '11'
-      pos: '47335165'
-      ref: ATG
-      alt: A
-  - _id: GRCh38-19-55156607-A-T
-    GRCh37:
-      gDNA: NC_000019.10:g.55156607A>T
-      build: GRCh37
-      chr: '19'
-      pos: '55667975'
-      ref: A
-      alt: T
-    GRCh38:
-      gDNA: NC_000019.9:g.55667975A>T
-      build: GRCh38
-      chr: '19'
-      pos: '55156607'
-      ref: A
-      alt: T
-  - _id: GRCh38-7-150948438-CCTCACCCTTGTCCGT-C
-    GRCh37:
-      gDNA: NC_000007.14:g.150948439_150948453del
-      build: GRCh37
-      chr: '7'
-      pos: '150645526'
-      ref: CCTCACCCTTGTCCGT
-      alt: C
-    GRCh38:
-      gDNA: NC_000007.13:g.150645527_150645541del
-      build: GRCh38
-      chr: '7'
-      pos: '150948438'
-      ref: CCTCACCCTTGTCCGT
-      alt: C
   - _id: GRCh38-7-150947623-G-A
     GRCh37:
       gDNA: NC_000007.14:g.150947623G>A
@@ -15437,21 +13097,6 @@ data:
       pos: '38603752'
       ref: T
       alt: A
-  - _id: GRCh38-2-219637644-GA-CC
-    GRCh37:
-      gDNA: NC_000002.12:g.219637644_219637645delinsCC
-      build: GRCh37
-      chr: '2'
-      pos: '220502366'
-      ref: GA
-      alt: CC
-    GRCh38:
-      gDNA: NC_000002.11:g.220502366_220502367delinsCC
-      build: GRCh38
-      chr: '2'
-      pos: '219637644'
-      ref: GA
-      alt: CC
   - _id: GRCh38-19-49196760-G-A
     GRCh37:
       gDNA: NC_000019.10:g.49196760G>A
@@ -15497,66 +13142,6 @@ data:
       pos: '178782904'
       ref: A
       alt: C
-  - _id: GRCh38-10-119672301-C-T
-    GRCh37:
-      gDNA: NC_000010.11:g.119672301C>T
-      build: GRCh37
-      chr: '10'
-      pos: '121431813'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000010.10:g.121431813C>T
-      build: GRCh38
-      chr: '10'
-      pos: '119672301'
-      ref: C
-      alt: T
-  - _id: GRCh38-10-119672301-C-T
-    GRCh37:
-      gDNA: NC_000010.11:g.119672301C>T
-      build: GRCh37
-      chr: '10'
-      pos: '121431813'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000010.10:g.121431813C>T
-      build: GRCh38
-      chr: '10'
-      pos: '119672301'
-      ref: C
-      alt: T
-  - _id: GRCh38-3-38581061-T-C
-    GRCh37:
-      gDNA: NC_000003.12:g.38581061T>C
-      build: GRCh37
-      chr: '3'
-      pos: '38622552'
-      ref: T
-      alt: C
-    GRCh38:
-      gDNA: NC_000003.11:g.38622552T>C
-      build: GRCh38
-      chr: '3'
-      pos: '38581061'
-      ref: T
-      alt: C
-  - _id: GRCh38-16-3243407-T-C
-    GRCh37:
-      gDNA: NC_000016.10:g.3243407T>C
-      build: GRCh37
-      chr: '16'
-      pos: '3293407'
-      ref: T
-      alt: C
-    GRCh38:
-      gDNA: NC_000016.9:g.3293407T>C
-      build: GRCh38
-      chr: '16'
-      pos: '3243407'
-      ref: T
-      alt: C
   - _id: GRCh38-16-3243257-C-A
     GRCh37:
       gDNA: NC_000016.10:g.3243257C>A
@@ -15572,21 +13157,6 @@ data:
       pos: '3243257'
       ref: C
       alt: A
-  - _id: GRCh38-21-34449382-C-T
-    GRCh37:
-      gDNA: NC_000021.9:g.34449382C>T
-      build: GRCh37
-      chr: '21'
-      pos: '35821680'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000021.8:g.35821680C>T
-      build: GRCh38
-      chr: '21'
-      pos: '34449382'
-      ref: C
-      alt: T
   - _id: GRCh38-12-32802526-G-A
     GRCh37:
       gDNA: NC_000012.12:g.32802526G>A
@@ -15647,21 +13217,6 @@ data:
       pos: '73323766'
       ref: G
       alt: A
-  - _id: GRCh38-18-31524877-A-G
-    GRCh37:
-      gDNA: NC_000018.10:g.31524877A>G
-      build: GRCh37
-      chr: '18'
-      pos: '29104840'
-      ref: A
-      alt: G
-    GRCh38:
-      gDNA: NC_000018.9:g.29104840A>G
-      build: GRCh38
-      chr: '18'
-      pos: '31524877'
-      ref: A
-      alt: G
   - _id: GRCh38-6-7574736-G-A
     GRCh37:
       gDNA: NC_000006.12:g.7574736G>A
@@ -15722,51 +13277,6 @@ data:
       pos: '178532201'
       ref: C
       alt: T
-  - _id: GRCh38-1-26060315-C-T
-    GRCh37:
-      gDNA: NC_000001.11:g.26060315C>T
-      build: GRCh37
-      chr: '1'
-      pos: '26386806'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000001.10:g.26386806C>T
-      build: GRCh38
-      chr: '1'
-      pos: '26060315'
-      ref: C
-      alt: T
-  - _id: GRCh38-2-178689897-C-T
-    GRCh37:
-      gDNA: NC_000002.12:g.178689897C>T
-      build: GRCh37
-      chr: '2'
-      pos: '179554624'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000002.11:g.179554624C>T
-      build: GRCh38
-      chr: '2'
-      pos: '178689897'
-      ref: C
-      alt: T
-  - _id: GRCh38-2-178601711-G-A
-    GRCh37:
-      gDNA: NC_000002.12:g.178601711G>A
-      build: GRCh37
-      chr: '2'
-      pos: '179466438'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000002.11:g.179466438G>A
-      build: GRCh38
-      chr: '2'
-      pos: '178601711'
-      ref: G
-      alt: A
   - _id: GRCh38-12-32792488-T-C
     GRCh37:
       gDNA: NC_000012.12:g.32792488T>C
@@ -15902,21 +13412,6 @@ data:
       pos: '23427257'
       ref: C
       alt: T
-  - _id: GRCh38-14-23413802-T-C
-    GRCh37:
-      gDNA: NC_000014.9:g.23413802T>C
-      build: GRCh37
-      chr: '14'
-      pos: '23883011'
-      ref: T
-      alt: C
-    GRCh38:
-      gDNA: NC_000014.8:g.23883011T>C
-      build: GRCh38
-      chr: '14'
-      pos: '23413802'
-      ref: T
-      alt: C
   - _id: GRCh38-7-92079779-A-C
     GRCh37:
       gDNA: NC_000007.14:g.92079779A>C
@@ -15947,21 +13442,6 @@ data:
       pos: '92070978'
       ref: A
       alt: G
-  - _id: GRCh38-7-128852702-C-T
-    GRCh37:
-      gDNA: NC_000007.14:g.128852702C>T
-      build: GRCh37
-      chr: '7'
-      pos: '128492756'
-      ref: C
-      alt: T
-    GRCh38:
-      gDNA: NC_000007.13:g.128492756C>T
-      build: GRCh38
-      chr: '7'
-      pos: '128852702'
-      ref: C
-      alt: T
   - _id: GRCh38-1-111981811-C-T
     GRCh37:
       gDNA: NC_000001.11:g.111981811C>T
@@ -15977,21 +13457,6 @@ data:
       pos: '111981811'
       ref: C
       alt: T
-  - _id: GRCh38-16-3243407-T-C
-    GRCh37:
-      gDNA: NC_000016.10:g.3243407T>C
-      build: GRCh37
-      chr: '16'
-      pos: '3293407'
-      ref: T
-      alt: C
-    GRCh38:
-      gDNA: NC_000016.9:g.3293407T>C
-      build: GRCh38
-      chr: '16'
-      pos: '3243407'
-      ref: T
-      alt: C
   - _id: GRCh38-7-128838701-C-T
     GRCh37:
       gDNA: NC_000007.14:g.128838701C>T
@@ -16217,96 +13682,6 @@ data:
       pos: '178571098'
       ref: G
       alt: A
-  - _id: GRCh38-1-237657959-G-T
-    GRCh37:
-      gDNA: NC_000001.11:g.237657959G>T
-      build: GRCh37
-      chr: '1'
-      pos: '237821259'
-      ref: G
-      alt: T
-    GRCh38:
-      gDNA: NC_000001.10:g.237821259G>T
-      build: GRCh38
-      chr: '1'
-      pos: '237657959'
-      ref: G
-      alt: T
-  - _id: GRCh38-1-237639023-G-T
-    GRCh37:
-      gDNA: NC_000001.11:g.237639023G>T
-      build: GRCh37
-      chr: '1'
-      pos: '237802323'
-      ref: G
-      alt: T
-    GRCh38:
-      gDNA: NC_000001.10:g.237802323G>T
-      build: GRCh38
-      chr: '1'
-      pos: '237639023'
-      ref: G
-      alt: T
-  - _id: GRCh38-1-237657959-G-T
-    GRCh37:
-      gDNA: NC_000001.11:g.237657959G>T
-      build: GRCh37
-      chr: '1'
-      pos: '237821259'
-      ref: G
-      alt: T
-    GRCh38:
-      gDNA: NC_000001.10:g.237821259G>T
-      build: GRCh38
-      chr: '1'
-      pos: '237657959'
-      ref: G
-      alt: T
-  - _id: GRCh38-1-237657959-G-T
-    GRCh37:
-      gDNA: NC_000001.11:g.237657959G>T
-      build: GRCh37
-      chr: '1'
-      pos: '237821259'
-      ref: G
-      alt: T
-    GRCh38:
-      gDNA: NC_000001.10:g.237821259G>T
-      build: GRCh38
-      chr: '1'
-      pos: '237657959'
-      ref: G
-      alt: T
-  - _id: GRCh38-1-237657959-G-T
-    GRCh37:
-      gDNA: NC_000001.11:g.237657959G>T
-      build: GRCh37
-      chr: '1'
-      pos: '237821259'
-      ref: G
-      alt: T
-    GRCh38:
-      gDNA: NC_000001.10:g.237821259G>T
-      build: GRCh38
-      chr: '1'
-      pos: '237657959'
-      ref: G
-      alt: T
-  - _id: GRCh38-1-237657959-G-T
-    GRCh37:
-      gDNA: NC_000001.11:g.237657959G>T
-      build: GRCh37
-      chr: '1'
-      pos: '237821259'
-      ref: G
-      alt: T
-    GRCh38:
-      gDNA: NC_000001.10:g.237821259G>T
-      build: GRCh38
-      chr: '1'
-      pos: '237657959'
-      ref: G
-      alt: T
   - _id: GRCh38-3-38560145-A-G
     GRCh37:
       gDNA: NC_000003.12:g.38560145A>G
@@ -16322,21 +13697,6 @@ data:
       pos: '38560145'
       ref: A
       alt: G
-  - _id: GRCh38-1-201364366-G-A
-    GRCh37:
-      gDNA: NC_000001.11:g.201364366G>A
-      build: GRCh37
-      chr: '1'
-      pos: '201333494'
-      ref: G
-      alt: A
-    GRCh38:
-      gDNA: NC_000001.10:g.201333494G>A
-      build: GRCh38
-      chr: '1'
-      pos: '201364366'
-      ref: G
-      alt: A
   - _id: GRCh38-2-202542343-C-T
     GRCh37:
       gDNA: NC_000002.12:g.202542343C>T
@@ -16352,21 +13712,6 @@ data:
       pos: '202542343'
       ref: C
       alt: T
-  - _id: GRCh38-7-150974761-A-G
-    GRCh37:
-      gDNA: NC_000007.14:g.150974761A>G
-      build: GRCh37
-      chr: '7'
-      pos: '150671849'
-      ref: A
-      alt: G
-    GRCh38:
-      gDNA: NC_000007.13:g.150671849A>G
-      build: GRCh38
-      chr: '7'
-      pos: '150974761'
-      ref: A
-      alt: G
   - _id: GRCh38-14-23426844-C-G
     GRCh37:
       gDNA: NC_000014.9:g.23426844C>G

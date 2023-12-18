@@ -1,20 +1,42 @@
 import React from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
+import { useParams, useNavigate } from "react-router-dom"
 
 import Button from '@mui/material/Button'
 import LoginIcon from '@mui/icons-material/Login'
 import HomeIcon from '@mui/icons-material/HomeRounded'
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'
 import Link from '@mui/material/Link'
+import { Icon as IconifyIcon, InlineIcon as IconifyIconInline } from "@iconify/react"
 
 import { setToolbar } from '../store/toolbar'
 import { setBreadcrumbs } from '../store/breadcrumbs'
 
 import API from '../api/fetchAPI'
 
+import './Home.scss'
+
+
+
+function LinkBullet() {
+    return (
+        // <IconifyIcon className="icon" icon="iconamoon:arrow-right-2-bold"/>
+        <IconifyIcon className="icon" icon="ph:caret-double-right-duotone"/>
+        // <IconifyIcon className="icon" icon="ph:caret-right-duotone"/>
+        // <IconifyIcon className="icon" icon="pepicons-print:arrow-right"/>
+        // <IconifyIcon className="icon" icon="ph:arrow-fat-right-duotone"/>
+        // <IconifyIcon className="icon" icon="ph:arrow-fat-line-right-duotone"/>
+    )
+}
+
+
+
+
+
 export default function Page1() {
 
+    const navigate = useNavigate()
     const user = useSelector((state) => state.user)
 
     const dispatch = useDispatch()
@@ -33,9 +55,6 @@ export default function Page1() {
             icon: HomeIcon
         }
     ]
-
-
-
 
     React.useEffect(() => {
         dispatch(setBreadcrumbs(breadcrumbs))
@@ -57,12 +76,37 @@ export default function Page1() {
     // const ui = null.do()
 
     return (
-        <div style={{padding: '20px', height: '100%', display: 'flex', flexFlow: 'column'}}>
+        
+        <div className="page-content home-content">
 
-            <h2>Home</h2>
+            <h2>Willkommen in der HGQN Fall- und Variantendatenbank</h2>
 
-            {/* <Link href="./ExomAG_Excel_Template_AS3.xlsx">Download Excel Template</Link> */}
-            <Link href="https://uni-bonn.sciebo.de/s/n3DwCeNXPGanUYc/download">Download Excel Template</Link>
+            <p>
+                Excel Template für den Upload neuer Fälle und Varianten
+                <Link className="link" href="https://uni-bonn.sciebo.de/s/n3DwCeNXPGanUYc/download">
+                <LinkBullet/>
+                    Download Excel Template
+                </Link>
+            </p>
+
+            <p>
+                Informationen zu "Datendienste für genetische Varianten"
+                <Link className="link" target="'blank" href="https://docs.google.com/document/d/1X6uLEUBcxA01pO1kvibA6LGukxV8fsrTV2wSnrKw0fw/export?format=pdf">
+                    <LinkBullet/>
+                    FAQ - Datendienste für genetische Varianten
+                </Link>
+            </p>
+
+            <p>
+                Haftungsausschluss und Richtlinien zur Datennutzung
+                <Link className="link" href="#" onClick={() => navigate('/disclaimer')}>
+                    <LinkBullet/>
+                    Haftungsausschluss und Richtlinien zur Datennutzung
+                </Link>
+            </p>
+
+
+            
 
         </div>
     )

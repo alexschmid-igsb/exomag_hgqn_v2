@@ -104,6 +104,11 @@ div#page-layout {
                     background-color: rgba(0,0,0,0.1);
                     padding: 0px 10px;
                     // border-right: 1px solid $HEADER_INNER_BORDER_COLOR;
+
+                    a.breadcrumb-item,
+                    a.breadcrumb-item svg {
+                        color: rgba(0,0,0,0.56);
+                    }
                 }
 
                 & > div.toolbar {

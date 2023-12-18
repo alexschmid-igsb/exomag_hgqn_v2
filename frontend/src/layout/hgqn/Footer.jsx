@@ -4,7 +4,7 @@ function Footer() {
 
     return(
         <div className="page-footer">
-            v11.2023_1
+            v12.2023_1
         </div>
     )
 }

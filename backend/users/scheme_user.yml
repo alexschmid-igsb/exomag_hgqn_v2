@@ -22,6 +22,9 @@ scheme:
         type: boolean
         required: true
         default: false
+    lab:
+        type: UUID
+        ref: STATIC_labs
     state:
         id: 
             type: string

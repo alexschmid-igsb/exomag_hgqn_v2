@@ -64,7 +64,7 @@ export default function UserMenu() {
                     Users
                 </RouterButton>
 
-                {user && user.isAdmin ?
+                {user && user.superuser === true ?
                     <RouterButton
                         className="menu-button user-menu-button"
                         uniqueKey="admin"

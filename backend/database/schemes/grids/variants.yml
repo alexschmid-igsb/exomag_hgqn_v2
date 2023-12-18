@@ -10,7 +10,7 @@ scheme:
         build:
             type: string
         chr:
-            type: integer
+            type: string
             required: true
         pos:
             type: integer
@@ -29,7 +29,7 @@ scheme:
             type: string
             required: true
         chr:
-            type: integer
+            type: string
             required: true
         pos:
             type: integer

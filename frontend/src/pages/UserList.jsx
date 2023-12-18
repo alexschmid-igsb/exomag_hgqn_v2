@@ -54,7 +54,9 @@ export default function UserList() {
 
     const gridRef = React.useRef()
     const currentUser = useSelector((state) => state.user)
-    const [userList, setUserList] = React.useState(null)
+
+    const [users, setUsers] = React.useState(null)
+    const [labs, setLabs] = React.useState(new Map())
 
     const breadcrumbs = [
         {
@@ -76,6 +78,17 @@ export default function UserList() {
         return params.data[colId]
     }
 
+    const labGetter = params => {
+        let colId = params.colDef.colId
+        let labId = params.data[colId]
+        let lab = labs.get(labId)
+        if(lab != null) {
+            return lab.name
+        } else {
+            return null
+        }
+    }
+
     const columnDefs = [
         /*
         {
@@ -88,18 +101,19 @@ export default function UserList() {
         */
         {
             colId: 'firstname',
-            field: 'Firstname',
+            field: 'Vorname',
             filter: false,
             resizable: true,
             valueGetter: valueGetter
         },
         {
             colId: 'lastname',
-            field: 'Lastname',
+            field: 'Nachname',
             filter: false,
             resizable: true,
             valueGetter: valueGetter
         },
+        /*
         {
             colId: 'username',
             field: 'Username',
@@ -107,6 +121,7 @@ export default function UserList() {
             resizable: true,
             valueGetter: valueGetter
         },
+        */
         {
             colId: 'email',
             field: 'Email',
@@ -115,12 +130,15 @@ export default function UserList() {
             valueGetter: valueGetter
         },
         {
-            colId: 'site',
-            field: 'Site',
+            colId: 'lab',
+            field: 'Einrichtung',
             filter: false,
             resizable: true,
-            valueGetter: valueGetter
+            valueGetter: labGetter
         },
+
+        /*
+        OLD STUFF
         {
             colId: 'role',
             field: 'Role',
@@ -144,7 +162,6 @@ export default function UserList() {
             valueGetter: valueGetter,
             cellRenderer: BooleanCellRenderer
         },
-        /*
         {
             colId: 'registrySendWhen',
             field: 'Invite date',
@@ -174,7 +191,13 @@ export default function UserList() {
 
     const loadUserData = () => {
         API.get('/api/user/list-public/').then(data => {
-            setUserList(data)
+            let newLabs = new Map()
+            for(let lab of data.labs) {
+                newLabs.set(lab._id,lab)
+                console.log(lab._id)
+            }
+            setLabs(newLabs)
+            setUsers(data.users)
         })
     }
 
@@ -215,33 +238,6 @@ export default function UserList() {
     }
 
 
-
-
-    // const renderAddUserDialog = () =>
-    //     <Dialog
-    //         scroll='body'
-    //         // fullWidth={true}
-    //         // fullWidth={fullWidth}
-    //         // maxWidth={maxWidth}
-    //         maxWidth={false}
-    //         open={addUserDialogOpen}
-    //         onClose={closeAddUserDialog}
-    //     >
-    //         <DialogTitle onClose={closeAddUserDialog}>
-    //             <AddUserIcon style={{marginRight: '8px'}} />
-    //             <span style={{marginBottom: '-4px'}}>Add User</span>
-    //         </DialogTitle>
-    //         <DialogContent>
-    //             <AddUserForm
-    //                 usernames={userList !== null ? userList.map(user => user.username) : []}
-    //                 emails={userList !== null ? userList.map(user => user.email) : []}
-    //                 onSuccess={onAddUserSuccess}
-    //             />
-    //         </DialogContent>
-    //     </Dialog>
-
-
-
     const renderView = () =>
         <div className="grid-container ag-theme-alpine ag-theme-alpine-modified">
             <AgGridReact
@@ -250,7 +246,7 @@ export default function UserList() {
                 columnDefs={columnDefs}             // Column Defs for Columns
                 defaultColDef={defaultColDef}       // Default Column Properties
 
-                rowData={userList}
+                rowData={users}
 
                 animateRows={true}
                 // rowSelection='multiple'
