@@ -13,6 +13,7 @@ const { Types } = mongoose
 const RedisConnection = require('../redis/RedisConnection')
 const RedisMap = require('../redis/RedisMap')
 const RedisObject = require('../redis/RedisObject')
+const { useState } = require('react')
 
 const schemes = [
     {
@@ -42,12 +43,10 @@ class Users {
     async loadUsers() {
 
         const dbRes = await db.find(schemes[0].target)
-        // const dbRes = await db.find('CORE_users')
         const users = dbRes.data
 
-        // console.log(users)
-        // console.log(await argon2.hash('123'))
-        // process.exit(1)
+        // console.log("FETCHED USERS BY loadUsers()")
+        // console.log(dbRes.data)
 
         this.users = new RedisObject(this.redis, 'users')
         this.users.set(users)
@@ -62,10 +61,9 @@ class Users {
             this.userById.set(user._id, user)
             this.userByEmail.set(user.email.toLowerCase(), user)
             this.userByUsername.set(user.username, user)
-            if(user.state.id === 'ACTIVATE' && user.state.token != null) {
+            if((user.state.id === 'ACTIVATION_PENDING' || user.state.id === 'ACTIVATION_RESET_PENDING') && user.state.token != null) {
                 this.userByActivationToken.set(user.state.token, user)
-            }
-            else if(user.state.id === 'RESET_PASSWORD' && user.state.token != null) {
+            } else if(user.state.id === 'PASSWORD_RESET_PENDING' && user.state.token != null) {
                 this.userByPasswordToken.set(user.state.token, user)
             }
         }
@@ -119,72 +117,47 @@ class Users {
         }
     }
 
+    async insertUser(user) {
+        await db.insert('CORE_users', user)
+        await this.loadUsers()
+    }
+
+    async deleteUser(id, username, email) {
+        await db.deleteOne('CORE_users', {_id: id, username: username, email: email})
+        await this.loadUsers()
+    }
+
+
+    async updateUserById(id, user) {
+        await db.findOneAndUpdate('CORE_users', { fields: '', filter: { _id: id } }, user)
+        await this.loadUsers()
+
+        /*
+        try {
+        } catch(err) {
+            console.log("ERROR ERROR ERROR")
+            console.log(err)
+        }
+        */
+    }
 
 
 
+    async resetState(id, username, state) {
+        await db.findOneAndUpdate('CORE_users', { fields: '', filter: { _id: id, username: username } }, {state: state})
+        await this.loadUsers()
+    }
 
 
-    // TODO: alter code? Muss angepasst werden?
 
 
     /*
-    validateUser(user) {
-        // ???
-    }
-
-
-    async addUser(user) {
-
-        this.validateUser(user)
-
-        user.state = {
-            id: 'CREATED',
-            when: Date.now(),
-            token: randHex(32),
-            test1: new Types.ObjectId(),
-            test2: uuidv4()
-        }
-
-        let result = await db.insert(schemes.users, user)
-        return result
-    }
-
     async updatePassword(userid,password) {
         let hash = await argon2.hash(password)
         await db.findByIdAndUpdate(schemes.users, userid, { password: hash })
     }
-
     */
 
-
-
-
-
-    // TODO: MUSS ALLES AUF MONGOOSE ANGEPASST WERDEN
-
-    /*
-    async insertUser(user) {
-        await knex('users').insert([user])
-        await this.updateUsers()
-    }
-
-    async resetActions(id, username, actions) {
-        await knex('users').where({id: id, username: username}).update({ actions: actions })
-        await this.updateUsers()
-    }
-
-    async deleteUser(id, username) {
-        await knex('users').where({id: id, username: username}).del()
-        await this.updateUsers()
-    }
-
-    async updateUserById(id, user) {
-        // console.log("update user")
-        // console.log(user)
-        await knex('users').where({id: id}).update(user)
-        await this.updateUsers()
-    }
-    */
     
 }
 

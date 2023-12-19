@@ -29,6 +29,8 @@ import GridIcon from '@mui/icons-material/Article'
 import HomeIcon from '@mui/icons-material/HomeRounded'
 */
 
+import PageLogo from '../layout/hgqn/PageLogo'
+
 import './Activation.scss'
 
 import API from '../api/fetchAPI'
@@ -142,7 +144,7 @@ export default function Activation() {
             },
             doNotThrowFor: [404]
         }).then(user => {
-            if (typeof user.id === 'string' && typeof user.username === 'string' && typeof user.email === 'string') {
+            if (typeof user._id === 'string' && typeof user.username === 'string' && typeof user.email === 'string') {
                 console.log(resetPasswordToken)
                 console.log(user)
                 setUser(user)
@@ -163,7 +165,7 @@ export default function Activation() {
 
         API.post('/api/user/reset-password', {
             params: {
-                id: user.id,
+                id: user._id,
                 password: password,
                 passwordConfirm: passwordConfirm
             }
@@ -179,6 +181,9 @@ export default function Activation() {
     return (
 
         <div class="activation-page">
+
+            <PageLogo/>
+
             {user ?
                 <div className="activation-form">
                     <h1>Please reset your password</h1>
@@ -188,7 +193,7 @@ export default function Activation() {
                         label="User ID"
                         variant="filled"
                         size="small"
-                        value={user.id}
+                        value={user._id}
                     />
 
                     <TextField

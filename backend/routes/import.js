@@ -10,7 +10,7 @@ const extract = require('../../shared/extract/extract.js')
 const lodash = require('lodash')
 
 const auth = require('../users/auth')
-const isAdmin = require('../users/isAdmin')
+const isSuperuser = require('../users/isSuperuser')
 
 const db = require('../database/connector.js').connector
 const BackendError = require('../util/BackendError')

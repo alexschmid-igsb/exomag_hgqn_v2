@@ -582,6 +582,10 @@ class Connector {
         let model = this.getModel(target)
         let scheme = this.getScheme(target)
 
+        let paramsPopulate = params.populate ? params.populate : []
+        let paramsFilter = params.filter ? params.filter: {}
+        let paramsFields = params.fields ? params.fields : ''
+
         try {
 
             let result = {
@@ -593,12 +597,12 @@ class Connector {
             }
             
             let data = await model.findOneAndUpdate(
-                params.filter,
+                paramsFilter,
                 update,
-                 {
-                    fields: params.fields,
+                {
+                    fields: paramsFields,
                     returnDocument: 'after'
-                }).lean().populate(...params.populate)
+                }).lean().populate(...paramsPopulate)
 
             postprocessLeanObjects(data)
 
@@ -607,6 +611,7 @@ class Connector {
             return result
 
         } catch(error) {
+            console.log(error)
             throw new Error(`could not execute findOneAndUpdate query${targetErrMsg(target)}`, { cause: error })
         }
     }
@@ -668,6 +673,17 @@ class Connector {
         }
     }
 
+
+
+
+    async deleteOne(target,fields) {
+        let model = this.getModel(target)
+        try {
+            await model.deleteOne(fields)
+        } catch(error) {
+            throw new Error(`error`, { cause: error })
+        }
+    }
 
     
 

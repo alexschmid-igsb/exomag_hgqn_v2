@@ -62,7 +62,7 @@ export default function Page1() {
     }, [])
 
     // const bla = () => {
-    //     // dispatch(setUser({ username: 'ASchmid', name: 'Alex Schmid', isAdmin: true }))
+    //     // dispatch(setUser({ username: 'ASchmid', name: 'Alex Schmid', isSuperuser: true }))
     //     API.post('/api/test/neu', {
     //         doNotThrowFor: [401]
     //     }).then(data => {

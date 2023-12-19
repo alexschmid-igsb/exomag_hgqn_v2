@@ -12,13 +12,11 @@ scheme:
         required: true
     firstname:
         type: string
-        required: true
     lastname:
         type: string
-        required: true
     password:
         type: string
-    superuser:
+    isSuperuser:
         type: boolean
         required: true
         default: false
@@ -32,9 +30,5 @@ scheme:
             type: timestamp
         token:
             type: string
-        test1:
-            type: ObjectID
-        test2:
-            type: UUID    
 layouts: {}
 

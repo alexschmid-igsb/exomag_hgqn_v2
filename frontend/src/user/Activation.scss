@@ -1,33 +1,143 @@
+@import '../base';
+@import '../hgqn';
 
 div.activation-page {
+
+
+    position: fixed;
+    top: 0px;
+    left: 0px;
+
+    background-color: #F0F0F0;
+    background-color: #ABC;
+    /* background-color: white; */
     flex: 1;
+    overflow: hidden;
     display: flex;
-    flex-flow: column;
+    flex-flow: row;
     align-items: center;
     justify-content: center;
+
+    // opacity: 0.8;
+
+    z-index: 100;
+    width: 100vw;
+    height: 100vh;
+
+
+
+    div.page-logo {
+        display: none;
+        position: absolute;
+        top: 0px;
+        width: 100%;
+        height: 130px;
+        display: flex;
+        flex-flow: row;
+
+        & img.logo {
+            width: unset;
+            height: 65%;
+        }
+    }
+
+
+
 }
 
 div.activation-page > div.activation-form {
-    padding: 20px;
+
+    background-color: $BGCOLOR_A;
+
+    // border: 1px solid #999;
+    padding: 30px 50px;
+    border-radius: 5px;
+    // box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     display: flex;
     flex-flow: column;
-    align-items: flex-start;
-    justify-content: center;
+    color: white;
 
-    background-color: #FFF;
-    border-radius: 5px;
-    border: 1px solid rgba(0,0,0,0.2);
+    width: 300px;
+
+    transition: 'height 1s';
 }
+
 
 div.activation-page > div.activation-form > h1 {
-    color: rgba(0,0,0,0.6);
-    margin-bottom: 24px;
+    margin-top: 0px;
+    margin-bottom: 20px;
+    font-size: 1.1em;
+
 }
 
-div.activation-page > div.activation-form > div.MuiTextField-root {
-    margin-bottom: 10px;
-    width: 90%;
+
+
+
+
+
+
+
+div.activation-page > div.activation-form .MuiInputLabel-root {
+    color: rgba(0,0,0,0.4);
+}
+
+div.activation-page > div.activation-form .MuiInputLabel-root.Mui-focused {
+    /* color: #99a8b7; */
+    color: rgba(0,0,0,0.7);
+}
+
+div.activation-page > div.activation-form .MuiFilledInput-root {
+    background-color: rgba(255,255,255,0.8);
+    border-radius: 3px;
+    /* border: 1px solid rgba(0,0,0,0.2) */
+}
+
+div.activation-page > div.activation-form  .MuiFilledInput-root::before {
+    border-color: transparent;
+}
+
+div.activation-page > div.activation-form  .MuiFilledInput-root.Mui-focused::before {
+    border-color: black;
+}
+
+
+div.activation-page > div.activation-form  .MuiFilledInput-root:not(.Mui-disabled):hover {
+    background-color: rgba(255,255,255,1.0);
+}
+
+div.activation-page > div.activation-form  .MuiFilledInput-root:hover::before {
+    border-color: rgba(0,0,0,0.1);
+}
+
+
+
+div.activation-page > div.activation-form > button {
     align-self: center;
+    padding: 8px 16px;
+    background-color: rgba(255,255,255,0.8);
+    margin-top: 0px;
+}
+
+div.activation-page > div.activation-form > button:hover {
+    background-color: rgba(255,255,255,1.0);
+}
+
+
+
+
+div.activation-page > div.activation-form div.password-box {
+    position: relative;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: flex-start;    
+    margin-bottom: 16px;
+}
+
+div.activation-page > div.activation-form .password-button {
+    position: absolute;
+    right: 18px;
+    border-radius: 5px;
 }
 
 div.activation-page > div.activation-form > div.password-match-message {
@@ -36,6 +146,14 @@ div.activation-page > div.activation-form > div.password-match-message {
     align-self: center;
     display: none;
     font-weight: bold;
+    background-color: white;
+    color: black;
+    border-radius: 3px; 
+    margin-bottom: 10px;
+
+    padding: 10px;
+    box-sizing: border-box;
+
 }
 
 div.activation-page > div.activation-form > div.password-match-message.show {
@@ -62,6 +180,13 @@ div.activation-page > div.activation-form > div.password-format-message {
     font-size: 11px;
     width: 90%;
     align-self: center;
+    background-color: white;
+    color: black;
+    border-radius: 3px; 
+    margin-bottom: 10px;
+
+    padding: 10px 10px 0px 10px;
+    box-sizing: border-box;
 }
 
 div.activation-page > div.activation-form > div.password-format-message > ul > li.error {
@@ -82,6 +207,12 @@ div.activation-page > div.activation-form > div.password-format-message > ul {
 div.activation-page > div.activation-form > div.message {
     align-self: center;
     font-weight: bold;
+    background-color: white;
+    color: black;
+    border-radius: 3px; 
+    margin-bottom: 10px;
+    padding: 10px;
+    box-sizing: border-box;
 }
 
 div.activation-page > div.activation-form > div.message.error {
@@ -93,10 +224,19 @@ div.activation-page > div.activation-form > div.message.success {
 }
 
 
+
+
+div.activation-page > div.activation-form > div.MuiTextField-root {
+    margin-bottom: 10px;
+    width: 90%;
+    align-self: center;
+    
+}
+
+
 div.activation-page > div.activation-form > div.spacer {
     align-self: stretch;
     height: 0px;
-    /* border-bottom: 1px dashed rgba(0,0,0,0.2); */
     margin:0px;
     margin-bottom: 24px;
 }

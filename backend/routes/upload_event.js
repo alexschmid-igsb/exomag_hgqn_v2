@@ -5,7 +5,7 @@ const fs = require('fs')
 const multer = require('multer')
 
 const auth = require('../users/auth')
-const isAdmin = require('../users/isAdmin')
+const isSuperuser = require('../users/isSuperuser')
 
 const xlsx = require('xlsx')
 xlsx.helper = require('../util/xlsx-helper')
@@ -18,7 +18,7 @@ function validateUUID(uuid) {
 }
 
 // GET LIST
-router.get('/list', [auth, isAdmin], async function (req, res, next) {
+router.get('/list', [auth, isSuperuser], async function (req, res, next) {
     
     let data = await knex('change_events')
         .select(

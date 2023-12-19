@@ -211,7 +211,7 @@ export default function EmailTemplatesPreview() {
             valueGetter: valueGetter
         },
         {
-            colId: 'isAdmin',
+            colId: 'isSuperuser',
             field: 'Admin',
             filter: false,
             resizable: true,
@@ -512,7 +512,7 @@ export default function EmailTemplatesPreview() {
     return (
         <>
             {
-                currentUser && currentUser.isAdmin ? renderView() : <Navigate replace to="/home" />
+                currentUser && currentUser.isSuperuser ? renderView() : <Navigate replace to="/home" />
             }
             { renderAddUserDialog() }
             { renderRegistryInfoDialog() }

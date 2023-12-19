@@ -89,6 +89,18 @@ export default function UserList() {
         }
     }
 
+    const nameGetter = params => {
+        let colId = params.colDef.colId
+        let name = params.data['firstname'] != null ? params.data['firstname'] : ''
+        name += ' '
+        name += params.data['lastname'] != null ? params.data['lastname'] : ''
+        if(name == null || name.trim().length <= 0) {
+            return null
+        } else {
+            return name
+        }
+    }
+
     const columnDefs = [
         /*
         {
@@ -99,6 +111,14 @@ export default function UserList() {
             valueGetter: valueGetter
         },
         */
+        {
+            colId: 'name',
+            field: 'Name',
+            filter: false,
+            resizable: true,
+            valueGetter: nameGetter
+        },
+        /*
         {
             colId: 'firstname',
             field: 'Vorname',
@@ -113,6 +133,8 @@ export default function UserList() {
             resizable: true,
             valueGetter: valueGetter
         },
+        */
+       
         /*
         {
             colId: 'username',
@@ -147,7 +169,7 @@ export default function UserList() {
             valueGetter: valueGetter
         },
         {
-            colId: 'isAdmin',
+            colId: 'isSuperuser',
             field: 'Admin',
             filter: false,
             resizable: true,
@@ -194,7 +216,6 @@ export default function UserList() {
             let newLabs = new Map()
             for(let lab of data.labs) {
                 newLabs.set(lab._id,lab)
-                console.log(lab._id)
             }
             setLabs(newLabs)
             setUsers(data.users)

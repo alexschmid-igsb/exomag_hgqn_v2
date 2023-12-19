@@ -29,6 +29,8 @@ import GridIcon from '@mui/icons-material/Article'
 import HomeIcon from '@mui/icons-material/HomeRounded'
 */
 
+import PageLogo from '../layout/hgqn/PageLogo'
+
 import './Activation.scss'
 
 import API from '../api/fetchAPI'
@@ -108,8 +110,8 @@ export default function Activation() {
         if(user == null) return
         if(user.firstname) setFirstname(user.firstname)
         if(user.lastname) setLastname(user.lastname)
-        if(user.site) setSite(user.site)
-        if(user.role) setRole(user.role)
+        // if(user.site) setSite(user.site)
+        // if(user.role) setRole(user.role)
     }, [user])
 
     const handlePasswordChange = (event) => {
@@ -138,17 +140,18 @@ export default function Activation() {
 
     const [firstname, setFirstname] = React.useState('')
     const [lastname, setLastname] = React.useState('')
-    const [site, setSite] = React.useState('')
-    const [role, setRole] = React.useState('')
+    // const [site, setSite] = React.useState('')
+    // const [role, setRole] = React.useState('')
 
     const handleFirstnameChange = (event) => setFirstname(event.target.value)
     const handleLastnameChange = (event) => setLastname(event.target.value)
-    const handleSiteChange = (event) => setSite(event.target.value)
-    const handleRoleChange = (event) => setRole(event.target.value)
+    // const handleSiteChange = (event) => setSite(event.target.value)
+    // const handleRoleChange = (event) => setRole(event.target.value)
 
     React.useEffect(() => {
         if (typeof activationToken !== 'string' || activationToken.length !== 32) {
-            navigate('/notfound')
+            // navigate('/notfound')
+            console.log("ERROR NAVIGATE NOT FOUND 1")
         }
         API.post('/api/user/by-activation-token', {
             params: {
@@ -156,15 +159,17 @@ export default function Activation() {
             },
             doNotThrowFor: [404]
         }).then(user => {
-            if (typeof user.id === 'string' && typeof user.username === 'string' && typeof user.email === 'string') {
+            if (typeof user._id === 'string' && typeof user.username === 'string' && typeof user.email === 'string') {
                 console.log(activationToken)
                 console.log(user)
                 setUser(user)
             } else {
-                navigate('/notfound')
+                // navigate('/notfound')
+                console.log("ERROR NAVIGATE NOT FOUND 2")
             }
         }).catch(err => {
-            navigate('/notfound')
+            // navigate('/notfound')
+            console.log("ERROR NAVIGATE NOT FOUND 3")
         })
     }, [])
 
@@ -183,6 +188,7 @@ export default function Activation() {
             setMessage('The field "lastname" is required')
             return
         }
+        /*
         if(typeof site !== 'string' || site.trim().length <= 0) {
             setMessageState('error')
             setMessage('The field "site" is required')
@@ -193,18 +199,19 @@ export default function Activation() {
             setMessage('The field "role" is required')
             return
         }
+        */
         
         setMessage('')
 
         API.post('/api/user/activation', {
             params: {
-                id: user.id,
+                id: user._id,
                 password: password,
                 passwordConfirm: passwordConfirm,
                 firstname: firstname,
                 lastname: lastname,
-                site: site,
-                role: role
+                // site: site,
+                // role: role
             }
         }).then(user => {
             setMessageState('success')
@@ -218,6 +225,9 @@ export default function Activation() {
     return (
 
         <div class="activation-page">
+
+            <PageLogo/>
+
             {user ?
                 <div className="activation-form">
                     <h1>Please activate your account</h1>
@@ -227,7 +237,7 @@ export default function Activation() {
                         label="User ID"
                         variant="filled"
                         size="small"
-                        value={user.id}
+                        value={user._id}
                     />
 
                     <TextField
@@ -308,7 +318,7 @@ export default function Activation() {
                         onChange={handleLastnameChange}
                     />
 
-                    <TextField
+                    {/* <TextField
                         id="site"
                         label="Site"
                         variant="filled"
@@ -324,7 +334,7 @@ export default function Activation() {
                         size="small"
                         value={role}
                         onChange={handleRoleChange}
-                    />
+                    /> */}
 
                     { typeof message === 'string' && message.length > 0 ? <div className={`message ${messageState === 'error' ? 'error' : 'success'}`}>{message}</div> : null }
 

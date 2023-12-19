@@ -87,7 +87,7 @@ export default function Status() {
 
 
     return (
-        currentUser && currentUser.superuser === true ? renderView() : <Navigate replace to="/home" />
+        currentUser && currentUser.isSuperuser === true ? renderView() : <Navigate replace to="/home" />
     )
 
 
@@ -182,7 +182,7 @@ export default function Status() {
             valueGetter: valueGetter
         },
         {
-            colId: 'isAdmin',
+            colId: 'isSuperuser',
             field: 'Admin',
             filter: false,
             resizable: true,
@@ -489,7 +489,7 @@ export default function Status() {
     return (
         <>
             {
-                currentUser && currentUser.isAdmin ? renderView() : <Navigate replace to="/home" />
+                currentUser && currentUser.isSuperuser ? renderView() : <Navigate replace to="/home" />
             }
             { renderAddUserDialog() }
             { renderRegistryInfoDialog() }

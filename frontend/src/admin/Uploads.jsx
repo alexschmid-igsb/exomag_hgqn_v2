@@ -167,7 +167,7 @@ export default function Uploads() {
 
     return (
         <>
-            {currentUser && currentUser.superuser === true ? renderView() : <Navigate replace to="/home" />}
+            {currentUser && currentUser.isSuperuser === true ? renderView() : <Navigate replace to="/home" />}
         </>
     )
 

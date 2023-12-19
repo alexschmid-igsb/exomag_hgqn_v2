@@ -359,7 +359,7 @@ export default function LoginProvider({ children }) {
                 </div>
             </Slide> */}
 
-            {/* { user.id != null ? children : <></> } */}
+            {/* { user._id != null ? children : <></> } */}
         </>
     )
 
