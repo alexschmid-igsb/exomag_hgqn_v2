@@ -14,6 +14,10 @@ import lodash from 'lodash'
 
 import PopoverButton from '../components/PopoverButton'
 
+import Paper from '@mui/material/Paper'
+import InputBase from '@mui/material/InputBase'
+import SearchIcon from '@mui/icons-material/Search'
+
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
@@ -219,6 +223,7 @@ export default function Grid() {
 
 
 
+
     const [gridInfo,setGridInfo] = React.useState(null)
     
     // const [expandedRows, setExpandedRows] = React.useState(new Map())
@@ -233,6 +238,8 @@ export default function Grid() {
 
 
     // const [test, setTest] = React.useState(0)
+
+    const [searchString, setSearchString] = React.useState('')
 
     const [columnDefs, setColumnDefs] = React.useState(null)
     const [data, setData] = React.useState(null)
@@ -1075,6 +1082,25 @@ export default function Grid() {
 
 
 
+    const updateSearch = lodash.throttle(searchString => {
+        gridRef.current.api.setQuickFilter(searchString)
+    }, 1000, { leading: false, trailing: true })
+
+    const onSearchChanged = event => {
+        updateSearch(event.target.value)
+        setSearchString(event.target.value)
+        gridRef.current.api.setQuickFilter(event.target.value)
+    }
+
+    const onSearchClear = event => {
+        setSearchString('')
+        gridRef.current.api.setQuickFilter(null)
+    }
+
+
+
+
+
 
 
 
@@ -1445,6 +1471,29 @@ export default function Grid() {
 
     return (
         <>
+
+            <div className="search-container">
+                <div className="search-field">
+                    <div className="icon-container">
+                        <IconifyIcon className="search-icon" icon="lets-icons:search-light" />
+                    </div>
+                    <InputBase
+                        value={searchString}
+                        sx={{ ml: 1, flex: 1 }}
+                        placeholder="Volltextsuche in allen Feldern"
+                        onChange={event => onSearchChanged(event)}
+                    />
+                    <IconButton
+                        className="clear-button"
+                        type="button"
+                        aria-label="search"
+                        onClick={event => onSearchClear(event)}
+                    >
+                        <IconifyIcon icon="ic:round-clear" />
+                    </IconButton>
+                </div>
+            </div>
+
 
             {/* {renderFilterToolbar()} */}
             {renderGrid()}

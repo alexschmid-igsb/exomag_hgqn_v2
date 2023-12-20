@@ -3,6 +3,58 @@
 
 
 
+div.search-container {
+    margin-top: 10px;
+
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: center;
+    
+    div.search-field {
+        background-color: white;
+        width: 50%;
+        border-radius: 4px;
+        display: flex;
+        flex-flow: row;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        
+        input {
+            padding:0px;
+        }
+
+        .clear-button {
+            border-radius: 0px;
+            background-color: rgba(0,0,0,0.1);
+            margin: 0px;
+            margin-left: 8px;
+            border-left: 1px dashed rgba(0,0,0,0.2);
+        }
+
+        div.icon-container {
+            background-color: rgba(0,0,0,0.1);
+            height: 40px;
+            width: 40px;
+            display: flex;
+            flex-flow: flow;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px dashed rgba(0,0,0,0.2);
+        }
+
+        .search-icon {
+            height: 30px;
+            width: 30px;
+
+            // padding: 0px 6px;
+            color: rgba(0,0,0,0.7);
+
+        }
+    }
+}
+
 
 
 div.grid-filter-toolbar {
