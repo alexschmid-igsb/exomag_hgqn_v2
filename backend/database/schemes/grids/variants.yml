@@ -66,6 +66,8 @@ layouts:
             id: nested
             root: GRCh37
         fields:
+          - id: gDNA
+            label: HGVS genomic reference
           - id: build
             label: Build
           - id: chr
@@ -81,6 +83,8 @@ layouts:
             id: nested
             root: GRCh38
         fields:
+          - id: gDNA
+            label: HGVS genomic reference
           - id: build
             label: Build
           - id: chr

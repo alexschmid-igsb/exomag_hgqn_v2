@@ -40,7 +40,7 @@ import GridIcon from '@mui/icons-material/Article'
 import HomeIcon from '@mui/icons-material/HomeRounded'
 import DeleteIcon from '@mui/icons-material/Delete'
 
-import jQuery from 'jquery'
+import jQuery, { hasData } from 'jquery'
 
 import { Icon as IconifyIcon, InlineIcon as IconifyIconInline } from "@iconify/react"
 // import { as ExcelIcon } from "@iconify/icons-file-icons/microsoft-excel"
@@ -242,7 +242,9 @@ export default function Grid() {
     const [searchString, setSearchString] = React.useState('')
 
     const [columnDefs, setColumnDefs] = React.useState(null)
+
     const [data, setData] = React.useState(null)
+    const [linkedDataById, setLinkedDataById] = React.useState({})
 
 
 
@@ -410,16 +412,32 @@ export default function Grid() {
         const path = '/api/grid/get/' + gridId
         API.get(path, { doNotThrowFor: [404] }).then(response => {
             console.log("LOAD GRID DATA")
+
+            let target = `GRID_${gridId}`
             console.log(response)
 
-            buildColumnDefs(response.scheme)
+            buildColumnDefs(response.data[target].scheme)
             setGridInfo(response.gridInfo)
 
-            console.log(response.data)
+            // console.log(response.data)
             // console.log(cleanOut(response.data))
 
-            const data = response.data.map(entry => ({...entry, __isExpanded__: false}))
+            const linkedData = {...response.data}
+            // delete linkedData[target]
 
+            let linkedDataById = {}
+            for(let [key,value] of Object.entries(linkedData)) {
+                let map = new Map()
+                for(let entry of value.data) {
+                    map.set(entry._id,entry)
+                }
+                linkedDataById[key] = map
+            }
+            console.log("SETZE: ")
+            console.log(linkedDataById)
+            setLinkedDataById(linkedDataById)
+
+            const data = response.data[target].data.map(entry => ({...entry, __isExpanded__: false}))
             setData(data)
 
         }).catch(e => {
@@ -640,23 +658,27 @@ export default function Grid() {
             // translate the layout fields for the current group into AGGrid column definitions
             for(let layoutField of layoutGroup.fields) {
 
-                // TODO:
-                //   1. auch in primary sollte der path beachtet werden
-
+                // TODO: auch in primary sollte der path beachtet werden
 
 
                 // determine the data path for the column def
                 let dataPath = undefined
-                if(groupType.id === 'primary') {
-                    dataPath = layoutField.id
+                if(layoutField.path != null) {
+                    dataPath = layoutField.path
+                } else {
+                    dataPath = layoutField.id   
                 }
-                else if(groupType.id === 'nested' || groupType.id === 'linked') {
-                    if(layoutField.path != null) {
-                        dataPath = layoutField.path
-                    } else {
-                        dataPath = layoutField.id   
-                    }
-                }
+                // ALT
+                // if(groupType.id === 'primary') {
+                //     dataPath = layoutField.id
+                // }
+                // else if(groupType.id === 'nested' || groupType.id === 'linked') {
+                //     if(layoutField.path != null) {
+                //         dataPath = layoutField.path
+                //     } else {
+                //         dataPath = layoutField.id   
+                //     }
+                // }
 
                 // fetch the data field definition from the scheme for the current column def
                 let fieldDefinition = undefined
@@ -690,6 +712,7 @@ export default function Grid() {
                 } else if(groupType.id === 'linked') {
 
                     // TODO
+                    // 
 
                 }
 
@@ -785,13 +808,63 @@ export default function Grid() {
 
         let cellValue = undefined
 
+        /*
+            Eigentlich sollte der Pfad element für element aufgelöst werden
+            sobald man auf ein refereziertes element stößt, sollte dieses geholt werden
+            sobald man auf null oder undefined stößt, bricht das ab
+
+            das sollte gehen bei primary UND nested gleichermaßen
+
+            Probleme: 
+            es gibt nicht für jedes pfadelement ein type, oder?
+            andererseits müssen alle linked felder einen type dazu definiert haben
+            und wenn der linked type 
+
+
+
+        */
+
         if(context.groupType.id === 'primary') {
 
-            cellValue = params.data[context.dataPath]
+            // cellValue = params.data[context.dataPath]
+            cellValue = lodash.get(params.data, context.dataPath)
+
+            // wenn field definition ein ref element hat, dann weiß man schon, dass es linked ist und das das geholt werden muss
+            
+            // if(context.dataPath === 'shortName') {
+                // console.log(context.fieldDefinition)
+                /* 
+                    field definition müsste eigentlich den pfad wiederspiegeln
+                    man kann den pfad traversieren und parallel die field definition durchgehen
+
+                */
+            // }
+
+            if(context.dataPath === 'sequencingLab') {
+                let id = cellValue
+                let shortName = params.context.getLinkedDataById()['STATIC_labs']?.get(id)?.shortName
+                // if(shortName == null) {
+                //     console.log("FEHLER: ")
+                //     console.log(id)
+                //     console.log(Object.keys(linkedDataById))
+                //     console.log(params)
+                // }
+                // console.log(linkedDataById['STATIC_labs'])
+                cellValue = shortName
+                // console.log(cellValue)
+            }
+
+
+
 
         } else if(context.groupType.id === 'nested') {
 
             const rootData = params.data[context.groupType.root]
+
+            // hier müsste für rootData die field definition über den context
+            // verfügbar gemacht werden.
+            // Dann müsste man eigentlich die gleiche routine wie für primary zur
+            // pfad traversierung verwenden können
 
             if(rootData != null && context.groupType.rowExpansion === true) {
                 cellValue = []
@@ -806,10 +879,7 @@ export default function Grid() {
         } else if(context.groupType.id === 'linked') {
 
             // TODO
-            //   1. die linked id (oder array von linked ids) muss geholt werden anstatt dem root item (oder array von root items)
-            //   2. das linked objekt muss per id geholt weren
-            //   3. im linked objekt den data path auflösen
-
+           
         }
 
         return cellValue
@@ -1230,7 +1300,9 @@ export default function Grid() {
 
 
 
-
+    const getLinkedDataById = () => {
+        return linkedDataById
+    }
 
 
     const renderGrid = () =>
@@ -1265,7 +1337,8 @@ export default function Grid() {
 
                 context={{
                     gridId: gridId,
-                    toggleExpand: toggleExpand
+                    toggleExpand: toggleExpand,
+                    getLinkedDataById: getLinkedDataById
                 }}
 
                 onFilterChanged={ event => {

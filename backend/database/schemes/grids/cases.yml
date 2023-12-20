@@ -183,6 +183,7 @@ layouts:
             label: ID
             importTarget: false
           - id: sequencingLab
+            # path: shortName
             label: Sequencing Lab
             majorField: true
             importTarget: false
@@ -276,7 +277,7 @@ layouts:
           - id: AutoCasc
             label: AutoCasc
             importTarget: true
-      - label: Clinical Interpretation
+      - label: Klinische Interpretation
         type: 
             id: nested
             rowExpansion: true
@@ -308,12 +309,22 @@ layouts:
           - id: modeOfInheritance
             label: Mode of Inheritance
             importTarget: true
-#      - label: Variant
+#      - label: Variante
 #        type: 
-#            id: linked
+#            id: nested
 #            rowExpansion: true
-#            linkedScheme: GRID_variants
+#            root: variants
+#        fields:
+#          - id: bla
+#            label: Dings
+#            path: variant.reference->GRCh37.gDNA
+#          - id: test
+#            label: Neu
+#            path: variant.reference->GRCh37
 
-        
+# der path wird im build column defs "vorbereitet"
+# im 
+            
+      
 
 

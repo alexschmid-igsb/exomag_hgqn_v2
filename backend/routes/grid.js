@@ -53,7 +53,17 @@ router.get('/get/:gridId', [auth], async function (req, res, next) {
 
     dbRes.gridInfo = gridInfo
 
-    res.send(dbRes)
+    let result = {
+        gridInfo: gridInfo,
+        data: {}
+    }
+
+    result.data[target] = dbRes
+
+    // TODO: linked data laden
+    result.data['STATIC_labs'] = await db.find('STATIC_labs')
+
+    res.send(result)
     
     // res.send(result)
 })
