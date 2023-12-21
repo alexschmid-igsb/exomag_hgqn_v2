@@ -10,6 +10,8 @@ import { AgGridReact } from 'ag-grid-react'
 import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css'
 
+import { LabNameRenderer as LabRenderer } from '../components/aggrid/LabRenderer'
+
 import Button from '@mui/material/Button'
 
 import HomeIcon from '@mui/icons-material/HomeRounded'
@@ -46,8 +48,6 @@ function UsersIcon() {
 
 
 
-
-
 export default function UserList() {
 
     const dispatch = useDispatch()
@@ -56,7 +56,6 @@ export default function UserList() {
     const currentUser = useSelector((state) => state.user)
 
     const [users, setUsers] = React.useState(null)
-    const [labs, setLabs] = React.useState(new Map())
 
     const breadcrumbs = [
         {
@@ -78,7 +77,13 @@ export default function UserList() {
         return params.data[colId]
     }
 
+
+    /*
     const labGetter = params => {
+
+        // DAS HIER IST BESSER ALS RENDERER UM GGF EIN POPUP FÜR DAS LAB VORZUSEHEN
+        // besser noch als renderer
+
         let colId = params.colDef.colId
         let labId = params.data[colId]
         let lab = labs.get(labId)
@@ -87,7 +92,11 @@ export default function UserList() {
         } else {
             return null
         }
+
+        let colId = params.colDef.colId
+        return JSON.stringify(params.data[colId])
     }
+    */
 
     const nameGetter = params => {
         let colId = params.colDef.colId
@@ -156,7 +165,9 @@ export default function UserList() {
             field: 'Einrichtung',
             filter: false,
             resizable: true,
-            valueGetter: labGetter
+            valueGetter: valueGetter,
+            cellRenderer: LabRenderer
+
         },
 
         /*
@@ -212,13 +223,8 @@ export default function UserList() {
     }, [])
 
     const loadUserData = () => {
-        API.get('/api/user/list-public/').then(data => {
-            let newLabs = new Map()
-            for(let lab of data.labs) {
-                newLabs.set(lab._id,lab)
-            }
-            setLabs(newLabs)
-            setUsers(data.users)
+        API.get('/api/user/list-public/').then(response => {
+            setUsers(response.data)
         })
     }
 

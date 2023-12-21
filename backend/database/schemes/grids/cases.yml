@@ -9,7 +9,7 @@ scheme:
     sequencingLab:
         #type: string
         type: UUID
-        ref: STATIC_labs
+        reference: STATIC_labs
         required: true
     externalCaseId:
         type: string
@@ -169,146 +169,152 @@ scheme:
         variant:
             reference:
                 type: string
-                ref: GRID_variants
+                reference: GRID_variants
                 required: true
             transcript:
                 type: string
 layouts:
     default:
-      - label: Identifikation
-        type: 
-            id: primary
-        fields:
-          - id: _id
-            label: ID
-            importTarget: false
-          - id: sequencingLab
-            # path: shortName
-            label: Sequencing Lab
-            majorField: true
-            importTarget: false
-            pinned: true
-          - id: internalCaseId
-            label: Internal Case ID
-            majorField: true
-            importTarget: true
-            importMappingRequired: true
-            pinned: true
-      - label: Externe IDs
-        type: 
-            id: primary
-        fields:
-          - id: gestaltMatcherId
-            label: GestaltMatcher ID
-            majorField: true
-            importTarget: true
-          - id: externalCaseId
-            label: External Case ID
-            importTarget: true
-          - id: face2GeneId
-            label: Face2Gene ID
-            importTarget: true
-      - label: Patient
-        type: 
-            id: primary
-        fields:
-          - id: sex
-            label: Sex
-            majorField: true
-            importTarget: true
-          - id: ageInMonths
-            label: Age (in months)
-            majorField: true
-            importTarget: true
-          - id: ageinYears
-            label: Age (in years)
-            majorField: true
-            importTarget: true
-          - id: prenatal
-            label: Prenatal
-            importTarget: true
-          - id: dateOfBirth
-            label: Date of Birth
-            importTarget: true
-      - label: Diagnostik
-        type: 
-            id: primary
-        fields:
-          - id: startDerDiagnostik
-            label: Start der Diagnostik
-            majorField: true
-            importTarget: true
-          - id: befunddatum
-            label: Befunddatum
-            majorField: true
-            importTarget: true
-          - id: diseaseCategory
-            label: Disease Category
-            majorField: true
-            importTarget: true
-          - id: caseStatus
-            label: Case Status
-            majorField: true
-            importTarget: true
-          - id: hpoTerms
-            label: HPO Terms
-            importTarget: true
-          - id: bisherigeDiagnostik
-            label: Bisherige Diagnostik
-            importTarget: true
-          - id: singleDuoTrio
-            label: Single / Duo / Trio
-            importTarget: true
-          - id: referringClinician
-            label: Referring Clinician
-            importTarget: true
-          - id: autozygosity
-            label: Autozygosity
-            importTarget: true
-          - id: testConducted
-            label: Test Conducted
-            importTarget: true
-          - id: selektivvertrag
-            label: Selectivvertrag
-            importTarget: true
-          - id: wetlabMetainfo
-            label: Wetlab Metainfo
-            importTarget: true
-          - id: AutoCasc
-            label: AutoCasc
-            importTarget: true
-      - label: Klinische Interpretation
-        type: 
-            id: nested
-            rowExpansion: true
-            root: variants
-        fields:
-          - id: gene
-            label: Gene
-            importTarget: true
-          - id: variantSolvesCase
-            label: Variant solves case
-            importTarget: true
-          - id: ifNewDiseaseGeneLevelOfEvidence
-            label: Level of Evidence (for new disease genes)
-            importTarget: true
-          - id: acmgClass
-            label: ACMG Class
-            path: acmg.class
-            importTarget: true
-          - id: acmgCriteria
-            label: ACMG Criteria
-            path: acmg.criteria
-            importTarget: true
-          - id: zygosity
-            label: Zygosity
-            importTarget: true
-          - id: segregationsanalyse
-            label: Segregationsanalyse
-            importTarget: true
-          - id: modeOfInheritance
-            label: Mode of Inheritance
-            importTarget: true
+        populate:  
+          - path: sequencingLab
+            # select: ewf
+          - path: variants.variant.reference
+            # select: wef
+        description:
+          - label: Identifikation
+            type: 
+                id: primary
+            fields:
+              - id: _id
+                label: ID
+                importTarget: false
+              - id: sequencingLab
+                # path: shortName
+                label: Sequencing Lab
+                majorField: true
+                importTarget: false
+                pinned: true
+              - id: internalCaseId
+                label: Internal Case ID
+                majorField: true
+                importTarget: true
+                importMappingRequired: true
+                pinned: true
+          - label: Externe IDs
+            type: 
+                id: primary
+            fields:
+              - id: gestaltMatcherId
+                label: GestaltMatcher ID
+                majorField: true
+                importTarget: true
+              - id: externalCaseId
+                label: External Case ID
+                importTarget: true
+              - id: face2GeneId
+                label: Face2Gene ID
+                importTarget: true
+          - label: Patient
+            type: 
+                id: primary
+            fields:
+              - id: sex
+                label: Sex
+                majorField: true
+                importTarget: true
+              - id: ageInMonths
+                label: Age (in months)
+                majorField: true
+                importTarget: true
+              - id: ageinYears
+                label: Age (in years)
+                majorField: true
+                importTarget: true
+              - id: prenatal
+                label: Prenatal
+                importTarget: true
+              - id: dateOfBirth
+                label: Date of Birth
+                importTarget: true
+          - label: Diagnostik
+            type: 
+                id: primary
+            fields:
+              - id: startDerDiagnostik
+                label: Start der Diagnostik
+                majorField: true
+                importTarget: true
+              - id: befunddatum
+                label: Befunddatum
+                majorField: true
+                importTarget: true
+              - id: diseaseCategory
+                label: Disease Category
+                majorField: true
+                importTarget: true
+              - id: caseStatus
+                label: Case Status
+                majorField: true
+                importTarget: true
+              - id: hpoTerms
+                label: HPO Terms
+                importTarget: true
+              - id: bisherigeDiagnostik
+                label: Bisherige Diagnostik
+                importTarget: true
+              - id: singleDuoTrio
+                label: Single / Duo / Trio
+                importTarget: true
+              - id: referringClinician
+                label: Referring Clinician
+                importTarget: true
+              - id: autozygosity
+                label: Autozygosity
+                importTarget: true
+              - id: testConducted
+                label: Test Conducted
+                importTarget: true
+              - id: selektivvertrag
+                label: Selectivvertrag
+                importTarget: true
+              - id: wetlabMetainfo
+                label: Wetlab Metainfo
+                importTarget: true
+              - id: AutoCasc
+                label: AutoCasc
+                importTarget: true
+          - label: Klinische Interpretation
+            type: 
+                id: nested
+                rowExpansion: true
+                root: variants
+            fields:
+              - id: gene
+                label: Gene
+                importTarget: true
+              - id: variantSolvesCase
+                label: Variant solves case
+                importTarget: true
+              - id: ifNewDiseaseGeneLevelOfEvidence
+                label: Level of Evidence (for new disease genes)
+                importTarget: true
+              - id: acmgClass
+                label: ACMG Class
+                path: acmg.class
+                importTarget: true
+              - id: acmgCriteria
+                label: ACMG Criteria
+                path: acmg.criteria
+                importTarget: true
+              - id: zygosity
+                label: Zygosity
+                importTarget: true
+              - id: segregationsanalyse
+                label: Segregationsanalyse
+                importTarget: true
+              - id: modeOfInheritance
+                label: Mode of Inheritance
+                importTarget: true
 #      - label: Variante
 #        type: 
 #            id: nested

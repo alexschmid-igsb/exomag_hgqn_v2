@@ -22,7 +22,7 @@ scheme:
         default: false
     lab:
         type: UUID
-        ref: STATIC_labs
+        reference: STATIC_labs
     state:
         id: 
             type: string

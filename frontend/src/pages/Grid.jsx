@@ -391,13 +391,13 @@ export default function Grid() {
 
 
 
-
-    function cleanOut(obj) {
-        var cleaned = JSON.stringify(obj, null, 2);
-        return cleaned.replace(/^[\t ]*"[^:\n\r]+(?<!\\)":/gm, function (match) {
-            return match.replace(/"/g, "")
-        })
-    }
+    // worüf war das nochmal ?!??
+    // function cleanOut(obj) {
+    //     var cleaned = JSON.stringify(obj, null, 2);
+    //     return cleaned.replace(/^[\t ]*"[^:\n\r]+(?<!\\)":/gm, function (match) {
+    //         return match.replace(/"/g, "")
+    //     })
+    // }
 
 
 
@@ -409,35 +409,19 @@ export default function Grid() {
 
         console.log(`loadGridData: ${gridId}`)
 
+        // TODO: hier auch nocht das verwendetet layout an die api übergeben
+
         const path = '/api/grid/get/' + gridId
         API.get(path, { doNotThrowFor: [404] }).then(response => {
             console.log("LOAD GRID DATA")
 
-            let target = `GRID_${gridId}`
             console.log(response)
-
-            buildColumnDefs(response.data[target].scheme)
-            setGridInfo(response.gridInfo)
-
-            // console.log(response.data)
             // console.log(cleanOut(response.data))
 
-            const linkedData = {...response.data}
-            // delete linkedData[target]
+            buildColumnDefs(response.scheme)
+            setGridInfo(response.gridInfo)
 
-            let linkedDataById = {}
-            for(let [key,value] of Object.entries(linkedData)) {
-                let map = new Map()
-                for(let entry of value.data) {
-                    map.set(entry._id,entry)
-                }
-                linkedDataById[key] = map
-            }
-            console.log("SETZE: ")
-            console.log(linkedDataById)
-            setLinkedDataById(linkedDataById)
-
-            const data = response.data[target].data.map(entry => ({...entry, __isExpanded__: false}))
+            const data = response.data.map(entry => ({...entry, __isExpanded__: false}))
             setData(data)
 
         }).catch(e => {
@@ -614,20 +598,20 @@ export default function Grid() {
 
 
         console.log('buildColumnDefs')
-        // console.log(scheme)
+        console.log(scheme)
 
 
 
 
         const layout = scheme?.layouts?.[gridLayout]
-        if(lodash.isArray(layout) === false) {
+        if(lodash.isObject(layout) === false || lodash.isArray(layout.description) === false) {
             throw new Error(`Missing grid layout '${gridLayout}' in grid data scheme`)
         }
 
         let columnDefs = []
 
         // Translate layout groups into AGGrid Groups
-        for(let layoutGroup of layout) {
+        for(let layoutGroup of layout.description) {
 
             // Create AGGrid column def group
             let group = {

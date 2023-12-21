@@ -1,7 +1,7 @@
 var express = require('express')
 var router = express.Router()
 
-const db = require('../../backend/database/connector').connector
+const database = require('../../backend/database/connector').connector
 
 const auth = require('../users/auth')
 
@@ -24,13 +24,15 @@ function validateUUID(uuid) {
 
 
 
-// router.get('/get/:gridId', async function (req, res, next) {
 router.get('/get/:gridId', [auth], async function (req, res, next) {
 
     let gridId = req.params['gridId'] 
     if(gridId == null ) {
         throw new BackendError(`Could not find grid with id ${gridId}`, 404)
     }
+
+    // TODO: hier muss auch noch der verwendete layout name ankommen und nicht nur grid id
+    let layoutName = 'default'
 
     let gridInfo = lodash.find(gridInfos, item => item.id === gridId)
     if(gridInfo == null) {
@@ -43,29 +45,28 @@ router.get('/get/:gridId', [auth], async function (req, res, next) {
     let scheme = null
 
     try {
-        model = db.getModel(target)
-        scheme = db.getScheme(target)
+        model = database.getModel(target)
+        scheme = database.getScheme(target)
     } catch (e) {
         throw new BackendError(`Could not find grid with id ${gridId}`, 404)
     }
 
-    const dbRes = await db.find(target)
-
-    dbRes.gridInfo = gridInfo
-
-    let result = {
-        gridInfo: gridInfo,
-        data: {}
+    const layout = scheme.layouts[layoutName]
+    if(layout == null) {
+        throw new BackendError(`Could not find layout with name ${layoutName} for grid with id ${gridId}`, 404)
     }
 
-    result.data[target] = dbRes
+    // TODO:
+    // aus dem scheme die populate holen
+    console.log(layout.populate)
 
-    // TODO: linked data laden
-    result.data['STATIC_labs'] = await db.find('STATIC_labs')
+
+    // TODO: hier populate
+    const result = await database.find(target)
+
+    result.gridInfo = gridInfo
 
     res.send(result)
-    
-    // res.send(result)
 })
 
 

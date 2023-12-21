@@ -44,56 +44,55 @@ scheme:
         type: any
 layouts:
     default:
-      - label: Identifikation
-        type: 
-            id: primary
-        fields:
-          - id: _id
-            label: ID
-            majorField: true
-            pinned: true
-          - id: gDNA
-            label: HGVS gDNA
-            majorField: true
-            pinned: true
-          - id: links
-            label: Externe Links
-            customValueRenderer: variant_external_links
-            majorField: true
-            pinned: true
-      - label: GRCh37
-        type: 
-            id: nested
-            root: GRCh37
-        fields:
-          - id: gDNA
-            label: HGVS genomic reference
-          - id: build
-            label: Build
-          - id: chr
-            label: Chromosome
-          - id: pos
-            label: Position
-          - id: ref
-            label: Ref
-          - id: alt
-            label: Alt
-      - label: GRCh38
-        type: 
-            id: nested
-            root: GRCh38
-        fields:
-          - id: gDNA
-            label: HGVS genomic reference
-          - id: build
-            label: Build
-          - id: chr
-            label: Chromosome
-          - id: pos
-            label: Position
-          - id: ref
-            label: Ref
-          - id: alt
-            label: Alt
-
-        
+        description:
+          - label: Identifikation
+            type: 
+                id: primary
+            fields:
+              - id: _id
+                label: ID
+                majorField: true
+                pinned: true
+              - id: gDNA
+                label: HGVS gDNA
+                majorField: true
+                pinned: true
+              - id: links
+                label: Externe Links
+                customValueRenderer: variant_external_links
+                majorField: true
+                pinned: true
+          - label: GRCh37
+            type: 
+                id: nested
+                root: GRCh37
+            fields:
+              - id: gDNA
+                label: HGVS genomic reference
+              - id: build
+                label: Build
+              - id: chr
+                label: Chromosome
+              - id: pos
+                label: Position
+              - id: ref
+                label: Ref
+              - id: alt
+                label: Alt
+          - label: GRCh38
+            type: 
+                id: nested
+                root: GRCh38
+            fields:
+              - id: gDNA
+                label: HGVS genomic reference
+              - id: build
+                label: Build
+              - id: chr
+                label: Chromosome
+              - id: pos
+                label: Position
+              - id: ref
+                label: Ref
+              - id: alt
+                label: Alt

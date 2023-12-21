@@ -6,7 +6,7 @@ const argon2 = require('argon2')
 const randomHex = require('../../shared/misc/rand-hex')
 const { randomUUID: uuidv4 } = require('crypto')
 
-const db = require('../database/connector.js').connector
+const database = require('../database/connector.js').connector
 const mongoose = require('mongoose')
 const { Types } = mongoose
 
@@ -29,8 +29,8 @@ class Users {
         await RedisConnection.initPromise
         this.redis = RedisConnection.getClient()
 
-        await db.initPromise
-        db.registerSchemesFromYML(schemes)
+        await database.initPromise
+        database.registerSchemesFromYML(schemes)
 
         await this.loadUsers()
         console.log("   - user cache initialized")
@@ -42,14 +42,12 @@ class Users {
 
     async loadUsers() {
 
-        const dbRes = await db.find(schemes[0].target)
+        const dbRes = await database.find(schemes[0].target)
         const users = dbRes.data
 
-        // console.log("FETCHED USERS BY loadUsers()")
-        // console.log(dbRes.data)
-
-        this.users = new RedisObject(this.redis, 'users')
-        this.users.set(users)
+        // Hier keine komplette Userliste mehr im Redis ablegen, nur noch die maps der user by id, email, username usw.
+        // this.users = new RedisObject(this.redis, 'users')
+        // this.users.set(users)
 
         this.userById = new RedisMap(this.redis, 'userById')
         this.userByEmail = new RedisMap(this.redis, 'userByEmail')
@@ -73,9 +71,12 @@ class Users {
         await this.loadUsers()
     }
 
-    async getAllUsers() {
-        return await this.users.get()
-    }
+    // DEPRECATED
+    // Der Zugriff auf die Liste aller user sollte nicht mehr hierüber kommen, da diese Abfrage aus dem redis cache kommt.
+    // Redis sollte hier nur verwendet werden, um user by id, email, token etc. für login und ähnliches zu holen
+    // async getAllUsers() {
+    //     return await this.users.get()
+    // }
 
     async getUserById(id) {
         if(this.userById != undefined) {
@@ -118,18 +119,18 @@ class Users {
     }
 
     async insertUser(user) {
-        await db.insert('CORE_users', user)
+        await database.insert('CORE_users', user)
         await this.loadUsers()
     }
 
     async deleteUser(id, username, email) {
-        await db.deleteOne('CORE_users', {_id: id, username: username, email: email})
+        await database.deleteOne('CORE_users', {_id: id, username: username, email: email})
         await this.loadUsers()
     }
 
 
     async updateUserById(id, user) {
-        await db.findOneAndUpdate('CORE_users', { fields: '', filter: { _id: id } }, user)
+        await database.findOneAndUpdate('CORE_users', { fields: '', filter: { _id: id } }, user)
         await this.loadUsers()
 
         /*
@@ -144,7 +145,7 @@ class Users {
 
 
     async resetState(id, username, state) {
-        await db.findOneAndUpdate('CORE_users', { fields: '', filter: { _id: id, username: username } }, {state: state})
+        await database.findOneAndUpdate('CORE_users', { fields: '', filter: { _id: id, username: username } }, {state: state})
         await this.loadUsers()
     }
 
@@ -154,7 +155,7 @@ class Users {
     /*
     async updatePassword(userid,password) {
         let hash = await argon2.hash(password)
-        await db.findByIdAndUpdate(schemes.users, userid, { password: hash })
+        await database.findByIdAndUpdate(schemes.users, userid, { password: hash })
     }
     */
 

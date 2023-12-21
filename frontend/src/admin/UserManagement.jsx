@@ -10,6 +10,8 @@ import { AgGridReact } from 'ag-grid-react'
 import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css'
 
+import { LabNameRenderer as LabRenderer } from '../components/aggrid/LabRenderer'
+
 import Tooltip from '@mui/material/Tooltip'
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
@@ -214,7 +216,6 @@ export default function UserManagement() {
     const currentUser = useSelector((state) => state.user)
 
     const [users, setUsers] = React.useState(null)
-    const [labs, setLabs] = React.useState(new Map())
 
     const breadcrumbs = [
         {
@@ -247,6 +248,11 @@ export default function UserManagement() {
     }
 
     const labGetter = params => {
+        // DAS HIER IST BESSER ALS RENDERER UM GGF EIN POPUP FÜR DAS LAB VORZUSEHEN
+
+        // besser noch als renderer
+
+        /*
         let colId = params.colDef.colId
         let labId = params.data[colId]
         let lab = labs.get(labId)
@@ -255,6 +261,10 @@ export default function UserManagement() {
         } else {
             return null
         }
+        */
+
+        let colId = params.colDef.colId
+        return JSON.stringify(params.data[colId])
     }
 
     const nameGetter = params => {
@@ -303,7 +313,8 @@ export default function UserManagement() {
             field: 'Einrichtung',
             filter: false,
             resizable: true,
-            valueGetter: labGetter
+            valueGetter: valueGetter,
+            cellRenderer: LabRenderer
         },
         /*
         {
@@ -361,29 +372,8 @@ export default function UserManagement() {
 
     const loadUserData = () => {
 
-        API.get('/api/user/list/').then(data => {
-            let newLabs = new Map()
-            for(let lab of data.labs) {
-                newLabs.set(lab._id,lab)
-            }
-            setLabs(newLabs)
-            /*
-            data.users.map(user => {
-
-                user.state = JSON.stringify(user.state)
-
-                if(typeof user.actions.activation.token === 'string' && user.actions.activation.token.length === 32) {
-                    user.state = 'ACTIVATION SENT'
-                } else if(typeof user.actions.resetPassword.token === 'string' && user.actions.resetPassword.token.length === 32) {
-                    user.state = 'PASSWORD RESET SENT'
-                } else if(user.password === true) {
-                    user.state = 'ACTIVATED'
-                } else {
-                    user.state = 'NO ACTIVATION SENT'
-                }
-            })
-            */
-            setUsers(data.users)
+        API.get('/api/user/list/').then(response => {
+            setUsers(response.data)
         })
 
         setTimeout(() => { gridRef.current.api.sizeColumnsToFit() }, 200)

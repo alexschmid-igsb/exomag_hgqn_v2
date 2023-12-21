@@ -12,7 +12,7 @@ const config = require('../../config/config')
 const jwt = require('jsonwebtoken')
 
 const usersStore = require('../users/manager')
-const db = require('../../backend/database/connector').connector
+const database = require('../../backend/database/connector').connector
 
 const Brevo = require('../util/mail/Brevo')
 
@@ -122,18 +122,40 @@ router.post('/logout', async function (req, res, next) {
 // endpoint for public user list
 router.get('/list-public', [auth], async function (req, res, next) {
 
-    let labs = await db.find('STATIC_labs')
+    // ALT
+    // Es gibt keine Userliste mehr aus dem usersStore
 
-    let users = await usersStore.getAllUsers()
-    for(let user of users) {
+    // let labs = await database.find('STATIC_labs')
+
+    // let users = await usersStore.getAllUsers()
+    // for(let user of users) {
+    //     delete user.password
+    //     delete user.state
+    // }
+
+    // res.send({
+    //     users: users,
+    //     labs: labs.data
+    // })
+
+    // let users = await usersStore.getAllUsers()
+    // for(let user of users) {
+    //     delete user.password
+    //     delete user.state
+    // }
+    // res.send(users}
+
+
+    // NEU
+    // Users aus der Datenbank holen und labs per populate hinzufügen
+
+    const dbResult = await database.find('CORE_users', { populate: 'lab'})
+    console.log(dbResult)
+    for(let user of dbResult.data) {
         delete user.password
         delete user.state
     }
-
-    res.send({
-        users: users,
-        labs: labs.data
-    })
+    res.send(dbResult)
 })
 
 
@@ -141,18 +163,30 @@ router.get('/list-public', [auth], async function (req, res, next) {
 // endpoint to get user list (by admin using the user management)
 router.get('/list', [auth, isSuperuser], async function (req, res, next) {
 
-    let labs = await db.find('STATIC_labs')
+    // ALT
+    // Es gibt keine Userliste mehr aus dem usersStore
 
-    let users = await usersStore.getAllUsers()
-    for(let user of users) {
+    // let labs = await database.find('STATIC_labs')
+
+    // let users = await usersStore.getAllUsers()
+    // for(let user of users) {
+    //     delete user.password
+    // }
+
+    // res.send({
+    //     users: users,
+    //     labs: labs.data
+    // })
+
+
+    // NEU
+    // Users aus der Datenbank holen und labs per populate hinzufügen
+
+    const dbResult = await database.find('CORE_users', { populate: 'lab'})
+    for(let user of dbResult.data) {
         delete user.password
     }
-
-    res.send({
-        users: users,
-        labs: labs.data
-    })
-
+    res.send(dbResult)
 })
 
 
