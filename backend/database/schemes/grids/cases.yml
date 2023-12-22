@@ -189,7 +189,7 @@ layouts:
                 label: ID
                 importTarget: false
               - id: sequencingLab
-                # path: shortName
+                path: shortName
                 label: Sequencing Lab
                 majorField: true
                 importTarget: false
@@ -315,22 +315,25 @@ layouts:
               - id: modeOfInheritance
                 label: Mode of Inheritance
                 importTarget: true
-#      - label: Variante
-#        type: 
-#            id: nested
-#            rowExpansion: true
-#            root: variants
-#        fields:
-#          - id: bla
-#            label: Dings
-#            path: variant.reference->GRCh37.gDNA
-#          - id: test
-#            label: Neu
-#            path: variant.reference->GRCh37
-
-# der path wird im build column defs "vorbereitet"
-# im 
-            
-      
+              - id: blabla
+                label: Mode of Inheritance
+                path: acmg.class
+                importTarget: true
+              - id: blabla2
+                label: Mode of Inheritance
+                path: variant.reference._id
 
 
+
+#          - label: Variante
+#            type: 
+#                id: nested
+#                rowExpansion: true
+#                root: variants
+#            fields:
+#              - id: bla
+#                label: Dings
+#                path: variant.reference.GRCh37.gDNA
+#              - id: test
+#                label: Neu
+#                path: variant.reference.GRCh37

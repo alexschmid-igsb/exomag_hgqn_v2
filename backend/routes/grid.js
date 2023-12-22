@@ -56,13 +56,7 @@ router.get('/get/:gridId', [auth], async function (req, res, next) {
         throw new BackendError(`Could not find layout with name ${layoutName} for grid with id ${gridId}`, 404)
     }
 
-    // TODO:
-    // aus dem scheme die populate holen
-    console.log(layout.populate)
-
-
-    // TODO: hier populate
-    const result = await database.find(target)
+    const result = await database.find(target, { populate: layout.populate != null ? layout.populate : [] })
 
     result.gridInfo = gridInfo
 

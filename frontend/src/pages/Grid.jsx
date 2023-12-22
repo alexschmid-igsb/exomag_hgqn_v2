@@ -647,24 +647,50 @@ export default function Grid() {
 
                 // determine the data path for the column def
                 let dataPath = undefined
-                if(layoutField.path != null) {
-                    dataPath = layoutField.path
-                } else {
-                    dataPath = layoutField.id   
+                if(groupType.id === 'primary') {
+                    dataPath = layoutField.id
+                    if(layoutField.path != null) {
+                        dataPath += '.' + layoutField.path
+                    }
                 }
-                // ALT
-                // if(groupType.id === 'primary') {
-                //     dataPath = layoutField.id
-                // }
-                // else if(groupType.id === 'nested' || groupType.id === 'linked') {
-                //     if(layoutField.path != null) {
-                //         dataPath = layoutField.path
-                //     } else {
-                //         dataPath = layoutField.id   
-                //     }
-                // }
+                else if(groupType.id === 'nested' || groupType.id === 'linked') {
+                    if(layoutField.path != null) {
+                        dataPath = layoutField.path
+                    } else {
+                        dataPath = layoutField.id   
+                    }
+                }
 
                 // fetch the data field definition from the scheme for the current column def
+
+                /*
+                
+                    Das Problem ist, dass die field definition bei populated pfaden noch nicht
+                    funktioniert. Man geht hier über die root definition und holt dann mit
+                    lodash.get einfach den pfad und bekommt im normalfall die field definition
+
+                    Das funktioniert nicht bei populated bzw reference fields. Und auch nicht 
+                    bei mehrfache arrays auf dem pfad (sieht unten, es wird nur für den root
+                    pfad geschaut ob er ein array type ist)
+
+                    Lösungsansatz:
+                    lodash.get sollte man ersetzen durch eine angepasste funtkion. Diese muss
+                    Bei jedem schritt prüfen, ob es ein array type ist und ob es ein reference
+                    type ist. Bei referencen muss man dann weitermachen mit dem scheme welches
+                    referenziert wird. Dieses könnte man entweder zusätzlich vom backend
+                    als zusammenstellung bekommen oder aber das backend könnte die in das
+                    scheme an der richtigen stelle einfügen z.b. als referenced_scheme
+                    was sicherlich eine ganz elegante lösung wäre.
+                    Das mit den arrays muss auch nochmal gut durchdacht und vorallem getestet
+                    werden
+
+                    Weiterhin:
+                    Bei primary dürfte es auch nicht funktionieren, wenn man populated fileds
+                    definiert, die aber einen type haben welcher bekannt sein muss, um z.b.
+                    custom renderer zu setzen.
+
+                */
+
                 let fieldDefinition = undefined
                 if(groupType.id === 'primary') {
 
@@ -810,36 +836,7 @@ export default function Grid() {
 
         if(context.groupType.id === 'primary') {
 
-            // cellValue = params.data[context.dataPath]
             cellValue = lodash.get(params.data, context.dataPath)
-
-            // wenn field definition ein ref element hat, dann weiß man schon, dass es linked ist und das das geholt werden muss
-            
-            // if(context.dataPath === 'shortName') {
-                // console.log(context.fieldDefinition)
-                /* 
-                    field definition müsste eigentlich den pfad wiederspiegeln
-                    man kann den pfad traversieren und parallel die field definition durchgehen
-
-                */
-            // }
-
-            if(context.dataPath === 'sequencingLab') {
-                let id = cellValue
-                let shortName = params.context.getLinkedDataById()['STATIC_labs']?.get(id)?.shortName
-                // if(shortName == null) {
-                //     console.log("FEHLER: ")
-                //     console.log(id)
-                //     console.log(Object.keys(linkedDataById))
-                //     console.log(params)
-                // }
-                // console.log(linkedDataById['STATIC_labs'])
-                cellValue = shortName
-                // console.log(cellValue)
-            }
-
-
-
 
         } else if(context.groupType.id === 'nested') {
 
