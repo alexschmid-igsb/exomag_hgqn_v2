@@ -8,7 +8,7 @@ data:
     firstname: Alex
     lastname: Schmid
     password: $argon2id$v=19$m=65536,t=3,p=4$l66ENw51oOc9md1BpueYfg$W/9zL7Tf2N7+mweoh3r16J7gmAT/ZXXXPpvj2O8BPog
-    superuser: true
+    isSuperuser: true
     state:
       id: ACTIVE
   - username: HTester
@@ -16,6 +16,6 @@ data:
     firstname: Heribert
     lastname: Tester
     password: $argon2id$v=19$m=65536,t=3,p=4$l66ENw51oOc9md1BpueYfg$W/9zL7Tf2N7+mweoh3r16J7gmAT/ZXXXPpvj2O8BPog
-    superuser: false
+    isSuperuser: false
     state:
       id: ACTIVE

@@ -1,0 +1,40 @@
+@import '../../base';
+@import '../../fonts';
+@import '../../exomag';
+
+
+div.main-menu > .main-menu-button {
+    /*
+    margin-right: 20px;
+    margin-left: 0px;
+    */
+}
+
+div.main-menu > .main-menu-button > .MuiButton-startIcon {
+    // border: 1px solid red;
+    // width: 1.6em;
+    // height: 1.6em;
+}
+
+div.main-menu > .main-menu-button > .MuiButton-startIcon > svg {
+    // width: 100%;
+    // height: 100%;
+}
+
+
+div.main-menu > .main-menu-button:last-child {
+    /* margin-right: 0px; */
+}
+
+div.main-menu-submenu > div.main-menu-submenu-paper {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+
+div.main-menu > div.divider {
+    height: 50%;
+    align-self: center;
+    // border-right: 1px dashed rgba(255,255,255,0.7)
+    border-right: 1px solid rgba(255,255,255,0.7);
+    display: none;
+}

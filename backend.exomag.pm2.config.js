@@ -7,16 +7,16 @@ module.exports = {
 		exec_mode: "cluster",
 		instances: 4,
 		watch: true,
-		instance_var: 'INSTANCE_ID_BASE',
+		instance_var: 'INSTANCE_ID_EXOMAG',
 		env_development: {
 			PORT: 9000,
 			NODE_ENV: "development",
-			REACT_APP_INSTANCE_ID: "BASE"
+			REACT_APP_INSTANCE_ID: "EXOMAG"
 		},
 		env_production: {
 			PORT: 9000,
 			NODE_ENV: "production",
-			REACT_APP_INSTANCE_ID: "BASE"
+			REACT_APP_INSTANCE_ID: "EXOMAG"
 		}
 	}]
 }

@@ -1,0 +1,99 @@
+@import '../../base';
+@import '../../fonts';
+@import '../../exomag';
+
+div.page-logo {
+    width: 200px;
+    margin: 0px;
+    /* margin-right: 10px; */
+    // background-color: rgba(255,255,255,0.2);
+    background-color: rgba(0,0,0,0.1);
+    align-self: stretch;
+
+    // border-left: 1px solid $HEADER_INNER_BORDER_COLOR;
+
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+
+    // margin: 6px 6px 0px 6px;
+
+    & > div.primary {
+        // font-family: 'Fredoka One';
+        font-family: 'Signika Variable', sans-serif;
+        font-weight: 700;
+        font-size: 34px;
+        color: rgba(0,0,0,0.5);
+        color: #0B4F6C;
+    }
+
+    & > div.secondary {
+        font-family: 'Rajdhani', sans-serif;
+        font-size: 19px;
+        font-weight: bold;
+        margin-top: -8px;
+        letter-spacing: 0px;
+        // color: rgba(0,0,0,0.8);
+        color: rgba(255,255,255,0.8)
+    }
+
+}
+
+
+// HGQN
+
+// div.page-logo {
+//     width: 250px;
+//     margin: 0px;
+//     // background-color: rgba(255,255,255,0.6);
+//     background-color: white;
+//     align-self: stretch;
+//     border-left: 1px solid $HEADER_OUTER_BORDER_COLOR;
+
+//     display: flex;
+//     flex-flow: column;
+//     align-items: stretch;
+//     justify-content: center;
+
+
+//     // div.img {
+//     //     // background: no-repeat center/84% url("../../../public/hgqn_logo_dev.svg");
+//     //     // background: no-repeat center/84% url("../../../public/hgqn_logo.svg");
+//     //     flex: 1;
+//     //     align-self: stretch;
+//     //     // border: 1px solid red;
+//     // }
+
+//     div.logo-container {
+
+//         flex: 1;
+//         display: flex;
+//         flex-flow: row;
+//         align-items: center;
+//         justify-content: center;
+
+//         img.logo {
+//             width: 80%;
+//             display: block;
+//         }
+//     }
+
+
+//     span.text {
+
+//         text-align: center; 
+
+//         background-color: rgba(0,0,0,0.1);
+//         color: rgba(207,0,15,0.8);
+
+//         font-size: 0.8em;
+//         font-weight: 700;
+//         // letter-spacing: 1.8px;
+//         border-top: 1px dashed #CCC;
+
+//         padding: 2px 0px;
+//     }
+// }

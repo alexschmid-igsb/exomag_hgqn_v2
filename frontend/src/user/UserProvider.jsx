@@ -28,7 +28,7 @@ import { Icon as IconifyIcon, InlineIcon as IconifyIconInline } from "@iconify/r
 
 import templates from '../util/mail/base/Templates'
 
-import PageLogo from '../layout/hgqn/PageLogo'
+import PageLogo from '../layout/exomag/PageLogo'
 
 import './UserProvider.scss'
 
@@ -182,7 +182,9 @@ export default function LoginProvider({ children }) {
     const renderLogin = () =>
         <div className="login-screen">
             
-            <PageLogo/>
+            <div className="page-logo-container">
+                <PageLogo/>
+            </div>
 
             <div className="login-box">
 

@@ -47,9 +47,10 @@
         "redis:start": "./backend/redis/start.sh",
         "redis:stop": "./backend/redis/stop.sh",
         "backend:dev": "./dev.sh",
-        "backend:dev:execute": "INSTANCE_CONFIG_PATH=./config/base PROFILE=development_default nodemon backend/run",
+        "backend:dev:execute": "INSTANCE_CONFIG_PATH=./config/exomag PROFILE=development_default nodemon backend/run",
         "frontend:dev": "cd frontend && react-scripts start",
-        "seed": "INSTANCE_CONFIG_PATH=./config/base PROFILE=development_default ./seed.sh"
+        "seed:dev": "INSTANCE_CONFIG_PATH=./config/exomag PROFILE=development_default ./seed.sh",
+        "seed:production": "INSTANCE_CONFIG_PATH=./config/exomag PROFILE=production_default ./seed.sh"
     },
     "eslintConfig": {
         "extends": [

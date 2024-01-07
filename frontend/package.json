@@ -5,6 +5,9 @@
     "dependencies": {
         "@emotion/react": "^11.9.0",
         "@emotion/styled": "^11.8.1",
+        "@fontsource-variable/signika": "^5.0.3",
+        "@fontsource/indie-flower": "^5.0.3",
+        "@fontsource/rajdhani": "^5.0.8",
         "@fontsource/roboto": "^4.5.8",
         "@fontsource/ubuntu": "^4.5.11",
         "@iconify/react": "^3.2.2",

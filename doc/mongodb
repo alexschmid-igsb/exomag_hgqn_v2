@@ -25,7 +25,7 @@
    mongosh -u root
 
    use hgqn_dev
-   database.createUser({ user:'hgqn_dev', pwd: '<secure password #2>', roles:[{db:'hgqn_dev', role:'readWrite'}]})
+   db.createUser({ user:'hgqn_dev', pwd: '<secure password #2>', roles:[{db:'hgqn_dev', role:'readWrite'}]})
 
    use hgqn_production
-   database.createUser({ user:'hgqn_production', pwd: '<secure password #3>', roles:[{db:'hgqn_production', role:'readWrite'}]})
+   db.createUser({ user:'hgqn_production', pwd: '<secure password #3>', roles:[{db:'hgqn_production', role:'readWrite'}]})

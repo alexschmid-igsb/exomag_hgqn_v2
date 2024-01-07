@@ -29,7 +29,7 @@ import GridIcon from '@mui/icons-material/Article'
 import HomeIcon from '@mui/icons-material/HomeRounded'
 */
 
-import PageLogo from '../layout/hgqn/PageLogo'
+import PageLogo from '../layout/exomag/PageLogo'
 
 import './Activation.scss'
 
@@ -182,7 +182,9 @@ export default function Activation() {
 
         <div class="activation-page">
 
-            <PageLogo/>
+            <div className="page-logo-container">
+                <PageLogo/>
+            </div>
 
             {user ?
                 <div className="activation-form">

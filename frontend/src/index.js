@@ -10,7 +10,7 @@ import ErrorHandler from './error/ErrorHandler'
 import LoginProvider from './user/UserProvider'
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 
-import Layout from './layout/base/Layout'
+import Layout from './layout/exomag/Layout'
 import Home from './pages/Home'
 import Disclaimer from './pages/Disclaimer'
 import Grid from './pages/Grid'

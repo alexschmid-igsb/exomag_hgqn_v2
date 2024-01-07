@@ -79,7 +79,7 @@ export default function Page1() {
         
         <div className="page-content home-content">
 
-            <h2>Willkommen in der HGQN Fall- und Variantendatenbank</h2>
+            <h2>Willkommen in der Fall- und Variantendatenbank der ExomAG</h2>
 
             <p>
                 Excel Template für den Upload neuer Fälle und Varianten
