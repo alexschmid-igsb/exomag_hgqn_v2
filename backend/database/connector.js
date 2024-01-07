@@ -471,6 +471,9 @@ class Connector {
                 console.dir(mongooseSchemeDescription, { depth: null })
             }
         }
+
+        // update referenced schemes
+        this.updateReferencedSchemes()
     }
 
 
@@ -512,6 +515,44 @@ class Connector {
             throw new Error(`could not find scheme${targetErrMsg(target)}`)
         }
         return entry.scheme
+    }
+
+
+
+
+
+
+    updateReferencedSchemes() {
+
+        const traverse = (parent,indent) => {
+
+            let node
+
+            if(lodash.isArray(parent) === true && lodash.isObject(parent[0]) === true) {
+                node = parent[0]
+            } else if(lodash.isObject(parent) === true) {
+                node = parent
+            } else {
+                return
+            }
+
+            if(lodash.isString(node.type)) {
+                if(lodash.isString(node.reference)) {
+                    let referencedScheme = this.state.get(node.reference)?.scheme?.schemeDescription
+                    if(referencedScheme != null) {
+                        node.referencedScheme = referencedScheme
+                    }
+                }
+            } else {
+                for(let [key,child] of Object.entries(node)) {
+                    traverse(child,indent+3)
+                }
+            }
+        }
+
+        for(let [id,entry] of this.state.entries()) {
+            traverse(entry.scheme.schemeDescription, 0)
+        }
     }
 
 

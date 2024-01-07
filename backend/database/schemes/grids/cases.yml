@@ -24,7 +24,7 @@ scheme:
           - female
           - ambigous
     hpoTerms:
-        type: string
+      - type: string
     singleDuoTrio:
         type: string
         enum: 
@@ -185,16 +185,18 @@ layouts:
             type: 
                 id: primary
             fields:
-              - id: _id
+              - id: id_COLUMN
+                path: _id
                 label: ID
                 importTarget: false
-              - id: sequencingLab
-                path: shortName
+              - id: sequencingLab_COLUMN
+                path: sequencingLab.shortName
                 label: Sequencing Lab
                 majorField: true
                 importTarget: false
                 pinned: true
-              - id: internalCaseId
+              - id: internalCaseId_COLUMN
+                path: internalCaseId
                 label: Internal Case ID
                 majorField: true
                 importTarget: true
@@ -204,83 +206,104 @@ layouts:
             type: 
                 id: primary
             fields:
-              - id: gestaltMatcherId
+              - id: gestaltMatcherId_COLUMN
+                path: gestaltMatcherId
                 label: GestaltMatcher ID
                 majorField: true
                 importTarget: true
-              - id: externalCaseId
+              - id: externalCaseId_COLUMN
+                path: externalCaseId
                 label: External Case ID
                 importTarget: true
-              - id: face2GeneId
+              - id: face2GeneId_COLUMN
+                path: face2GeneId
                 label: Face2Gene ID
                 importTarget: true
           - label: Patient
             type: 
                 id: primary
             fields:
-              - id: sex
+              - id: sex_COLUMN
+                path: sex
                 label: Sex
                 majorField: true
                 importTarget: true
-              - id: ageInMonths
+              - id: ageInMonths_COLUMN
+                path: ageInMonths
                 label: Age (in months)
                 majorField: true
                 importTarget: true
-              - id: ageinYears
+              - id: ageinYears_COLUMN
+                path: ageinYears
                 label: Age (in years)
                 majorField: true
                 importTarget: true
-              - id: prenatal
+              - id: prenatal_COLUMN
+                path: prenatal
                 label: Prenatal
                 importTarget: true
-              - id: dateOfBirth
+              - id: dateOfBirth_COLUMN
+                path: dateOfBirth
                 label: Date of Birth
                 importTarget: true
           - label: Diagnostik
             type: 
                 id: primary
             fields:
-              - id: startDerDiagnostik
+              - id: startDerDiagnostik_COLUMN
+                path: startDerDiagnostik
                 label: Start der Diagnostik
                 majorField: true
                 importTarget: true
-              - id: befunddatum
+              - id: befunddatum_COLUMN
+                path: befunddatum
                 label: Befunddatum
                 majorField: true
                 importTarget: true
-              - id: diseaseCategory
+              - id: diseaseCategory_COLUMN
+                path: diseaseCategory
                 label: Disease Category
                 majorField: true
                 importTarget: true
-              - id: caseStatus
+              - id: caseStatus_COLUMN
+                path: caseStatus
                 label: Case Status
                 majorField: true
                 importTarget: true
-              - id: hpoTerms
+              - id: hpoTerms_COLUMN
+                path: hpoTerms
                 label: HPO Terms
                 importTarget: true
-              - id: bisherigeDiagnostik
+              - id: bisherigeDiagnostik_COLUMN
+                path: bisherigeDiagnostik
                 label: Bisherige Diagnostik
                 importTarget: true
-              - id: singleDuoTrio
+              - id: singleDuoTrio_COLUMN
+                path: singleDuoTrio
                 label: Single / Duo / Trio
                 importTarget: true
-              - id: referringClinician
+              - id: referringClinician_COLUMN
+                path: referringClinician
                 label: Referring Clinician
                 importTarget: true
-              - id: autozygosity
+              - id: autozygosity_COLUMN
+                path: autozygosity
                 label: Autozygosity
                 importTarget: true
-              - id: testConducted
+              - id: testConducted_COLUMN
+                path: testConducted
                 label: Test Conducted
                 importTarget: true
-              - id: selektivvertrag
+              - id: selektivvertrag_COLUMN
+                path: selektivvertrag
                 label: Selectivvertrag
                 importTarget: true
-              - id: wetlabMetainfo
+              - id: wetlabMetainfo_COLUMN
+                path: wetlabMetainfo
                 label: Wetlab Metainfo
                 importTarget: true
-              - id: AutoCasc
+              - id: AutoCasc_COLUMN
+                path: AutoCasc
                 label: AutoCasc
                 importTarget: true
           - label: Klinische Interpretation
@@ -289,41 +312,51 @@ layouts:
                 rowExpansion: true
                 root: variants
             fields:
-              - id: gene
+              - id: gene_COLUMN
+                path: gene
                 label: Gene
                 importTarget: true
-              - id: variantSolvesCase
+              - id: variantSolvesCase_COLUMN
+                path: gene
                 label: Variant solves case
                 importTarget: true
-              - id: ifNewDiseaseGeneLevelOfEvidence
+              - id: ifNewDiseaseGeneLevelOfEvidence_COLUMN
+                path: ifNewDiseaseGeneLevelOfEvidence
                 label: Level of Evidence (for new disease genes)
                 importTarget: true
-              - id: acmgClass
-                label: ACMG Class
+              - id: acmgClass_COLUMN
                 path: acmg.class
+                label: ACMG Class
                 importTarget: true
-              - id: acmgCriteria
-                label: ACMG Criteria
+              - id: acmgCriteria_COLUMN
                 path: acmg.criteria
+                label: ACMG Criteria
                 importTarget: true
-              - id: zygosity
+              - id: zygosity_COLUMN
+                path: zygosity
                 label: Zygosity
                 importTarget: true
-              - id: segregationsanalyse
+              - id: segregationsanalyse_COLUMN
+                path: segregationsanalyse
                 label: Segregationsanalyse
                 importTarget: true
-              - id: modeOfInheritance
+              - id: modeOfInheritance_COLUMN
+                path: modeOfInheritance
                 label: Mode of Inheritance
                 importTarget: true
-              - id: blabla
-                label: Mode of Inheritance
-                path: acmg.class
-                importTarget: true
-              - id: blabla2
-                label: Mode of Inheritance
+            #   - id: blabla_COLUMN
+            #     path: variant.GRCh38
+            #     label: bla1
+            #     importTarget: true
+              - id: blabla2_COLUMN
                 path: variant.reference._id
-
-
+                label: bla2
+              - id: blabla3_COLUMN
+                path: variant.reference.GRCh37.gDNA
+                label: bla3
+              - id: blabla4_COLUMN
+                path: variant.reference.GRCh37
+                label: bla4
 
 #          - label: Variante
 #            type: 
