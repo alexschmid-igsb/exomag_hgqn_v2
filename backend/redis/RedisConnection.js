@@ -15,7 +15,7 @@ async function init() {
     client = Redis.createClient({ url: redisURL })
 
     try {
-        await client.connect("redis://localhost:8482")
+        await client.connect(redisURL)
     } catch(err) {
         throw new Error("Could not connect to redis server", { cause: err })
     }

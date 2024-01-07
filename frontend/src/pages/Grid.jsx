@@ -14,6 +14,10 @@ import lodash from 'lodash'
 
 import PopoverButton from '../components/PopoverButton'
 
+import Paper from '@mui/material/Paper'
+import InputBase from '@mui/material/InputBase'
+import SearchIcon from '@mui/icons-material/Search'
+
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
@@ -36,7 +40,7 @@ import GridIcon from '@mui/icons-material/Article'
 import HomeIcon from '@mui/icons-material/HomeRounded'
 import DeleteIcon from '@mui/icons-material/Delete'
 
-import jQuery from 'jquery'
+import jQuery, { hasData } from 'jquery'
 
 import { Icon as IconifyIcon, InlineIcon as IconifyIconInline } from "@iconify/react"
 // import { as ExcelIcon } from "@iconify/icons-file-icons/microsoft-excel"
@@ -219,6 +223,7 @@ export default function Grid() {
 
 
 
+
     const [gridInfo,setGridInfo] = React.useState(null)
     
     // const [expandedRows, setExpandedRows] = React.useState(new Map())
@@ -234,7 +239,10 @@ export default function Grid() {
 
     // const [test, setTest] = React.useState(0)
 
+    const [searchString, setSearchString] = React.useState('')
+
     const [columnDefs, setColumnDefs] = React.useState(null)
+
     const [data, setData] = React.useState(null)
 
 
@@ -382,13 +390,13 @@ export default function Grid() {
 
 
 
-
-    function cleanOut(obj) {
-        var cleaned = JSON.stringify(obj, null, 2);
-        return cleaned.replace(/^[\t ]*"[^:\n\r]+(?<!\\)":/gm, function (match) {
-            return match.replace(/"/g, "")
-        })
-    }
+    // worüf war das nochmal ?!??
+    // function cleanOut(obj) {
+    //     var cleaned = JSON.stringify(obj, null, 2);
+    //     return cleaned.replace(/^[\t ]*"[^:\n\r]+(?<!\\)":/gm, function (match) {
+    //         return match.replace(/"/g, "")
+    //     })
+    // }
 
 
 
@@ -400,19 +408,19 @@ export default function Grid() {
 
         console.log(`loadGridData: ${gridId}`)
 
+        // TODO: hier auch nocht das verwendetet layout an die api übergeben
+
         const path = '/api/grid/get/' + gridId
         API.get(path, { doNotThrowFor: [404] }).then(response => {
             console.log("LOAD GRID DATA")
+
             console.log(response)
+            // console.log(cleanOut(response.data))
 
             buildColumnDefs(response.scheme)
             setGridInfo(response.gridInfo)
 
-            console.log(response.data)
-            // console.log(cleanOut(response.data))
-
             const data = response.data.map(entry => ({...entry, __isExpanded__: false}))
-
             setData(data)
 
         }).catch(e => {
@@ -503,13 +511,16 @@ export default function Grid() {
         }
 
         // try to determine the renderer based on the field type
-        const isArrayType = lodash.isArray(fieldDefinition)
-        if(isArrayType && fieldDefinition.length === 1) {
+        if(lodash.isArray(fieldDefinition) && fieldDefinition.length === 1) {
             fieldDefinition = fieldDefinition[0]
         }
 
-        if(fieldDefinition.type === 'string' && lodash.isArray(fieldDefinition.enum) && fieldDefinition.enum.length > 0) {
-            return DefaultEnumValueRenderer
+        if(lodash.isString(fieldDefinition.type) === true) {
+
+            if(fieldDefinition.type === 'string' && lodash.isArray(fieldDefinition.enum) && fieldDefinition.enum.length > 0) {
+                return DefaultEnumValueRenderer
+            }
+
         }
 
         return renderer
@@ -583,26 +594,99 @@ export default function Grid() {
 
 
 
+
+
+
+
+
+
+
+
+
+    function resolveFieldDefinition(parent, path, full) {
+
+        let pos = path.indexOf('.')
+
+        if(pos > 0) {
+
+            // no leaf 
+
+            let current = path.substring(0,pos)
+            let remaining = path.substring(pos+1)
+
+            if(lodash.isString(current) === false || current.length <= 0) {
+                throw new Error(`data path syntax error: ${full}`)
+            }
+
+            if(lodash.isString(remaining) === false || remaining.length <= 0) {
+                throw new Error(`data path syntax error: ${full}`)
+            }
+
+            let child = parent[current]
+
+            if(child == null) {
+                throw new Error(`can not resolve path element: ${current} in ${full}`)
+            }
+
+            if(lodash.isObject(child)) {
+
+                if(lodash.isString(child.reference) === true) {
+                    if(lodash.isObject(child.referencedScheme) == true) {
+                        return resolveFieldDefinition(child.referencedScheme, remaining, full)
+                    } else {
+                        throw new Error(`missing referenced scheme: ${current} in ${full}`)
+                    }
+                } else {
+                    return resolveFieldDefinition(child, remaining, full)
+                }
+
+            } else if(lodash.isArray(child) === true) {
+                throw new Error(`non-leaf path element must not resolve to an array type: ${current} in ${full}`)
+            } else {
+                throw new Error(`data path syntax error: ${current} in ${full}`)
+            }
+
+        } else if(pos === -1) {
+
+            // leaf
+
+            let current = path
+
+            if(lodash.isString(current) === false || current.length <= 0) {
+                throw new Error(`data path syntax error: ${current} in ${full}`)
+            }
+
+            let child = parent[current]
+
+            if(child == null) {
+                throw new Error(`can not resolve path element: ${current} in ${full}`)
+            }
+
+            return child
+
+        } else {
+            throw new Error(`data path syntax error: ${full}`)
+        }
+    }
+
+
+
     function buildColumnDefs(scheme) {
 
-
-
-
         console.log('buildColumnDefs')
-        // console.log(scheme)
-
-
-
+        console.log(scheme)
 
         const layout = scheme?.layouts?.[gridLayout]
-        if(lodash.isArray(layout) === false) {
+        if(lodash.isObject(layout) === false || lodash.isArray(layout.description) === false) {
             throw new Error(`Missing grid layout '${gridLayout}' in grid data scheme`)
         }
 
         let columnDefs = []
 
         // Translate layout groups into AGGrid Groups
-        for(let layoutGroup of layout) {
+        for(let layoutGroup of layout.description) {
+
+            console.log("LAYOUT GROUP: " + layoutGroup.label)
 
             // Create AGGrid column def group
             let group = {
@@ -633,64 +717,127 @@ export default function Grid() {
             // translate the layout fields for the current group into AGGrid column definitions
             for(let layoutField of layoutGroup.fields) {
 
-                // TODO:
-                //   1. auch in primary sollte der path beachtet werden
+                console.log("   LAYOUT FIELD: " + layoutField.id)
 
+                // set data path for this column def
+                let dataPath = layoutField.path
 
-
-                // determine the data path for the column def
-                let dataPath = undefined
+                /*
                 if(groupType.id === 'primary') {
-                    dataPath = layoutField.id
+                    dataPath = layoutField.path
+                    if(layoutField.path != null) {
+                        dataPath += '.' + layoutField.path
+                    }
                 }
-                else if(groupType.id === 'nested' || groupType.id === 'linked') {
+                else if(groupType.id === 'nested') {
                     if(layoutField.path != null) {
                         dataPath = layoutField.path
                     } else {
                         dataPath = layoutField.id   
                     }
                 }
+                */
 
                 // fetch the data field definition from the scheme for the current column def
+
+                /*
+                
+                    Das Problem ist, dass die field definition bei populated pfaden noch nicht
+                    funktioniert. Man geht hier über die root definition und holt dann mit
+                    lodash.get einfach den pfad und bekommt im normalfall die field definition
+
+                    Das funktioniert nicht bei populated bzw reference fields. Und auch nicht 
+                    bei mehrfache arrays auf dem pfad (sieht unten, es wird nur für den root
+                    pfad geschaut ob er ein array type ist)
+
+                    Lösungsansatz:
+
+                    lodash.get sollte man ersetzen durch eine angepasste funtkion. Diese muss
+                    Bei jedem schritt prüfen, ob es ein array type ist und ob es ein reference
+                    type ist. Bei referencen muss man dann weitermachen mit dem scheme welches
+                    referenziert wird. Dieses könnte man entweder zusätzlich vom backend
+                    als zusammenstellung bekommen oder aber das backend könnte die in das
+                    scheme an der richtigen stelle einfügen z.b. als referenced_scheme
+                    was sicherlich eine ganz elegante lösung wäre.
+                    Das mit den arrays muss auch nochmal gut durchdacht und vorallem getestet
+                    werden
+
+                    Weiterhin:
+                    Bei primary dürfte es auch nicht funktionieren, wenn man populated fields
+                    definiert, die aber einen type haben welcher bekannt sein muss, um z.b.
+                    custom renderer zu setzen.
+
+                    ARRAYS:
+                    Der value getter erstellt ein array, wenn es 
+                    
+                    im value getter
+                    Wenn rowExpansion === true dann muss rootData ein array sein
+                    die values werden geholt, indem der dataPath auf dem item angewandt wird
+                    Fazit: Das root element ist das array, wenn es nested arrays gibt, dann
+                    wird der value getter problem haben, werte innerhalb aufzulösen..
+
+                    Eventuell muss man eine struktur bauen, mit der der value getter arbeiten
+                    kann und in jedem schritt prüfen kann, wo man sich befindet. so könnte
+                    man arrays zusammenbauen immer wenn man auf ein arra stößt
+                    das macht allerdings die semantik der daten kaputt, weil es dann keinen sinn mehr macht deep in die stukrur
+                    vorzudringen (außer in gewissen fällen ??!?)
+
+
+                    TODO:
+
+                      0. VARIANTS SCHEME ANPASSEN
+
+
+
+
+                      
+
+                      1. die test daten wieder seeden
+
+                      DONE
+                      2. beim laden von schemes muss das ganze scheme traversiert werden, und die referencschemes einghängt werden.
+                         PROBLEM: 
+                         circles müssen vermieden werden. das ganze wird abgebrochen, sobald man auf eine scheme trifft, dass man schon
+                         besucht hat.. oder gibt es einen besseren weg?
+
+                    Wenn es cycles gibt, dann haben wir ein problem!!
+
+
+
+                    Vernüfntige coumns für variant in cases mit eigener column group
+
+                    In Variants die build:chrom:pos:alt:ref zu einer column zusammenfassen mit eigenem renderer
+
+                */
+
                 let fieldDefinition = undefined
+
                 if(groupType.id === 'primary') {
 
-                    fieldDefinition = scheme?.definition?.[layoutField.id]
+                    // fieldDefinition = scheme?.definition?.[layoutField.id]
+                    fieldDefinition = resolveFieldDefinition(scheme.definition, dataPath, dataPath)
 
                 } else if(groupType.id === 'nested') {
 
                     const rootDefinition = scheme?.definition?.[groupType.root]
-                    const fieldPath = layoutField.path != null ? layoutField.path : layoutField.id
+                    const fieldPath = layoutField.path
 
                     if(groupType.rowExpansion === true) {
                         if(lodash.isArray(rootDefinition)) {
-                            fieldDefinition = lodash.get(rootDefinition[0], fieldPath)
+                            // fieldDefinition = lodash.get(rootDefinition[0], fieldPath)
+                            fieldDefinition = resolveFieldDefinition(rootDefinition[0], fieldPath, fieldPath)
                         } else {
-                            console.error("Error: rowExpansion / field definition mismatch")
-                            console.error(layoutField)
-                            continue
+                            throw new Error(`rowExpansion / fieldDefinition mismatch \n ${layoutField}`)
                         }
                     } else {
                         if(lodash.isArray(rootDefinition) === false) {
-                            fieldDefinition = lodash.get(rootDefinition, fieldPath)
+                            // fieldDefinition = lodash.get(rootDefinition, fieldPath)
+                            fieldDefinition = resolveFieldDefinition(scheme.definition, fieldPath, fieldPath)
                         } else {
-                            console.error("Error: rowExpansion / field definition mismatch")
-                            console.error(layoutField)
-                            continue
+                            throw new Error(`rowExpansion / fieldDefinition mismatch \n ${layoutField}`)
                         }
                     }
 
-                } else if(groupType.id === 'linked') {
-
-                    // TODO
-
-                }
-
-                if(layoutField.customValueRenderer == null && fieldDefinition == null) {
-                    console.error("Error: missing field definition")
-                    console.error(layoutField)
-                    console.error(scheme)
-                    continue
                 }
 
                 // set the cell renderer for the current column def based on rowExpansion flag and data field definition
@@ -704,8 +851,6 @@ export default function Grid() {
                     } else {
                         // all fine for now
                     }
-                } else if(groupType.id === 'linked') {
-                    // TODO
                 }
 
                 // create AGGRid column definition
@@ -778,13 +923,34 @@ export default function Grid() {
 
         let cellValue = undefined
 
+        /*
+            Eigentlich sollte der Pfad element für element aufgelöst werden
+            sobald man auf ein refereziertes element stößt, sollte dieses geholt werden
+            sobald man auf null oder undefined stößt, bricht das ab
+
+            das sollte gehen bei primary UND nested gleichermaßen
+
+            Probleme: 
+            es gibt nicht für jedes pfadelement ein type, oder?
+            andererseits müssen alle linked felder einen type dazu definiert haben
+            und wenn der linked type 
+
+
+
+        */
+
         if(context.groupType.id === 'primary') {
 
-            cellValue = params.data[context.dataPath]
+            cellValue = lodash.get(params.data, context.dataPath)
 
         } else if(context.groupType.id === 'nested') {
 
             const rootData = params.data[context.groupType.root]
+
+            // hier müsste für rootData die field definition über den context
+            // verfügbar gemacht werden.
+            // Dann müsste man eigentlich die gleiche routine wie für primary zur
+            // pfad traversierung verwenden können
 
             if(rootData != null && context.groupType.rowExpansion === true) {
                 cellValue = []
@@ -795,13 +961,6 @@ export default function Grid() {
             } else {
                 cellValue = lodash.get(rootData, context.dataPath)
             }
-
-        } else if(context.groupType.id === 'linked') {
-
-            // TODO
-            //   1. die linked id (oder array von linked ids) muss geholt werden anstatt dem root item (oder array von root items)
-            //   2. das linked objekt muss per id geholt weren
-            //   3. im linked objekt den data path auflösen
 
         }
 
@@ -1075,6 +1234,25 @@ export default function Grid() {
 
 
 
+    const updateSearch = lodash.throttle(searchString => {
+        gridRef.current.api.setQuickFilter(searchString)
+    }, 1000, { leading: false, trailing: true })
+
+    const onSearchChanged = event => {
+        updateSearch(event.target.value)
+        setSearchString(event.target.value)
+        gridRef.current.api.setQuickFilter(event.target.value)
+    }
+
+    const onSearchClear = event => {
+        setSearchString('')
+        gridRef.current.api.setQuickFilter(null)
+    }
+
+
+
+
+
 
 
 
@@ -1192,8 +1370,6 @@ export default function Grid() {
             </DialogActions> */}
 
         </Dialog>
-
-
 
 
 
@@ -1445,6 +1621,29 @@ export default function Grid() {
 
     return (
         <>
+
+            <div className="search-container">
+                <div className="search-field">
+                    <div className="icon-container">
+                        <IconifyIcon className="search-icon" icon="lets-icons:search-light" />
+                    </div>
+                    <InputBase
+                        value={searchString}
+                        sx={{ ml: 1, flex: 1 }}
+                        placeholder="Volltextsuche in allen Feldern"
+                        onChange={event => onSearchChanged(event)}
+                    />
+                    <IconButton
+                        className="clear-button"
+                        type="button"
+                        aria-label="search"
+                        onClick={event => onSearchClear(event)}
+                    >
+                        <IconifyIcon icon="ic:round-clear" />
+                    </IconButton>
+                </div>
+            </div>
+
 
             {/* {renderFilterToolbar()} */}
             {renderGrid()}

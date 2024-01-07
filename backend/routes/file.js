@@ -5,7 +5,7 @@ const fs = require('fs')
 const multer = require('multer')
 
 const auth = require('../users/auth')
-const isAdmin = require('../users/isAdmin')
+const isSuperuser = require('../users/isSuperuser')
 
 const xlsx = require('xlsx')
 xlsx.helper = require('../util/xlsx-helper')
@@ -19,7 +19,7 @@ function validateUUID(uuid) {
 
 
 // GET FILE
-router.get('/get', [auth, isAdmin], async function (req, res, next) {
+router.get('/get', [auth, isSuperuser], async function (req, res, next) {
 
     let fileId = req.query['fileId'] 
     if(fileId == undefined || fileId == null || validateUUID(fileId) == false) {

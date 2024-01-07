@@ -2,6 +2,7 @@ class RedisMap {
     
     constructor(redis, name) {
         this.redis = redis
+        this.redis.del(name)
         this.name = name
     }
 

@@ -2,14 +2,21 @@
 scheme:
     _id:
         type: UUID
-    label:
+    clinvar:
+        organizationId:
+                type: string
+    shortName:
         type: string
         required: true
         unique: true
-    fullName:
+    name:
         type: string
         required: true
         unique: true
+    website:
+        type: string
+    email:
+        type: string
 layouts: {}
 
 

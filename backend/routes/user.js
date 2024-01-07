@@ -6,20 +6,22 @@ const { v4: uuidv4 } = require('uuid')
 var _ = require('lodash')
 
 const auth = require('../users/auth')
-const isAdmin = require('../users/isAdmin')
-
-const Brevo = require('../util/mail/Brevo')
+const isSuperuser = require('../users/isSuperuser')
 
 const config = require('../../config/config')
 const jwt = require('jsonwebtoken')
 
-const fs = require('fs')
-
 const usersStore = require('../users/manager')
+const database = require('../../backend/database/connector').connector
+
+const Brevo = require('../util/mail/Brevo')
 
 const BackendError = require('../util/BackendError')
 
 var EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+
+const mailConfig = config['mail']
 
 
 
@@ -27,7 +29,6 @@ var EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))
 const environmentMode = config['environmentMode']
 const jwtPrivateKey = config['jwtPrivateKey']
 const jwtExpiresIn = config['jwtExpiresIn']
-const mailConfig = config['mail']
 */
 
 
@@ -44,6 +45,8 @@ function randHex(len) {
     }
     return r;
 }
+
+
 
 
 
@@ -107,6 +110,7 @@ router.post('/login', async function (req, res, next) {
 })
 
 
+
 // endpoint to logout user
 router.post('/logout', async function (req, res, next) {
 	res.clearCookie('x-auth-token')
@@ -115,16 +119,373 @@ router.post('/logout', async function (req, res, next) {
 
 
 
+// endpoint for public user list
+router.get('/list-public', [auth], async function (req, res, next) {
+
+    // ALT
+    // Es gibt keine Userliste mehr aus dem usersStore
+
+    // let labs = await database.find('STATIC_labs')
+
+    // let users = await usersStore.getAllUsers()
+    // for(let user of users) {
+    //     delete user.password
+    //     delete user.state
+    // }
+
+    // res.send({
+    //     users: users,
+    //     labs: labs.data
+    // })
+
+    // let users = await usersStore.getAllUsers()
+    // for(let user of users) {
+    //     delete user.password
+    //     delete user.state
+    // }
+    // res.send(users}
+
+
+    // NEU
+    // Users aus der Datenbank holen und labs per populate hinzufügen
+
+    const dbResult = await database.find('CORE_users', { populate: 'lab'})
+    console.log(dbResult)
+    for(let user of dbResult.data) {
+        delete user.password
+        delete user.state
+    }
+    res.send(dbResult)
+})
+
+
+
+// endpoint to get user list (by admin using the user management)
+router.get('/list', [auth, isSuperuser], async function (req, res, next) {
+
+    // ALT
+    // Es gibt keine Userliste mehr aus dem usersStore
+
+    // let labs = await database.find('STATIC_labs')
+
+    // let users = await usersStore.getAllUsers()
+    // for(let user of users) {
+    //     delete user.password
+    // }
+
+    // res.send({
+    //     users: users,
+    //     labs: labs.data
+    // })
+
+
+    // NEU
+    // Users aus der Datenbank holen und labs per populate hinzufügen
+
+    const dbResult = await database.find('CORE_users', { populate: 'lab'})
+    for(let user of dbResult.data) {
+        delete user.password
+    }
+    res.send(dbResult)
+})
+
+
+
+// endpoint to add user (by admin using the user management)
+router.post('/add-user-admin', [auth, isSuperuser], async function (req, res, next) {
+
+    // get params
+	const username = req.body.username ? req.body.username.trim() : undefined
+	const email = req.body.email ? req.body.email.trim() : undefined
+    const sendActivationLink = req.body.sendActivationLink ? req.body.sendActivationLink : false
+    
+    // check params
+    if(!username) {
+        throw new BackendError("Username is missing", 400)
+    }
+
+    if(!email) {
+        throw new BackendError("Email is missing", 400)
+    }
+
+    if(await usersStore.getUserByUsername(username) != null) {
+        throw new BackendError("Username already exist", 400)
+    }
+
+    if(await usersStore.getUserByEmail(email) != null) {
+        throw new BackendError("Email already exist", 400)
+    }
+
+    const isEmail = EMAIL_REGEX.test(email)
+    if(isEmail == false) {
+        throw new BackendError("Wrong email syntax",400)
+    }
+
+    const template = req.body.template
+    if(sendActivationLink === true && template == null) {
+        throw new BackendError(`Template is missing`, 400)
+    }
+
+    // add user
+    let userId = uuidv4()
+
+    let stateId = 'CREATED'
+    let token = null
+    let when = null
+
+    if(sendActivationLink) {
+        stateId = 'ACTIVATION_PENDING'
+        token = randHex(32)
+        when = new Date(Date.now()).toISOString()
+    }
+
+    let user = {
+        id: userId,
+        username: username,
+        email: email,
+        isSuperuser: false,
+        state: {
+            id: stateId,
+            token: token,
+            when: when
+        }
+    }
+
+    await usersStore.insertUser(user)
+
+    if(sendActivationLink) {
+        await Brevo.sendTransactionMail({
+            to: {
+                name: username,
+                email: email
+            },
+            from: mailConfig.from,
+            template: template,
+            params: { token: token }
+        })
+    }
+    
+    return res.send({})
+})
+
+
+
+// endpoint to delete user (by admin using the user management)
+router.post('/delete-user-admin', [auth, isSuperuser], async function (req, res, next) {
+
+    console.log(req.body)
+
+    // get params
+	const username = req.body.username ? req.body.username.trim() : undefined
+	const id = req.body.id ? req.body.id.trim() : undefined
+	const email = req.body.email ? req.body.email.trim() : undefined
+
+    // check params
+    if(!username) {
+        throw new BackendError("Username is missing", 400)
+    }
+
+    if(!id) {
+        throw new BackendError("User id is missing", 400)
+    }
+
+    if(!email) {
+        throw new BackendError("Email is missing", 400)
+    }
+
+    await usersStore.deleteUser(id,username,email)
+
+    return res.send({})
+})
+
+
+
+// endpoint to get user by activation token
+router.post('/by-activation-token', async function (req, res, next) {
+    const activationToken = req.body.activationToken ? req.body.activationToken.trim() : undefined
+    console.log("RECEIVED: activationToken " + activationToken)
+    if(typeof activationToken !== 'string' || activationToken.length !== 32) {
+        return res.send({})
+    } else {
+        let user = await usersStore.getUserByActivationToken(activationToken)
+        console.log("USER: ")
+        console.dir(user, { depth: null })
+
+        if(user == null || user._id == null || user.username == null || user.email == null) {
+            throw new BackendError("Could not find user for registry token", 404)
+        } else {
+            delete user.password
+            return res.send(user)
+        }
+    }
+})
+
+
+
+// endpoint to get user by reset password token
+router.post('/by-reset-password-token', async function (req, res, next) {
+    const resetPasswordToken = req.body.resetPasswordToken ? req.body.resetPasswordToken.trim() : undefined
+    console.log("RECEIVED: resetPasswordToken " + resetPasswordToken)
+    if(typeof resetPasswordToken !== 'string' || resetPasswordToken.length !== 32) {
+        return res.send({})
+    } else {
+        let user = await usersStore.getUserByPasswordToken(resetPasswordToken)
+        console.log("USER: ")
+        console.dir(user, { depth: null })
+
+        if(user == null || user._id == null || user.username == null || user.email == null) {
+            throw new BackendError("Could not find user for reset password token", 404)
+        } else {
+            delete user.password
+            return res.send(user)
+        }
+    }
+})
+
+
+
+// endpoint to finish activation by user
+router.post('/activation', async function (req, res, next) {
+
+    const id = req.body.id ? req.body.id : undefined
+    const password = req.body.password ? req.body.password : undefined
+    const passwordConfirm = req.body.passwordConfirm ? req.body.passwordConfirm : undefined
+    const firstname = req.body.firstname ? req.body.firstname : undefined
+    const lastname = req.body.lastname ? req.body.lastname : undefined
+    // const site = req.body.site ? req.body.site : undefined
+    // const role = req.body.role ? req.body.role : undefined
+
+    if(!id) {
+        throw new BackendError("User id is missing", 400)
+    }
+
+    // console.log("ID: " + id)
+
+    if(!password) {
+        throw new BackendError("Password is missing", 400)
+    }
+
+    if(!passwordConfirm) {
+        throw new BackendError("Password confirmation is missing", 400)
+    }
+
+    if(!firstname) {
+        throw new BackendError("Firstname is missing", 400)
+    }
+
+    if(!lastname) {
+        throw new BackendError("Lastname is missing", 400)
+    }
+
+    /*
+    if(!site) {
+        throw new BackendError("Site is missing", 400)
+    }
+
+    if(!role) {
+        throw new BackendError("Role is missing", 400)
+    }
+    */
+
+    const upperTest = /[ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ]/
+    const lowerTest = /[abcdefghijklmnopqrstuvwxyzäöü]/
+    const digitTest = /[0123456789]/
+    const specialTest = /[ `°!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/
+
+    let passwordCheck = password.length >= 8 && upperTest.test(password) && lowerTest.test(password) && digitTest.test(password) && specialTest.test(password)
+    if(!passwordCheck) {
+        throw new BackendError("Illegal password format", 400)
+    }
+
+    let passwordsMatches = password === passwordConfirm
+    if(!passwordsMatches) {
+        throw new BackendError("Passwords do not match", 400)
+    }
+
+    try {
+        await usersStore.updateUserById(id, {
+            password: await argon2.hash(password),
+            firstname: firstname,
+            lastname: lastname,
+            // site: site,
+            // role: role,
+            state: {
+                id: 'ACTIVE',
+                token: null,
+                when: null
+            }
+        })
+    } catch(err) {
+        throw new BackendError("Error while updating user in database", 400, err)
+    }
+
+    res.send({})
+})
 
 
 
 
-/*
+
+// endpoint to execute password reset by user
+router.post('/reset-password', async function (req, res, next) {
+
+    const id = req.body.id ? req.body.id : undefined
+    const password = req.body.password ? req.body.password : undefined
+    const passwordConfirm = req.body.passwordConfirm ? req.body.passwordConfirm : undefined
+
+    if(!id) {
+        throw new BackendError("User id is missing", 400)
+    }
+
+    // console.log("ID: " + id)
+
+    if(!password) {
+        throw new BackendError("Password is missing", 400)
+    }
+
+    if(!passwordConfirm) {
+        throw new BackendError("Password confirmation is missing", 400)
+    }
+
+    const upperTest = /[ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ]/
+    const lowerTest = /[abcdefghijklmnopqrstuvwxyzäöü]/
+    const digitTest = /[0123456789]/
+    const specialTest = /[ `°!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/
+
+    let passwordCheck = password.length >= 8 && upperTest.test(password) && lowerTest.test(password) && digitTest.test(password) && specialTest.test(password)
+    if(!passwordCheck) {
+        throw new BackendError("Illegal password format", 400)
+    }
+
+    let passwordsMatches = password === passwordConfirm
+    if(!passwordsMatches) {
+        throw new BackendError("Passwords do not match", 400)
+    }
+
+    try {
+        await usersStore.updateUserById(id, {
+            password: await argon2.hash(password),
+            state: {
+                id: 'ACTIVE',
+                token: null,
+                when: null
+            }
+        })
+    } catch(err) {
+        throw new BackendError("Error while updating user in database", 400, err)
+    }
+
+    res.send({})
+})
 
 
-TODO: ab hier muss alles noch angepasst werden
 
 
+
+
+
+
+// endpoint to send the username by email
 router.post('/send-username', async function (req, res, next) {
 
     const template = req.body.template
@@ -164,121 +525,8 @@ router.post('/send-username', async function (req, res, next) {
 
 
 
-
-
-
-
-
-router.get('/list', [auth, isAdmin], async function (req, res, next) {
-    let users = await usersStore.getAllUsers()
-    for(let user of users) {
-        user.password = user.password != null
-    }
-    res.send(users)
-})
-
-
-
-
-router.get('/list-public', [auth], async function (req, res, next) {
-    let users = await usersStore.getAllUsers()
-    for(let user of users) {
-        delete user.password
-        delete user.actions
-    }
-    res.send(users)
-})
-
-
-
-
-
-router.post('/add-user-admin', [auth, isAdmin], async function (req, res, next) {
-
-    // get params
-	const username = req.body.username ? req.body.username.trim() : undefined
-	const email = req.body.email ? req.body.email.trim() : undefined
-    const sendActivationLink = req.body.sendActivationLink ? req.body.sendActivationLink : false
-    
-    // check params
-    if(!username) {
-        throw new BackendError("Username is missing", 400)
-    }
-
-    if(!email) {
-        throw new BackendError("Email is missing", 400)
-    }
-
-    if(await usersStore.getUserByUsername(username)) {
-        throw new BackendError("Username already exist", 400)        
-    }
-
-    if(await usersStore.getUserByEmail(email)) {
-        throw new BackendError("Email already exist", 400)
-    }
-
-    const isEmail = EMAIL_REGEX.test(email)
-    if(isEmail == false) {
-        throw new BackendError("Wrong email syntax",400)
-    }
-
-    const template = req.body.template
-    if(sendActivationLink === true && template == null) {
-        throw new BackendError(`Template is missing`, 400)
-    }
-
-    // add user
-    let userId = uuidv4()
-    let token = null
-    let when = null
-
-    if(sendActivationLink) {
-        token = randHex(32)
-        when = new Date(Date.now()).toISOString()
-    }
-
-    let user = {
-        id: userId,
-        username: username,
-        email: email,
-        isAdmin: false,
-        actions: {
-            activation: {
-                token: token,
-                when: when
-            },
-            resetPassword:  {
-                token: null,
-                when: null
-            }
-        }
-    }
-
-    await usersStore.insertUser(user)
-
-    if(sendActivationLink) {
-        await Brevo.sendTransactionMail({
-            to: {
-                name: username,
-                email: email
-            },
-            from: mailConfig.from,
-            template: template,
-            params: { token: token }
-        })
-    }
-    
-    return res.send({})
-})
-
-
-
-
-
-
-
-
-router.post('/reset-activation-admin', [auth, isAdmin], async function (req, res, next) {
+// endpoint to init activation reset (by admin using the user management)
+router.post('/reset-activation-admin', [auth, isSuperuser], async function (req, res, next) {
 
     const template = req.body.template
     if(template == null) {
@@ -303,18 +551,13 @@ router.post('/reset-activation-admin', [auth, isAdmin], async function (req, res
         throw new BackendError("Email is missing", 400)
     }
 
-    const actions = {
-        activation: {
-            token: randHex(32),
-            when: new Date(Date.now()).toISOString()
-        },
-        resetPassword: {
-            token: null,
-            when: null
-        }
+    const state = {
+        id: 'ACTIVATION_RESET_PENDING',
+        token: randHex(32),
+        when: new Date(Date.now()).toISOString()
     }
 
-    await usersStore.resetActions(userid, username, actions)
+    await usersStore.resetState(userid, username, state)
 
     await Brevo.sendTransactionMail({
         to: {
@@ -323,7 +566,7 @@ router.post('/reset-activation-admin', [auth, isAdmin], async function (req, res
         },
         from: mailConfig.from,
         template: template,
-        params: { token: actions.activation.token }
+        params: { token: state.token }
     })
 
     return res.send({})
@@ -335,12 +578,7 @@ router.post('/reset-activation-admin', [auth, isAdmin], async function (req, res
 
 
 
-
-
-
-
-
-
+// endpoint to init password reset by user
 router.post('/reset-password-user', async function (req, res, next) {
     
     const template = req.body.template
@@ -368,18 +606,13 @@ router.post('/reset-password-user', async function (req, res, next) {
         return
     }
 
-    const actions = {
-        activation: {
-            token: null,
-            when: null
-        },
-        resetPassword: {
-            token: randHex(32),
-            when: new Date(Date.now()).toISOString()
-        }
+    const state = {
+        id: 'PASSWORD_RESET_PENDING',
+        token: randHex(32),
+        when: new Date(Date.now()).toISOString()
     }
 
-    await usersStore.resetActions(user.id, username, actions)
+    await usersStore.resetState(user._id, username, state)
 
     await Brevo.sendTransactionMail({
         to: {
@@ -388,7 +621,7 @@ router.post('/reset-password-user', async function (req, res, next) {
         },
         from: mailConfig.from,
         template: template,
-        params: { token: actions.resetPassword.token }
+        params: { token: state.token }
     })
 
     return res.send({})
@@ -397,7 +630,8 @@ router.post('/reset-password-user', async function (req, res, next) {
 
 
 
-router.post('/reset-password-admin', [auth, isAdmin], async function (req, res, next) {
+// endpoint to init password reset (by admin using the user management)
+router.post('/reset-password-admin', [auth, isSuperuser], async function (req, res, next) {
 
     // get params
 	const username = req.body.username ? req.body.username.trim() : undefined
@@ -422,18 +656,13 @@ router.post('/reset-password-admin', [auth, isAdmin], async function (req, res, 
         throw new BackendError("Email is missing", 400)
     }
 
-    const actions = {
-        activation: {
-            token: null,
-            when: null
-        },
-        resetPassword: {
-            token: randHex(32),
-            when: new Date(Date.now()).toISOString()
-        }
+    const state = {
+        id: 'PASSWORD_RESET_PENDING',
+        token: randHex(32),
+        when: new Date(Date.now()).toISOString()
     }
 
-    await usersStore.resetActions(userid, username, actions)
+    await usersStore.resetState(userid, username, state)
 
     await Brevo.sendTransactionMail({
         to: {
@@ -442,7 +671,7 @@ router.post('/reset-password-admin', [auth, isAdmin], async function (req, res, 
         },
         from: mailConfig.from,
         template: template,
-        params: { token: actions.resetPassword.token }
+        params: { token: state.token }
     })
 
     return res.send({})
@@ -451,239 +680,6 @@ router.post('/reset-password-admin', [auth, isAdmin], async function (req, res, 
 
 
 
-
-
-router.post('/delete-user-admin', [auth, isAdmin], async function (req, res, next) {
-
-    // get params
-	const username = req.body.username ? req.body.username.trim() : undefined
-	const userid = req.body.id ? req.body.id.trim() : undefined
-	const email = req.body.email ? req.body.email.trim() : undefined
-
-    // check params
-    if(!username) {
-        throw new BackendError("Username is missing", 400)
-    }
-
-    if(!userid) {
-        throw new BackendError("Userid is missing", 400)
-    }
-
-    if(!email) {
-        throw new BackendError("Email is missing", 400)
-    }
-
-    await usersStore.deleteUser(userid,username,email)
-
-    return res.send({})
-})
-
-
-
-
-
-
-
-
-
-
-
-
-
-router.post('/by-activation-token', async function (req, res, next) {
-    const activationToken = req.body.activationToken ? req.body.activationToken.trim() : undefined
-    console.log("RECEIVED: activationToken " + activationToken)
-    if(typeof activationToken !== 'string' || activationToken.length !== 32) {
-        return res.send({})
-    } else {
-        let user = await usersStore.getUserByActivationToken(activationToken)
-        console.log("USER: ")
-        console.dir(user, { depth: null })
-
-        if(user == null || user.id == null || user.username == null || user.email == null) {
-            throw new BackendError("Could not find user for registry token", 404)
-        } else {
-            delete user.password
-            return res.send(user)
-        }
-    }
-})
-
-
-
-router.post('/by-reset-password-token', async function (req, res, next) {
-    const resetPasswordToken = req.body.resetPasswordToken ? req.body.resetPasswordToken.trim() : undefined
-    console.log("RECEIVED: resetPasswordToken " + resetPasswordToken)
-    if(typeof resetPasswordToken !== 'string' || resetPasswordToken.length !== 32) {
-        return res.send({})
-    } else {
-        let user = await usersStore.getUserByPasswordToken(resetPasswordToken)
-        console.log("USER: ")
-        console.dir(user, { depth: null })
-
-        if(user == null || user.id == null || user.username == null || user.email == null) {
-            throw new BackendError("Could not find user for reset password token", 404)
-        } else {
-            delete user.password
-            return res.send(user)
-        }
-    }
-})
-
-
-
-
-
-
-
-
-
-router.post('/reset-password', async function (req, res, next) {
-
-    const id = req.body.id ? req.body.id : undefined
-    const password = req.body.password ? req.body.password : undefined
-    const passwordConfirm = req.body.passwordConfirm ? req.body.passwordConfirm : undefined
-
-    if(!id) {
-        throw new BackendError("User id is missing", 400)
-    }
-
-    // console.log("ID: " + id)
-
-    if(!password) {
-        throw new BackendError("Password is missing", 400)
-    }
-
-    if(!passwordConfirm) {
-        throw new BackendError("Password confirmation is missing", 400)
-    }
-
-    const upperTest = /[ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ]/
-    const lowerTest = /[abcdefghijklmnopqrstuvwxyzäöü]/
-    const digitTest = /[0123456789]/
-    const specialTest = /[ `°!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/
-
-    let passwordCheck = password.length >= 8 && upperTest.test(password) && lowerTest.test(password) && digitTest.test(password) && specialTest.test(password)
-    if(!passwordCheck) {
-        throw new BackendError("Illegal password format", 400)
-    }
-
-    let passwordsMatches = password === passwordConfirm
-    if(!passwordsMatches) {
-        throw new BackendError("Passwords do not match", 400)
-    }
-
-    try {
-
-        await usersStore.updateUserById(id, {
-            password: await argon2.hash(password),
-            actions: {
-                activation: {
-                    token: null,
-                    when: null
-                },
-                resetPassword:  {
-                    token: null,
-                    when: null
-                }
-            }
-        })
-    } catch(err) {
-        throw new BackendError("Error while updating user in database", 400, err)
-    }
-
-    res.send({})
-})
-
-
-
-
-
-
-
-router.post('/activation', async function (req, res, next) {
-
-    const id = req.body.id ? req.body.id : undefined
-    const password = req.body.password ? req.body.password : undefined
-    const passwordConfirm = req.body.passwordConfirm ? req.body.passwordConfirm : undefined
-    const firstname = req.body.firstname ? req.body.firstname : undefined
-    const lastname = req.body.lastname ? req.body.lastname : undefined
-    const site = req.body.site ? req.body.site : undefined
-    const role = req.body.role ? req.body.role : undefined
-
-    if(!id) {
-        throw new BackendError("User id is missing", 400)
-    }
-
-    // console.log("ID: " + id)
-
-    if(!password) {
-        throw new BackendError("Password is missing", 400)
-    }
-
-    if(!passwordConfirm) {
-        throw new BackendError("Password confirmation is missing", 400)
-    }
-
-    if(!firstname) {
-        throw new BackendError("Firstname is missing", 400)
-    }
-
-    if(!lastname) {
-        throw new BackendError("Lastname is missing", 400)
-    }
-
-    if(!site) {
-        throw new BackendError("Site is missing", 400)
-    }
-
-    if(!role) {
-        throw new BackendError("Role is missing", 400)
-    }
-
-    const upperTest = /[ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ]/
-    const lowerTest = /[abcdefghijklmnopqrstuvwxyzäöü]/
-    const digitTest = /[0123456789]/
-    const specialTest = /[ `°!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/
-
-    let passwordCheck = password.length >= 8 && upperTest.test(password) && lowerTest.test(password) && digitTest.test(password) && specialTest.test(password)
-    if(!passwordCheck) {
-        throw new BackendError("Illegal password format", 400)
-    }
-
-    let passwordsMatches = password === passwordConfirm
-    if(!passwordsMatches) {
-        throw new BackendError("Passwords do not match", 400)
-    }
-
-    try {
-        await usersStore.updateUserById(id, {
-            password: await argon2.hash(password),
-            firstname: firstname,
-            lastname: lastname,
-            site: site,
-            role: role,
-            actions: {
-                activation: {
-                    token: null,
-                    when: null
-                },
-                resetPassword:  {
-                    token: null,
-                    when: null
-                }
-            }
-        })
-    } catch(err) {
-        throw new BackendError("Error while updating user in database", 400, err)
-    }
-
-    res.send({})
-})
-
-
-
-*/
 
 
 

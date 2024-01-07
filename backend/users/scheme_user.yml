@@ -12,16 +12,17 @@ scheme:
         required: true
     firstname:
         type: string
-        required: true
     lastname:
         type: string
-        required: true
     password:
         type: string
-    superuser:
+    isSuperuser:
         type: boolean
         required: true
         default: false
+    lab:
+        type: UUID
+        reference: STATIC_labs
     state:
         id: 
             type: string
@@ -29,9 +30,5 @@ scheme:
             type: timestamp
         token:
             type: string
-        test1:
-            type: ObjectID
-        test2:
-            type: UUID    
 layouts: {}
 

@@ -2,7 +2,7 @@
 // default state
 const defaultState = {
     id: null,
-    isAdmin: false,
+    isSuperuser: false,
     /*
     info: null,
     role: 

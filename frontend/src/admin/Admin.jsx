@@ -22,8 +22,19 @@ import { Icon as IconifyIcon, InlineIcon as IconifyIconInline } from "@iconify/r
 // https://www.robinwieruch.de/react-router-private-routes/
 // https://www.robinwieruch.de/react-router-redirect/
 
+import '../pages/Page.scss'
 import './Admin.scss'
 
+function LinkBullet() {
+    return (
+        // <IconifyIcon className="icon" icon="iconamoon:arrow-right-2-bold"/>
+        <IconifyIcon className="icon" icon="ph:caret-double-right-duotone"/>
+        // <IconifyIcon className="icon" icon="ph:caret-right-duotone"/>
+        // <IconifyIcon className="icon" icon="pepicons-print:arrow-right"/>
+        // <IconifyIcon className="icon" icon="ph:arrow-fat-right-duotone"/>
+        // <IconifyIcon className="icon" icon="ph:arrow-fat-line-right-duotone"/>
+    )
+}
 
 export default function Admin() {
 
@@ -52,15 +63,13 @@ export default function Admin() {
 
     return (
         <>
-            { user && user.isAdmin ?
-                <div className="admin-links">
-                    <div className="category">
-                        <h3>Stuff</h3>
-                        <Link to="/admin/status"><IconifyIcon icon="material-symbols:double-arrow-rounded"/><span>Status</span></Link>
-                        <Link to="/admin/usermanagement"><IconifyIcon icon="material-symbols:double-arrow-rounded"/><span>User Management</span></Link>
-                        <Link to="/admin/uploads"><IconifyIcon icon="material-symbols:double-arrow-rounded"/><span>Uploads</span></Link>
-                        <Link to="/admin/emailtemplates"><IconifyIcon icon="material-symbols:double-arrow-rounded"/><span>Email Templates</span></Link>
-                    </div>
+            { user && user.isSuperuser === true ?
+                <div className="page-content">
+                    <h2>Administration</h2>
+                    <Link className="link" to="/admin/status"><LinkBullet/><span>Status</span></Link>
+                    <Link className="link" to="/admin/usermanagement"><LinkBullet/><span>User Management</span></Link>
+                    <Link className="link" to="/admin/uploads"><LinkBullet/><span>Uploads</span></Link>
+                    <Link className="link" to="/admin/emailtemplates"><LinkBullet/><span>Email Templates</span></Link>
                 </div>
                 :
                 <Navigate replace to="/home" />

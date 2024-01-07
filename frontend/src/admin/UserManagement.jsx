@@ -10,6 +10,8 @@ import { AgGridReact } from 'ag-grid-react'
 import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css'
 
+import { LabNameRenderer as LabRenderer } from '../components/aggrid/LabRenderer'
+
 import Tooltip from '@mui/material/Tooltip'
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
@@ -51,19 +53,18 @@ import './UserManagement.scss'
 
 const ActionsCellRenderer = (props) => {
     const user = {
-        id: props.value.id,
+        id: props.value._id,
         username: props.value.username,
         email: props.value.email
     }
     return (
         <>
-
             <Tooltip title="Reset Activation" placement="top">
                 <IconButton className="action-button" aria-label="refresh" size="small" onClick={() => props.context.openResetActivationDialog(user)} >
                     <IconifyIcon icon="material-symbols:restart-alt-rounded"/>
                 </IconButton>
             </Tooltip>
-            { props.value.actions.activation.token == null ? 
+            { props.value.state.id !== 'CREATED' && props.value.state.id !== 'ACTIVATION_PENDING' && props.value.state.id !== 'ACTIVATION_RESET_PENDING'? 
                 <Tooltip title="Reset Password" placement="top">
                     <IconButton className="action-button" aria-label="refresh" size="small" onClick={() => props.context.openResetPasswordDialog(user)} >
                         <IconifyIcon icon="material-symbols:lock-reset-rounded"/>
@@ -82,19 +83,13 @@ const ActionsCellRenderer = (props) => {
 
 
 const StateRenderer = (props) => {
-    const color = props.value == 'ACTIVATED' ? 'darkgreen' : '#888'
+    const color = props.value.id == 'ACTIVE' ? 'darkgreen' : '#AAA'
     return (
         <span style={{fontWeight: 'bold', color: color}}>
-            {props.value}
+            {props.value.id}
         </span>
     )
 }
-
-
-
-
-
-
 
 
 
@@ -219,7 +214,8 @@ export default function UserManagement() {
 
     const gridRef = React.useRef()
     const currentUser = useSelector((state) => state.user)
-    const [userList, setUserList] = React.useState(null)
+
+    const [users, setUsers] = React.useState(null)
 
     const breadcrumbs = [
         {
@@ -251,13 +247,52 @@ export default function UserManagement() {
         return params.data[colId]
     }
 
+    const labGetter = params => {
+        // DAS HIER IST BESSER ALS RENDERER UM GGF EIN POPUP FÜR DAS LAB VORZUSEHEN
+
+        // besser noch als renderer
+
+        /*
+        let colId = params.colDef.colId
+        let labId = params.data[colId]
+        let lab = labs.get(labId)
+        if(lab != null) {
+            return lab.name
+        } else {
+            return null
+        }
+        */
+
+        let colId = params.colDef.colId
+        return JSON.stringify(params.data[colId])
+    }
+
+    const nameGetter = params => {
+        let colId = params.colDef.colId
+        let name = params.data['firstname'] != null ? params.data['firstname'] : ''
+        name += ' '
+        name += params.data['lastname'] != null ? params.data['lastname'] : ''
+        if(name == null || name.trim().length <= 0) {
+            return null
+        } else {
+            return name
+        }
+    }
+
     const columnDefs = [
         {
-            colId: 'id',
+            colId: '_id',
             field: 'User ID',
             filter: false,
             resizable: true,
             valueGetter: valueGetter
+        },
+        {
+            colId: 'name',
+            field: 'Name',
+            filter: false,
+            resizable: true,
+            valueGetter: nameGetter
         },
         {
             colId: 'username',
@@ -274,6 +309,15 @@ export default function UserManagement() {
             valueGetter: valueGetter
         },
         {
+            colId: 'lab',
+            field: 'Einrichtung',
+            filter: false,
+            resizable: true,
+            valueGetter: valueGetter,
+            cellRenderer: LabRenderer
+        },
+        /*
+        {
             colId: 'firstname',
             field: 'Firstname',
             filter: false,
@@ -287,47 +331,31 @@ export default function UserManagement() {
             resizable: true,
             valueGetter: valueGetter
         },
+        */
         {
-            colId: 'site',
-            field: 'Site',
-            filter: false,
-            resizable: true,
-            valueGetter: valueGetter
-        },
-        {
-            colId: 'role',
-            field: 'Role',
-            filter: false,
-            resizable: true,
-            valueGetter: valueGetter
-        },
-        {
-            colId: 'isAdmin',
+            colId: 'isSuperuser',
             field: 'Admin',
             filter: false,
             resizable: true,
             valueGetter: valueGetter,
             cellRenderer: BooleanCellRenderer
         },
-
         {
             colId: 'state',
-            field: 'State',
+            field: 'Status',
             filter: false,
             resizable: true,
             valueGetter: valueGetter,
             cellRenderer: StateRenderer
         },
-
         {
             colId: 'state',
-            field: 'Actions',
+            field: 'Aktionen',
             filter: false,
             resizable: true,
             valueGetter: rowGetter,
             cellRenderer: ActionsCellRenderer
         }
-
     ]
 
     const defaultColDef = React.useMemo(() => ({
@@ -340,23 +368,15 @@ export default function UserManagement() {
         loadUserData()
     }, [])
 
+
+
     const loadUserData = () => {
-        API.get('/api/user/list/').then(data => {
-            data.map(user => {
-                // console.log(user.username)
-                // console.dir(user.actions, { depth: null })
-                if(typeof user.actions.activation.token === 'string' && user.actions.activation.token.length === 32) {
-                    user.state = 'ACTIVATION SENT'
-                } else if(typeof user.actions.resetPassword.token === 'string' && user.actions.resetPassword.token.length === 32) {
-                    user.state = 'PASSWORD RESET SENT'
-                } else if(user.password === true) {
-                    user.state = 'ACTIVATED'
-                } else {
-                    user.state = 'NO ACTIVATION SENT'
-                }
-            })
-            setUserList(data)
+
+        API.get('/api/user/list/').then(response => {
+            setUsers(response.data)
         })
+
+        setTimeout(() => { gridRef.current.api.sizeColumnsToFit() }, 200)
     }
 
     const gridSizeChanged = () => {
@@ -400,6 +420,31 @@ export default function UserManagement() {
         setAddUserDialogOpen(false)
         loadUserData()
     }
+
+    const renderAddUserDialog = () =>
+        <Dialog
+            scroll='body'
+            // fullWidth={true}
+            // fullWidth={fullWidth}
+            // maxWidth={maxWidth}
+            maxWidth={false}
+            open={addUserDialogOpen}
+            onClose={closeAddUserDialog}
+        >
+            <DialogTitle onClose={closeAddUserDialog}>
+                <AddUserIcon style={{marginRight: '8px'}} />
+                <span>Add User</span>
+            </DialogTitle>
+            <DialogContent>
+                <AddUserForm
+                    usernames={users !== null ? users.map(user => user.username) : []}
+                    emails={users !== null ? users.map(user => user.email) : []}
+                    onSuccess={onAddUserSuccess}
+                />
+            </DialogContent>
+        </Dialog>
+
+
 
 
 
@@ -624,31 +669,6 @@ export default function UserManagement() {
 
 
 
-    const renderAddUserDialog = () =>
-        <Dialog
-            scroll='body'
-            // fullWidth={true}
-            // fullWidth={fullWidth}
-            // maxWidth={maxWidth}
-            maxWidth={false}
-            open={addUserDialogOpen}
-            onClose={closeAddUserDialog}
-        >
-            <DialogTitle onClose={closeAddUserDialog}>
-                <AddUserIcon style={{marginRight: '8px'}} />
-                <span>Add User</span>
-            </DialogTitle>
-            <DialogContent>
-                <AddUserForm
-                    usernames={userList !== null ? userList.map(user => user.username) : []}
-                    emails={userList !== null ? userList.map(user => user.email) : []}
-                    onSuccess={onAddUserSuccess}
-                />
-            </DialogContent>
-        </Dialog>
-
-
-
 
 
 
@@ -670,7 +690,7 @@ export default function UserManagement() {
                 columnDefs={columnDefs}             // Column Defs for Columns
                 defaultColDef={defaultColDef}       // Default Column Properties
 
-                rowData={userList}
+                rowData={users}
 
                 animateRows={true}
                 // rowSelection='multiple'
@@ -696,7 +716,7 @@ export default function UserManagement() {
     return (
         <>
             {
-                currentUser && currentUser.isAdmin ? renderView() : <Navigate replace to="/home" />
+                currentUser && currentUser.isSuperuser ? renderView() : <Navigate replace to="/home" />
             }
             { renderAddUserDialog() }
             { renderResetActivationDialog() }

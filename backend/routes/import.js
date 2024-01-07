@@ -10,9 +10,9 @@ const extract = require('../../shared/extract/extract.js')
 const lodash = require('lodash')
 
 const auth = require('../users/auth')
-const isAdmin = require('../users/isAdmin')
+const isSuperuser = require('../users/isSuperuser')
 
-const db = require('../database/connector.js').connector
+const database = require('../database/connector.js').connector
 const BackendError = require('../util/BackendError')
 
 const xlsx = require('xlsx')
@@ -43,7 +43,7 @@ router.get('/get-import-list', [auth], async function (req, res, next) {
 
     let dbRes = null
     try {
-        dbRes = await db.find('STATIC_imports', {
+        dbRes = await database.find('STATIC_imports', {
             fields: '-uploadedFiles',
             filter: { user: userId },
             sort: { created: -1 },
@@ -69,7 +69,7 @@ router.post('/get-import', [auth], async function (req, res, next) {
 
     let dbRes = null
     try {
-        dbRes = await db.find('STATIC_imports', {
+        dbRes = await database.find('STATIC_imports', {
             fields: '-uploadedFiles.data',
             filter: { _id: importId, user: userId },
             populate: ['user', '-password']
@@ -107,7 +107,7 @@ router.post('/create', [auth], async function (req, res, next) {
     }
 
     try {
-        db.insert('STATIC_imports', newImport)
+        database.insert('STATIC_imports', newImport)
     } catch (error) {
         throw new BackendError('could not insert', 500, error)
     }
@@ -141,7 +141,7 @@ router.post('/set-upload-format', [auth], async function (req, res, next) {
 
     let dbRes = null
     try {
-        dbRes = await db.findOneAndUpdate('STATIC_imports', {
+        dbRes = await database.findOneAndUpdate('STATIC_imports', {
             fields: '-uploadedFiles.data',
             filter: { _id: importId, user: userId },
             populate: ['user', '-password']
@@ -186,7 +186,7 @@ router.post('/set-progress', [auth], async function (req, res, next) {
 
     let dbRes = null
     try {
-        dbRes = await db.findOneAndUpdate('STATIC_imports', {
+        dbRes = await database.findOneAndUpdate('STATIC_imports', {
             fields: '-uploadedFiles.data',
             filter: { _id: importId, user: userId },
             populate: ['user', '-password']
@@ -249,7 +249,7 @@ router.post('/upload-files', [auth, upload], async (req, res) => {
     // get current import
     let importInstance = null
     try {
-        let dbRes = await db.find('STATIC_imports', {
+        let dbRes = await database.find('STATIC_imports', {
             filter: { _id: importId, user: userId },
             populate: ['user', '-password']
         })
@@ -451,7 +451,7 @@ router.post('/upload-files', [auth, upload], async (req, res) => {
 
     let dbRes = null
     try {
-        dbRes = await db.findOneAndUpdate('STATIC_imports', {
+        dbRes = await database.findOneAndUpdate('STATIC_imports', {
             fields: '-uploadedFiles.data',
             filter: { _id: importId, user: userId },
             populate: ['user', '-password']
@@ -499,7 +499,7 @@ router.post('/excel-template-set-sheet', [auth], async function (req, res, next)
 
     let current = null
     try {
-        let dbRes = await db.find('STATIC_imports', {
+        let dbRes = await database.find('STATIC_imports', {
             // fields: '-uploadedFiles.data',
             filter: { _id: importId, user: userId },
             populate: ['user', '-password']
@@ -532,7 +532,7 @@ router.post('/excel-template-set-sheet', [auth], async function (req, res, next)
     }
 
     // scheme in ein format umbauen das für das frontend besser geeignet ist
-    const scheme = db.getScheme('GRID_cases')
+    const scheme = database.getScheme('GRID_cases')
     const dataDesc = {
         fields: {}
     }
@@ -804,8 +804,8 @@ router.post('/excel-template-set-sheet', [auth], async function (req, res, next)
             }
         ]
 
-        let casesScheme = db.getScheme('GRID_cases').schemeDescription
-        let casesLayout = db.getScheme('GRID_cases').layouts['default']
+        let casesScheme = database.getScheme('GRID_cases').schemeDescription
+        let casesLayout = database.getScheme('GRID_cases').layouts['default']
 
         // console.log("HOIER :wefpj wfi wojfoi wjoifj woiejfoi wjefoi wjoij oiweif wij")
         console.log(casesLayout)
@@ -826,7 +826,7 @@ router.post('/excel-template-set-sheet', [auth], async function (req, res, next)
         row['___index___'] = index
 
 
-        for(let group of casesLayout) {
+        for(let group of casesLayout.description) {
             // console.log(group.label)
             // console.log(group.type)
             if(group.type.id === 'primary') {
@@ -959,7 +959,7 @@ router.post('/excel-template-set-sheet', [auth], async function (req, res, next)
     // execute update
     let dbRes = null
     try {
-        dbRes = await db.findOneAndUpdate('STATIC_imports', {
+        dbRes = await database.findOneAndUpdate('STATIC_imports', {
             fields: '-uploadedFiles.data',
             filter: { _id: importId, user: userId },
             populate: ['user', '-password']
@@ -996,7 +996,7 @@ router.post('/excel-template-set-mapping', [auth], async function (req, res, nex
 
     let current = null
     try {
-        let dbRes = await db.find('STATIC_imports', {
+        let dbRes = await database.find('STATIC_imports', {
             // fields: '-uploadedFiles.data',
             filter: { _id: importId, user: userId },
             populate: ['user', '-password']
@@ -1023,7 +1023,7 @@ router.post('/excel-template-set-mapping', [auth], async function (req, res, nex
     // execute update
     let dbRes = null
     try {
-        dbRes = await db.findOneAndUpdate('STATIC_imports', {
+        dbRes = await database.findOneAndUpdate('STATIC_imports', {
             fields: '-uploadedFiles.data',
             filter: { _id: importId, user: userId },
             populate: ['user', '-password']
@@ -1069,7 +1069,7 @@ router.post('/parse-excel-template-columns', [auth], async function (req, res, n
 
     let dbRes = null
     try {
-        dbRes = await db.find('STATIC_imports', {
+        dbRes = await database.find('STATIC_imports', {
             fields: '-uploadedFiles.data',
             filter: { _id: importId, user: userId },
             populate: ['user', '-password']

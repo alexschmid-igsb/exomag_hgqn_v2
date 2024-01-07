@@ -10,6 +10,8 @@ import { AgGridReact } from 'ag-grid-react'
 import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css'
 
+import { LabNameRenderer as LabRenderer } from '../components/aggrid/LabRenderer'
+
 import Button from '@mui/material/Button'
 
 import HomeIcon from '@mui/icons-material/HomeRounded'
@@ -46,15 +48,14 @@ function UsersIcon() {
 
 
 
-
-
 export default function UserList() {
 
     const dispatch = useDispatch()
 
     const gridRef = React.useRef()
     const currentUser = useSelector((state) => state.user)
-    const [userList, setUserList] = React.useState(null)
+
+    const [users, setUsers] = React.useState(null)
 
     const breadcrumbs = [
         {
@@ -76,6 +77,39 @@ export default function UserList() {
         return params.data[colId]
     }
 
+
+    /*
+    const labGetter = params => {
+
+        // DAS HIER IST BESSER ALS RENDERER UM GGF EIN POPUP FÜR DAS LAB VORZUSEHEN
+        // besser noch als renderer
+
+        let colId = params.colDef.colId
+        let labId = params.data[colId]
+        let lab = labs.get(labId)
+        if(lab != null) {
+            return lab.name
+        } else {
+            return null
+        }
+
+        let colId = params.colDef.colId
+        return JSON.stringify(params.data[colId])
+    }
+    */
+
+    const nameGetter = params => {
+        let colId = params.colDef.colId
+        let name = params.data['firstname'] != null ? params.data['firstname'] : ''
+        name += ' '
+        name += params.data['lastname'] != null ? params.data['lastname'] : ''
+        if(name == null || name.trim().length <= 0) {
+            return null
+        } else {
+            return name
+        }
+    }
+
     const columnDefs = [
         /*
         {
@@ -87,19 +121,30 @@ export default function UserList() {
         },
         */
         {
+            colId: 'name',
+            field: 'Name',
+            filter: false,
+            resizable: true,
+            valueGetter: nameGetter
+        },
+        /*
+        {
             colId: 'firstname',
-            field: 'Firstname',
+            field: 'Vorname',
             filter: false,
             resizable: true,
             valueGetter: valueGetter
         },
         {
             colId: 'lastname',
-            field: 'Lastname',
+            field: 'Nachname',
             filter: false,
             resizable: true,
             valueGetter: valueGetter
         },
+        */
+       
+        /*
         {
             colId: 'username',
             field: 'Username',
@@ -107,6 +152,7 @@ export default function UserList() {
             resizable: true,
             valueGetter: valueGetter
         },
+        */
         {
             colId: 'email',
             field: 'Email',
@@ -115,12 +161,17 @@ export default function UserList() {
             valueGetter: valueGetter
         },
         {
-            colId: 'site',
-            field: 'Site',
+            colId: 'lab',
+            field: 'Einrichtung',
             filter: false,
             resizable: true,
-            valueGetter: valueGetter
+            valueGetter: valueGetter,
+            cellRenderer: LabRenderer
+
         },
+
+        /*
+        OLD STUFF
         {
             colId: 'role',
             field: 'Role',
@@ -129,7 +180,7 @@ export default function UserList() {
             valueGetter: valueGetter
         },
         {
-            colId: 'isAdmin',
+            colId: 'isSuperuser',
             field: 'Admin',
             filter: false,
             resizable: true,
@@ -144,7 +195,6 @@ export default function UserList() {
             valueGetter: valueGetter,
             cellRenderer: BooleanCellRenderer
         },
-        /*
         {
             colId: 'registrySendWhen',
             field: 'Invite date',
@@ -173,8 +223,8 @@ export default function UserList() {
     }, [])
 
     const loadUserData = () => {
-        API.get('/api/user/list-public/').then(data => {
-            setUserList(data)
+        API.get('/api/user/list-public/').then(response => {
+            setUsers(response.data)
         })
     }
 
@@ -215,33 +265,6 @@ export default function UserList() {
     }
 
 
-
-
-    // const renderAddUserDialog = () =>
-    //     <Dialog
-    //         scroll='body'
-    //         // fullWidth={true}
-    //         // fullWidth={fullWidth}
-    //         // maxWidth={maxWidth}
-    //         maxWidth={false}
-    //         open={addUserDialogOpen}
-    //         onClose={closeAddUserDialog}
-    //     >
-    //         <DialogTitle onClose={closeAddUserDialog}>
-    //             <AddUserIcon style={{marginRight: '8px'}} />
-    //             <span style={{marginBottom: '-4px'}}>Add User</span>
-    //         </DialogTitle>
-    //         <DialogContent>
-    //             <AddUserForm
-    //                 usernames={userList !== null ? userList.map(user => user.username) : []}
-    //                 emails={userList !== null ? userList.map(user => user.email) : []}
-    //                 onSuccess={onAddUserSuccess}
-    //             />
-    //         </DialogContent>
-    //     </Dialog>
-
-
-
     const renderView = () =>
         <div className="grid-container ag-theme-alpine ag-theme-alpine-modified">
             <AgGridReact
@@ -250,7 +273,7 @@ export default function UserList() {
                 columnDefs={columnDefs}             // Column Defs for Columns
                 defaultColDef={defaultColDef}       // Default Column Properties
 
-                rowData={userList}
+                rowData={users}
 
                 animateRows={true}
                 // rowSelection='multiple'

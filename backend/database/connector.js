@@ -471,6 +471,9 @@ class Connector {
                 console.dir(mongooseSchemeDescription, { depth: null })
             }
         }
+
+        // update referenced schemes
+        this.updateReferencedSchemes()
     }
 
 
@@ -519,6 +522,44 @@ class Connector {
 
 
 
+    updateReferencedSchemes() {
+
+        const traverse = (parent,indent) => {
+
+            let node
+
+            if(lodash.isArray(parent) === true && lodash.isObject(parent[0]) === true) {
+                node = parent[0]
+            } else if(lodash.isObject(parent) === true) {
+                node = parent
+            } else {
+                return
+            }
+
+            if(lodash.isString(node.type)) {
+                if(lodash.isString(node.reference)) {
+                    let referencedScheme = this.state.get(node.reference)?.scheme?.schemeDescription
+                    if(referencedScheme != null) {
+                        node.referencedScheme = referencedScheme
+                    }
+                }
+            } else {
+                for(let [key,child] of Object.entries(node)) {
+                    traverse(child,indent+3)
+                }
+            }
+        }
+
+        for(let [id,entry] of this.state.entries()) {
+            traverse(entry.scheme.schemeDescription, 0)
+        }
+    }
+
+
+
+
+
+
     // DATABASE ABSTRACTION LAYER
 
     // params
@@ -542,13 +583,90 @@ class Connector {
     */
 
 
+    prepareParams(params) {
+
+        if(lodash.isObject(params) === false) {
+            params = {}
+        }
+
+        if(lodash.isObject(params.filter) === false) {
+            params.filter = {}
+        }
+
+        if(lodash.isString(params.fields) === false) {
+            params.fields = ''
+        }
+
+        if(lodash.isObject(params.sort) === false) {
+            params.sort = {}
+        }
+
+        let isPopulateValid = true
+        if(params.populate == null) {
+
+            params.populate = []
+            
+        } else if(lodash.isString(params.populate) === true) {
+
+            // Ein einfacher string wird als pfad interpretiert, der an populate übergeben werden soll.
+            // Das ganze wird in ein array umgebaut, damit später keine falunterscheidung mehr notwendig ist und 
+            // einfach .populate(params.populate) aufgerufen werden kann
+            params.populate = [params.populate]
+
+        } else if(lodash.isArray(params.populate)) {
+
+            // es liegt ein array vor
+
+            if(lodash.every(params.populate, lodash.isString)) {
+
+                // Ein array of strings wird als mehrere pfade interpretiert, die alle an populate übergeben werden sollen
+                // Das ganze muss umformatiert werden, damit es von mongoose akzeptiert wird. Ein array mit zwei strings
+                // wird von mongoose üblicherweise als ['<pfad>', '<field select syntax>'] interpretiert, was hier aber
+                // nicht gewollt ist
+                params.populate = params.populate.map(path => ({ path }))
+
+            } else if(lodash.every(params.populate,lodash.isObject)) {
+
+                // in diesem fall sollte ein array von objects vorliegen, bei dem multiple populates über
+                // das format { <path>, <field select>, etc. } definiert werden. Hier kann man jetzt noch den syntax
+                // prüfen
+                isPopulateValid = lodash.every(params.populate, item => {
+                    return lodash.isString(item.path) && (item.select == null || lodash.isString(item.select))
+                })
+
+            } else {
+                
+                // kein valides params.populate array format
+                isPopulateValid = false
+
+            }
+
+        } else if(lodash.isObject(params.populate)) {
+
+            // wie oben: das object muss dem format { <path>, <field select>, etc. } entsprechen
+            isPopulateValid = lodash.isString(params.populate.path) && (params.populate.select == null || lodash.isString(params.populate.select))
+
+        } else {
+
+            // kein valider params.populate type
+            isPopulateValid = false
+
+        }
+
+        if(isPopulateValid === false) {
+            throw new Error(`Wrong params.populate format ${os.EOL}       ${JSON.stringify(params.populate)}`)
+        }
+
+        return params
+    }
 
 
-    async find(target, params = {}) {
+    async find(target, params) {
         let model = this.getModel(target)
         let scheme = this.getScheme(target)
 
-        let populateParams = params.populate ? params.populate : []
+        params = this.prepareParams(params)
+        console.log(params)
 
         try {
 
@@ -560,7 +678,7 @@ class Connector {
                 data: null
             }
 
-            let data = await model.find(params.filter, params.fields).sort(params.sort).lean().populate(...populateParams)
+            let data = await model.find(params.filter, params.fields).sort(params.sort).lean().populate(params.populate)
 
             postprocessLeanObjects(data)
 
@@ -582,6 +700,8 @@ class Connector {
         let model = this.getModel(target)
         let scheme = this.getScheme(target)
 
+        params = this.prepareParams(params)
+
         try {
 
             let result = {
@@ -595,10 +715,10 @@ class Connector {
             let data = await model.findOneAndUpdate(
                 params.filter,
                 update,
-                 {
+                {
                     fields: params.fields,
                     returnDocument: 'after'
-                }).lean().populate(...params.populate)
+                }).lean().populate(params.populate)
 
             postprocessLeanObjects(data)
 
@@ -607,6 +727,7 @@ class Connector {
             return result
 
         } catch(error) {
+            console.log(error)
             throw new Error(`could not execute findOneAndUpdate query${targetErrMsg(target)}`, { cause: error })
         }
     }
@@ -668,6 +789,17 @@ class Connector {
         }
     }
 
+
+
+
+    async deleteOne(target,fields) {
+        let model = this.getModel(target)
+        try {
+            await model.deleteOne(fields)
+        } catch(error) {
+            throw new Error(`error`, { cause: error })
+        }
+    }
 
     
 

@@ -6,13 +6,14 @@ const argon2 = require('argon2')
 const randomHex = require('../../shared/misc/rand-hex')
 const { randomUUID: uuidv4 } = require('crypto')
 
-const db = require('../database/connector.js').connector
+const database = require('../database/connector.js').connector
 const mongoose = require('mongoose')
 const { Types } = mongoose
 
 const RedisConnection = require('../redis/RedisConnection')
 const RedisMap = require('../redis/RedisMap')
 const RedisObject = require('../redis/RedisObject')
+const { useState } = require('react')
 
 const schemes = [
     {
@@ -28,8 +29,8 @@ class Users {
         await RedisConnection.initPromise
         this.redis = RedisConnection.getClient()
 
-        await db.initPromise
-        db.registerSchemesFromYML(schemes)
+        await database.initPromise
+        database.registerSchemesFromYML(schemes)
 
         await this.loadUsers()
         console.log("   - user cache initialized")
@@ -41,16 +42,12 @@ class Users {
 
     async loadUsers() {
 
-        const dbRes = await db.find(schemes[0].target)
-        // const dbRes = await db.find('CORE_users')
+        const dbRes = await database.find(schemes[0].target)
         const users = dbRes.data
 
-        // console.log(users)
-        // console.log(await argon2.hash('123'))
-        // process.exit(1)
-
-        this.users = new RedisObject(this.redis, 'users')
-        this.users.set(users)
+        // Hier keine komplette Userliste mehr im Redis ablegen, nur noch die maps der user by id, email, username usw.
+        // this.users = new RedisObject(this.redis, 'users')
+        // this.users.set(users)
 
         this.userById = new RedisMap(this.redis, 'userById')
         this.userByEmail = new RedisMap(this.redis, 'userByEmail')
@@ -62,10 +59,9 @@ class Users {
             this.userById.set(user._id, user)
             this.userByEmail.set(user.email.toLowerCase(), user)
             this.userByUsername.set(user.username, user)
-            if(user.state.id === 'ACTIVATE' && user.state.token != null) {
+            if((user.state.id === 'ACTIVATION_PENDING' || user.state.id === 'ACTIVATION_RESET_PENDING') && user.state.token != null) {
                 this.userByActivationToken.set(user.state.token, user)
-            }
-            else if(user.state.id === 'RESET_PASSWORD' && user.state.token != null) {
+            } else if(user.state.id === 'PASSWORD_RESET_PENDING' && user.state.token != null) {
                 this.userByPasswordToken.set(user.state.token, user)
             }
         }
@@ -75,9 +71,12 @@ class Users {
         await this.loadUsers()
     }
 
-    async getAllUsers() {
-        return await this.users.get()
-    }
+    // DEPRECATED
+    // Der Zugriff auf die Liste aller user sollte nicht mehr hierüber kommen, da diese Abfrage aus dem redis cache kommt.
+    // Redis sollte hier nur verwendet werden, um user by id, email, token etc. für login und ähnliches zu holen
+    // async getAllUsers() {
+    //     return await this.users.get()
+    // }
 
     async getUserById(id) {
         if(this.userById != undefined) {
@@ -119,72 +118,47 @@ class Users {
         }
     }
 
-
-
-
-
-
-    // TODO: alter code? Muss angepasst werden?
-
-
-    /*
-    validateUser(user) {
-        // ???
-    }
-
-
-    async addUser(user) {
-
-        this.validateUser(user)
-
-        user.state = {
-            id: 'CREATED',
-            when: Date.now(),
-            token: randHex(32),
-            test1: new Types.ObjectId(),
-            test2: uuidv4()
-        }
-
-        let result = await db.insert(schemes.users, user)
-        return result
-    }
-
-    async updatePassword(userid,password) {
-        let hash = await argon2.hash(password)
-        await db.findByIdAndUpdate(schemes.users, userid, { password: hash })
-    }
-
-    */
-
-
-
-
-
-    // TODO: MUSS ALLES AUF MONGOOSE ANGEPASST WERDEN
-
-    /*
     async insertUser(user) {
-        await knex('users').insert([user])
-        await this.updateUsers()
+        await database.insert('CORE_users', user)
+        await this.loadUsers()
     }
 
-    async resetActions(id, username, actions) {
-        await knex('users').where({id: id, username: username}).update({ actions: actions })
-        await this.updateUsers()
+    async deleteUser(id, username, email) {
+        await database.deleteOne('CORE_users', {_id: id, username: username, email: email})
+        await this.loadUsers()
     }
 
-    async deleteUser(id, username) {
-        await knex('users').where({id: id, username: username}).del()
-        await this.updateUsers()
-    }
 
     async updateUserById(id, user) {
-        // console.log("update user")
-        // console.log(user)
-        await knex('users').where({id: id}).update(user)
-        await this.updateUsers()
+        await database.findOneAndUpdate('CORE_users', { fields: '', filter: { _id: id } }, user)
+        await this.loadUsers()
+
+        /*
+        try {
+        } catch(err) {
+            console.log("ERROR ERROR ERROR")
+            console.log(err)
+        }
+        */
+    }
+
+
+
+    async resetState(id, username, state) {
+        await database.findOneAndUpdate('CORE_users', { fields: '', filter: { _id: id, username: username } }, {state: state})
+        await this.loadUsers()
+    }
+
+
+
+
+    /*
+    async updatePassword(userid,password) {
+        let hash = await argon2.hash(password)
+        await database.findByIdAndUpdate(schemes.users, userid, { password: hash })
     }
     */
+
     
 }
 
