@@ -23,6 +23,8 @@ scheme:
     lab:
         type: UUID
         reference: STATIC_labs
+    role:
+        type: string
     state:
         id: 
             type: string

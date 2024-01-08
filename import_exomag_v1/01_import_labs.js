@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const yaml = require('js-yaml')
 
-const database = require('../backend/database/connector').connector
+const db = require('../backend/database/connector').connector
 const users = require('../backend/users/manager')
 
 const console = require('../backend/util/PrettyfiedConsole')
@@ -16,7 +16,7 @@ const console = require('../backend/util/PrettyfiedConsole')
 const labs = [
 
     {
-        id: '',
+        id: 'f1890404-990a-4278-b4cc-77f0f212536c',
         shortName: 'MH Hannover',
         name: 'Institut für Humangenetik, Medizinische Hochschule Hannover',
         website: 'https://www.mhh.de/humangenetik',
@@ -25,16 +25,16 @@ const labs = [
         old: ['MHH, Hannover']
     },
     {
-        id: '',
+        id: 'b595aa4f-8aa6-436c-ae21-08cd799f6549',
         shortName: 'Uni Aachen',
-        name: 'Institut für Humangenetik, Uni Aacchen ',
+        name: 'Institut für Humangenetik, Uni Aachen ',
         website: 'https://www.ukaachen.de/kliniken-institute/institut-fuer-humangenetik-und-genommedizin/',
         email: 'https://www.ukaachen.de/kliniken-institute/institut-fuer-humangenetik-und-genommedizin/', 
         clinvarId: 505336,
         old: ['UK Aachen','UK Aachen/Tübingen']
     },
     {
-        id: '',
+        id: '72d98c4a-5780-449b-b70a-849634deaa19',
         shortName: 'Uni Bonn',
         name: 'Institut für Humangenetik, Uni Bonn',
         website: 'https://www.humangenetics.uni-bonn.de/de',
@@ -43,7 +43,7 @@ const labs = [
         old: ['Bonn','IGSB']
     },
     {
-        id: '',
+        id: '8521a2a1-3fe6-4259-8b10-c54ddba4a233',
         shortName: 'Charité',
         name: 'Medizinische Genetik, Charité',
         website: 'https://genetik.charite.de/',
@@ -52,7 +52,7 @@ const labs = [
         old: ['Berlin']
     },
     {
-        id: '',
+        id: '8fa2a3de-2963-447b-a57c-fac9afecfed1',
         shortName: 'Uni Köln',
         name: 'Institut für Humangenetik, Uni Köln',
         website: 'http://humangenetik.uk-koeln.de/',
@@ -61,7 +61,7 @@ const labs = [
         old: ['Köln']
     },
     {
-        id: '',
+        id: '110e4abb-1fda-46e3-ba71-e89bfe7d2b22',
         shortName: 'Uni Düsseldorf',
         name: 'Institut für Humangenetik, UKD-HHU',
         website: 'https://www.uniklinik-duesseldorf.de/patienten-besucher/klinikeninstitutezentren/institut-fuer-humangenetik',
@@ -70,7 +70,7 @@ const labs = [
         old: ['Duesseldorf','IFH,Duesseldorf','IFH, Duesseldorf']
     },
     {
-        id: '',
+        id: 'f1868c80-872e-4048-bff0-9c878c1f8de7',
         shortName: 'Uni Erlangen',
         name: 'Institut für Humangenetik, Uni Erlangen',
         website: 'http://www.humangenetik.uk-erlangen.de/',
@@ -79,7 +79,7 @@ const labs = [
         old: ['Erlangen']
     },
     {
-        id: '',
+        id: '6e70af0f-a055-46a1-949e-0c4192d53914',
         shortName: 'Uni Freiburg',
         name: 'Institut für Humangenetik, Uni Freiburg',
         website: 'http://www.humangenetik.uniklinik-freiburg.de/',
@@ -88,7 +88,7 @@ const labs = [
         old: ['Institut für Medizinische Genetik und Angewandte Genomik Tübingen']
     },
     {
-        id: '',
+        id: 'f755b67d-04be-4c48-969d-310fc95b2a5b',
         shortName: 'Uni Heidelberg',
         name: 'Institut für Humangenetik, Uni Heidelberg',
         website: 'https://www.klinikum.uni-heidelberg.de/humangenetik',
@@ -97,7 +97,7 @@ const labs = [
         old: ['UKHD']
     },
     {
-        id: '',
+        id: '3516b6fd-33d0-469e-87ab-a1a12d059c8c',
         shortName: 'Uniklinikum Essen',
         name: 'Institut für Humangenetik, Uniklinikum Essen',
         website: 'https://www.uk-essen.de/',
@@ -106,7 +106,7 @@ const labs = [
         old: ['']
     },
     {
-        id: '',
+        id: '0674dfcd-ecd5-42c2-8e10-1a28d536e117',
         shortName: 'TU München',
         name: 'Institut für Humangenetik, TUM',
         website: 'https://www.mri.tum.de/humangenetik',
@@ -115,7 +115,7 @@ const labs = [
         old: ['München','Muenchen']
     },
     {
-        id: '',
+        id: 'fde0c988-703d-411c-8a31-6306a264a57f',
         shortName: 'Uni Göttingen',
         name: 'Institut für Humangenetik, Uni Göttingen',
         website: 'https://www.humangenetik-umg.de/',
@@ -124,7 +124,7 @@ const labs = [
         old: ['Göttingen']
     },
     {
-        id: '',
+        id: '85c2e0e5-0e45-4a9d-bc4c-a34e7f3e7357',
         shortName: 'Uni Leipzig',
         name: 'Institut für Humangenetik, Uni Leipzig ',
         website: 'https://www.uniklinikum-leipzig.de/einrichtungen/humangenetik',
@@ -133,7 +133,7 @@ const labs = [
         old: ['Leipzig']
     },
     {
-        id: '',
+        id: '088aab8f-2f8b-4c16-a1a1-2d27b4de9a38',
         shortName: 'Uni Tübingen',
         name: 'Institut für Humangenetik, Uni Tübingen',
         website: 'http://www.medgen-tuebingen.de/',
@@ -142,7 +142,7 @@ const labs = [
         old: ['Tuebingen']
     },
     {
-        id: '',
+        id: '53fa6948-65b2-43e3-a10f-febe661e2f01',
         shortName: 'Uni Bochum',
         name: 'Institut für Humangenetik, Uni Bochum',
         website: 'https://www.ruhr-uni-bochum.de/mhg/',
@@ -151,7 +151,7 @@ const labs = [
         old: ['']
     },
     {
-        id: '',
+        id: 'c6fc9e76-106e-48c0-ae90-ad265aab7f4f',
         shortName: 'Uni Münster',
         name: 'Institut für Humangenetik, Uni Münster',
         website: 'https://www.ukm.de/institute/humangenetik',
@@ -160,40 +160,34 @@ const labs = [
         old: ['']
     },
     {
-        id: '',
+        id: 'e891c7b5-1817-49ae-abbc-f5ce21efb178',
         shortName: 'LMU München',
         name: 'Institut für Humangenetik, Ludwig-Maximilians-Universität München',
         website: 'https://www.lmu-klinikum.de/humangenetik',
         email: null, 
         clinvarId: 507363,
         old: ['LMU Muenchen']
+    },
+    {
+        id: 'e2f46f98-d38f-4cca-b6ad-0402ffb195c8',
+        shortName: 'Uni Würzburg',
+        name: 'Institut für Humangenetik, Uni Würzburg',
+        website: 'https://www.biozentrum.uni-wuerzburg.de/humangenetik/',
+        email: null, 
+        clinvarId: 505911,
+        old: ['']
     }
 ]
 
 
 
 
-// übrige sequencing labs aus der alten datenbank
-// 'MHH' => 9,                 DUPLIKATE: DIESE SOLLEN NICHT ÜBERNOMMEN WERDEN
-// 'Institut für Medizinische Genetik und Angewandte Genomik Tübingen'          DAS SIND FÄLLTE AUS FREIBURG DIE ABER VON TÜBINGEN SEQUENZIERT WURDEN. ZUORDNUNG ZU FREIBURG.
-// 'UK Aachen/Tübingen' => 1,   DER EINE FALL GEHÖRT ZU AACHEN
+// kommentare zu den sequencing labs aus der alten datenbank
 
+// 'MHH' => 9,                                                                  DAS SIND DUPLIKATE, SOLLEN NICHT ÜBERNOMMEN WERDEN
+// 'Institut für Medizinische Genetik und Angewandte Genomik Tübingen'          DAS SIND FÄLLE AUS FREIBURG DIE ABER VON TÜBINGEN SEQUENZIERT WURDEN. ZUORDNUNG ABER ZU FREIBURG.
+// 'UK Aachen/Tübingen' => 1,                                                   ANHAND DER internal case id kann man sagen, dass Fall zu zu Aachen gehören sollte
 
-
-
-
-    /*
-    - _id: 0b557542-658d-4242-83ad-9f33ce99592b
-    shortName: MVZ diagnosticum Frankfurt
-    name: MVZ diagnosticum Frankfurt - Zentrum für Humangenetik
-    website: https://genetik.diagnosticum.eu/
-    email: info@genetik.diagnosticum.eu
-  - _id: b1857977-5af1-4a44-a159-8901d8085d3a
-    shortName: Humangenetik Stuttgart
-    name: Praxis für Humangenetik und Prävention Stuttgart
-    website: https://www.humangenetik-stuttgart.de/
-    email: hering@humangenetik-stuttgart.de
-    */
 
 
 
@@ -201,17 +195,13 @@ const labs = [
 
 async function run() {
 
-    await database.initPromise
+    await db.initPromise
     await users.initPromise
-
 
     const cases = require('./ExomAG_Daten_08.01.2024.json')
 
-
-
-
-
     // GET ALL OLD SEQUENCING LABS
+    /*
     {
         const labs = new Map()
         for(let row of cases) {
@@ -225,6 +215,66 @@ async function run() {
         console.log(labs)
         // Für alle diese labs muss dann ein mapping erstellt werden
     }
+    */
+
+
+
+    // CREATE MAPPING FROM OLD LAB NAME TO NEW LAB ID
+    {
+        let oldLabs = new Set()
+        for(let row of cases) {
+            let name = row['sequencing lab']
+            oldLabs.add(name)
+        }
+        oldLabs = [...oldLabs.values()]
+        let mapping = {}
+        for(let oldLab of oldLabs) {
+            for(let lab of labs) {
+                if(lab.old.includes(oldLab)) {
+                    mapping[oldLab] = lab.id
+                    break
+                }
+            }
+        }
+        fs.writeFileSync('./import_exomag_v1/old_lab_to_new_id.json', JSON.stringify(mapping,null,4))
+    }
+
+
+
+
+    // IMPORT LABS INTO DATABASE
+    await db.deleteAll('STATIC_labs')
+    for(let lab of labs) {
+        const item = {
+            _id: lab.id,
+            shortName: lab.shortName,
+            name: lab.name,
+            website: lab.website,
+            email: lab.email,
+            clinvar: {
+                organizationId: lab.clinvarId        
+            }
+        }
+        db.insertOne('STATIC_labs', item)
+    }
+
+
+
+
+
+
+
+
+
+    
+
+    
+
+
+
+    
+
+
 
 
 
