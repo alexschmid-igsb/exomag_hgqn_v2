@@ -23,138 +23,6 @@ const { randomUUID: uuidv4 } = require('crypto')
 const debug = false
 
 
-/*
-
-    generisches schemes format
-  	    - soll zentral definiert sein, um die datenquelle zu definieren
-            --> datenbank
-            --> aggrid
-            --> usw
-        - ich brauche nur das generische datenformat
-
-
-
-
-    TODO:
-        * linkings und subdocument definieren, wie?
-
-        * register file, track file changes
-          https://thisdavej.com/how-to-watch-for-files-changes-in-node-js/
-          DIE PACKAGE LÖSUNG WÄHLEN
-
-
-
-        * instance methods, was kann man damit machen?
-        * static methods
-        * query helpers
-        * 
-
-
-                  // references/links
-        // Maps
-
-
-        Für unterdokumnte gibt es drei möglichkeiten:
-          path, nested schemas, subdocumsntes
-
-
-            In Mongoose sind subschemas möglich. Hier werden schemas angelegt, welche dann für einen Pfad verwendet werden können.
-            Aber das sind keine Links oder references auf andere collecitons, glaube ich. Das dient einfach nur, wenn man ein
-            sub schema wiederholt anwenden möchte.
-            Eventuell sollte man dieses Feature auch auf generischer ebenen zur verfügung stellen
-
-
-
-
-
-            TODO PRODUCTION
-            https://thecodebarbarian.com/slow-trains-in-mongodb-and-nodejs
-
-        
-
-
-
-
-
-
-            DOCUMENTS ERSTELLEN
-
-            Verschiedne mögliche wege:
-
-            const Tank = mongoose.model('Tank', yourSchema);
-
-
-            1. 
-
-            const small = new Tank({ size: 'small' });
-            small.save(function(err) {
-                if (err) return handleError(err);
-                // saved!
-            });
-            
-            oder
-            
-            await small.save()
-
-
-
-            2. 
-
-            Tank.create({ size: 'small' }, function(err, small) {
-                if (err) return handleError(err);
-                // saved!
-            });
-
-            oder 
-
-            await Tank.create({ size: 'small' }
-
-
-
-            // or, for inserting large batches of documents     
-            Tank.insertMany([{ size: 'small' }], function(err) {
-            });
-
-            oder 
-
-            await Tank.insertMany([...])
-
-
-            
-            Mit den den ganzen validation options und dem nötigen fehlerhandling
-            ist es klar, dass man das wegabstrahieren sollte und eine möglichst einfaches interface
-            bauen sollte
-
-*/
-
-
-
-
-
-
-
-
-
-
-
-// HANDLING VON IDs
-
-// Die Kommunikation und die Darstellung auf Frontend Seite basiert auf strings, deswegen sollten UUIDs und ObjectIDs 
-// praktischerweise aufEbene der Databenkabstraktion in strings umgewandelt und wieder zurückgeparst werden.
-// Auch wenn es nicht zu hundertprozent effizent ist, sollte man u.a. aus Gründen der Lesbarkeit keine binary buffers
-// durch die Gegend schicken und anzeigen müssen.
-
-
-
-/*
-function idToString(doc, obj, options) {
-    console.dir(doc, { depth: null })
-    console.dir(obj, { depth: null })
-    return obj
-}
-*/
-
-
 
 
 
@@ -739,12 +607,13 @@ class Connector {
 
 
 
+
     async insert(target,item) {
 
         // when inserting new items, there must be no id present in the item
-        if(item._id != null) {
-            throw new Error(`the item to be inserted already has an id${targetErrMsg(target)}${this.itemErrMsg(item)}`)
-        }
+        // if(item._id != null) {
+        //     throw new Error(`the item to be inserted already has an id${targetErrMsg(target)}${this.itemErrMsg(item)}`)
+        // }
 
         // get model (throws on error)
         let model = this.getModel(target)
@@ -763,6 +632,26 @@ class Connector {
             throw new Error(`could not insert new item into database: ${targetErrMsg(target)}`, { cause: error })
         }
     }
+
+
+
+
+
+    async insertOne(target,item) {
+        // get model (throws on error)
+        let model = this.getModel(target)
+
+        try {
+            model.collection.insertOne(item)
+
+        } catch(error) {
+            throw new Error(`could not insert new item into database: ${targetErrMsg(target)}`, { cause: error })
+        }
+    }
+
+
+
+
 
 
 
