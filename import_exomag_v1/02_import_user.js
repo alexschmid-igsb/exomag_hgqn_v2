@@ -152,7 +152,8 @@ async function run() {
                     id: 'CREATED'
                 }
             }
-            db.insertOne('CORE_users', item)
+            // db.insertOne('CORE_users', item)
+            db.insert('CORE_users', item)
         }
     }
 

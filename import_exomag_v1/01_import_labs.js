@@ -1,6 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const yaml = require('js-yaml')
+const uuid = require('uuid')
 
 const db = require('../backend/database/connector').connector
 const users = require('../backend/users/manager')
@@ -247,6 +248,7 @@ async function run() {
     for(let lab of labs) {
         const item = {
             _id: lab.id,
+            // _id: uuid.parse(lab.id),
             shortName: lab.shortName,
             name: lab.name,
             website: lab.website,
@@ -255,7 +257,16 @@ async function run() {
                 organizationId: lab.clinvarId        
             }
         }
-        db.insertOne('STATIC_labs', item)
+        // db.insertOne('STATIC_labs', item)        // DAS HIER HAT PROBLEME MIT DEM CASTEN DER UUID STRING NACH BINARY. uuid.parse geht auch nicht, ich weiß nicht, weleches UUID binary format erwartet wird von mongodb/mongoose
+        db.insert('STATIC_labs', item)
+
+        /*
+        const bla = uuid.parse(lab.id)
+        console.log(lab.id)
+        console.log(bla)
+        */
+        
+
     }
 
 
