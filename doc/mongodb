@@ -20,12 +20,14 @@
 
 
 
-3. create HGQN users
+3. create ExomAG users
 
    mongosh -u root
 
-   use hgqn_dev
-   db.createUser({ user:'hgqn_dev', pwd: '<secure password #2>', roles:[{db:'hgqn_dev', role:'readWrite'}]})
+   use exomag_dev;
+   db.createUser({ user:'exomag_dev', pwd: '<secure password #2>', roles:[{db:'exomag_dev', role:'readWrite'}]});
+   db.createCollection('dummy');
 
-   use hgqn_production
-   db.createUser({ user:'hgqn_production', pwd: '<secure password #3>', roles:[{db:'hgqn_production', role:'readWrite'}]})
+   use exomag_production;
+   db.createUser({ user:'exomag_production', pwd: '<secure password #3>', roles:[{db:'exomag_production', role:'readWrite'}]});
+   db.createCollection('dummy');
