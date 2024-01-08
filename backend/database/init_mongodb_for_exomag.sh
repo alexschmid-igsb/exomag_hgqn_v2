@@ -10,11 +10,13 @@ mongosh \
    -quiet \
    --eval "use exomag_dev;" \
    --eval "db.dropDatabase();" \
+   --eval "db.dropUser('exomag_dev');" \
    --eval "use exomag_dev;" \
    --eval "db.createUser({ user:'exomag_dev', pwd: '$pwd_exomag_dev', roles:[{db:'exomag_dev', role:'readWrite'}]});" \
    --eval "db.createCollection('dummy');" \
    --eval "use exomag_production;" \
    --eval "db.dropDatabase();" \
+   --eval "db.dropUser('exomag_production');" \
    --eval "use exomag_production;" \
    --eval "db.createUser({ user:'exomag_production', pwd: '$pwd_exomag_production', roles:[{db:'exomag_production', role:'readWrite'}]});" \
    --eval "db.createCollection('dummy');" \
