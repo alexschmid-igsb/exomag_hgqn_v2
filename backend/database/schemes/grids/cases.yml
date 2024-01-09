@@ -50,8 +50,9 @@ scheme:
         type: string
         enum: 
           - ja
-          - beantragt
           - nein
+          - beantragt
+          - unbekannt
     diseaseCategory:
         type: string
         enum:
@@ -87,6 +88,12 @@ scheme:
         type: date
     befunddatum:
         type: date
+    changesInManagementOrTherapyAfterTest:
+        type: string
+    secondaryOrIncidentalFindings:
+        type: string
+    relevantFindingsForResearch:
+        type: string
     kommentar:
         type: string
     variants:
@@ -166,6 +173,10 @@ scheme:
               - X-linked
               - mitochondrial
               - unclear
+        pubMedId:
+            type: string
+        clinvarAccessionId:
+            type: string
         variant:
             reference:
                 type: string
