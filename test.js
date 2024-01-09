@@ -20,6 +20,27 @@
 
 
 
-let str = "wlkenwfnwöjnfkjwenfkjewnf"
+// let str = "wlkenwfnwöjnfkjwenfkjewnf"
 
-console.log(str.split('/'))
+// console.log(str.split('/'))
+
+
+
+
+
+
+// let bla = Array(3).fill({})
+// let bla = Array(3).fill(0).map(() => ({}))
+// bla[0].xyz = 1
+// console.log(bla)
+
+
+
+const { DateTime } = require("luxon")
+
+let bla = DateTime.fromISO("03.11.2020")
+
+console.log(bla)
+
+
+

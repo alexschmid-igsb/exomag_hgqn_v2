@@ -1,6 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const yaml = require('js-yaml')
+const { DateTime } = require("luxon")
 
 const db = require('../backend/database/connector').connector
 const users = require('../backend/users/manager')
@@ -516,7 +517,7 @@ async function run() {
                         case 'Unknown':
                             return 'unclear'
                     }
-                    return null
+                    return oldValue
                 }
             }
         },
@@ -558,7 +559,7 @@ async function run() {
                         case 'Homoplasmic':
                             return 'homoplasmic'
                     }
-                    return null
+                    return oldValue
                 }
             }
         },
@@ -580,6 +581,7 @@ async function run() {
                 values: ['not performed','de novo','transmitted from father','transmitted from mother'],
                 korrektur: function(oldValue) {
                     switch(oldValue) {
+                        case 'NA':
                         case 'not in father, mother unavailable for testing':
                             return 'not performed'
                         case 'de novo\r\npaternal':
@@ -593,7 +595,7 @@ async function run() {
                         case 'maternal':
                             return 'transmitted from mother'
                     }
-                    return null
+                    return oldValue
                 }
             }
         },
@@ -642,7 +644,7 @@ async function run() {
                         case 'Likely benign':
                             return 'likely benign'
                     }
-                    return null
+                    return oldValue
                 }
             }
         }
@@ -674,7 +676,9 @@ async function run() {
 
         // const hpoCheck = /^[hH][pP]:\d*$/
         const hpoParse = /([hH][pP][: ]?\d{7})[\s;,]*/g
+        const acmgParse = /PVS1|PS1|PS2|PS3|PS4|PM1|PM2|PM3|PM4|PM5|PM6|PP1|PP2|PP3|PP4|PP5|BA1|BS1|BS2|BS3|BS4|BP1|BP2|BP3|BP4|BP5|BP6|BP7/g
 
+        const dateTest = /^\d\d\.\d\d\.\d\d\d\d$/
 
         const oldLabToNewId = require('./old_lab_to_new_id.json')
         const newCases = []
@@ -755,7 +759,7 @@ async function run() {
                                 oldValue = mapping.enum.korrektur(oldValue)
                             }
                             if(mapping.enum.values.includes(oldValue)) {
-                                // enum pass
+                                // enum test passed
                                 newValue = oldValue
                             } else {
                                 if(collectEnumErrors.has(mapping.target)) {
@@ -763,10 +767,10 @@ async function run() {
                                 } else {
                                     collectEnumErrors.set(mapping.target,new Set([oldValue]))
                                 }
-                                console.log("ENUM ERROR")
-                                console.log(mapping.target)
-                                console.log(oldValue)
-                                console.log()
+                                // console.log("ENUM ERROR")
+                                // console.log(mapping.target)
+                                // console.log(oldValue)
+                                // console.log()
                             }
                         } else {
                             newValue = oldValue
@@ -774,10 +778,30 @@ async function run() {
                         break;
                     case 'decimal':
                         newValue = null
+                        if(oldValue.endsWith('%')) {
+                            let number = Number.parseFloat(oldValue.substring(0,oldValue.length).replace(',','.'))
+                            if(isNaN(number) === false) {
+                                newValue = 0.01 * number
+                            }
+                        } else {
+                            let number = Number.parseFloat(oldValue)
+                            if(isNaN(number) === false) {
+                                newValue = number
+                            }
+                        }
                         break;
                     case 'date':
                         newValue = null
-                        break;
+                        if(dateTest.test(oldValue)) {
+                            let date = DateTime.fromFormat(oldValue, 'dd.MM.yyyy').toUTC()
+                            newValue = new Date(date).toISOString()
+                        } else {
+                            let date = Date.parse(oldValue)
+                            if(isNaN(date) === false) {
+                                newValue = new Date(date).toISOString()
+                            }
+                        }
+                        break
                     default:
                         throw new Error('unhandled type: ' + mapping.type)
                 }
@@ -803,7 +827,7 @@ async function run() {
                     }
                 }
 
-                let extractedRows = Array(count).fill({})
+                let extractedRows = Array(count).fill(0).map(() => ({}))
 
                 for(let key of multiCheck) {
                     let value = oldCase[key]
@@ -836,6 +860,12 @@ async function run() {
                     for(const mapping of variantFieldMapping) {
 
                         let oldValue = extractedRow[mapping.source]
+
+                        /*
+                        if(newCase.internalCaseId === '1006284-2006288') {
+                            console.log(mapping.source + ": " + oldValue)
+                        }
+                        */
         
                         if(lodash.isString(oldValue)) {
                             oldValue = oldValue.trim()
@@ -872,11 +902,7 @@ async function run() {
                                 }
                                 break;
                             case 'decimal':
-                                newValue = null
-                                break;
                             case 'date':
-                                newValue = null
-                                break;
                             default:
                                 throw new Error('unhandled type: ' + mapping.type)
                         }
@@ -888,127 +914,93 @@ async function run() {
 
                     // manuell 
                     if(variantEntry.acmgClass != null) {
-                        variantEntry.acmg = {
-                            class: variantEntry.acmgClass
+                        if(variantEntry.acmg == null) {
+                            variantEntry.acmg = {}
                         }
+                        variantEntry.acmg.class = variantEntry.acmgClass
                         delete variantEntry.acmgClass
                     }
+                    
+                    {
+                        let oldValue = extractedRow['ACMG evidences']
+        
+                        if(lodash.isString(oldValue)) {
+                            oldValue = oldValue.trim()
+                        }
+        
+                        if(lodash.isString(oldValue) && oldValue.length > 0) {
 
+                            const terms = new Set()
+                            for(let match of oldValue.matchAll(acmgParse)) {
+                                terms.add(match[0])
+                            }
+                            let termsArray = Array.from(terms.values())
 
-                    if(extractedRow['ACMG evidences'] != null) {
-                        console.log(extractedRow['ACMG evidences'])
+                            if(termsArray.length > 0) {
+                                if(variantEntry.acmg == null) {
+                                    variantEntry.acmg = {}
+                                }
+                                variantEntry.acmg.criteria = termsArray
+                            }
+                        }
                     }
 
-                    /*
+                    // variants
+                    {
+                        let cDNA = extractedRow['HGVS_cDNA']
 
-                    Der Split kann genauso laufen wie beim HPO
-                    Man kann einfach den regexp so anpassen, dass er nur die bekannten zieht
+                        if(lodash.isString(cDNA)) {
+                            cDNA = cDNA.trim()
+                        }
+        
+                        if(lodash.isString(cDNA) && cDNA.length > 0) {
+                            // console.log(cDNA)
+                        }
+                        
+                    }
 
-                    'ACMG evidences' => 25,
-                    */
+                    {
+                        let gDNA = extractedRow['HGVS_gDNA']
+
+                        if(lodash.isString(gDNA)) {
+                            gDNA = gDNA.trim()
+                        }
+        
+                        if(lodash.isString(gDNA) && gDNA.length > 0) {
+                            console.log(gDNA)
+
+                            
+                        }
+                        
+                    }
+
+
 
                     /*
                     'HGVS_cDNA' => 2029,
                     'HGVS_gDNA' => 1140,
                     */
-
         
                     variantEntries.push(variantEntry)
                 }
                 
                 newCase.variants = variantEntries
 
-                if(count > 1) {
+                if(count > 2) {
                     // console.log(newCase)
                 }
 
+                if(newCase.internalCaseId === '1006284-2006288') {
+                    // console.dir(newCase,{depth: null})
+                }
+
+
             }
-
-
-
-
-
-
-
-
-            // folgendes felder sind relevant um multiple zu prüfen
-
-
-
-
-            /*
-            'mode of inheritance' => 1898,
-            'ACMG class' => 2093,
-            'de novo' => 942,
-            'zygosity' => 1438,
-            'HGVS_cDNA' => 2029,
-            'HGVS_gDNA' => 1140,
-            'gene' => 2044,
-            'if new disease gene, level of evidence' => 15,
-            'pmid' => 10,
-            'ACMG evidences' => 25,
-            'ClinVar Accession ID' => 190,
-            */
-
-
-            // specififc
-            /*
-            'ACMG evidences' => 25,
-            'ACMG class' => 2093,
-            'HGVS_cDNA' => 2029,
-            'HGVS_gDNA' => 1140,
-            */
-
-
-            /*
-
-                acmg:
-
-                    class:
-                        type: string
-                        required: true
-                        enum:
-                        [pathogenic, likely pathogenic, unclear, likely benign, benign]
-
-                    criteria:
-                    - type: string
-                        enum:
-                        [PVS1,PS1,PS2,PS3,PS4,PM1,PM2,PM3,PM4,PM5,PM6,PP1,PP2,PP3,PP4,PP5,BA1,BS1,BS2,BS3,BS4,BP1,BP2,BP3,BP4,BP5,BP6,BP7]
-
-
-                variant:
-                    reference:
-                        type: string
-                        reference: GRID_variants
-                        required: true
-                    transcript:
-                        type: string
-
-            */
-
-
-
-
-
-
-            // VARIANTS
-
-
-
 
         }
 
-
-        console.log(collectEnumErrors)
-
-
-
+        // console.log(collectEnumErrors)
     }
-
-
-
-
-    
 
 
 
