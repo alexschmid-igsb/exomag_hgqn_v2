@@ -99,7 +99,6 @@ scheme:
     variants:
       - gene:
             type: string
-            required: true
         variantSolvesCase:
             type: string
             enum:
@@ -111,7 +110,6 @@ scheme:
         acmg:
             class:
                 type: string
-                required: true
                 enum:
                   - pathogenic
                   - likely pathogenic
@@ -181,7 +179,6 @@ scheme:
             reference:
                 type: string
                 reference: GRID_variants
-                required: true
             transcript:
                 type: string
 layouts:
