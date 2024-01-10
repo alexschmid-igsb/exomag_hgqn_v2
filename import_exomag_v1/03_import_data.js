@@ -10,6 +10,53 @@ const console = require('../backend/util/PrettyfiedConsole')
 
 const lodash = require('lodash')
 
+const FetchAPI = require('./FetchAPI')
+
+
+
+const mode = "VV"
+// const mode = "IMPORT"
+
+
+
+/*
+    TODO
+
+    Jedem einzelnen case muss einer der folgenden zustände zugewiesen werden:
+
+        - FEHLERFREI: D.h. der import konnte ohne JEGLICHES Problem durchgeführt werden)
+
+        - FELDER AUSGELASSEN: D.h. es gibt Felder die vorher vorhanden waren aber der Wert nicht übernommen werden konnte
+          z.b. weil er wert nicht den vorgaben entspricht. Hier muss angegeben werden, um welches Feld es sich handelt)
+        
+        - FEHLERHAFTE MEHRFACHE VARIANTEN: Die mehrfach varianten konnte aufgrund der trennsyntax der feldern nicht richtig
+          aufgeteilt werden. 
+
+        - VV FEHLER: gDNA oder cDNA konnten nicht geparst werden oder sind inkonsistent miteinander oder jeder andere grund
+          der dazu führt, dass keine variante angelegt bzw. gelinkt werden konnte obwohl gDNA und/oder cDNA im zu imortierenden
+          case vorhanden sind.
+
+    Ziel dieser Klassifiktation ist es, die Probleme genauer verstehen zu können und Listen mit Cases zu generieren, die per Hand
+    nachkorrigiert werden müssen oder an die Labs übergeben werden sollen.
+
+    
+
+*/
+
+
+
+
+
+async function vv_query(build,variant,transcripts = 'all') {
+    // const url = `https://rest.variantvalidator.org/VariantValidator/variantvalidator/${encodeURI(build)}/${encodeURI(variant)}/${encodeURI(transcripts)}`
+    // const url = `https://rest.variantvalidator.org/VariantValidator/variantvalidator/${build}/${variant}/${transcripts}`
+    const url = `http://localhost:8000/VariantValidator/variantvalidator/${encodeURI(build)}/${encodeURI(variant)}/${encodeURI(transcripts)}`
+    // console.log(url)
+    return FetchAPI.get(url)
+}
+
+
+
 
 async function run() {
 
@@ -671,8 +718,13 @@ async function run() {
 
 
 
+
     // PROCESS OLD CASES
     {
+
+        let vv_gDNA = require('./vv_gDNA.json')
+        let vv_cDNA = require('./vv_cDNA.json')
+    
 
         // const hpoCheck = /^[hH][pP]:\d*$/
         const hpoParse = /([hH][pP][: ]?\d{7})[\s;,]*/g
@@ -688,11 +740,14 @@ async function run() {
         let problemCount = 0
 
 
+        let iCase = 0
+
         for(const oldCase of oldCases) {
 
+            console.log()
+            console.log("PROCESS CASE " + iCase + "/" + oldCases.length)
+
             let newCase = {}
-
-
 
             // MAIN FIELDS (specific)
 
@@ -811,6 +866,11 @@ async function run() {
             }
 
 
+            console.log("   internalCaseId: " + newCase.internalCaseId)
+            console.log("   lab: " + oldCase['sequencing lab'])
+
+
+
 
 
 
@@ -852,7 +912,11 @@ async function run() {
 
                 let variantEntries = []
 
+                let iRow = 0
+
                 for(let extractedRow of extractedRows) {
+
+                    console.log("   VariantEntry " + iRow)
 
                     let variantEntry = {}
         
@@ -954,9 +1018,22 @@ async function run() {
                         }
         
                         if(lodash.isString(cDNA) && cDNA.length > 0) {
-                            // console.log(cDNA)
+                            if(mode === 'VV') {
+                                console.log("      cDNA: " + cDNA)
+                                if(vv_cDNA[cDNA] != null) {
+                                    console.log("            -> schon vorhanden")
+                                } else {
+                                    let vv = null
+                                    try {
+                                        vv = await vv_query('GRCh38',cDNA,'auth_all')
+                                    } catch(error) {
+                                        vv = { error: "valiation error" }
+                                    }
+                                    // console.log(vv)
+                                    vv_cDNA[cDNA] = vv
+                                }
+                            }
                         }
-                        
                     }
 
                     {
@@ -967,20 +1044,27 @@ async function run() {
                         }
         
                         if(lodash.isString(gDNA) && gDNA.length > 0) {
-                            console.log(gDNA)
+                            if(mode === 'VV') {
+                                console.log("      gDNA: " + gDNA)
+                                if(vv_gDNA[gDNA] != null) {
+                                    console.log("            -> schon vorhanden")
+                                } else {
+                                    let vv = null
+                                    try {
+                                        vv = await vv_query('GRCh38',gDNA,'auth_all')
+                                    } catch(error) {
+                                        vv = { error: "valiation error" }
+                                    }
+                                    // console.log(vv)
+                                    vv_gDNA[gDNA] = vv
+                                }
+                            }
 
-                            
                         }
-                        
                     }
 
 
 
-                    /*
-                    'HGVS_cDNA' => 2029,
-                    'HGVS_gDNA' => 1140,
-                    */
-        
                     variantEntries.push(variantEntry)
                 }
                 
@@ -997,10 +1081,29 @@ async function run() {
 
             }
 
-        }
+
+
+
+            if(mode === 'VV' && iCase % 10 === 0) {
+                console.log("   WRITE JSON FILES")
+                fs.writeFileSync('./import_exomag_v1/vv_gDNA.json', JSON.stringify(vv_gDNA,null,4))
+                fs.writeFileSync('./import_exomag_v1/vv_cDNA.json', JSON.stringify(vv_cDNA,null,4))
+            }
+    
+            iCase = iCase + 1
+
+        }   // end case loop
 
         // console.log(collectEnumErrors)
+
+
+
     }
+
+
+
+    
+
 
 
 
