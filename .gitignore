@@ -37,3 +37,7 @@ frontend/src/shared
 !/config/example/**
 
 /runtime
+
+import_exomag_v1/vv_cDNA.json
+import_exomag_v1/vv_gDNA.json
+

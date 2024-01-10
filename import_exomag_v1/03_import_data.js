@@ -14,8 +14,8 @@ const FetchAPI = require('./FetchAPI')
 
 
 
-const mode = "VV"
-// const mode = "IMPORT"
+// const mode = "VV"
+const mode = "IMPORT"
 
 
 
@@ -739,6 +739,15 @@ async function run() {
 
         let problemCount = 0
 
+        let vorhanden_gDNA = 0
+        let valid_gDNA = 0
+        let invalid_gDNA = 0
+
+        let vorhanden_cDNA = 0
+        let valid_cDNA = 0
+        let invalid_cDNA = 0
+
+        let mismatch = 0
 
         let iCase = 0
 
@@ -912,13 +921,16 @@ async function run() {
 
                 let variantEntries = []
 
-                let iRow = 0
+                let iRow = 1
 
                 for(let extractedRow of extractedRows) {
 
                     console.log("   VariantEntry " + iRow)
 
-                    let variantEntry = {}
+                    let variantEntry = {
+                        variant: {
+                        }
+                    }
         
                     // automatic
                     for(const mapping of variantFieldMapping) {
@@ -1010,32 +1022,10 @@ async function run() {
                     }
 
                     // variants
-                    {
-                        let cDNA = extractedRow['HGVS_cDNA']
 
-                        if(lodash.isString(cDNA)) {
-                            cDNA = cDNA.trim()
-                        }
-        
-                        if(lodash.isString(cDNA) && cDNA.length > 0) {
-                            if(mode === 'VV') {
-                                console.log("      cDNA: " + cDNA)
-                                if(vv_cDNA[cDNA] != null) {
-                                    console.log("            -> schon vorhanden")
-                                } else {
-                                    let vv = null
-                                    try {
-                                        vv = await vv_query('GRCh38',cDNA,'auth_all')
-                                    } catch(error) {
-                                        vv = { error: "valiation error" }
-                                    }
-                                    // console.log(vv)
-                                    vv_cDNA[cDNA] = vv
-                                }
-                            }
-                        }
-                    }
 
+                    // gDNA gDNA gDNA gDNA gDNA gDNA gDNA gDNA gDNA gDNA gDNA gDNA gDNA 
+                    let gDNA_variant = null
                     {
                         let gDNA = extractedRow['HGVS_gDNA']
 
@@ -1058,14 +1048,322 @@ async function run() {
                                     // console.log(vv)
                                     vv_gDNA[gDNA] = vv
                                 }
+                            } else if(mode === 'IMPORT') {
+
+                                vorhanden_gDNA = vorhanden_gDNA + 1
+
+                                let vv = vv_gDNA[gDNA]
+
+                                console.log("      " + gDNA)
+                                // console.dir(vv,{depth: null})
+                                // console.log(Object.keys(vv))
+                                // console.log(vv.validation_warning_1)#
+
+                                gDNA_variant = {
+                                    GRCh37: {
+                                        gDNA: null,
+                                        build: 'GRCh37',
+                                        chr: null,
+                                        pos: null,
+                                        ref: null,
+                                        alt: null,
+                                    },
+                                    GRCh38: {
+                                        gDNA: null,
+                                        build: 'GRCh38',
+                                        chr: null,
+                                        pos: null,
+                                        ref: null,
+                                        alt: null,
+                                    }
+                                }
+
+                                let isValid = true
+
+                                if(gDNA.indexOf(';') != -1) {
+                                    // alle aussortieren die ein semikolon verwenden 
+                                    // muss später reported werden und schauen wie man damit umgehen kann
+                                    isValid = false
+                                    gDNA_variant = null
+
+                                } else if(vv.flag === 'gene_variant') {
+
+                                    // VV TO VARIANT
+
+                                    try {
+                                        let first = true
+                                        for(let [key,entry] of Object.entries(vv)) {
+                                            if(entry.primary_assembly_loci != null) {
+                                                if(first === true) {
+                                                    gDNA_variant.GRCh37.gDNA = entry.primary_assembly_loci.grch37.hgvs_genomic_description
+                                                    gDNA_variant.GRCh37.chr = entry.primary_assembly_loci.grch37.vcf.chr
+                                                    gDNA_variant.GRCh37.pos = entry.primary_assembly_loci.grch37.vcf.pos
+                                                    gDNA_variant.GRCh37.ref = entry.primary_assembly_loci.grch37.vcf.ref
+                                                    gDNA_variant.GRCh37.alt = entry.primary_assembly_loci.grch37.vcf.alt
+                                                    gDNA_variant.GRCh38.gDNA = entry.primary_assembly_loci.grch38.hgvs_genomic_description
+                                                    gDNA_variant.GRCh38.chr = entry.primary_assembly_loci.grch38.vcf.chr
+                                                    gDNA_variant.GRCh38.pos = entry.primary_assembly_loci.grch38.vcf.pos
+                                                    gDNA_variant.GRCh38.ref = entry.primary_assembly_loci.grch38.vcf.ref
+                                                    gDNA_variant.GRCh38.alt = entry.primary_assembly_loci.grch38.vcf.alt
+                                                    let check = gDNA_variant.GRCh37.gDNA != null && gDNA_variant.GRCh37.chr != null && gDNA_variant.GRCh37.pos != null && gDNA_variant.GRCh37.ref != null && gDNA_variant.GRCh37.alt != null && gDNA_variant.GRCh38.gDNA != null && gDNA_variant.GRCh38.chr != null && gDNA_variant.GRCh38.pos != null && gDNA_variant.GRCh38.ref != null && gDNA_variant.GRCh38.alt != null
+                                                    if(check === false) {
+                                                        // Muss reported werden
+                                                        isValid = false
+                                                        gDNA_variant = null
+                                                    }
+                                                    first = false
+                                                } else {
+                                                    let check = 
+                                                        gDNA_variant.GRCh37.gDNA === entry.primary_assembly_loci.grch37.hgvs_genomic_description &&
+                                                        gDNA_variant.GRCh37.chr === entry.primary_assembly_loci.grch37.vcf.chr &&
+                                                        gDNA_variant.GRCh37.pos === entry.primary_assembly_loci.grch37.vcf.pos &&
+                                                        gDNA_variant.GRCh37.ref === entry.primary_assembly_loci.grch37.vcf.ref &&
+                                                        gDNA_variant.GRCh37.alt === entry.primary_assembly_loci.grch37.vcf.alt &&
+                                                        gDNA_variant.GRCh38.gDNA === entry.primary_assembly_loci.grch38.hgvs_genomic_description &&
+                                                        gDNA_variant.GRCh38.chr === entry.primary_assembly_loci.grch38.vcf.chr &&
+                                                        gDNA_variant.GRCh38.pos === entry.primary_assembly_loci.grch38.vcf.pos &&
+                                                        gDNA_variant.GRCh38.ref === entry.primary_assembly_loci.grch38.vcf.ref &&
+                                                        gDNA_variant.GRCh38.alt === entry.primary_assembly_loci.grch38.vcf.alt;
+                                                    if(check === false) {
+                                                        // Diese Fälle deuten auf einen fehlerhafte eingabe hin, die allerdings von
+                                                        // variant validator irgendwie interpretiert wird als unterschiedliche ergebnisse
+                                                        // mit warnings versehen.
+                                                        // Diese Fälle sollten reported werden um einen korrektur zu bekommen
+                                                        isValid = false
+                                                        gDNA_variant = null
+                                                    }
+                                                }
+                                            }
+                                        }                                        
+                                    } catch(err) {
+                                        // muss reported werden
+                                        isValid = false
+                                        gDNA_variant = null
+                                    }
+                                    
+                                } else {
+                                    // todo: muss reported werden
+                                    isValid = false
+                                    gDNA_variant = null
+                                }
+
+
+                                if(isValid === true) {
+                                    // HIER IST ALLES OK, variante kann gesetzt werden
+                                    gDNA_variant.id = `GRCh38-${gDNA_variant.GRCh38.chr}-${gDNA_variant.GRCh38.pos}-${gDNA_variant.GRCh38.ref}-${gDNA_variant.GRCh38.alt}`
+                                    valid_gDNA = valid_gDNA + 1
+                                } else {
+                                    invalid_gDNA = invalid_gDNA + 1
+                                }
+
+                                
+                            }   // end if mode === IMPORT
+
+                        } // end check of gDNA feld vorhanden
+
+                    } // end äußerer klammern
+                    
+
+
+
+                    // cDNA cDNA cDNA cDNA cDNA cDNA cDNA cDNA cDNA cDNA cDNA cDNA cDNA 
+                    let cDNA_variant = null
+                    let cDNA = null
+                    {
+                        cDNA = extractedRow['HGVS_cDNA']
+
+                        if(lodash.isString(cDNA)) {
+                            cDNA = cDNA.trim()
+                        }
+        
+                        if(lodash.isString(cDNA) && cDNA.length > 0) {
+                            if(mode === 'VV') {
+                                console.log("      cDNA: " + cDNA)
+                                if(vv_cDNA[cDNA] != null) {
+                                    console.log("            -> schon vorhanden")
+                                } else {
+                                    let vv = null
+                                    try {
+                                        vv = await vv_query('GRCh38',cDNA,'auth_all')
+                                    } catch(error) {
+                                        vv = { error: "valiation error" }
+                                    }
+                                    // console.log(vv)
+                                    vv_cDNA[cDNA] = vv
+                                }
+                            } else if(mode === 'IMPORT') {
+
+                                vorhanden_cDNA = vorhanden_cDNA + 1
+
+                                let vv = vv_cDNA[cDNA]
+
+                                console.log("      " + cDNA)
+
+                                cDNA_variant = {
+                                    GRCh37: {
+                                        gDNA: null,
+                                        build: 'GRCh37',
+                                        chr: null,
+                                        pos: null,
+                                        ref: null,
+                                        alt: null,
+                                    },
+                                    GRCh38: {
+                                        gDNA: null,
+                                        build: 'GRCh38',
+                                        chr: null,
+                                        pos: null,
+                                        ref: null,
+                                        alt: null,
+                                    }
+                                }
+
+                                let isValid = true
+
+                                if(vv == null) {
+                                    // TODO: report
+                                    isValid = false
+                                    cDNA_variant = null
+                                } else if(cDNA.indexOf(';') != -1) {
+                                    // alle aussortieren die ein semikolon verwenden 
+                                    // muss später reported werden und schauen wie man damit umgehen kann
+                                    isValid = false
+                                    cDNA_variant = null
+                                } else if(vv.flag === 'gene_variant') {
+
+                                    if(Object.keys(vv).length != 3) {
+                                        // TODO: report, ist irgendein fehler
+                                        isValid = false
+                                        cDNA_variant = null
+                                    } else {
+                                        // console.dir(vv,{depth: null})
+                                        // throw new Error("GEHT NICHT")
+
+                                        let entryKey = null
+                                        let entry = null
+                                        for(let [key,value] of Object.entries(vv)) {
+                                            if(key !== 'flag' && key !== 'metadata') {
+                                                entryKey = key
+                                                entry = value
+                                                break
+                                            }
+                                        }
+
+                                                                                /*
+                                        man nimmt einfach das user provided cDNA
+                                        if(entryKey !== cDNA) {
+                                            console.dir(entry,{depth: null})
+                                            console.log(cDNA)
+                                            console.log(entryKey)
+                                            isValid = false
+                                            cDNA_variant = null
+                                        }
+                                        */
+
+                                        try {
+                                            cDNA_variant.GRCh37.gDNA = entry.primary_assembly_loci.grch37.hgvs_genomic_description
+                                            cDNA_variant.GRCh37.chr = entry.primary_assembly_loci.grch37.vcf.chr
+                                            cDNA_variant.GRCh37.pos = entry.primary_assembly_loci.grch37.vcf.pos
+                                            cDNA_variant.GRCh37.ref = entry.primary_assembly_loci.grch37.vcf.ref
+                                            cDNA_variant.GRCh37.alt = entry.primary_assembly_loci.grch37.vcf.alt
+                                            cDNA_variant.GRCh38.gDNA = entry.primary_assembly_loci.grch38.hgvs_genomic_description
+                                            cDNA_variant.GRCh38.chr = entry.primary_assembly_loci.grch38.vcf.chr
+                                            cDNA_variant.GRCh38.pos = entry.primary_assembly_loci.grch38.vcf.pos
+                                            cDNA_variant.GRCh38.ref = entry.primary_assembly_loci.grch38.vcf.ref
+                                            cDNA_variant.GRCh38.alt = entry.primary_assembly_loci.grch38.vcf.alt
+                                            let check = cDNA_variant.GRCh37.gDNA != null && cDNA_variant.GRCh37.chr != null && cDNA_variant.GRCh37.pos != null && cDNA_variant.GRCh37.ref != null && cDNA_variant.GRCh37.alt != null && cDNA_variant.GRCh38.gDNA != null && cDNA_variant.GRCh38.chr != null && cDNA_variant.GRCh38.pos != null && cDNA_variant.GRCh38.ref != null && cDNA_variant.GRCh38.alt != null
+                                            if(check === false) {
+                                                // Muss reported werden
+                                                isValid = false
+                                                cDNA_variant = null
+                                            }
+                                        } catch(err) {
+                                            // report
+                                            isValid = false
+                                            cDNA_variant = null
+                                        }
+
+                                    }
+
+                                } else {
+                                    // todo: muss reported werden
+                                    isValid = false
+                                    cDNA_variant = null
+                                }
+
+                                if(isValid === true) {
+                                    cDNA_variant.id = `GRCh38-${cDNA_variant.GRCh38.chr}-${cDNA_variant.GRCh38.pos}-${cDNA_variant.GRCh38.ref}-${cDNA_variant.GRCh38.alt}`
+                                    valid_cDNA = valid_cDNA + 1
+                                } else {
+                                    invalid_cDNA = invalid_cDNA + 1
+                                }
+
+
                             }
 
                         }
                     }
 
 
+                    // variante von gDNA und/oder cDNA erstellen
+                    let importVariant = null
+                    if(cDNA_variant == null) {
+                        if(gDNA_variant == null) {
+                            // keines von beiden vorhanden
+                        } else {
+                            // nur gDNA ist vorhanden
+
+                            // importVariant setzen
+                            importVariant = gDNA_variant
+
+                            // variant in case setzten
+                            variantEntry.variant.reference = gDNA_variant.id
+                        }
+                    } else {
+                        if(gDNA_variant == null) {
+                            // nur cDNA ist vorhanden
+                            
+                            // importVariant setzen
+                            importVariant = cDNA_variant
+
+                            // variant anlegen
+                            variantEntry.variant.transcript = cDNA
+                            variantEntry.variant.reference = cDNA_variant.id
+
+                        } else {
+                            // gDNA UND cDNA beide vorhanden
+
+                            // mismatch testen
+                            let check = cDNA_variant.id === gDNA_variant.id && cDNA_variant.GRCh37.gDNA === gDNA_variant.GRCh37.gDNA && cDNA_variant.GRCh37.chr === gDNA_variant.GRCh37.chr && cDNA_variant.GRCh37.pos === gDNA_variant.GRCh37.pos && cDNA_variant.GRCh37.ref === gDNA_variant.GRCh37.ref && cDNA_variant.GRCh37.alt === gDNA_variant.GRCh37.alt && cDNA_variant.GRCh38.gDNA === gDNA_variant.GRCh38.gDNA && cDNA_variant.GRCh38.chr === gDNA_variant.GRCh38.chr && cDNA_variant.GRCh38.pos === gDNA_variant.GRCh38.pos && cDNA_variant.GRCh38.ref === gDNA_variant.GRCh38.ref && cDNA_variant.GRCh38.alt === gDNA_variant.GRCh38.alt
+                            if(check === false) {
+                                // TODO: report
+                                // kann man das hier einfach so durchlaufen lassen?
+                                mismatch = mismatch + 1
+                                /*
+                                console.log(gDNA_variant)
+                                console.log(cDNA_variant)
+                                throw new Error("safljsf")
+                                */
+                            }
+
+                            // importVariant setzen
+                            importVariant = gDNA_variant
+
+                            // variant anlegen
+                            variantEntry.variant.transcript = cDNA
+                            variantEntry.variant.reference = gDNA_variant.id
+                        }
+                    }
+
+                    // TODO: variant muss in die DB, checken ob schon vorhanden
+
+
+
+
 
                     variantEntries.push(variantEntry)
+
+                    iRow = iRow + 1
                 }
                 
                 newCase.variants = variantEntries
@@ -1092,9 +1390,31 @@ async function run() {
     
             iCase = iCase + 1
 
+
+            // TODO: case muss in die DB, prüfen ob duplikat (lab, internal id)
+
+
         }   // end case loop
 
         // console.log(collectEnumErrors)
+
+
+
+
+
+        console.log()
+        console.log()
+        console.log("VORHANDEN gDNA: " + vorhanden_gDNA)
+        console.log("VALID gDNA: " + valid_gDNA)
+        console.log("INVALID gDNA: " + invalid_gDNA)
+        console.log()
+        console.log("VORHANDEN cDNA: " + vorhanden_cDNA)
+        console.log("VALID cDNA: " + valid_cDNA)
+        console.log("INVALID cDNA: " + invalid_cDNA)
+        console.log()
+        console.log("MISMATCH: " + mismatch)
+
+
 
 
 
