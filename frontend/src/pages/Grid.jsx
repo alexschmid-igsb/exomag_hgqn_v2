@@ -196,6 +196,36 @@ const VariantLinksRenderer = props => {
 }
 
 
+const GenPosRenderer = props => {
+
+    const render = value => {
+        if(value == null) {
+            return null
+        }
+        return (
+            <span className="cell_value_genomic_position">
+                <span className="build">{value.build}</span>
+                <span className="separator">:</span>
+                <span className="chr">{value.chr}</span>
+                <span className="separator">:</span>
+                <span className="pos">{value.pos}</span>
+                <span className="separator">:</span>
+                <span className="ref">{value.ref}</span>
+                <span className="separator">:</span>
+                <span className="alt">{value.alt}</span>
+            </span>
+        )
+    }
+
+    return (
+        render(props.value)
+    )
+}
+
+
+
+
+
 
 
 
@@ -501,12 +531,8 @@ export default function Grid() {
             switch(layoutField.customValueRenderer) {
                 case 'variant_external_links':
                     return VariantLinksRenderer
-                /*
-                case 'bla':
-                    return SomeRenderer
-                case 'foo':
-                    return SomeOtherRenderer
-                */
+                case 'gen_pos_renderer':
+                    return GenPosRenderer
             }
         }
 

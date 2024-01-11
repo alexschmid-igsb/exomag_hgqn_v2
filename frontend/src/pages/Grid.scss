@@ -55,17 +55,24 @@ main.page-content > div.grid-container {
 
 div.ag-theme-alpine-modified div.enum-value-renderer > span.enum-value {
 
+    border-radius: 3px; 
+    padding: 2px 5px;
+    font-weight: bold;
+    border: 1px dashed rgba(0,0,0,0.3);
+    background-color: rgba(0,0,0,0.15);
+    
+
+    /*
     border-radius: 3px;
     padding: 2px 4px;
     margin-right: 4px;
     font-weight: bold;
 
-    /*
-    border-radius: 2px;
-    padding: 1.3px 2.5px;
-    font-weight: bold;
-    margin-right: 4px;
-    */
+    // border-radius: 2px;
+    // padding: 1.3px 2.5px;
+    // font-weight: bold;
+    // margin-right: 4px;
+
     // border: 1px solid rgba(0,0,0,0.1);
     // background-color: rgba(0,0,0,0.1);
 
@@ -84,6 +91,7 @@ div.ag-theme-alpine-modified div.enum-value-renderer > span.enum-value {
     // background-color: #087E8B;
     // background-color: #84ace1;
     background-color: #5b91d7;
+    */
 
 
 }
@@ -95,11 +103,86 @@ div.ag-theme-alpine-modified div.enum-value-renderer > span.enum-value:last-chil
 
 
 
+/* genomic position */
+
+
+div.ag-theme-alpine-modified span.cell_value_genomic_position {
+
+    * {
+        margin-right: 4px;
+        border-radius: 3px; 
+        padding: 2px 5px;
+        font-weight: bold;
+        border: 1px dashed rgba(0,0,0,0.3);
+        background-color: rgba(0,0,0,0.15);
+    }
+
+    *:last-child {
+        margin-right: 0px;
+    }
+
+    span.separator {
+        display: none;
+    }
+
+    span.build {
+        color: #004E64;
+    }
+
+
+    span.chr {
+        color: #004E64;
+    }
+
+    span.pos {
+        color:#5E0035;
+    }
+
+    span.ref {
+        color: #388659;
+    }
+    
+    span.alt {
+        color: #388659;
+    }
+
+
+}
+
+div.ag-theme-alpine-modified div.ag-row.expanded span.cell_value_genomic_position {
+
+    * {
+        color: white;
+    }
+
+    span.build {
+    }
+
+    span.chr {
+        
+    }
+
+    span.pos {
+    }
+
+    span.ref {
+    }
+    
+    span.alt {
+    }
+
+}
+
+
+
+
 
 
 /* ACMG Class */
 
-div.ag-theme-alpine-modified div.enum-value-renderer.acmgClass > span.enum-value {
+div.ag-theme-alpine-modified div.enum-value-renderer.acmgClass_COLUMN > span.enum-value {
+
+    color: white;
 
     &.VALUE-benign {
         background-color: rgb(7, 100, 24);
@@ -126,9 +209,15 @@ div.ag-theme-alpine-modified div.enum-value-renderer.acmgClass > span.enum-value
 
 /* ACMG Criteria */
 
-div.ag-theme-alpine-modified div.enum-value-renderer.acmgCriteria > span.enum-value {
+div.ag-theme-alpine-modified div.enum-value-renderer.acmgCriteria_COLUMN > span.enum-value {
     
-    // border-radius: 2px;
+    color: white;
+    margin-right: 4px;
+
+    &:last-child {
+        margin-right: 4px;
+    }
+
 
 
     &.VALUE-PVS1 {
@@ -181,8 +270,7 @@ div.ag-theme-alpine-modified div.enum-value-renderer.acmgCriteria > span.enum-va
     }
 
     // in varsome gibt es noch eine sehr hellgrüne farbe: rgb(115, 195, 111)
-    // es ist mir nicht klar, was diese farbe kodiert
-
+    // ist aber nicht klar, was diese farbe kodiert
 
     /*
 
