@@ -67,6 +67,11 @@ async function run() {
     const oldCases = require('./ExomAG_Daten_08.01.2024.json')
 
 
+    if(mode === 'IMPORT') {
+        await db.deleteAll('GRID_cases')
+        await db.deleteAll('GRID_variants')
+    }
+
 
 
     // HÄUFIGKEITEN DER IN DEN ALTEN DATEN VORHANDENEN FELDER ERMITTELN
@@ -1150,7 +1155,7 @@ async function run() {
 
                                 if(isValid === true) {
                                     // HIER IST ALLES OK, variante kann gesetzt werden
-                                    gDNA_variant.id = `GRCh38-${gDNA_variant.GRCh38.chr}-${gDNA_variant.GRCh38.pos}-${gDNA_variant.GRCh38.ref}-${gDNA_variant.GRCh38.alt}`
+                                    gDNA_variant._id = `GRCh38-${gDNA_variant.GRCh38.chr}-${gDNA_variant.GRCh38.pos}-${gDNA_variant.GRCh38.ref}-${gDNA_variant.GRCh38.alt}`
                                     valid_gDNA = valid_gDNA + 1
                                 } else {
                                     invalid_gDNA = invalid_gDNA + 1
@@ -1292,7 +1297,7 @@ async function run() {
                                 }
 
                                 if(isValid === true) {
-                                    cDNA_variant.id = `GRCh38-${cDNA_variant.GRCh38.chr}-${cDNA_variant.GRCh38.pos}-${cDNA_variant.GRCh38.ref}-${cDNA_variant.GRCh38.alt}`
+                                    cDNA_variant._id = `GRCh38-${cDNA_variant.GRCh38.chr}-${cDNA_variant.GRCh38.pos}-${cDNA_variant.GRCh38.ref}-${cDNA_variant.GRCh38.alt}`
                                     valid_cDNA = valid_cDNA + 1
                                 } else {
                                     invalid_cDNA = invalid_cDNA + 1
@@ -1317,7 +1322,7 @@ async function run() {
                             importVariant = gDNA_variant
 
                             // variant in case setzten
-                            variantEntry.variant.reference = gDNA_variant.id
+                            variantEntry.variant.reference = gDNA_variant._id
                         }
                     } else {
                         if(gDNA_variant == null) {
@@ -1328,13 +1333,13 @@ async function run() {
 
                             // variant anlegen
                             variantEntry.variant.transcript = cDNA
-                            variantEntry.variant.reference = cDNA_variant.id
+                            variantEntry.variant.reference = cDNA_variant._id
 
                         } else {
                             // gDNA UND cDNA beide vorhanden
 
                             // mismatch testen
-                            let check = cDNA_variant.id === gDNA_variant.id && cDNA_variant.GRCh37.gDNA === gDNA_variant.GRCh37.gDNA && cDNA_variant.GRCh37.chr === gDNA_variant.GRCh37.chr && cDNA_variant.GRCh37.pos === gDNA_variant.GRCh37.pos && cDNA_variant.GRCh37.ref === gDNA_variant.GRCh37.ref && cDNA_variant.GRCh37.alt === gDNA_variant.GRCh37.alt && cDNA_variant.GRCh38.gDNA === gDNA_variant.GRCh38.gDNA && cDNA_variant.GRCh38.chr === gDNA_variant.GRCh38.chr && cDNA_variant.GRCh38.pos === gDNA_variant.GRCh38.pos && cDNA_variant.GRCh38.ref === gDNA_variant.GRCh38.ref && cDNA_variant.GRCh38.alt === gDNA_variant.GRCh38.alt
+                            let check = cDNA_variant._id === gDNA_variant._id && cDNA_variant.GRCh37.gDNA === gDNA_variant.GRCh37.gDNA && cDNA_variant.GRCh37.chr === gDNA_variant.GRCh37.chr && cDNA_variant.GRCh37.pos === gDNA_variant.GRCh37.pos && cDNA_variant.GRCh37.ref === gDNA_variant.GRCh37.ref && cDNA_variant.GRCh37.alt === gDNA_variant.GRCh37.alt && cDNA_variant.GRCh38.gDNA === gDNA_variant.GRCh38.gDNA && cDNA_variant.GRCh38.chr === gDNA_variant.GRCh38.chr && cDNA_variant.GRCh38.pos === gDNA_variant.GRCh38.pos && cDNA_variant.GRCh38.ref === gDNA_variant.GRCh38.ref && cDNA_variant.GRCh38.alt === gDNA_variant.GRCh38.alt
                             if(check === false) {
                                 // TODO: report
                                 // kann man das hier einfach so durchlaufen lassen?
@@ -1351,16 +1356,29 @@ async function run() {
 
                             // variant anlegen
                             variantEntry.variant.transcript = cDNA
-                            variantEntry.variant.reference = gDNA_variant.id
+                            variantEntry.variant.reference = gDNA_variant._id
                         }
                     }
 
-                    // TODO: variant muss in die DB, checken ob schon vorhanden
+                    // import variant into database
+                    if(importVariant != null)
+                    {
+                        let result = await db.find('GRID_variants', { filter: { _id: importVariant._id }})
+                        if(result.data.length > 0) {
+                            // schon vorhanden, prüfen ob die werte gleich sind
+                            let item = result.data[0]
+                            let check = item._id === importVariant._id && item.GRCh37.gDNA === importVariant.GRCh37.gDNA && item.GRCh37.chr === importVariant.GRCh37.chr && item.GRCh37.pos === parseInt(importVariant.GRCh37.pos) && item.GRCh37.ref === importVariant.GRCh37.ref && item.GRCh37.alt === importVariant.GRCh37.alt && item.GRCh38.gDNA === importVariant.GRCh38.gDNA && item.GRCh38.chr === importVariant.GRCh38.chr && item.GRCh38.pos === parseInt(importVariant.GRCh38.pos) && item.GRCh38.ref === importVariant.GRCh38.ref && item.GRCh38.alt === importVariant.GRCh38.alt
+                            if(check === false) {
+                                console.log(item)
+                                console.log(importVariant)
+                                throw new Error("SCHON VORHANDEN ABER UNTERSCHIEDLICH")
+                            }
+                        } else {
+                            await db.insert('GRID_variants',importVariant)
+                        }
+                    }
 
-
-
-
-
+                    // add variant entry to new case vaiant entries
                     variantEntries.push(variantEntry)
 
                     iRow = iRow + 1
@@ -1391,7 +1409,19 @@ async function run() {
             iCase = iCase + 1
 
 
-            // TODO: case muss in die DB, prüfen ob duplikat (lab, internal id)
+            // import case
+            {
+                // check duplikat
+                let result = await db.find('GRID_cases', { filter: { sequencingLab: newCase.sequencingLab, internalCaseId: newCase.internalCaseId }})
+                if(result.data.length > 0) {
+                    console.dir(newCase,{depth: null})
+                    throw new Error("CASE SCHON VORHANDEN")
+                } else {
+                    await db.insert('GRID_cases',newCase)
+                }
+            }
+
+
 
 
         }   // end case loop
