@@ -356,25 +356,42 @@ layouts:
             #     path: variant.GRCh38
             #     label: bla1
             #     importTarget: true
+            #   - id: blabla2_COLUMN
+            #     label: bla2
+            #     path: variant.reference._id
+            #   - id: blabla3_COLUMN
+            #     path: variant.reference.GRCh37.gDNA
+            #     label: bla3
+            #   - id: blabla4_COLUMN
+            #     path: variant.reference.GRCh37
+            #     label: bla4
+          - label: Variante
+            type: 
+                id: nested
+                rowExpansion: true
+                root: variants
+            fields:
               - id: blabla2_COLUMN
+                label: ID
                 path: variant.reference._id
-                label: bla2
-              - id: blabla3_COLUMN
+              - id: cDNA
+                label: HGVS cDNA
+                path: variant.transcript
+              - id: gDNA_GRCh38
+                label: HGVS gDNA (GRCh38)
+                path: variant.reference.GRCh38.gDNA
+              - id: genomic_position_GRCh38
+                label: Genomic Position (GRCh38)
+                path: variant.reference.GRCh38
+              - id: gDNA_GRCh37
+                label: HGVS gDNA (GRCh37)
                 path: variant.reference.GRCh37.gDNA
-                label: bla3
-              - id: blabla4_COLUMN
+              - id: genomic_position_GRCh37
+                label: Genomic Position (GRCh37)
                 path: variant.reference.GRCh37
-                label: bla4
-
-#          - label: Variante
-#            type: 
-#                id: nested
-#                rowExpansion: true
-#                root: variants
-#            fields:
-#              - id: bla
-#                label: Dings
-#                path: variant.reference.GRCh37.gDNA
-#              - id: test
-#                label: Neu
-#                path: variant.reference.GRCh37
+            #   - id: 
+            #     label: Dings
+            #     path: variant.reference.GRCh37.gDNA
+            #   - id: test
+            #     label: Neu
+            #     path: variant.reference.GRCh37
