@@ -17,6 +17,7 @@ const fs = require('fs')
 
 const StackTrace = require('stacktrace-js')
 
+const console = require('./util/PrettyfiedConsole')
 
 // Setup async init tasks
 const asyncInits = [
@@ -93,7 +94,8 @@ app.use(async function (err, req, res, next) {
 
     // Generiere Fehlerinfos für die Anzeige im Frontend (auch für async code)
 
-    console.log("CALL GLOBAL ERROR HANDLER")
+    console.log('\n')
+    console.log('GLOBAL ERROR HANDLER\n')
 
     let status = err.status || 500
 
@@ -104,18 +106,22 @@ app.use(async function (err, req, res, next) {
         stackTrace: await StackTrace.fromError(err)
     }
 
-    console.log("STATUS")
+    console.log(`STATUS:  ${error.status}`)
+    console.log(`NAME:    ${error.name}`)
+    console.log(`MESSAGE: ${error.message}`)
+
+    console.error(err)
+
+    /*
     console.log(error.status)
     console.log()
-    console.log("NAME")
     console.log(error.name)
     console.log()
-    console.log("MESSAGE")
     console.log(error.message)
     console.log()
-    console.log("CAUSE")
     console.log(err)
     console.log()
+    */
 
 
     res.status(status)

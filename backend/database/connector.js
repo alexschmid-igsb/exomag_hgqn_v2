@@ -534,7 +534,7 @@ class Connector {
         let scheme = this.getScheme(target)
 
         params = this.prepareParams(params)
-        console.log(params)
+        // console.log(params)
 
         try {
 

@@ -193,17 +193,17 @@ layouts:
             type: 
                 id: primary
             fields:
-              - id: id_COLUMN
+              - id: COLUMN_ID
                 path: _id
                 label: ID
                 importTarget: false
-              - id: sequencingLab_COLUMN
+              - id: COLUMN_sequencingLab
                 path: sequencingLab.shortName
                 label: Sequencing Lab
                 majorField: true
                 importTarget: false
                 pinned: true
-              - id: internalCaseId_COLUMN
+              - id: COLUMN_internalCaseId
                 path: internalCaseId
                 label: Internal Case ID
                 majorField: true
@@ -214,16 +214,16 @@ layouts:
             type: 
                 id: primary
             fields:
-              - id: gestaltMatcherId_COLUMN
+              - id: COLUMN_gestaltMatcherId
                 path: gestaltMatcherId
                 label: GestaltMatcher ID
                 majorField: true
                 importTarget: true
-              - id: externalCaseId_COLUMN
+              - id: COLUMN_externalCaseId
                 path: externalCaseId
                 label: External Case ID
                 importTarget: true
-              - id: face2GeneId_COLUMN
+              - id: COLUMN_face2GeneId
                 path: face2GeneId
                 label: Face2Gene ID
                 importTarget: true
@@ -231,26 +231,26 @@ layouts:
             type: 
                 id: primary
             fields:
-              - id: sex_COLUMN
+              - id: COLUMN_sex
                 path: sex
                 label: Sex
                 majorField: true
                 importTarget: true
-              - id: ageInMonths_COLUMN
+              - id: COLUMNageInMonths
                 path: ageInMonths
                 label: Age (in months)
                 majorField: true
                 importTarget: true
-              - id: ageinYears_COLUMN
+              - id: COLUMN_ageinYears
                 path: ageinYears
                 label: Age (in years)
                 majorField: true
                 importTarget: true
-              - id: prenatal_COLUMN
+              - id: COLUMN_prenatal
                 path: prenatal
                 label: Prenatal
                 importTarget: true
-              - id: dateOfBirth_COLUMN
+              - id: COLUMN_dateOfBirth
                 path: dateOfBirth
                 label: Date of Birth
                 importTarget: true
@@ -258,68 +258,68 @@ layouts:
             type: 
                 id: primary
             fields:
-              - id: startDerDiagnostik_COLUMN
+              - id: COLUMN_startDerDiagnostik
                 path: startDerDiagnostik
                 label: Start der Diagnostik
                 majorField: true
                 importTarget: true
-              - id: befunddatum_COLUMN
+              - id: COLUMN_befunddatum
                 path: befunddatum
                 label: Befunddatum
                 majorField: true
                 importTarget: true
-              - id: diseaseCategory_COLUMN
+              - id: COLUMN_diseaseCategory
                 path: diseaseCategory
                 label: Disease Category
                 majorField: true
                 importTarget: true
-              - id: caseStatus_COLUMN
+              - id: COLUMN_caseStatus
                 path: caseStatus
                 label: Case Status
                 majorField: true
                 importTarget: true
-              - id: hpoTerms_COLUMN
+              - id: COLUMN_hpoTerms
                 path: hpoTerms
                 label: HPO Terms
                 importTarget: true
-              - id: bisherigeDiagnostik_COLUMN
+              - id: COLUMN_bisherigeDiagnostik
                 path: bisherigeDiagnostik
                 label: Bisherige Diagnostik
                 importTarget: true
-              - id: singleDuoTrio_COLUMN
+              - id: COLUMN_singleDuoTrio
                 path: singleDuoTrio
                 label: Single / Duo / Trio
                 importTarget: true
-              - id: referringClinician_COLUMN
+              - id: COLUMN_referringClinician
                 path: referringClinician
                 label: Referring Clinician
                 importTarget: true
-              - id: autozygosity_COLUMN
+              - id: COLUMN_autozygosity
                 path: autozygosity
                 label: Autozygosity
                 importTarget: true
-              - id: testConducted_COLUMN
+              - id: COLUMN_testConducted
                 path: testConducted
                 label: Test Conducted
                 importTarget: true
-              - id: changesInManagementOrTherapyAfterTest
+              - id: COLUMN_changesInManagementOrTherapyAfterTest
                 path: changesInManagementOrTherapyAfterTest
                 label: Changes in Management / Therapy after Test
-              - id: secondaryOrIncidentalFindings
+              - id: COLUMN_secondaryOrIncidentalFindings
                 path: secondaryOrIncidentalFindings
                 label: Secondard or incidental Findings
-              - id: relevantFindingsForResearch
+              - id: COLUMN_relevantFindingsForResearch
                 path: relevantFindingsForResearch
                 label: Relevant findings for research
-              - id: selektivvertrag_COLUMN
+              - id: COLUMN_selektivvertrag
                 path: selektivvertrag
                 label: Selectivvertrag
                 importTarget: true
-              - id: wetlabMetainfo_COLUMN
+              - id: COLUMN_wetlabMetainfo
                 path: wetlabMetainfo
                 label: Wetlab Metainfo
                 importTarget: true
-              - id: AutoCasc_COLUMN
+              - id: COLUMN_AutoCasc
                 path: AutoCasc
                 label: AutoCasc
                 importTarget: true
@@ -329,35 +329,35 @@ layouts:
                 rowExpansion: true
                 root: variants
             fields:
-              - id: gene_COLUMN
+              - id: COLUMN_gene
                 path: gene
                 label: Gene
                 importTarget: true
-              - id: variantSolvesCase_COLUMN
-                path: gene
+              - id: COLUMN_variantSolvesCase
+                path: variantSolvesCase
                 label: Variant solves case
                 importTarget: true
-              - id: ifNewDiseaseGeneLevelOfEvidence_COLUMN
+              - id: COLUMN_ifNewDiseaseGeneLevelOfEvidence
                 path: ifNewDiseaseGeneLevelOfEvidence
                 label: Level of Evidence (for new disease genes)
                 importTarget: true
-              - id: acmgClass_COLUMN
+              - id: COLUMN_acmgClass
                 path: acmg.class
                 label: ACMG Class
                 importTarget: true
-              - id: acmgCriteria_COLUMN
+              - id: COLUMN_acmgCriteria
                 path: acmg.criteria
                 label: ACMG Criteria
                 importTarget: true
-              - id: zygosity_COLUMN
+              - id: COLUMN_zygosity
                 path: zygosity
                 label: Zygosity
                 importTarget: true
-              - id: segregationsanalyse_COLUMN
+              - id: COLUMN_segregationsanalyse
                 path: segregationsanalyse
                 label: Segregationsanalyse
                 importTarget: true
-              - id: modeOfInheritance_COLUMN
+              - id: COLUMN_modeOfInheritance
                 path: modeOfInheritance
                 label: Mode of Inheritance
                 importTarget: true
@@ -367,23 +367,23 @@ layouts:
                 rowExpansion: true
                 root: variants
             fields:
-              - id: variant_id
+              - id: COLUMN_variantId
                 label: ID
                 path: variant.reference._id
-              - id: cDNA
+              - id: COLUMN_cDNA
                 label: HGVS cDNA
                 path: variant.transcript
-              - id: gDNA_GRCh38
+              - id: COLUMN_gDNA_GRCh38
                 label: HGVS gDNA (GRCh38)
                 path: variant.reference.GRCh38.gDNA
-              - id: genomic_position_GRCh38
+              - id: COLUMN_genomic_position_GRCh38
                 label: Genomic Position (GRCh38)
                 path: variant.reference.GRCh38
                 customValueRenderer: gen_pos_renderer
-              - id: gDNA_GRCh37
+              - id: COLUMN_gDNA_GRCh37
                 label: HGVS gDNA (GRCh37)
                 path: variant.reference.GRCh37.gDNA
-              - id: genomic_position_GRCh37
+              - id: COLUMN_genomic_position_GRCh37
                 label: Genomic Position (GRCh37)
                 path: variant.reference.GRCh37
                 customValueRenderer: gen_pos_renderer

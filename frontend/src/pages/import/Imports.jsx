@@ -73,7 +73,7 @@ const CreateImport = ({onConfirm}) => {
                 startIcon={<IconifyIcon icon="tabler:text-plus" />}
                 onClick={handleClickOpen}
             >
-                Create Import
+                create new import
             </Button>
             <Dialog className="create-import-dialog" open={open} onClose={() => setOpen(false)}>
                 <DialogContent className="content">
@@ -360,7 +360,17 @@ export default function Imports() {
             </div>
 
 
-            <CreateImport onConfirm={createImport} />
+            <div className="buttons">
+                <CreateImport onConfirm={createImport} />
+                <Button
+                    className="create-import-button"
+                    size="large"
+                    endIcon={<IconifyIcon icon='bitcoin-icons:exit-filled' />}
+                    onClick={() => { navigate('/home') }}
+                >
+                    Leave imports
+                </Button>
+            </div>
 
 
 

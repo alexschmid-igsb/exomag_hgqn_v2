@@ -36,11 +36,22 @@
 
 
 
-const { DateTime } = require("luxon")
+// const { DateTime } = require("luxon")
+// let bla = DateTime.fromISO("03.11.2020")
+// console.log(bla)
 
-let bla = DateTime.fromISO("03.11.2020")
 
-console.log(bla)
+
+
+
+
+
+
+
+
+
+
+
 
 
 

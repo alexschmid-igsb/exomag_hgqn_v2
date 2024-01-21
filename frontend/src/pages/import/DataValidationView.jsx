@@ -25,10 +25,84 @@ import ValidationGrid from './ValidationGrid'
 import './DataValidationView.scss'
 
 
+/*
+    Komponenten:
+
+    Status Box / controll panel
+      * aktuellen state 
+      * ggf start/stop buttons?
+      * fotschritts balken
+      * zusammenfassung anzahl fehler
+
+    Mehrere Grids:
+
+        GENERELL: ALLES DATENSÄTZE WERDEN IMMER ALS OPEN GERENDERT UND KÖNNEN NICHT GESCHLOSSEN WERDEN
+
+        1. Fehlerhafte, nicht-import-fähige Datensätze
+
+            * Datensätze mit nicht mapbaren, falschen enum werten sind nicht import fähig
+              Die fehlerhaften Felder werden durch hintergrundfarbe markiert und durch popover der fehler erklärt
+            * Gleiches gilt für nicht parsbare (interger, decimal, date) felder
+            * Ebenso bei fehlern der multiplizität, d.h. der felder die mehrere werte beinhalten dürfen
+            * Genauso wenn varianten nicht geparst werden können
+            * Erstmal keine korrektur möglichkeiten (feature für später mal) 
+
+        2. Datensätze ready to import
+
+          * Hier alles datensätze, die für den Import bereit sind
+          * über einen button können alle importieret werden (der aber erst frei ist, wenn das prozessing abgeschlossen ist)
+          * Dieses Grid zeigt für jeden record an, ob es ein neuer Datensatz ist (alles ist grün)
+          * oder ob der Datensatz schon existiert hat
+             - hier werden nicht veränderte felder nicht hervorgehoben oder sogar ausgegraut
+             - veränderte felder werden hervorgehoben (eventuell mit old value / new value anzeige)
+             - gelösche felder werden rot hervorgehoben (eventuell mit anzeige der old value)
+             - für die varianten felder kann man das einfach auch so nehmen
+
+    Prozessierung:
+
+      1. die Daten müssen aus dem Excel sheet geholt werden
+         wenn das nicht klappt, oder keine daten da sind, dann wird eine fehlermeldung gesetzt, welche dann im frontend im control panel
+         angezeigt wird.
+         Das mapping sorgt schon dafür, dass z.b. wichtige felder wie internal case id aufjedenfall gemappt sind
+    
+      2. Das backend startet einen prozessierungs "thread". Hier wird nach jedem record die datenbank geupdatet
+         Solange das processing läuft, läuft im frontend der fetch (z.b. alle 500ms)
+
+*/
 
 
 
 
+
+
+
+/*
+    states:
+        PEDNING
+        RUNNING
+        FINISHED
+        CANCELED
+        UNEXPECTED_ERROR
+
+    Wo wird das processing angestoßen?
+    Eigentlich in dieser komponente, diese prüft, 
+
+
+    
+*/
+const ControlPanel = props => {
+        
+
+    return (
+        <div className="control-panel">
+
+            HALO
+
+        </div>
+    )
+
+
+}
 
 
 
@@ -42,13 +116,15 @@ export default function DataValidationView(props) {
         uiBlockMsg
     } = props
 
-    
 
     React.useEffect(() => {
 
-        console.log("HIER JETZT weöm föewä fwefk welkfä ")
-        console.log(importInstance)
-        
+    }, [])
+
+
+    React.useEffect(() => {
+        // console.log("Data Validation")
+        // console.log(importInstance)
     }, [importInstance])
 
 
@@ -68,9 +144,23 @@ export default function DataValidationView(props) {
             }
 
 
-            <ValidationGrid
+            <ControlPanel>
+
+            </ControlPanel>
+
+
+
+            <JSONView target={importInstance}/>
+
+
+
+
+
+
+
+            {/* <ValidationGrid
                 dataValidated={importInstance.data.validated}
-            />
+            /> */}
 
 
 

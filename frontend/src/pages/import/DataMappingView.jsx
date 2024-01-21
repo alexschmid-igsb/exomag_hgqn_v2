@@ -110,7 +110,7 @@ const ExcelTemplateMapping = ({
 
             { importInstance?.valueMapping?.excel?.dataSheet == null ? null : 
                 <>
-                    <div className='label'>
+                    <div className='label field'>
                         <div className='index'>b</div>
                         <span className='text'>field mapping</span>
                     </div>

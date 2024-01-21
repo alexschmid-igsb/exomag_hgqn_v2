@@ -80,9 +80,9 @@ export default function Import() {
     }, [importInstance])
 
 
-    const loadImportInstance = () => {
+    const loadImportInstance = (blocking = true) => {
         console.log('loadImportInstance')
-        setIsLoading(true)
+        if(blocking === true) setIsLoading(true)
         if (importId != null) {
             API.post('/api/import/get-import', { params: { importId: importId } }).then(response => {
                 if (response == null || lodash.isArray(response.data) === false || response.data.length < 1 || response.data[0] == null) {
@@ -90,12 +90,11 @@ export default function Import() {
                 } else {
                     // console.log(response.data[0])
                     setImportInstance(response.data[0])
-                    setIsLoading(false)
+                    if(blocking === true) setIsLoading(false)
                 }
             })
         }
     }
-
 
 
 
@@ -120,6 +119,31 @@ export default function Import() {
         setActiveStepId(nextActiveStepId)
         _setImportInstance(importInstance)
     }
+
+
+    React.useEffect(() => {
+
+        console.log("USE EFFECT ON importInstance")
+        console.log(importInstance)
+
+        if(importInstance.uploadFormat === 'excel_template') {
+
+            if(importInstance.progress === 'data_validation' && importInstance?.processing?.excel?.state === 'PENDING') {
+                // trigger processing and schedule a reload for the import instance
+                triggerProcessing()
+                setTimeout(() => { loadImportInstance(false) }, 1000)
+            }
+
+            if(importInstance?.processing?.excel?.state === 'RUNNING') {
+                // while state === 'RUNNING' schedule periodic relaods
+                setTimeout(() => {
+                    loadImportInstance(false)
+                }, 1000)
+            }
+        }
+
+    }, [importInstance])
+
 
 
 
@@ -265,13 +289,8 @@ export default function Import() {
         })
     }
 
-    
-
 
     const confirmFieldMappingStep = event => {
-        // validate mapping?
-
-        // execute update
         setIsLoading(true)
         API.post('/api/import/set-progress', {
             params: {
@@ -279,12 +298,25 @@ export default function Import() {
                 progress: 'data_validation'
             }
         }).then( response => {
-            console.log("RESPONE FROM SET PROGRESS")
-            console.log(response)
             setImportInstance(response.data)
             setIsLoading(false)
         })
     }
+
+
+    const goBackToFieldMapping = event => {
+        setIsLoading(true)
+        API.post('/api/import/set-progress', {
+            params: {
+                importId: importId,
+                progress: 'field_mapping'
+            }
+        }).then( response => {
+            setImportInstance(response.data)
+            setIsLoading(false)
+        })
+    }
+
 
 
 
@@ -297,10 +329,49 @@ export default function Import() {
 
 
 
+    // TODO: HIER PRÜFEN, OB EXCEL_TEMPLATE UND PROCESSING AUF PENDING IST. WENN JA, DANN WIRD HIER
+    // EINFACH DER THREAD GESTARTET. DIESER ÄNDERT DANN SELBST 
+    // DIE SUB KOMPONENTEN VAIDALTION VIEW MACHT SELBST DAS PULLING BASIEREND AUF DEM STATE DER IMPORT INSTANCE
+    // WELCHER WIEDERUM DURCH DEN THEREAD GESETZT WIRD
+    // WICHTIG: DAS PULLING WIRD IN DER HAUPTKOMPONENTE DEFINIERT (logic) UND NUR VON DER SUBKOMPONENTEN GECALLT
+    // ABER DORT NICHT DEFINIERT
+
+
+    // trigger the processing if not yet running
+    const triggerProcessing = () => {
+        console.log("triggerProcessing")
+        console.log(importInstance)
+        switch(importInstance.uploadFormat) {
+            case 'excel_template':
+                if(importInstance?.processing?.excel?.state === 'PENDING') {
+                    setIsLoading(true)
+                    API.post('/api/import/excel-template-trigger-processing', {
+                        params: {
+                            importId: importId
+                        }
+                    }).then( response => {
+
+
+                        // setImportInstance(response.data)
+                        setIsLoading(false)
+                    })
+                }
+                break;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
 
 
     
-    const [bla,setBla] = React.useState('info')
 
 
     return (
@@ -334,7 +405,7 @@ export default function Import() {
 
                 <Step
                     id='file_upload'
-                    label='File Upload'
+                    label='Data Upload'
                     onNext={{
                         disabled: confirmFileUploadDisabled,
                         label: 'continue',
@@ -381,7 +452,19 @@ export default function Import() {
 
                 <Step
                     id='data_validation'
-                    label='Data Validation'
+                    label='Validation & Import'
+                    onPrevious={{
+                        label: 'go back',
+                        icon: <IconifyIcon icon='tabler:arrow-big-left' />,
+                        onClick: goBackToFieldMapping
+                    }}
+                    onNext={{
+                        disabled: false,
+                        label: 'leave import',
+                        icon: <IconifyIcon icon='bitcoin-icons:exit-filled' />,
+                        onClick: () => { navigate('/imports') }
+
+                    }}
                 >
                     <DataValidationView
                         uiBlockMsg={uiBlockMsg}
@@ -389,14 +472,14 @@ export default function Import() {
                     />
                 </Step>
 
-                <Step
+                {/* <Step
                     id='execute'
                     label='Execute Import'
                 >
                     <div>
                         vier
                     </div>
-                </Step>
+                </Step> */}
 
             </Stepper>
 
