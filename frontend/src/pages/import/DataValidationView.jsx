@@ -11,11 +11,16 @@ import lodash from 'lodash'
 import API from '../../api/fetchAPI'
 
 import { Icon as IconifyIcon, InlineIcon as IconifyIconInline } from "@iconify/react"
+import IconButton from '@mui/material/IconButton'
 
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
+
+import LinearProgress from '@mui/material/LinearProgress'
+
+import jQuery from 'jquery'
 
 import JSONView from '../../components/util/JSONView'
 import LargeSpinnerOverlay from '../../components/util/LargeSpinnerOverlay'
@@ -23,6 +28,15 @@ import LargeSpinnerOverlay from '../../components/util/LargeSpinnerOverlay'
 import ValidationGrid from './ValidationGrid'
 
 import './DataValidationView.scss'
+
+/*
+    Diese Komponente ist jetzt nur auf den excel template upload angepasst.
+    Hier sollte man fallunterscheidungen einbauen sobald die anderen uploads implementiert werden.
+    Oder aber direkt unterschiedliche components für unterschiedliche uploads bauen, das ist wahrscheinlich sauberer.
+*/
+
+
+
 
 
 /*
@@ -78,31 +92,212 @@ import './DataValidationView.scss'
 
 /*
     states:
-        PEDNING
+        PENDING
         RUNNING
         FINISHED
         CANCELED
-        UNEXPECTED_ERROR
-
-    Wo wird das processing angestoßen?
-    Eigentlich in dieser komponente, diese prüft, 
-
-
-    
+        ERROR
 */
-const ControlPanel = props => {
-        
+
+
+
+
+
+
+
+const ControlPanel = ({ processing, cancelValidation }) => {
+
+    const componentRef = React.useRef(null)
+
+    const progressPercent = React.useMemo(() => {
+        let processed = processing?.excel?.progress?.processed
+        let total = processing?.excel?.progress?.total
+        if (processed == null || total == null) {
+            return 0.0
+        } else {
+            let percent = 100.0 * (processed/total)
+            if(percent < 0 || isNaN(percent)) {
+                percent = 0.0
+            } else if(percent > 100) {
+                percent = 100.0
+            }
+            return percent
+        }
+    })
+
+    const progressCount = React.useMemo(() => {
+        let processed = processing?.excel?.progress?.processed
+        let total = processing?.excel?.progress?.total
+        if (processed == null || total == null) {
+            return null
+        } else {
+            return <>{processed}&nbsp;/&nbsp;{total}</>
+        }
+    })
+
+    const state = React.useMemo(() => {
+        let value = processing?.excel?.state
+        if(value == null) {
+            return 'PENDING'
+        } else {
+            return value
+        }
+    })
+
+
+    /*
+    const [progressPercent, setProgressPercent] = React.useState(0.0)
+    const [state, setState] = React.useState('PENDING')
+
+    React.useEffect(() => {
+        const timer = setInterval(() => {
+            setProgressPercent((oldProgress) => {
+                if (oldProgress === 100) {
+                    return 0;
+                }
+                const diff = Math.random() * 10;
+                return Math.min(oldProgress + diff, 100);
+            });
+            setState(() => {
+                return lodash.sample(['PENDING', 'RUNNING', 'CANCELED', 'FINISHED', 'ERROR'])
+                // return lodash.sample(['CANCELED','ERROR'])
+                // return lodash.sample(['PENDING','RUNNING','FINISHED'])
+            })
+        }, 1000);
+
+        return () => {
+            clearInterval(timer);
+        };
+    }, []);
+    */
+
+
+    React.useEffect(() => {
+        let current = componentRef.current
+        if(current != null) {
+            let labelCells = jQuery(current).find('div.cell.label')
+            let maxWidth = 0
+            labelCells.each((index,element) => {
+                if(element.clientWidth > maxWidth) {
+                    maxWidth = element.clientWidth
+                }
+            })
+            labelCells.width(maxWidth)
+        }
+    }, [componentRef])
+
+
+    const handleCancel = () => {
+        cancelValidation()
+    }
+
+    const renderState = () => {
+        switch (state) {
+            case 'RUNNING':
+                return (
+                    <>
+                        <span className={`state ${state}`}>IN PROGRESS ...</span>
+                        <IconButton
+                            className="cancel-button inline-button signal-red"
+                            size="normal"
+                            onClick={handleCancel}
+                        >
+                            <IconifyIcon icon="basil:cancel-solid" />
+                        </IconButton>
+                    </>
+                )
+            case 'FINISHED':
+                return (<span className={`state ${state}`}>FINISHED</span>)
+            case 'CANCELED':
+                return (<span className={`state ${state}`}>CANCELED</span>)
+            case 'ERROR':
+                return (<span className={`state ${state}`}>ERROR</span>)
+            case 'PENDING':
+            default:
+                return (<span className={`state ${state}`}>PENDING</span>)
+        }
+    }
+
+
+    const renderProgressRow = () => {
+        switch (state) {
+            case 'RUNNING':
+            case 'FINISHED':
+            case 'ERROR':
+                return (
+                    <div className="row">
+                        <div className="cell label">
+                            Progress:
+                        </div>
+                        <div className="cell progress grow">
+                            <div className="progress-bar-container">
+                                <LinearProgress
+                                    className='progress-bar'
+                                    variant='determinate'
+                                    value={progressPercent}
+                                />
+                                <span className="progress-count">{progressCount}</span>
+                            </div>
+                        </div>
+                    </div>
+                )
+            case 'CANCELED':
+            case 'PENDING':
+            default:
+                return null
+        }
+    }
+
+
+
+    const renderErrorRow = () => {
+        switch (state) {
+            // case 'RUNNING':
+            // case 'FINISHED':
+            // case 'CANCELED':
+            // case 'PENDING':
+            case 'ERROR':
+                return (
+                    <div className="row">
+                        <div className="cell error grow">
+                            TODO: top level error report rendern<br/>
+                            Hier nur unexpected, fatal oder errors beim init der processings, alle datenbezogenend fehler gehen in den context des feldes
+                        </div>
+                    </div>
+                )
+            case 'RUNNING':
+            case 'FINISHED':
+            case 'CANCELED':
+            case 'PENDING':
+            default:
+                return null
+        }
+    }
+
+
 
     return (
-        <div className="control-panel">
-
-            HALO
-
+        <div ref={componentRef} className="control-panel">
+            <div className="row">
+                <div className="cell label">
+                    Data Validation:
+                </div>
+                <div className="cell state grow">
+                    {renderState()}
+                </div>
+            </div>
+            { renderProgressRow() }
+            { renderErrorRow() }
         </div>
     )
-
-
 }
+
+
+
+
+
+
+
 
 
 
@@ -113,7 +308,8 @@ export default function DataValidationView(props) {
 
     const {
         importInstance,
-        uiBlockMsg
+        uiBlockMsg,
+        cancelValidation
     } = props
 
 
@@ -134,23 +330,23 @@ export default function DataValidationView(props) {
 
     return (
 
+        // TODO
+        // Fallunterscheidgung je nach upload_format
+
         <div className='data-validation-view'>
 
-
-            { uiBlockMsg != null ?
-                <LargeSpinnerOverlay label={uiBlockMsg}/>
-            :
+            {uiBlockMsg != null ?
+                <LargeSpinnerOverlay label={uiBlockMsg} />
+                :
                 null
             }
 
+            <ControlPanel
+                processing={importInstance.processing}
+                cancelValidation={cancelValidation}
+            />
 
-            <ControlPanel>
-
-            </ControlPanel>
-
-
-
-            <JSONView target={importInstance}/>
+            <JSONView target={importInstance} />
 
 
 
@@ -165,7 +361,6 @@ export default function DataValidationView(props) {
 
 
             {/* 
-
             { importInstance?.uploadFormat === 'excel_template' ? 
                 <ExcelTemplateMapping
                     importInstance={importInstance}
@@ -180,13 +375,14 @@ export default function DataValidationView(props) {
                 <div>The upload format '<b>Phenopacket</b>' will be available only from the next version of this application. Please go back and use the "Excel Template" upload format in the meantime.</div>
             :
                 null
-            }  */}
-
-            
-
+            }
+            */}
 
 
-            
+
+
+
+
 
         </div>
     )

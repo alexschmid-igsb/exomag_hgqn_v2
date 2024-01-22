@@ -350,9 +350,12 @@ export default function Import() {
                             importId: importId
                         }
                     }).then( response => {
-
-
-                        // setImportInstance(response.data)
+                        // Wieso bekommt man hier keine geupdatete importInstance zurück?
+                        // triggerProcessing() wird beim next step handler aufgerufen (also wenn
+                        // man zur data validation view wechselt). Dort wird dann auch der
+                        // timout für das pulling der importInstance gestartet. Darüber kommt
+                        // dann die geupdatete import instance. Auf diese weise kann man die
+                        // importInstance im worker updaten und muss das nicht im endpoint machen.
                         setIsLoading(false)
                     })
                 }
@@ -360,6 +363,36 @@ export default function Import() {
         }
     }
 
+
+    const cancelValidation = () => {
+        console.log("cancelValidation")
+        console.log(importInstance)
+        switch(importInstance.uploadFormat) {
+            case 'excel_template':
+                if(importInstance?.processing?.excel?.state === 'RUNNING') {
+                    setIsLoading(true)
+                    API.post('/api/import/excel-template-cancel-processing', {
+                        params: {
+                            importId: importId
+                        }
+                    }).then( response => {
+                        // hier braucht man auch kein return der import instance, weil das
+                        // bei einem laufenden processing über den timeout geholt wird und
+                        // dann der timout beim nächsten update gestoppt wird.
+                        setIsLoading(false)
+                    })
+                }
+                break
+        }
+        
+        /*  
+            API call mit blocking der UI
+            Im backed ein endpoint, dieser killt das processing, indem die ergebnisse gelöscht werden und der state gesetzt wird.
+            Zurückgegeben ans frontend wird die importInstance
+            Der thread muss selbst aufhören, weil er bei jedem durchlauf checken muss, ob canceled.
+            Das wars??
+        */
+    }
 
 
 
@@ -469,6 +502,7 @@ export default function Import() {
                     <DataValidationView
                         uiBlockMsg={uiBlockMsg}
                         importInstance={importInstance}
+                        cancelValidation={cancelValidation}
                     />
                 </Step>
 

@@ -1112,12 +1112,84 @@ router.post('/excel-template-trigger-processing', [auth], async function (req, r
         throw new BackendError('Unexpected Error: Could not meet preconditions for processing of excel template import')
     }
 
-    new Worker('./backend/import/excel/worker.js', { workerData: { importId: importId, userId: userId } })
-
-    console.log("RES SEND")
+    new Worker('./backend/import/excel_template/worker.js', { workerData: { importId: importId, userId: userId } })
 
     res.send({})
 })
+
+
+
+
+
+// trigger processing for excel template import
+router.post('/excel-template-cancel-processing', [auth], async function (req, res, next) {
+
+    const userId = req.auth.user._id
+
+    const importId = req.body.importId ? req.body.importId.trim() : undefined
+    if (importId == null) {
+        throw new BackendError('import id is missing')
+    }
+
+    let current = null
+    try {
+        let dbRes = await database.find('STATIC_imports', {
+            fields: '-uploadedFiles.data',
+            filter: { _id: importId, user: userId },
+            populate: [ { path: 'user', select: '-password' } ]
+        })
+        current = dbRes.data[0]
+    } catch (error) {
+        throw new BackendError('could not get import', 500, error)
+    }
+
+    console.log("CURRENT")
+    console.log(current)
+    
+    // check if canceling is allowed
+    if(current.uploadFormat === 'excel_template' && current?.processing?.excel?.state === 'RUNNING') {
+
+        console.log("EXECUTE UPDATE")
+
+        // update
+        let update = {
+            processing: {
+                ...current?.processing,
+                excel: {
+                    ...current?.processing?.excel,
+                    state: 'CANCELED',
+                    progress: {
+                        processed: 0,
+                        total: 0,
+                    }
+                }
+            }
+        }
+
+        // execute update
+        let dbRes = null
+        try {
+            dbRes = await database.findOneAndUpdate('STATIC_imports', {
+                fields: '-uploadedFiles.data',
+                filter: { _id: importId, user: userId },
+                populate: [ { path: 'user', select: '-password' } ]
+            }, update)
+        } catch (error) {
+            throw new BackendError('could not update import', 500, error)
+        }
+
+        // Hier keine rückgabe der upgedateten importInstance, weil diese
+        // periodisch übers frontend geholt wird, solange auf frontend seite der state
+        // noch als RUNNING wahrgenommen wird. Vielleicht sollte man das ändern (d.h.
+        // importInstance zurückschicken) wenn das ganze zu problemen führt.
+    }
+
+    res.send({})
+})
+
+
+
+
 
 
 

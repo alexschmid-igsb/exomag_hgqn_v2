@@ -83,7 +83,7 @@ async function main() {
         }
 
         // TODO: read entries from excel file
-        // wenn fehler, diesen posten
+        // wenn fehler, dann diesen posten und im frontend als allgemeinen fehler im control panel anzeigen
 
         // initialize the progress values and update import state to 'RUNNING'
         await updateImportInstance(importId, userId, {
@@ -102,20 +102,26 @@ async function main() {
 
         // TODO: processing main loop 
         for(let i=0; i<30; i++) {
+            console.log("WORKER: start iteration " + i)
 
             // get current import instance
-            importInstance = await getImportInstance(importId,userId)
-            console.dir(importInstance.processing, { depth: null })
+            importInstance = await getImportInstance(importId, userId)
+            // console.dir(importInstance.processing, { depth: null })
+            console.log("STATE: " + importInstance?.processing?.excel?.state)
 
-            // abort processing if state change to 'CANCELED'
-            if(importInstance?.processing?.excel?.state === 'CANCELED') {
+
+            // abort processing if state change from 'RUNNING' to something else (for example 'CANCELED' by
+            // api request by user through user interface)
+            if(importInstance?.processing?.excel?.state !== 'RUNNING') {
                 return
             }
             
+
+            // WORKLOAD
             // TODO: hier GENAU EINEN record prozessieren und ergebnisse in der datenbank updaten
 
             // FAKE PROCESSING
-            await updateImportInstance(importId, userId, {
+            importInstance = await updateImportInstance(importId, userId, {
                 processing: {
                     ...importInstance?.processing,
                     excel: {
@@ -128,7 +134,9 @@ async function main() {
                 }
             })
 
-            await sleep(1000)       // WICHTIG: später rausnehmen
+
+
+            await sleep(3000)       // WICHTIG: später rausnehmen
         }
 
         // set import state to 'FINISHED'
@@ -146,7 +154,7 @@ async function main() {
 
     } catch(err) {
 
-        // TODO: fehler in die datenbank und state auf UNEXPECTED_ERROR
+        // TODO: fehler in die datenbank und state auf ERROR
 
         // Diese Fehler sollen als unexpected errors in die Datenbank
         // wenn dabei ein fehler passiert, dann gibt es nur noch die möglichkeit über den catch weiter unten und die console
