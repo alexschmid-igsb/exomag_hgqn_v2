@@ -46,6 +46,7 @@ export default function Import() {
     const [uiBlockMsg, setUIBlockMsg] = React.useState(null)
     const [isLoading, setIsLoading] = React.useState(true)
     const [mappingIsValid, setMappingIsValid] = React.useState(false)
+    const [processingIntervalId, setProcessingIntervalId] = React.useState(null)
 
     const breadcrumbs = React.useMemo(() => ([
         {
@@ -121,28 +122,69 @@ export default function Import() {
     }
 
 
-    React.useEffect(() => {
+
+    
+
+
+
+
+    // control the background interval to update the import instance while data validation processing
+
+    const processingIntvervalFunction = () => {
+        console.log("update interval")
+        loadImportInstance(false)
+    }
+
+    React.useEffect( () => {
 
         console.log("USE EFFECT ON importInstance")
-        console.log(importInstance)
+        console.log(processingIntervalId)
+
+        // console.log(importInstance)
 
         if(importInstance.uploadFormat === 'excel_template') {
 
-            if(importInstance.progress === 'data_validation' && importInstance?.processing?.excel?.state === 'PENDING') {
-                // trigger processing and schedule a reload for the import instance
-                triggerProcessing()
-                setTimeout(() => { loadImportInstance(false) }, 1000)
-            }
+            let state = importInstance?.processing?.excel?.state
 
-            if(importInstance?.processing?.excel?.state === 'RUNNING') {
-                // while state === 'RUNNING' schedule periodic relaods
-                setTimeout(() => {
-                    loadImportInstance(false)
-                }, 1000)
+            if(importInstance.progress === 'data_validation') {
+
+                if(processingIntervalId == null && (state === 'PENDING' || state === 'RUNNING')) {
+                    if(state === 'PENDING') {
+                        // console.log("TRIGGER PROCESSING IN BACKEND")
+                        triggerProcessing()
+                    }
+                    // console.log("TRIGGER PROCESSING INTERVAL")
+                    setProcessingIntervalId( setInterval( () => processingIntvervalFunction(), 1000 ) )
+                } else if(processingIntervalId != null && state !== 'PENDING' && state != 'RUNNING') {
+                    // console.log("CLEAR INTERVAL ON BECAUSE STATE CHANGE")
+                    clearInterval(processingIntervalId)
+                    setProcessingIntervalId(null)
+                }
+
+            } else {
+
+                // in jeder anderer view sollte das interval deaktiviert sein
+                if(processingIntervalId != null) {
+                    // console.log("CLEAR INTERVAL BECAUSE VIEW CHANGE")
+                    clearInterval(processingIntervalId)
+                    setProcessingIntervalId(null)
+                }
             }
         }
 
     }, [importInstance])
+
+    React.useEffect( () => {
+        return () => {
+            clearInterval(processingIntervalId)
+        }
+    },[processingIntervalId])
+
+
+
+
+
+
 
 
 
@@ -384,14 +426,28 @@ export default function Import() {
                 }
                 break
         }
-        
-        /*  
-            API call mit blocking der UI
-            Im backed ein endpoint, dieser killt das processing, indem die ergebnisse gelöscht werden und der state gesetzt wird.
-            Zurückgegeben ans frontend wird die importInstance
-            Der thread muss selbst aufhören, weil er bei jedem durchlauf checken muss, ob canceled.
-            Das wars??
-        */
+    }
+
+
+
+    const restartValidation = () => {
+        console.log("restartValidation")
+        console.log(importInstance)
+        switch(importInstance.uploadFormat) {
+            case 'excel_template':
+                if(importInstance?.processing?.excel?.state === 'CANCELED') {
+                    setIsLoading(true)
+                    API.post('/api/import/excel-template-clear-canceled', {
+                        params: {
+                            importId: importId
+                        }
+                    }).then( response => {
+                        setImportInstance(response.data)
+                        setIsLoading(false)
+                    })
+                }
+                break
+        }
     }
 
 
@@ -403,6 +459,13 @@ export default function Import() {
 
 
 
+    const isDataValidationRunning = React.useMemo(() => {
+        // TODO: bei weitern upload mehtoden muss das hier ergänzt werden
+        return (
+            importInstance?.processing?.excel?.state === 'RUNNING' || 
+            processingIntervalId != null
+        )
+    })
 
     
 
@@ -430,12 +493,13 @@ export default function Import() {
 
             {activeStepId} */}
 
+            {activeStepId}
+
             <Stepper
                 className="main"
                 activeStepId={activeStepId}
                 setActiveStepId={setActiveStepId}
             >
-
                 <Step
                     id='file_upload'
                     label='Data Upload'
@@ -487,6 +551,7 @@ export default function Import() {
                     id='data_validation'
                     label='Validation & Import'
                     onPrevious={{
+                        disabled: isDataValidationRunning,
                         label: 'go back',
                         icon: <IconifyIcon icon='tabler:arrow-big-left' />,
                         onClick: goBackToFieldMapping
@@ -503,6 +568,7 @@ export default function Import() {
                         uiBlockMsg={uiBlockMsg}
                         importInstance={importInstance}
                         cancelValidation={cancelValidation}
+                        restartValidation={restartValidation}
                     />
                 </Step>
 
@@ -528,4 +594,6 @@ export default function Import() {
         //     {importId}
         // </div>
     )
+
+
 }

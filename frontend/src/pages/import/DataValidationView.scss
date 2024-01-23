@@ -87,7 +87,7 @@ div.data-validation-view {
 
                     span.state {
                         background-color: white;
-                        padding: 3px 6px;
+                        padding: 2px 4px;
                         border-radius: 3px;
                         border: 1px solid rgba(0,0,0,0.15);
                         display: flex;
@@ -172,7 +172,7 @@ div.data-validation-view {
                 .inline-button {
                     padding: 0px;
                     border-radius: 3px;
-                    margin-left: 2px;
+                    margin-left: 6px;
         
                     &:hover {
                         background-color: rgba(9, 30, 66, 0.13);
@@ -181,7 +181,16 @@ div.data-validation-view {
                     & svg {
                         font-size: 22px;
                     }
+
+                    &.cancel-button {
+                    }
+
+                    &.restart-button {
+                        color: #006400;
+                    }
                 }
+
+
 
             }
 

@@ -105,7 +105,7 @@ import './DataValidationView.scss'
 
 
 
-const ControlPanel = ({ processing, cancelValidation }) => {
+const ControlPanel = ({ processing, cancelValidation, restartValidation }) => {
 
     const componentRef = React.useRef(null)
 
@@ -191,6 +191,10 @@ const ControlPanel = ({ processing, cancelValidation }) => {
         cancelValidation()
     }
 
+    const handleRestart = () => {
+        restartValidation()
+    }
+
     const renderState = () => {
         switch (state) {
             case 'RUNNING':
@@ -202,14 +206,26 @@ const ControlPanel = ({ processing, cancelValidation }) => {
                             size="normal"
                             onClick={handleCancel}
                         >
-                            <IconifyIcon icon="basil:cancel-solid" />
+                            {/* <IconifyIcon icon="basil:cancel-solid" /> */}
+                            <IconifyIcon icon="solar:stop-circle-bold-duotone" /> 
                         </IconButton>
                     </>
                 )
             case 'FINISHED':
                 return (<span className={`state ${state}`}>FINISHED</span>)
             case 'CANCELED':
-                return (<span className={`state ${state}`}>CANCELED</span>)
+                return (
+                    <>
+                        <span className={`state ${state}`}>CANCELED</span>
+                        <IconButton
+                            className="restart-button inline-button"
+                            size="normal"
+                            onClick={handleRestart}
+                        >
+                            <IconifyIcon icon="solar:restart-square-bold-duotone" />
+                        </IconButton>
+                    </>
+                )
             case 'ERROR':
                 return (<span className={`state ${state}`}>ERROR</span>)
             case 'PENDING':
@@ -309,7 +325,8 @@ export default function DataValidationView(props) {
     const {
         importInstance,
         uiBlockMsg,
-        cancelValidation
+        cancelValidation,
+        restartValidation
     } = props
 
 
@@ -344,6 +361,7 @@ export default function DataValidationView(props) {
             <ControlPanel
                 processing={importInstance.processing}
                 cancelValidation={cancelValidation}
+                restartValidation={restartValidation}
             />
 
             <JSONView target={importInstance} />

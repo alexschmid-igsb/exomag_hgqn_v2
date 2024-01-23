@@ -17,7 +17,6 @@ const database = require('../database/connector.js').connector
 const BackendError = require('../util/BackendError')
 
 const xlsx = require('xlsx')
-const { Console } = require('console')
 xlsx.helper = require('../util/xlsx-helper')
 
 
@@ -94,6 +93,8 @@ router.post('/create', [auth], async function (req, res, next) {
         throw new BackendError('import name is missing')
     }
 
+    // Der import wird per default mit uploadFormat: 'excel_template' angelegt. Die properties valueMapping und pocessing
+    // werden passend dazu angelegt werden.
     let newImport = {
         name: name,
         progress: 'file_upload',
@@ -101,7 +102,21 @@ router.post('/create', [auth], async function (req, res, next) {
         user: req.auth.user._id,
         created: new Date(),
         uploadedFiles: [],
-        valueMapping: {}
+        valueMapping: {
+            excel: {}
+        },
+        processing: {
+            excel: {
+                state: 'PENDING',
+                progress: {
+                    processed: 0,
+                    total: 0,
+                },
+                // TODO: HIER DIE ARRAYS FÜR KORREKTE UND FEHLERHAFTE VORBEREITEN
+            }
+        }
+
+        
     }
 
     try {
@@ -207,8 +222,8 @@ router.post('/set-progress', [auth], async function (req, res, next) {
         progress: progress
     }
 
-    console.log("PROGRESS")
-    console.log(update)
+    // console.log("PROGRESS")
+    // console.log(update)
 
     // if(progress )
 
@@ -1143,13 +1158,13 @@ router.post('/excel-template-cancel-processing', [auth], async function (req, re
         throw new BackendError('could not get import', 500, error)
     }
 
-    console.log("CURRENT")
-    console.log(current)
+    // console.log("CURRENT")
+    // console.log(current)
     
     // check if canceling is allowed
     if(current.uploadFormat === 'excel_template' && current?.processing?.excel?.state === 'RUNNING') {
 
-        console.log("EXECUTE UPDATE")
+        // console.log("EXECUTE UPDATE")
 
         // update
         let update = {
@@ -1189,6 +1204,76 @@ router.post('/excel-template-cancel-processing', [auth], async function (req, re
 
 
 
+
+
+
+// trigger processing for excel template import
+router.post('/excel-template-clear-canceled', [auth], async function (req, res, next) {
+
+    const userId = req.auth.user._id
+
+    const importId = req.body.importId ? req.body.importId.trim() : undefined
+    if (importId == null) {
+        throw new BackendError('import id is missing')
+    }
+
+    let current = null
+    try {
+        let dbRes = await database.find('STATIC_imports', {
+            fields: '-uploadedFiles.data',
+            filter: { _id: importId, user: userId },
+            populate: [ { path: 'user', select: '-password' } ]
+        })
+        current = dbRes.data[0]
+    } catch (error) {
+        throw new BackendError('could not get import', 500, error)
+    }
+
+    // console.log("CURRENT")
+    // console.log(current)
+    
+    // check if reset is allowed
+    if(current.uploadFormat === 'excel_template' && current?.processing?.excel?.state === 'CANCELED') {
+
+        // console.log("EXECUTE UPDATE")
+
+        // update
+        let update = {
+            processing: {
+                ...current?.processing,
+                excel: {
+                    ...current?.processing?.excel,
+                    state: 'PENDING',
+                    progress: {
+                        processed: 0,
+                        total: 0,
+                    }
+                }
+            }
+        }
+
+        // execute update
+        let dbRes = null
+        try {
+            dbRes = await database.findOneAndUpdate('STATIC_imports', {
+                fields: '-uploadedFiles.data',
+                filter: { _id: importId, user: userId },
+                populate: [ { path: 'user', select: '-password' } ]
+            }, update)
+        } catch (error) {
+            throw new BackendError('could not update import', 500, error)
+        }
+
+        res.send(dbRes)
+
+    } else {
+
+        res.send({
+            data: current
+        })
+
+    }
+})
 
 
 
