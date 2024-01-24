@@ -11,8 +11,10 @@ const StackTrace = require('stacktrace-js')
 const xlsx = require('xlsx')
 xlsx.helper = require('../../util/xlsx-helper')
 
-// const { workerData, parentPort } = require('worker_threads')
+const Processing = require('./processing.js')
+
 const WorkerThreads = require('worker_threads')
+
 
 
 
@@ -83,8 +85,6 @@ async function loadExcelTemplateRowData(importId,userId) {
 
     // get sheet name
     let sheetName = importInstance?.valueMapping?.excel?.dataSheet
-    console.log(importInstance.valueMapping)
-    console.log(sheetName)
     if(lodash.isString(sheetName) === false || sheetName.length <= 0) {
         throw new BackendError("Unexpected Error: Missing excel sheet name")
     }
@@ -102,21 +102,43 @@ async function loadExcelTemplateRowData(importId,userId) {
 
 async function executeMainLoop(importId,userId,rowData) {
 
+    let importInstance = await getImportInstance(importId, userId)
+
+    const processing = Processing.createInstance({
+        mapping: importInstance?.valueMapping?.excel?.mapping
+    })
+
+    let entries = []
+
     let i = 0
     for(const row of rowData) {
 
-        console.log("WORKER: start iteration " + i)
+        console.log("WORKER: ITERATION #" + i)
 
         // get current import instance
-        let importInstance = await getImportInstance(importId, userId)
-        // console.dir(importInstance.processing, { depth: null })
-        console.log("STATE: " + importInstance?.processing?.excel?.state)
+        importInstance = await getImportInstance(importId, userId)
         
         // abort processing if state change from 'RUNNING' to something else (for example 'CANCELED' by
         // api request by user through user interface)
         if(importInstance?.processing?.excel?.state !== 'RUNNING') {
-            return false
+            return {
+                finished: false,
+                entries: entries
+            }
         }
+
+        // process row
+        let entry = processing.process(row)
+        entries.push(entry)
+
+        /*
+        die row wird in die pipeline geschickt
+        die rückgabe ist IMMER ein entry case
+        fehler werden annotiert
+        das ganze geht dann je nach dem ob fehler flag gesetzt wurde in die liste
+        der cases und somit ans frontend
+        */
+
 
         // WORKLOAD
         // TODO: hier GENAU EINEN record prozessieren und ergebnisse in der datenbank updaten
@@ -140,7 +162,10 @@ async function executeMainLoop(importId,userId,rowData) {
         i++
     }
 
-    return true
+    return {
+        finished: true,
+        entries: entries
+    }
 }
 
 
@@ -152,7 +177,7 @@ async function main() {
 
     try {
 
-        console.log(WorkerThreads.workerData)
+        // console.log(WorkerThreads.workerData)
 
         const {
             importId,
@@ -240,10 +265,10 @@ async function main() {
 
 
         // execute main loop        
-        const finished = executeMainLoop(importId,userId,rowData)
+        const processed = await executeMainLoop(importId,userId,rowData)
 
         // check if loop finished
-        if(finished === true) {
+        if(processed.finished === true) {
             // set import state to 'FINISHED'
             await updateImportInstance(importId, userId, {
                 processing: {
@@ -251,11 +276,19 @@ async function main() {
                     excel: {
                         ...importInstance?.processing?.excel,
                         state: 'FINISHED',
+                        progress: {
+                            processed: rowData.length,
+                            total: rowData.length,
+                        }
                     }
                 }
             })
         }
 
+
+        // TODO: hier müssen die entries in die import instance geschrieben werden
+        console.log("WORKER: PROCESSED RESULT")
+        console.log(processed.entries)
 
         console.log("worker ended")
 

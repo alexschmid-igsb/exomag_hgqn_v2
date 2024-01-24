@@ -171,8 +171,8 @@ router.post('/set-upload-format', [auth], async function (req, res, next) {
             break
     }
 
-    console.log("EXECUTE UPATE")
-    console.log(update)
+    // console.log("EXECUTE UPATE")
+    // console.log(update)
 
     // execute update
     let dbRes = null
@@ -1233,7 +1233,8 @@ router.post('/excel-template-clear-canceled', [auth], async function (req, res, 
     // console.log(current)
     
     // check if reset is allowed
-    if(current.uploadFormat === 'excel_template' && current?.processing?.excel?.state === 'CANCELED') {
+    // if(current.uploadFormat === 'excel_template' && current?.processing?.excel?.state === 'CANCELED') {
+        if(current.uploadFormat === 'excel_template' && (current?.processing?.excel?.state === 'CANCELED' || current?.processing?.excel?.state === 'FINISHED')) {
 
         // console.log("EXECUTE UPDATE")
 

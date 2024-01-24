@@ -17,7 +17,7 @@ import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
-
+import Tooltip from '@mui/material/Tooltip'
 import LinearProgress from '@mui/material/LinearProgress'
 
 import jQuery from 'jquery'
@@ -199,32 +199,47 @@ const ControlPanel = ({ processing, cancelValidation, restartValidation }) => {
         switch (state) {
             case 'RUNNING':
                 return (
-                    <>
-                        <span className={`state ${state}`}>IN PROGRESS ...</span>
-                        <IconButton
-                            className="cancel-button inline-button signal-red"
-                            size="normal"
-                            onClick={handleCancel}
-                        >
-                            {/* <IconifyIcon icon="basil:cancel-solid" /> */}
-                            <IconifyIcon icon="solar:stop-circle-bold-duotone" /> 
-                        </IconButton>
-                    </>
+                    <span className={`state ${state}`}>
+                        IN PROGRESS
+                        <Tooltip title="Cancel Validation" placement="bottom">
+                            <IconButton
+                                className="cancel-button inline-button"
+                                size="normal"
+                                onClick={handleCancel}
+                            >
+                                <IconifyIcon icon="mingcute:stop-fill" /> 
+                            </IconButton>
+                        </Tooltip>
+                    </span>
                 )
             case 'FINISHED':
-                return (<span className={`state ${state}`}>FINISHED</span>)
-            case 'CANCELED':
+                // return (<span className={`state ${state}`}>FINISHED</span>)
                 return (
-                    <>
-                        <span className={`state ${state}`}>CANCELED</span>
+                    <span className={`state ${state}`}>
+                        FINISHED
                         <IconButton
                             className="restart-button inline-button"
                             size="normal"
                             onClick={handleRestart}
                         >
-                            <IconifyIcon icon="solar:restart-square-bold-duotone" />
+                            <IconifyIcon icon="mingcute:play-fill" />
                         </IconButton>
-                    </>
+                    </span>
+                )
+        case 'CANCELED':
+                return (
+                    <span className={`state ${state}`}>
+                        CANCELED
+                        <Tooltip title="Restart Validation" placement="bottom">
+                            <IconButton
+                                className="restart-button inline-button"
+                                size="normal"
+                                onClick={handleRestart}
+                            >
+                                <IconifyIcon icon="mingcute:play-fill" />
+                            </IconButton>
+                        </Tooltip>
+                    </span>
                 )
             case 'ERROR':
                 return (<span className={`state ${state}`}>ERROR</span>)

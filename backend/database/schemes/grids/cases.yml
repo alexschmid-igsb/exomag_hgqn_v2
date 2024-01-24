@@ -305,15 +305,18 @@ layouts:
               - id: COLUMN_changesInManagementOrTherapyAfterTest
                 path: changesInManagementOrTherapyAfterTest
                 label: Changes in Management / Therapy after Test
+                importTarget: true
               - id: COLUMN_secondaryOrIncidentalFindings
                 path: secondaryOrIncidentalFindings
-                label: Secondard or incidental Findings
+                label: Secondary or incidental Findings
+                importTarget: true
               - id: COLUMN_relevantFindingsForResearch
                 path: relevantFindingsForResearch
                 label: Relevant findings for research
+                importTarget: true
               - id: COLUMN_selektivvertrag
                 path: selektivvertrag
-                label: Selectivvertrag
+                label: Selektivvertrag
                 importTarget: true
               - id: COLUMN_wetlabMetainfo
                 path: wetlabMetainfo
@@ -322,6 +325,10 @@ layouts:
               - id: COLUMN_AutoCasc
                 path: AutoCasc
                 label: AutoCasc
+                importTarget: true
+              - id: COLUMN_kommentar
+                path: kommentar
+                label: Kommentar
                 importTarget: true
           - label: Klinische Interpretation
             type: 
@@ -360,6 +367,14 @@ layouts:
               - id: COLUMN_modeOfInheritance
                 path: modeOfInheritance
                 label: Mode of Inheritance
+                importTarget: true
+              - id: COLUMN_pubMedId
+                path: pubMedId
+                label: PubMed ID
+                importTarget: true
+              - id: COLUMN_clinvarAccessionId
+                path: clinvarAccessionId
+                label: Clinvar Accession ID
                 importTarget: true
           - label: Variante
             type: 

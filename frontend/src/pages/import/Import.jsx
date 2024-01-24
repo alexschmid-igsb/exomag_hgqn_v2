@@ -435,7 +435,8 @@ export default function Import() {
         console.log(importInstance)
         switch(importInstance.uploadFormat) {
             case 'excel_template':
-                if(importInstance?.processing?.excel?.state === 'CANCELED') {
+                // if(importInstance?.processing?.excel?.state === 'CANCELED') {
+                    if(importInstance?.processing?.excel?.state === 'CANCELED' || importInstance?.processing?.excel?.state === 'FINISHED') {
                     setIsLoading(true)
                     API.post('/api/import/excel-template-clear-canceled', {
                         params: {
@@ -480,20 +481,7 @@ export default function Import() {
                 null
             }
 
-
-            {/* <Button onClick={() => {
-                console.log('sample')
-                setActiveStepId(lodash.sample(['file_upload','field_mapping','data_validation','execute']))
-            }}>hallo</Button> */}
-
-
-            {/* <Button onClick={() => {
-                setBla(lodash.sample(['info','warning','error']))
-            }}>hallo</Button>
-
-            {activeStepId} */}
-
-            {activeStepId}
+            {/* {activeStepId} */}
 
             <Stepper
                 className="main"
