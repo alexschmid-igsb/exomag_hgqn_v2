@@ -1,0 +1,192 @@
+[
+    {
+        "_id": "GRCh38-X-21978066-A-G",
+        "GRCh38": {
+            "gDNA": "NC_000023.11:g.21978066A>G",
+            "build": "GRCh38",
+            "chr": "X",
+            "pos": 21978066,
+            "ref": "A",
+            "alt": "G"
+        },
+        "GRCh37": {
+            "gDNA": "NC_000023.10:g.21996184A>G",
+            "build": "GRCh37",
+            "chr": "X",
+            "pos": 21996184,
+            "ref": "A",
+            "alt": "G"
+        }
+    },
+    {
+        "_id": "GRCh38-6-7555825-G-A",
+        "GRCh38": {
+            "gDNA": "NC_000006.12:g.7555825G>A",
+            "build": "GRCh38",
+            "chr": "6",
+            "pos": 7555825,
+            "ref": "G",
+            "alt": "A"
+        },
+        "GRCh37": {
+            "gDNA": "NC_000006.11:g.7556058G>A",
+            "build": "GRCh37",
+            "chr": "6",
+            "pos": 7556058,
+            "ref": "G",
+            "alt": "A"
+        }
+    },
+    {
+        "_id": "GRCh38-X-154030549-C-CTAGTGACG",
+        "GRCh37": {
+            "gDNA": "NC_000023.10:g.153296000_153296001insTAGTGACG",
+            "build": "GRCh37",
+            "chr": "X",
+            "pos": 153296000,
+            "ref": "C",
+            "alt": "CTAGTGACG"
+        },
+        "GRCh38": {
+            "gDNA": "NC_000023.11:g.154030549_154030550insTAGTGACG",
+            "build": "GRCh38",
+            "chr": "X",
+            "pos": 154030549,
+            "ref": "C",
+            "alt": "CTAGTGACG"
+        }
+    },
+    {
+        "_id": "GRCh38-17-2041587-G-:A",
+        "GRCh38": {
+            "gDNA": "NC_000017.11:g.2041587G>A",
+            "build": "GRCh38",
+            "chr": "17",
+            "pos": 2041587,
+            "ref": "G",
+            "alt": "A"
+        },
+        "GRCh37": {
+            "gDNA": "NC_000017.10:g.1944881G>A",
+            "build": "GRCh37",
+            "chr": "17",
+            "pos": 1944881,
+            "ref": "G",
+            "alt": "A"
+        }
+    },
+    {
+        "_id": "GRCh38-17-2036585-C-T",
+        "GRCh38": {
+            "gDNA": "NC_000017.11:g.2036585C>T",
+            "build": "GRCh38",
+            "chr": "17",
+            "pos": 2036585,
+            "ref": "C",
+            "alt": "T"
+        },
+        "GRCh37": {
+            "gDNA": "NC_000017.10:g.1939879C>T",
+            "build": "GRCh37",
+            "chr": "17",
+            "pos": 1939879,
+            "ref": "C",
+            "alt": "T"
+        }
+    },
+    {
+        "_id": "GRCh38-1-228097169-C-T",
+        "GRCh38": {
+            "gDNA": "NC_000001.11:g.228097169C>T",
+            "build": "GRCh38",
+            "chr": "1",
+            "pos": 228097169,
+            "ref": "C",
+            "alt": "T"
+        },
+        "GRCh37": {
+            "gDNA": "NC_000001.10:g.228284870C>T",
+            "build": "GRCh37",
+            "chr": "1",
+            "pos": 228284870,
+            "ref": "C",
+            "alt": "T"
+        }
+    },
+    {
+        "_id": "GRCh38-20-63438711-C-T",
+        "GRCh38": {
+            "gDNA": "NC_000020.11:g.63438711C>T",
+            "build": "GRCh38",
+            "chr": "20",
+            "pos": 63438711,
+            "ref": "C",
+            "alt": "T"
+        },
+        "GRCh37": {
+            "gDNA": "NC_000020.10:g.62070064C>T",
+            "build": "GRCh37",
+            "chr": "20",
+            "pos": 62070064,
+            "ref": "C",
+            "alt": "T"
+        }
+    },
+    {
+        "_id": "GRCh38-17-7222253-GAGA-G",
+        "GRCh38": {
+            "gDNA": "NC_000017.11:g.7222257_7222259del",
+            "build": "GRCh38",
+            "chr": "17",
+            "pos": 7222253,
+            "ref": "GAGA",
+            "alt": "G"
+        },
+        "GRCh37": {
+            "gDNA": "NC_000017.10:g.7125576_7125578del",
+            "build": "GRCh37",
+            "chr": "17",
+            "pos": 7125572,
+            "ref": "GAGA",
+            "alt": "G"
+        }
+    },
+    {
+        "_id": "GRCh38-17-7224011-G-C",
+        "GRCh38": {
+            "gDNA": "NC_000017.11:g.7224011G>C",
+            "build": "GRCh38",
+            "chr": "17",
+            "pos": 7224011,
+            "ref": "G",
+            "alt": "C"
+        },
+        "GRCh37": {
+            "gDNA": "NC_000017.10:g.7127330G>C",
+            "build": "GRCh37",
+            "chr": "17",
+            "pos": 7127330,
+            "ref": "G",
+            "alt": "C"
+        }
+    },
+    {
+        "_id": "GRCh38-X-65524082-T-C",
+        "GRCh38": {
+            "gDNA": "NC_000023.11:g.65524082T>C",
+            "build": "GRCh38",
+            "chr": "X",
+            "pos": 65524082,
+            "ref": "T",
+            "alt": "C"
+        },
+        "GRCh37": {
+            "gDNA": "NC_000023.10:g.64743962T>C",
+            "build": "GRCh37",
+            "chr": "X",
+            "pos": 64743962,
+            "ref": "T",
+            "alt": "C"
+        }
+    }
+]

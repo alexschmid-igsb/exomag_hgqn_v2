@@ -1,0 +1,209 @@
+[
+    {
+        "_id": "6a10dc2f-342b-48df-9d4b-be01cb667b3f",
+        "internalCaseId": "DE79NGSUKBD125229_87231",
+        "gestaltMatcherId": 7242,
+        "externalCaseId": "HWGU832",
+        "face2GeneId": 7201273,
+        "sex": "female",
+        "ageInMonths": 39,
+        "ageinYears": 3,
+        "prenatal": 12,
+        "dateOfBirth": "2019-08-18T22:00:00.000Z",
+        "startDerDiagnostik": "2022-06-30T22:00:00.000Z",
+        "befunddatum": "2022-08-31T22:00:00.000Z",
+        "diseaseCategory": "neurodevelopmental",
+        "caseStatus": "solved",
+        "hpoTerms":"HP:0001249;HP:0001999",
+        "singleDuoTrio":"trio",
+        "referringClinician":"Ibrahim",
+        "autozygosity":0.5,
+        "testConducted":"exome",
+        "changesInManagementOrTherapyAfterTest":"keine",
+        "secondaryOrIncidentalFindings":"nix",
+        "relevantFindingsForResearch":"bla",
+        "selektivvertrag":"ja",
+        "wetlabMetainfo":"was anderes",
+        "AutoCasc":"ca32",
+        "kommentar":"test case",
+        "variants": [
+            {
+                "variant": {
+                    "reference": "GRCh38-X-21978066-A-G",
+                    "transcript": "NM_004595.5:c.612A>G"
+                },
+                "gene":"SMS",
+                "variantSolvesCase":"primary",
+                "ifNewDiseaseGeneLevelOfEvidence":"Rgeg",
+                "acmg": {
+                    "class": "likely pathogenic",
+                    "criteria":"PM1,PM2,PP2,PP4,BP4"
+                },
+                "zygosity":"Hemizygous",
+                "segregationsanalyse":"transmitted from mother",
+                "modeOfInheritance":"X-linked",
+                "pubMedId":"23",
+                "clinvarAccessionId":"83738459"
+            },
+            {
+                "variant": {
+                    "reference": "GRCh38-6-7555825-G-A",
+                    "transcript": "NM_005270.4:c.1606G>T"
+                },
+                "gene":"NFKB1",
+                "variantSolvesCase":"primary",
+                "ifNewDiseaseGeneLevelOfEvidence":"wef",
+                "acmg": {
+                    "class": "likely pathogenic",
+                    "criteria": "PM1,PM2"
+                },
+                "zygosity":"homozygous ",
+                "segregationsanalyse":"de novo",
+                "modeOfInheritance":"recessive",
+                "pubMedId":"49",
+                "clinvarAccessionId":"2347"
+            },
+            {
+                "variant": {
+                    "reference": "GRCh38-X-154030549-C-CTAGTGACG",
+                    "transcript": "NM_002225.3:c.158G>A"
+                },
+                "gene":"DNMT3A",
+                "variantSolvesCase":"primary",
+                "ifNewDiseaseGeneLevelOfEvidence":"83jw",
+                "acmg": {
+                    "class": "likely pathogenic",
+                    "criteria": "PM2"
+                },
+                "zygosity":"hemi",
+                "segregationsanalyse":"de novo",
+                "modeOfInheritance":"recessive",
+                "pubMedId":"134",
+                "clinvarAccessionId":"3024"
+            }
+        ]
+    },
+    {
+        "_id": "909b1fb4-c307-40b7-8477-77a0e2fddae5",
+        "internalCaseId":"1003471-2003475",
+        "sex":"male",
+        "ageinYears":21,
+        "startDerDiagnostik":"2019-11-21T23:00:00.000Z",
+        "befunddatum":"2020-06-09T22:00:00.000Z",
+        "caseStatus":"unsolved",
+        "hpoTerms":"HP:0000708,HP:0000729,HP:0001249,HP:0001250,HP:0001252,HP:0001263,HP:0002133,HP:0002373,HP:0002376,HP:0010818,HP:0010864,HP:0011344,HP:0032794",
+        "singleDuoTrio":"single",
+        "referringClinician":"Rami",
+        "relevantFindingsForResearch":"PLXNA1",
+        "variants": [
+            {
+                "variant": {
+                    "reference": "GRCh38-17-2041587-G-:A",
+                    "transcript": "NM_001383.4:c.1208G>A"
+                },
+                "gene":"DPH1",
+                "acmg": {
+                    "class": "VUS"
+                },
+                "zygosity":"comp het",
+                "segregationsanalyse":"Maternal",
+                "modeOfInheritance":"unknown"
+            },
+            {
+                "variant": {
+                    "reference": "GRCh38-17-2036585-C-T",
+                    "transcript": "NM_001383.4:c.472C>T"
+                },
+                "gene":"DPH1",
+                "acmg": {
+                    "class": "VUS"
+                },
+                "zygosity":"comp het",
+                "segregationsanalyse":"paternal",
+                "modeOfInheritance":"unknown"
+            },
+            {
+                "variant": {
+                    "reference": "GRCh38-1-228097169-C-T",
+                    "transcript": "NM_001658.4:c.55C>T"
+                },
+                "gene":"ARF1",
+                "acmg": {
+                    "class": "likely pathogenic"
+                },
+                "zygosity":"heterozygous",
+                "segregationsanalyse":"paternal",
+                "modeOfInheritance":"unknown"
+            }
+        ]
+    },
+    {
+        "_id": "083d7bd8-5237-4f4c-aec9-080057d72a8d",
+        "internalCaseId":134598,
+        "sex":"male",
+        "ageinYears":62,
+        "startDerDiagnostik":"2021-09-10T00:00:00.000Z",
+        "befunddatum":"2021-12-23T00:00:00.000Z",
+        "diseaseCategory":"Myopathy",
+        "caseStatus":"solved",
+        "hpoTerms":"HP:0003198 HP:0003236 HP:0000083 HP:0040319",
+        "singleDuoTrio":"single",
+        "referringClinician":"FBI",
+        "variants": [
+            {
+                "variant": {
+                    "reference": "GRCh38-20-63438711-C-T",
+                    "transcript": "NM_172108.5:c.937G>A"
+                },
+                "gene":"KCNQ2",
+                "acmg": {
+                    "class": "pathogenic"
+                },
+                "zygosity":"heterozygous",
+                "segregationsanalyse":"de novo",
+                "modeOfInheritance":"Dominant"
+            },
+            {
+                "variant": {
+                    "reference": "GRCh38-17-7222253-GAGA-G",
+                    "transcript": "NM_000018.4:c.833_835del"
+                },
+                "gene":"ACADVL",
+                "acmg": {
+                    "class": "pathogenic"
+                },
+                "zygosity":"comp het",
+                "segregationsanalyse":"de novo",
+                "modeOfInheritance":"Dominant"
+            },
+            {
+                "variant": {
+                    "reference": "GRCh38-17-7224011-G-C",
+                    "transcript": "NM_000018.4:c.1376G>C"
+                },
+                "gene":"ACADVL",
+                "acmg": {
+                    "class": "VUS"
+                },
+                "zygosity":"comp het",
+                "modeOfInheritance":"recessive"
+            },
+            {
+                "variant": {
+                    "reference": "GRCh38-X-65524082-T-C",
+                    "transcript": "NM_031206.4:c.1274A>G"
+                },
+                "gene":"LAS1L",
+                "acmg": {
+                    "class": "likely pathogenic"
+                },
+                "segregationsanalyse":"de novo",
+                "modeOfInheritance":"X-linked"
+            }
+        ]
+    }
+]
+
+
+
+

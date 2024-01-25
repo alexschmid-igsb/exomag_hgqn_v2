@@ -6,7 +6,7 @@ const { entriesIn } = require("lodash")
 
 
 
-const RECORD_LEVEL_ERROR = "__RECORD_LEVEL_ERRORS__"
+const RECORD_LEVEL_ERRORS = "__RECORD_LEVEL_ERRORS__"
 
 
 
@@ -65,11 +65,28 @@ const mapRow = (row,mapping) => {
 
 
 
+
+
+const addRecordLevelError = (target,item) => {
+    if(lodash.isArray(target[RECORD_LEVEL_ERRORS]) === false) {
+        target[RECORD_LEVEL_ERRORS] = []
+    }
+    if(lodash.isArray(item)) {
+        target[RECORD_LEVEL_ERRORS].push(...item)
+    } else {
+        target[RECORD_LEVEL_ERRORS].push(item)
+    }
+}
+
+
+
+
+
 const splitMultiCells = (row) => {
 
     let source = row['variants']
     if(source == null) {
-        row[RECORD_LEVEL_ERROR] = [ "The record has no clinical/variant information (like gene, HGVS variants descriptions, ACMG clssification, ...)" ]
+        addRecordLevelError(row, "The record has no clinical/variant information (like gene, HGVS variants descriptions, ACMG clssification, ...)")
         return row
     }
 
@@ -118,12 +135,12 @@ const splitMultiCells = (row) => {
     }
 
     if(errors.length > 0) {
-        row[RECORD_LEVEL_ERROR] = errors
-        row['variants'] = [row['variants']]
+        addRecordLevelError(row, errors)
+        row['variants'] = [ row['variants'] ]
         return row
     }
 
-    let splitted = Array(size).fill(0).map(() => ({}))
+    let splittedRows = Array(size).fill(0).map(() => ({}))
 
     const split = (entry,path) => {
         for(let [key,child] of Object.entries(entry)) {
@@ -133,7 +150,7 @@ const splitMultiCells = (row) => {
                 const parts = str.split('/')
                 for(let j=0; j<size; j++) {
                     let part = parts.length === 1 ? parts[0] : parts[j]
-                    lodash.set(splitted[j], childPath, {
+                    lodash.set(splittedRows[j], childPath, {
                         __TARGETFIELD__: true,
                         value: {
                             new: part
@@ -148,17 +165,14 @@ const splitMultiCells = (row) => {
     split(source)
 
     // set split
-    row['variants'] = splitted
-    return row
+    row['variants'] = splittedRows
 }
 
 
 
 const splitCompHet = (row) => {
 
-
-    /*
-    let splitted = []
+    let resultingRows = []
 
     for(let variantRow of row['variants']) {
 
@@ -180,7 +194,8 @@ const splitCompHet = (row) => {
 
         console.log("COMP HET SIZE: " + size)
         if(size === 1) {
-            splitted.push(variantRow)
+            // nichts zu splitten, variant row wird übernommen
+            resultingRows.push(variantRow)
             continue
         }
 
@@ -199,7 +214,7 @@ const splitCompHet = (row) => {
                 }
             }
         }
-        checkErrors(cariantRow)
+        checkErrors(variantRow)
         
         console.log("ERRORS:")
         for(let error of errors) {
@@ -207,60 +222,48 @@ const splitCompHet = (row) => {
         }
     
         if(errors.length > 0) {
-            row[RECORD_LEVEL_ERROR] = errors
-            row['variants'] = [row['variants']]
-            return row
+            // fehler werden hinzugefügt und die variantRow wird unverändert übernommen, da aufgrund der fehler nicht gesplittet werden kann
+            addRecordLevelError(variantRow, errors)
+            resultingRows.push(variantRow)
+            continue
         }
-    
 
-    
-    
+        let splittedRow = Array(size).fill(0).map(() => ({}))
 
-
-
-
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-    let splitted = Array(size).fill(0).map(() => ({}))
-
-    const split = (entry,path) => {
-        for(let [key,child] of Object.entries(entry)) {
-            let childPath = path != null ? path + '.' + key : key
-            if(child['__TARGETFIELD__'] === true) {
-                const str = String(child.value.new)
-                const parts = str.split(';')
-                for(let j=0; j<size; j++) {
-                    let part = parts.length === 1 ? parts[0] : parts[j]
-                    lodash.set(splitted[j], childPath, {
-                        __TARGETFIELD__: true,
-                        value: {
-                            new: part
-                        }
-                    })
+        const split = (entry,path) => {
+            for(let [key,child] of Object.entries(entry)) {
+                let childPath = path != null ? path + '.' + key : key
+                if(child['__TARGETFIELD__'] === true) {
+                    const str = String(child.value.new)
+                    const parts = str.split(';')
+                    for(let j=0; j<size; j++) {
+                        let part = parts.length === 1 ? parts[0] : parts[j]
+                        lodash.set(splittedRow[j], childPath, {
+                            __TARGETFIELD__: true,
+                            value: {
+                                new: part
+                            }
+                        })
+                    }
+                } else if(lodash.isObject(child)) {
+                    split(child, childPath)
                 }
-            } else if(lodash.isObject(child)) {
-                split(child, childPath)
             }
         }
+        split(variantRow)
+
+        // TODO:
+        // 1. alle gesplitteten rows müssen comp het sein (hier hat die werte korrektur noch nicht stattgefunden, vielleicht muss man als ausnahme zuerst durchführen)
+        // 2. die spezielle hgvs notation kann zu falsch gesplitteten einträgen führen, dass muss abgefangen und korrigiert werden
+    
+        // add splitted row to tj
+        resultingRows.push(...splittedRow)
     }
-    split(source)
 
-    // set split
-    row['variants'] = splitted
-    return row
+    // set splittedRows as new variant rows
+    row['variants'] = resultingRows
+}
 
-    */
 
 
 
@@ -312,17 +315,12 @@ const splitCompHet = (row) => {
 
     */
 
-        
-}
-
 
 class Processing {
 
     constructor(context) {
         this.mapping = context.mapping
     }
-
-
 
     process(sourceRow) {
         
@@ -333,18 +331,19 @@ class Processing {
         let targetEntry = mapRow(sourceRow, this.mapping)
 
         // split multiple fields
-        targetEntry = splitMultiCells(targetEntry)
-        if(lodash.isArray(targetEntry[RECORD_LEVEL_ERROR]) && targetEntry[RECORD_LEVEL_ERROR].length > 0) {
+        splitMultiCells(targetEntry)
+        if(lodash.isArray(targetEntry[RECORD_LEVEL_ERRORS]) && targetEntry[RECORD_LEVEL_ERRORS].length > 0) {
             // processing wird aufgrund der top level fehler abgebrochen
             return targetEntry
         }
 
         // split comp het fields
-        targetEntry = splitCompHet(targetEntry)
-        if(lodash.isArray(targetEntry[RECORD_LEVEL_ERROR]) && targetEntry[RECORD_LEVEL_ERROR].length > 0) {
+        splitCompHet(targetEntry)
+        if(lodash.isArray(targetEntry[RECORD_LEVEL_ERRORS]) && targetEntry[RECORD_LEVEL_ERRORS].length > 0) {
             // processing wird aufgrund der top level fehler abgebrochen
             return targetEntry
         }
+
 
 
 
@@ -372,11 +371,13 @@ class Processing {
 
         
         // console.log("prozessiere")
-        console.dir(targetEntry, {depth: null})
-        console.log("COUNT: " + Object.keys(targetEntry).length)
+        // console.log()
+        // console.log()
+        // console.dir(targetEntry, {depth: null})
 
-        return {test: 123}
+        // console.log("COUNT: " + Object.keys(targetEntry).length)
 
+        return targetEntry
     }
 
 

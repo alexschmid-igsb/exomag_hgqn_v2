@@ -1,4 +1,6 @@
 
+const fs = require('fs')
+
 const db = require('../../database/connector').connector
 const users = require('../../users/manager')
 
@@ -128,22 +130,14 @@ async function executeMainLoop(importId,userId,rowData) {
         }
 
         // process row
-        // let entry = processing.process(row)
-        // entries.push(entry)
+        // die row wird in die pipeline geschickt
+        // die rückgabe ist IMMER ein entry case (fehler werdem im entry gesammelt)
+        // das ganze geht dann je nach dem ob fehler flag gesetzt wurde in die entsprechende liste der importInstance
+        // und damit zurück ans frontend
+        let entry = processing.process(row)
+        entries.push(entry)
 
-        /*
-        die row wird in die pipeline geschickt
-        die rückgabe ist IMMER ein entry case
-        fehler werden annotiert
-        das ganze geht dann je nach dem ob fehler flag gesetzt wurde in die liste
-        der cases und somit ans frontend
-        */
-
-
-        // WORKLOAD
-        // TODO: hier GENAU EINEN record prozessieren und ergebnisse in der datenbank updaten
-
-        // FAKE PROCESSING
+        // update importInstance
         importInstance = await updateImportInstance(importId, userId, {
             processing: {
                 ...importInstance?.processing,
@@ -281,30 +275,440 @@ async function main() {
                 console.log("JA")
 
                 // upload
-                try {
-                    
-                    zum generieren des json könnte ich eigentlich den obigen code verwenden
-                    eventuell auch schnell das splitten der comp het schreiben (ohne prüfung)
 
                     const variants = [
-                        {}
+                        {
+                            "_id": "GRCh38-X-21978066-A-G",
+                            "GRCh38": {
+                                "gDNA": "NC_000023.11:g.21978066A>G",
+                                "build": "GRCh38",
+                                "chr": "X",
+                                "pos": 21978066,
+                                "ref": "A",
+                                "alt": "G"
+                            },
+                            "GRCh37": {
+                                "gDNA": "NC_000023.10:g.21996184A>G",
+                                "build": "GRCh37",
+                                "chr": "X",
+                                "pos": 21996184,
+                                "ref": "A",
+                                "alt": "G"
+                            }
+                        },
+                        {
+                            "_id": "GRCh38-6-7555825-G-A",
+                            "GRCh38": {
+                                "gDNA": "NC_000006.12:g.7555825G>A",
+                                "build": "GRCh38",
+                                "chr": "6",
+                                "pos": 7555825,
+                                "ref": "G",
+                                "alt": "A"
+                            },
+                            "GRCh37": {
+                                "gDNA": "NC_000006.11:g.7556058G>A",
+                                "build": "GRCh37",
+                                "chr": "6",
+                                "pos": 7556058,
+                                "ref": "G",
+                                "alt": "A"
+                            }
+                        },
+                        {
+                            "_id": "GRCh38-X-154030549-C-CTAGTGACG",
+                            "GRCh37": {
+                                "gDNA": "NC_000023.10:g.153296000_153296001insTAGTGACG",
+                                "build": "GRCh37",
+                                "chr": "X",
+                                "pos": 153296000,
+                                "ref": "C",
+                                "alt": "CTAGTGACG"
+                            },
+                            "GRCh38": {
+                                "gDNA": "NC_000023.11:g.154030549_154030550insTAGTGACG",
+                                "build": "GRCh38",
+                                "chr": "X",
+                                "pos": 154030549,
+                                "ref": "C",
+                                "alt": "CTAGTGACG"
+                            }
+                        },
+                        {
+                            "_id": "GRCh38-17-2041587-G-:A",
+                            "GRCh38": {
+                                "gDNA": "NC_000017.11:g.2041587G>A",
+                                "build": "GRCh38",
+                                "chr": "17",
+                                "pos": 2041587,
+                                "ref": "G",
+                                "alt": "A"
+                            },
+                            "GRCh37": {
+                                "gDNA": "NC_000017.10:g.1944881G>A",
+                                "build": "GRCh37",
+                                "chr": "17",
+                                "pos": 1944881,
+                                "ref": "G",
+                                "alt": "A"
+                            }
+                        },
+                        {
+                            "_id": "GRCh38-17-2036585-C-T",
+                            "GRCh38": {
+                                "gDNA": "NC_000017.11:g.2036585C>T",
+                                "build": "GRCh38",
+                                "chr": "17",
+                                "pos": 2036585,
+                                "ref": "C",
+                                "alt": "T"
+                            },
+                            "GRCh37": {
+                                "gDNA": "NC_000017.10:g.1939879C>T",
+                                "build": "GRCh37",
+                                "chr": "17",
+                                "pos": 1939879,
+                                "ref": "C",
+                                "alt": "T"
+                            }
+                        },
+                        {
+                            "_id": "GRCh38-1-228097169-C-T",
+                            "GRCh38": {
+                                "gDNA": "NC_000001.11:g.228097169C>T",
+                                "build": "GRCh38",
+                                "chr": "1",
+                                "pos": 228097169,
+                                "ref": "C",
+                                "alt": "T"
+                            },
+                            "GRCh37": {
+                                "gDNA": "NC_000001.10:g.228284870C>T",
+                                "build": "GRCh37",
+                                "chr": "1",
+                                "pos": 228284870,
+                                "ref": "C",
+                                "alt": "T"
+                            }
+                        },
+                        {
+                            "_id": "GRCh38-20-63438711-C-T",
+                            "GRCh38": {
+                                "gDNA": "NC_000020.11:g.63438711C>T",
+                                "build": "GRCh38",
+                                "chr": "20",
+                                "pos": 63438711,
+                                "ref": "C",
+                                "alt": "T"
+                            },
+                            "GRCh37": {
+                                "gDNA": "NC_000020.10:g.62070064C>T",
+                                "build": "GRCh37",
+                                "chr": "20",
+                                "pos": 62070064,
+                                "ref": "C",
+                                "alt": "T"
+                            }
+                        },
+                        {
+                            "_id": "GRCh38-17-7222253-GAGA-G",
+                            "GRCh38": {
+                                "gDNA": "NC_000017.11:g.7222257_7222259del",
+                                "build": "GRCh38",
+                                "chr": "17",
+                                "pos": 7222253,
+                                "ref": "GAGA",
+                                "alt": "G"
+                            },
+                            "GRCh37": {
+                                "gDNA": "NC_000017.10:g.7125576_7125578del",
+                                "build": "GRCh37",
+                                "chr": "17",
+                                "pos": 7125572,
+                                "ref": "GAGA",
+                                "alt": "G"
+                            }
+                        },
+                        {
+                            "_id": "GRCh38-17-7224011-G-C",
+                            "GRCh38": {
+                                "gDNA": "NC_000017.11:g.7224011G>C",
+                                "build": "GRCh38",
+                                "chr": "17",
+                                "pos": 7224011,
+                                "ref": "G",
+                                "alt": "C"
+                            },
+                            "GRCh37": {
+                                "gDNA": "NC_000017.10:g.7127330G>C",
+                                "build": "GRCh37",
+                                "chr": "17",
+                                "pos": 7127330,
+                                "ref": "G",
+                                "alt": "C"
+                            }
+                        },
+                        {
+                            "_id": "GRCh38-X-65524082-T-C",
+                            "GRCh38": {
+                                "gDNA": "NC_000023.11:g.65524082T>C",
+                                "build": "GRCh38",
+                                "chr": "X",
+                                "pos": 65524082,
+                                "ref": "T",
+                                "alt": "C"
+                            },
+                            "GRCh37": {
+                                "gDNA": "NC_000023.10:g.64743962T>C",
+                                "build": "GRCh37",
+                                "chr": "X",
+                                "pos": 64743962,
+                                "ref": "T",
+                                "alt": "C"
+                            }
+                        }                        
                     ]
+
                     for(let item of variants) {
-                        mongoose call
+                        try {
+                            let dbRes = await db.find('GRID_variants', {
+                                filter: { _id: item._id },
+                            })
+                            if(dbRes.data.length > 0) {
+                                console.log("existiert: " + item._id)
+                            } else {
+                                await db.insert('GRID_variants',item)
+                            }
+                        } catch(err) {
+                            console.error(err)
+                        }
                     }
 
                     const cases = [
                         {
-
+                            "_id": "6a10dc2f-342b-48df-9d4b-be01cb667b3f",
+                            "sequencingLab": "72d98c4a-5780-449b-b70a-849634deaa19",
+                            "internalCaseId": "DE79NGSUKBD125229_87231",
+                            "gestaltMatcherId": 7242,
+                            "externalCaseId": "HWGU832",
+                            "face2GeneId": 7201273,
+                            "sex": "female",
+                            "ageInMonths": 39,
+                            "ageinYears": 3,
+                            "prenatal": 12,
+                            "dateOfBirth": "2019-08-18T22:00:00.000Z",
+                            "startDerDiagnostik": "2022-06-30T22:00:00.000Z",
+                            "befunddatum": "2022-08-31T22:00:00.000Z",
+                            "diseaseCategory": "neurodevelopmental",
+                            "caseStatus": "solved",
+                            "hpoTerms":"HP:0001249;HP:0001999",
+                            "singleDuoTrio":"trio",
+                            "referringClinician":"Ibrahim",
+                            "autozygosity":0.5,
+                            "testConducted":"exome",
+                            "changesInManagementOrTherapyAfterTest":"keine",
+                            "secondaryOrIncidentalFindings":"nix",
+                            "relevantFindingsForResearch":"bla",
+                            "selektivvertrag":"ja",
+                            "wetlabMetainfo":"was anderes",
+                            "AutoCasc":"ca32",
+                            "kommentar":"test case",
+                            "variants": [
+                                {
+                                    "variant": {
+                                        "reference": "GRCh38-X-21978066-A-G",
+                                        "transcript": "NM_004595.5:c.612A>G"
+                                    },
+                                    "gene":"SMS",
+                                    "variantSolvesCase":"primary",
+                                    "ifNewDiseaseGeneLevelOfEvidence":"Rgeg",
+                                    "acmg": {
+                                        "class": "likely pathogenic",
+                                        "criteria":"PM1,PM2,PP2,PP4,BP4"
+                                    },
+                                    "zygosity":"Hemizygous",
+                                    "segregationsanalyse":"transmitted from mother",
+                                    "modeOfInheritance":"X-linked",
+                                    "pubMedId":"23",
+                                    "clinvarAccessionId":"83738459"
+                                },
+                                {
+                                    "variant": {
+                                        "reference": "GRCh38-6-7555825-G-A",
+                                        "transcript": "NM_005270.4:c.1606G>T"
+                                    },
+                                    "gene":"NFKB1",
+                                    "variantSolvesCase":"primary",
+                                    "ifNewDiseaseGeneLevelOfEvidence":"wef",
+                                    "acmg": {
+                                        "class": "likely pathogenic",
+                                        "criteria": "PM1,PM2"
+                                    },
+                                    "zygosity":"homozygous ",
+                                    "segregationsanalyse":"de novo",
+                                    "modeOfInheritance":"recessive",
+                                    "pubMedId":"49",
+                                    "clinvarAccessionId":"2347"
+                                },
+                                {
+                                    "variant": {
+                                        "reference": "GRCh38-X-154030549-C-CTAGTGACG",
+                                        "transcript": "NM_002225.3:c.158G>A"
+                                    },
+                                    "gene":"DNMT3A",
+                                    "variantSolvesCase":"primary",
+                                    "ifNewDiseaseGeneLevelOfEvidence":"83jw",
+                                    "acmg": {
+                                        "class": "likely pathogenic",
+                                        "criteria": "PM2"
+                                    },
+                                    "zygosity":"hemi",
+                                    "segregationsanalyse":"de novo",
+                                    "modeOfInheritance":"recessive",
+                                    "pubMedId":"134",
+                                    "clinvarAccessionId":"3024"
+                                }
+                            ]
+                        },
+                        {
+                            "_id": "909b1fb4-c307-40b7-8477-77a0e2fddae5",
+                            "sequencingLab": "72d98c4a-5780-449b-b70a-849634deaa19",
+                            "internalCaseId":"1003471-2003475",
+                            "sex":"male",
+                            "ageinYears":21,
+                            "startDerDiagnostik":"2019-11-21T23:00:00.000Z",
+                            "befunddatum":"2020-06-09T22:00:00.000Z",
+                            "caseStatus":"unsolved",
+                            "hpoTerms":"HP:0000708,HP:0000729,HP:0001249,HP:0001250,HP:0001252,HP:0001263,HP:0002133,HP:0002373,HP:0002376,HP:0010818,HP:0010864,HP:0011344,HP:0032794",
+                            "singleDuoTrio":"single",
+                            "referringClinician":"Rami",
+                            "relevantFindingsForResearch":"PLXNA1",
+                            "variants": [
+                                {
+                                    "variant": {
+                                        "reference": "GRCh38-17-2041587-G-:A",
+                                        "transcript": "NM_001383.4:c.1208G>A"
+                                    },
+                                    "gene":"DPH1",
+                                    "acmg": {
+                                        "class": "VUS"
+                                    },
+                                    "zygosity":"comp het",
+                                    "segregationsanalyse":"Maternal",
+                                    "modeOfInheritance":"unknown"
+                                },
+                                {
+                                    "variant": {
+                                        "reference": "GRCh38-17-2036585-C-T",
+                                        "transcript": "NM_001383.4:c.472C>T"
+                                    },
+                                    "gene":"DPH1",
+                                    "acmg": {
+                                        "class": "VUS"
+                                    },
+                                    "zygosity":"comp het",
+                                    "segregationsanalyse":"paternal",
+                                    "modeOfInheritance":"unknown"
+                                },
+                                {
+                                    "variant": {
+                                        "reference": "GRCh38-1-228097169-C-T",
+                                        "transcript": "NM_001658.4:c.55C>T"
+                                    },
+                                    "gene":"ARF1",
+                                    "acmg": {
+                                        "class": "likely pathogenic"
+                                    },
+                                    "zygosity":"heterozygous",
+                                    "segregationsanalyse":"paternal",
+                                    "modeOfInheritance":"unknown"
+                                }
+                            ]
+                        },
+                        {
+                            "_id": "083d7bd8-5237-4f4c-aec9-080057d72a8d",
+                            "sequencingLab": "72d98c4a-5780-449b-b70a-849634deaa19",
+                            "internalCaseId":134598,
+                            "sex":"male",
+                            "ageinYears":62,
+                            "startDerDiagnostik":"2021-09-10T00:00:00.000Z",
+                            "befunddatum":"2021-12-23T00:00:00.000Z",
+                            "diseaseCategory":"Myopathy",
+                            "caseStatus":"solved",
+                            "hpoTerms":"HP:0003198 HP:0003236 HP:0000083 HP:0040319",
+                            "singleDuoTrio":"single",
+                            "referringClinician":"FBI",
+                            "variants": [
+                                {
+                                    "variant": {
+                                        "reference": "GRCh38-20-63438711-C-T",
+                                        "transcript": "NM_172108.5:c.937G>A"
+                                    },
+                                    "gene":"KCNQ2",
+                                    "acmg": {
+                                        "class": "pathogenic"
+                                    },
+                                    "zygosity":"heterozygous",
+                                    "segregationsanalyse":"de novo",
+                                    "modeOfInheritance":"Dominant"
+                                },
+                                {
+                                    "variant": {
+                                        "reference": "GRCh38-17-7222253-GAGA-G",
+                                        "transcript": "NM_000018.4:c.833_835del"
+                                    },
+                                    "gene":"ACADVL",
+                                    "acmg": {
+                                        "class": "pathogenic"
+                                    },
+                                    "zygosity":"comp het",
+                                    "segregationsanalyse":"de novo",
+                                    "modeOfInheritance":"Dominant"
+                                },
+                                {
+                                    "variant": {
+                                        "reference": "GRCh38-17-7224011-G-C",
+                                        "transcript": "NM_000018.4:c.1376G>C"
+                                    },
+                                    "gene":"ACADVL",
+                                    "acmg": {
+                                        "class": "VUS"
+                                    },
+                                    "zygosity":"comp het",
+                                    "modeOfInheritance":"recessive"
+                                },
+                                {
+                                    "variant": {
+                                        "reference": "GRCh38-X-65524082-T-C",
+                                        "transcript": "NM_031206.4:c.1274A>G"
+                                    },
+                                    "gene":"LAS1L",
+                                    "acmg": {
+                                        "class": "likely pathogenic"
+                                    },
+                                    "segregationsanalyse":"de novo",
+                                    "modeOfInheritance":"X-linked"
+                                }
+                            ]
                         }
                     ]
-                    for(let item of cases) {
-                        mongoose call
-                        
-                    }
-                } catch(err) {
 
-                }
+                    for(let item of cases) {
+                        try {
+                            let dbRes = await db.find('GRID_cases', {
+                                filter: { _id: item._id },
+                            })
+                            if(dbRes.data.length > 0) {
+                                console.log("existiert: " + item._id)
+                            } else {
+                                await db.insert('GRID_cases',item)
+                            }
+                        } catch(err) {
+                            console.error(err)
+                        }
+                    }
+
+
 
                 // die drei datensätze gemäß Scheme hier anlegen inkl ID
                 // dann hier einfach in die Datenbank schreiben, fehler ignorieren
@@ -361,6 +765,8 @@ async function main() {
         // TODO: hier müssen die entries in die import instance geschrieben werden
         console.log("WORKER: PROCESSED RESULT")
         console.log(processed.entries)
+        fs.writeFileSync('./TEST.json', JSON.stringify(processed.entries,null,4))
+
 
         console.log("worker ended")
 
@@ -390,6 +796,342 @@ main().catch(err => console.error(err))
 
 
 
+
+
+
+
+
+
+
+/*
+
+
+
+NC_000023.10:g.21996184A>G / hg19:6:7556058:G:A / hg19:X:153296000:C:CTAGTGACG
+NM_004595.5:c.612A>G / NM_005270.4:c.1606G>T / NM_002225.3:c.158G>A
+
+{
+  "_id": "GRCh38-X-21978066-A-G",
+  "GRCh38": {
+    "gDNA": "NC_000023.11:g.21978066A>G",
+    "build": "GRCh38",
+    "chr": "X",
+    "pos": 21978066,
+    "ref": "A",
+    "alt": "G"
+  },
+  "GRCh37": {
+    "gDNA": "NC_000023.10:g.21996184A>G",
+    "build": "GRCh37",
+    "chr": "X",
+    "pos": 21996184,
+    "ref": "A",
+    "alt": "G"
+  }
+}
+
+{
+  "_id": "GRCh38-6-7555825-G-A",
+  "GRCh38": {
+    "gDNA": "NC_000006.12:g.7555825G>A",
+    "build": "GRCh38",
+    "chr": "6",
+    "pos": 7555825,
+    "ref": "G",
+    "alt": "A"
+  },
+  "GRCh37": {
+    "gDNA": "NC_000006.11:g.7556058G>A",
+    "build": "GRCh37",
+    "chr": "6",
+    "pos": 7556058,
+    "ref": "G",
+    "alt": "A"
+  }
+}
+
+{
+  "_id": "GRCh38-X-154030549-C-CTAGTGACG",
+  "GRCh37": {
+    "gDNA": "NC_000023.10:g.153296000_153296001insTAGTGACG",
+    "build": "GRCh37",
+    "chr": "X",
+    "pos": 153296000,
+    "ref": "C",
+    "alt": "CTAGTGACG"
+  },
+  "GRCh38": {
+    "gDNA": "NC_000023.11:g.154030549_154030550insTAGTGACG",
+    "build": "GRCh38",
+    "chr": "X",
+    "pos": 154030549,
+    "ref": "C",
+    "alt": "CTAGTGACG"
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+hg19:17:1944881:G:A ; hg19:17:1939879:C:T / NC_000001.10:g.228284870C>T
+NM_001383.4:c.1208G>A ; NM_001383.4:c.472C>T / NM_001658.4:c.55C>T
+
+{
+  "_id": "GRCh38-17-2041587-G-:A",
+  "GRCh38": {
+    "gDNA": "NC_000017.11:g.2041587G>A",
+    "build": "GRCh38",
+    "chr": "17",
+    "pos": 2041587,
+    "ref": "G",
+    "alt": "A"
+  },
+  "GRCh37": {
+    "gDNA": "NC_000017.10:g.1944881G>A",
+    "build": "GRCh37",
+    "chr": "17",
+    "pos": 1944881,
+    "ref": "G",
+    "alt": "A"
+  }
+}
+
+{
+  "_id": "GRCh38-17-2036585-C-T",
+  "GRCh38": {
+    "gDNA": "NC_000017.11:g.2036585C>T",
+    "build": "GRCh38",
+    "chr": "17",
+    "pos": 2036585,
+    "ref": "C",
+    "alt": "T"
+  },
+  "GRCh37": {
+    "gDNA": "NC_000017.10:g.1939879C>T",
+    "build": "GRCh37",
+    "chr": "17",
+    "pos": 1939879,
+    "ref": "C",
+    "alt": "T"
+  }
+}
+
+{
+  "_id": "GRCh38-1-228097169-C-T",
+  "GRCh38": {
+    "gDNA": "NC_000001.11:g.228097169C>T",
+    "build": "GRCh38",
+    "chr": "1",
+    "pos": 228097169,
+    "ref": "C",
+    "alt": "T"
+  },
+  "GRCh37": {
+    "gDNA": "NC_000001.10:g.228284870C>T",
+    "build": "GRCh37",
+    "chr": "1",
+    "pos": 228284870,
+    "ref": "C",
+    "alt": "T"
+  }
+}
+
+
+
+
+
+
+
+
+
+
+NC_000020.10:g.62070064C>T / NC_000017.10:g.[7125573_7125575delAGA];[7127330G>C] / NC_000023.10:g.64743962T>C
+NM_172108.5:c.937G>A / NM_000018.4:[c.833_835del];[1376G>C] / NM_031206.4:c.1274A>G
+
+{
+  "_id": "GRCh38-20-63438711-C-T",
+  "GRCh38": {
+    "gDNA": "NC_000020.11:g.63438711C>T",
+    "build": "GRCh38",
+    "chr": "20",
+    "pos": 63438711,
+    "ref": "C",
+    "alt": "T"
+  },
+  "GRCh37": {
+    "gDNA": "NC_000020.10:g.62070064C>T",
+    "build": "GRCh37",
+    "chr": "20",
+    "pos": 62070064,
+    "ref": "C",
+    "alt": "T"
+  }
+}
+
+{
+  "_id": "GRCh38-17-7222253-GAGA-G",
+  "GRCh38": {
+    "gDNA": "NC_000017.11:g.7222257_7222259del",
+    "build": "GRCh38",
+    "chr": "17",
+    "pos": 7222253,
+    "ref": "GAGA",
+    "alt": "G"
+  },
+  "GRCh37": {
+    "gDNA": "NC_000017.10:g.7125576_7125578del",
+    "build": "GRCh37",
+    "chr": "17",
+    "pos": 7125572,
+    "ref": "GAGA",
+    "alt": "G"
+  }
+}
+
+{
+  "_id": "GRCh38-17-7224011-G-C",
+  "GRCh38": {
+    "gDNA": "NC_000017.11:g.7224011G>C",
+    "build": "GRCh38",
+    "chr": "17",
+    "pos": 7224011,
+    "ref": "G",
+    "alt": "C"
+  },
+  "GRCh37": {
+    "gDNA": "NC_000017.10:g.7127330G>C",
+    "build": "GRCh37",
+    "chr": "17",
+    "pos": 7127330,
+    "ref": "G",
+    "alt": "C"
+  }
+}
+
+{
+  "_id": "GRCh38-X-65524082-T-C",
+  "GRCh38": {
+    "gDNA": "NC_000023.11:g.65524082T>C",
+    "build": "GRCh38",
+    "chr": "X",
+    "pos": 65524082,
+    "ref": "T",
+    "alt": "C"
+  },
+  "GRCh37": {
+    "gDNA": "NC_000023.10:g.64743962T>C",
+    "build": "GRCh37",
+    "chr": "X",
+    "pos": 64743962,
+    "ref": "T",
+    "alt": "C"
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{
+  "_id": {
+    "$binary": {
+      "base64": "SzR81bZrRtqbAKXWSb9u6Q==",
+      "subType": "04"
+    }
+  },
+  "internalCaseId": "PIZ 37809977",
+  "sequencingLab": {
+    "$binary": {
+      "base64": "bnCvD6BVRqGUngxBktU5FA==",
+      "subType": "04"
+    }
+  },
+  "sex": "female",
+  "hpoTerms": [
+    "HP:0000729",
+    "HP:0001263"
+  ],
+  "singleDuoTrio": "single",
+  "selektivvertrag": "ja",
+  "diseaseCategory": "other",
+  "referringClinician": "Janzarik",
+  "ageinYears": 2,
+  "variants": [
+    {
+      "gene": "DDX6",
+      "acmg": {
+        "class": "unclear",
+        "criteria": []
+      },
+      "zygosity": "heterozygous",
+      "segregationsanalyse": "not performed",
+      "modeOfInheritance": "dominant",
+      "variant": {
+        "reference": "GRCh38-11-118759977-T-A",
+        "transcript": "ENST00000534980.7:c.809A>T"
+      },
+      "_id": {
+        "$oid": "659fc26af44fc610ab4498b5"
+      }
+    }
+  ],
+  "__v": 0
+}
+
+
+
+*/
 
 
 
