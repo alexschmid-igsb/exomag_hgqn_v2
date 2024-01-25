@@ -128,8 +128,8 @@ async function executeMainLoop(importId,userId,rowData) {
         }
 
         // process row
-        let entry = processing.process(row)
-        entries.push(entry)
+        // let entry = processing.process(row)
+        // entries.push(entry)
 
         /*
         die row wird in die pipeline geschickt
@@ -157,7 +157,7 @@ async function executeMainLoop(importId,userId,rowData) {
             }
         })
 
-        await sleep(1000)       // WICHTIG: später rausnehmen
+        await sleep(1500)
         
         i++
     }
@@ -269,20 +269,92 @@ async function main() {
 
         // check if loop finished
         if(processed.finished === true) {
-            // set import state to 'FINISHED'
-            await updateImportInstance(importId, userId, {
-                processing: {
-                    ...importInstance?.processing,
-                    excel: {
-                        ...importInstance?.processing?.excel,
-                        state: 'FINISHED',
-                        progress: {
-                            processed: rowData.length,
-                            total: rowData.length,
+
+
+            // ================================================================================================================
+            // IMPORT IN DIE DATENBANK
+
+            console.log("IMPORT IMPORT IMPORT IMPORT IMPORT IMPORT IMPORT IMPORT IMPORT IMPORT IMPORT IMPORT")
+            console.log(importInstance?.uploadedFiles?.[0]?.name)
+
+            if(importInstance?.uploadedFiles?.[0]?.name === 'exomag_testdaten.xlsx') {
+                console.log("JA")
+
+                // upload
+                try {
+                    
+                    zum generieren des json könnte ich eigentlich den obigen code verwenden
+                    eventuell auch schnell das splitten der comp het schreiben (ohne prüfung)
+
+                    const variants = [
+                        {}
+                    ]
+                    for(let item of variants) {
+                        mongoose call
+                    }
+
+                    const cases = [
+                        {
+
+                        }
+                    ]
+                    for(let item of cases) {
+                        mongoose call
+                        
+                    }
+                } catch(err) {
+
+                }
+
+                // die drei datensätze gemäß Scheme hier anlegen inkl ID
+                // dann hier einfach in die Datenbank schreiben, fehler ignorieren
+
+
+                // set import state to 'FINISHED'
+                await updateImportInstance(importId, userId, {
+                    processing: {
+                        ...importInstance?.processing,
+                        excel: {
+                            ...importInstance?.processing?.excel,
+                            state: 'FINISHED',
+                            progress: {
+                                processed: rowData.length,
+                                total: rowData.length,
+                            }
                         }
                     }
-                }
-            })
+                })
+
+
+            } else {
+
+                console.log("NEIN")
+
+                // set import state to 'FINISHED'
+                await updateImportInstance(importId, userId, {
+                    processing: {
+                        ...importInstance?.processing,
+                        excel: {
+                            ...importInstance?.processing?.excel,
+                            state: 'ERROR',
+                            progress: {
+                                processed: rowData.length,
+                                total: rowData.length,
+                            }
+                        }
+                    }
+                })
+
+            }
+
+
+                                    
+            
+            // ================================================================================================================
+
+
+
+
         }
 
 

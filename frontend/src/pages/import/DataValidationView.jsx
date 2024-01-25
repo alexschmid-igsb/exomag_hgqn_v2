@@ -27,6 +27,8 @@ import LargeSpinnerOverlay from '../../components/util/LargeSpinnerOverlay'
 
 import ValidationGrid from './ValidationGrid'
 
+import bla from '../../util/bla2.svg'
+
 import './DataValidationView.scss'
 
 /*
@@ -218,6 +220,7 @@ const ControlPanel = ({ processing, cancelValidation, restartValidation }) => {
                     <span className={`state ${state}`}>
                         FINISHED
                         <IconButton
+                            style={{display: 'none'}}
                             className="restart-button inline-button"
                             size="normal"
                             onClick={handleRestart}
@@ -291,8 +294,8 @@ const ControlPanel = ({ processing, cancelValidation, restartValidation }) => {
                 return (
                     <div className="row">
                         <div className="cell error grow">
-                            TODO: top level error report rendern<br/>
-                            Hier nur unexpected, fatal oder errors beim init der processings, alle datenbezogenend fehler gehen in den context des feldes
+                            {/* TODO: top level error report rendern<br/>
+                            Hier nur unexpected, fatal oder errors beim init der processings, alle datenbezogenend fehler gehen in den context des feldes */}
                         </div>
                     </div>
                 )
@@ -379,9 +382,45 @@ export default function DataValidationView(props) {
                 restartValidation={restartValidation}
             />
 
-            <JSONView target={importInstance} />
+
+            { 
+                importInstance?.processing?.excel?.state === 'FINISHED' ?
+                    <div className="summary">
+                        <div className="box">
+                            <p>
+                                <b>Übersicht</b>
+                            </p>
+                            <p>
+                                Datensätze importiert: 3
+                            </p>
+                        </div>
+                    </div>
+                : importInstance?.processing?.excel?.state === 'ERROR' ?
+                    <div className="summary">
+                        <div className="bla">
+                            <img className="bla" src={bla} />
+                        </div>
+                        <div className="box">
+                            <p>
+                                <b>Leider ist bei der Interpretation der hochgeladenen Daten ein Problem aufgetreten.</b>
+                            </p>
+                            <p>&nbsp;</p>
+                            <p>
+                                Bitte überprüfe deine Daten auf Korrektheit.
+                            </p>
+                            <p>
+                                Falls das Problem weiterhin auftritt, nimm bitte mit uns Kontakt auf, damit wir deine Daten analysieren und dieses Problem in Zukunft vermeiden können.
+                            </p>
+                        </div>
+                    </div>
+                :
+                    null
+            }
 
 
+
+
+            {/* <JSONView target={importInstance} /> */}
 
 
 

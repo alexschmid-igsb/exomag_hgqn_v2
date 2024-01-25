@@ -157,12 +157,119 @@ const splitMultiCells = (row) => {
 const splitCompHet = (row) => {
 
 
+    /*
+    let splitted = []
+
+    for(let variantRow of row['variants']) {
+
+        let size = 0
+        const calcSize = (entry) => {
+            for(let [key,child] of Object.entries(entry)) {
+                if(child['__TARGETFIELD__'] === true) {
+                    const str = String(child.value.new)
+                    const parts = str.split(';')
+                    if(parts.length > size) {
+                        size = parts.length
+                    }
+                } else if(lodash.isObject(child)) {
+                    calcSize(child)
+                }
+            }
+        }
+        calcSize(variantRow)
+
+        console.log("COMP HET SIZE: " + size)
+        if(size === 1) {
+            splitted.push(variantRow)
+            continue
+        }
+
+        let errors = []
+        const checkErrors = (entry,path) => {
+            for(let [key,child] of Object.entries(entry)) {
+                let childPath = path != null ? path + '.' + key : key
+                if(child['__TARGETFIELD__'] === true) {
+                    const str = String(child.value.new)
+                    const parts = str.split(';')
+                    if(parts.length !== 1 && parts.length !== size) {
+                        errors.push(`The cell value "${str}" in path "${childPath}" splits in ${parts.length} parts (but ${size} required)`)
+                    }
+                } else if(lodash.isObject(child)) {
+                    checkErrors(child, childPath)
+                }
+            }
+        }
+        checkErrors(cariantRow)
+        
+        console.log("ERRORS:")
+        for(let error of errors) {
+            console.log(error)
+        }
+    
+        if(errors.length > 0) {
+            row[RECORD_LEVEL_ERROR] = errors
+            row['variants'] = [row['variants']]
+            return row
+        }
+    
+
+    
+    
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    let splitted = Array(size).fill(0).map(() => ({}))
+
+    const split = (entry,path) => {
+        for(let [key,child] of Object.entries(entry)) {
+            let childPath = path != null ? path + '.' + key : key
+            if(child['__TARGETFIELD__'] === true) {
+                const str = String(child.value.new)
+                const parts = str.split(';')
+                for(let j=0; j<size; j++) {
+                    let part = parts.length === 1 ? parts[0] : parts[j]
+                    lodash.set(splitted[j], childPath, {
+                        __TARGETFIELD__: true,
+                        value: {
+                            new: part
+                        }
+                    })
+                }
+            } else if(lodash.isObject(child)) {
+                split(child, childPath)
+            }
+        }
+    }
+    split(source)
+
+    // set split
+    row['variants'] = splitted
+    return row
+
+    */
+
+
 
 
     // hier muss man die arrays durchgehen und item für item diese processierung machen, wenn =1 dann enfach anfügen
     // wenn nicht ,dann
 
 
+    /*
     hier anfangen indem der gleiche code von oben kopiert und angepasst wird
     WICHTIG:
     variants ist jetzt ein Array, jedes array entry kann so prozessiertwerden wie vorher
@@ -173,7 +280,8 @@ const splitCompHet = (row) => {
     2. es kann sein, dass halbe cDNA und gDNA einträge durch die spezielle notation entstanden sind.
        das muss man prüfen und korrigieren
 
-    return row
+    */
+
 
     
     /*
@@ -199,17 +307,12 @@ const splitCompHet = (row) => {
 
         NC_000023.10:g.[30683643A>G;33038273T>G]
 
-
         https://hgvs-nomenclature.org/stable/recommendations/DNA/alleles/
 
 
-
-
-
-        
-
     */
 
+        
 }
 
 

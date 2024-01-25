@@ -7,6 +7,12 @@
 div.data-validation-view {
 
 
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+
+    flex: 1;
 
 
 
@@ -14,16 +20,17 @@ div.data-validation-view {
 
     div.control-panel {
 
-        flex: 1;
+        flex: 0;
+        overflow: visible;
 
-        // width: 50%;
+        width: 50%;
     
         // height: 100%;
-        overflow: hidden;
+        // overflow: hidden;
     
         // box-sizing: border-box;
     
-        margin: 30px 0px;
+        margin: 30px 0px 0px 0px;
     
         display: flex;
         flex-flow: column;
@@ -33,7 +40,7 @@ div.data-validation-view {
         border-radius: 5px;
     
         // max-width: 50vw;
-        max-width: 1000px;
+        // max-width: 1000px;
         // margin: auto;
         // margin: 0px auto;
         // margin: 30px auto auto auto;
@@ -221,6 +228,77 @@ div.data-validation-view {
 
 
     }
+
+
+
+
+
+
+    div.summary {
+
+        flex: 0;
+        overflow: visible;
+
+        width: 50%;
+    
+        // height: 100%;
+        // overflow: hidden;
+    
+        // box-sizing: border-box;
+    
+        margin: 20px 0px 30px 0px;
+    
+        display: flex;
+        flex-flow: row;
+        // align-items: center;
+        align-items: flex-start;
+    
+        background-color: rgba(0,0,0,0.05);
+        border-radius: 5px;
+    
+        // max-width: 50vw;
+        // max-width: 1000px;
+        // margin: auto;
+        // margin: 0px auto;
+        // margin: 30px auto auto auto;
+    
+        padding: 14px;        
+
+        div {
+            margin: 10px;
+        }
+
+
+        div.bla {
+            img.bla {
+                width: 300px;
+                // border: 1px solid blue;
+            }
+        }
+
+        font-size: 13px;
+        // font-weight: bold;
+        color: rgba(0,0,0,0.7);
+
+        div.box {
+            align-self: stretch;
+            border: 2px solid rgba(0,0,0,0.1);
+            background-color: rgba(255,255,255,0.9);
+            padding: 20px;
+            border-radius: 10px;
+
+            p {
+                margin: 0px;
+                margin-bottom: 8px;
+            }
+
+        }
+
+
+
+
+    }
+
 
 
 
