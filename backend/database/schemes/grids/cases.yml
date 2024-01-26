@@ -236,7 +236,7 @@ layouts:
                 label: Sex
                 majorField: true
                 importTarget: true
-              - id: COLUMNageInMonths
+              - id: COLUMN_ageInMonths
                 path: ageInMonths
                 label: Age (in months)
                 majorField: true

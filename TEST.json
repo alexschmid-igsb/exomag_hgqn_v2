@@ -465,13 +465,13 @@
                 "segregationsanalyse": {
                     "__TARGETFIELD__": true,
                     "value": {
-                        "new": "paternal "
+                        "new": "paternal"
                     }
                 },
                 "modeOfInheritance": {
                     "__TARGETFIELD__": true,
                     "value": {
-                        "new": "unknown "
+                        "new": "unknown"
                     }
                 }
             },
@@ -499,13 +499,47 @@
                 "segregationsanalyse": {
                     "__TARGETFIELD__": true,
                     "value": {
-                        "new": ""
+                        "new": "Maternal"
                     }
                 },
                 "modeOfInheritance": {
                     "__TARGETFIELD__": true,
                     "value": {
-                        "new": ""
+                        "new": "unknown"
+                    }
+                }
+            },
+            {
+                "gene": {
+                    "__TARGETFIELD__": true,
+                    "value": {
+                        "new": " ARF1"
+                    }
+                },
+                "acmg": {
+                    "class": {
+                        "__TARGETFIELD__": true,
+                        "value": {
+                            "new": " likely pathogenic"
+                        }
+                    }
+                },
+                "zygosity": {
+                    "__TARGETFIELD__": true,
+                    "value": {
+                        "new": "heterozygous"
+                    }
+                },
+                "segregationsanalyse": {
+                    "__TARGETFIELD__": true,
+                    "value": {
+                        "new": "paternal"
+                    }
+                },
+                "modeOfInheritance": {
+                    "__TARGETFIELD__": true,
+                    "value": {
+                        "new": "unknown"
                     }
                 }
             }
