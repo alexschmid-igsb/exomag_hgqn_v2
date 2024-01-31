@@ -5,7 +5,9 @@ const fs = require('fs')
 const db = require('../../../backend/database/connector.js').connector
 const users = require('../../../backend/users/manager.js')
 
-const Processing = require('../../../backend/import/excel_template/processing.js')
+const ExcelProcessing = require('../../../backend/import/excel_template/processing.js')
+const GenericProcessing = require('../../../backend/import/generic/processing.js')
+const Importer = require('../../../backend/import/Uploader.js')
 
 const xlsx = require('xlsx')
 xlsx.helper = require('../../../backend/util/xlsx-helper.js')
@@ -406,7 +408,51 @@ const mapping = [
             "is_key": false
         },
         "updateMode": "KEEP"
-    }
+    },
+    {
+        "id": "IMPORT_ISCN",
+        "activated": true,
+        "sourceColumn": "ISCN",
+        "targetColumn": {
+          "label": "ISCN",
+          "path": "variants.ISCN",
+          "is_key": false
+        },
+        "updateMode": "KEEP"
+      },
+      {
+        "id": "IMPORT_HGVS_cDNA",
+        "activated": true,
+        "sourceColumn": "HGVS_cDNA",
+        "targetColumn": {
+          "label": "HGVS_cDNA",
+          "path": "variants.HGVS_cDNA",
+          "is_key": false
+        },
+        "updateMode": "KEEP"
+      },
+      {
+        "id": "IMPORT_gDNA",
+        "activated": true,
+        "sourceColumn": "HGVS_gDNA",
+        "targetColumn": {
+          "label": "HGVS_gDNA",
+          "path": "variants.HGVS_gDNA",
+          "is_key": false
+        },
+        "updateMode": "KEEP"
+      },
+      {
+        "id": "IMPORT_HGVS_protein",
+        "activated": true,
+        "sourceColumn": "HGVS_protein",
+        "targetColumn": {
+          "label": "HGVS_protein",
+          "path": "variants.HGVS_protein",
+          "is_key": false
+        },
+        "updateMode": "KEEP"
+      }
 ]
 
 async function main() {
@@ -414,13 +460,30 @@ async function main() {
     await db.initPromise
     await users.initPromise
 
-    const rows = xlsx.helper.parseRowsFromFile('/home/alex/exomag_testdaten.xlsx', 'Data', 1).rows
+    const scheme = db.getScheme('GRID_cases')
 
-    const processing = Processing.createInstance({ mapping: mapping })
+    const excelRows = xlsx.helper.parseRowsFromFile('/home/alex/exomag_testdaten.xlsx', 'Data', 1).rows
 
-    for (let row of rows) {
-        let result = processing.process(row)
-        break
+    const excelProcessing = ExcelProcessing.createInstance({ mapping: mapping })
+    const genericProcessing = GenericProcessing.createInstance({ scheme: scheme })
+    const importer = Importer.createInstance()
+
+    let i = 0
+    for (let excelRow of excelRows) {
+        if(i === 2) {
+
+            let record = ExcelProcessing.createEmptyRecord()
+            record.excel = excelRow
+
+            excelProcessing.process(record)
+            // console.log(JSON.stringify(record,null,4))
+
+            genericProcessing.process(record)
+
+
+
+        }
+        i++
     }
 
     // console.dir(rows, {depth: null})

@@ -19,52 +19,81 @@ scheme:
         type: string
     sex:
         type: string
-        enum: 
-          - male
-          - female
-          - ambigous
+        enum:
+          - value: male
+            alias: [m, männlich]
+          - value: female
+            alias: [f, w, weiblich ]
+          - value: ambigous
+            alias: []
     hpoTerms:
       - type: string
+        delimiter: ',|;| '
     singleDuoTrio:
         type: string
         enum: 
-          - single
-          - duo
-          - trio
-          - '>3'
+          - value: single
+            alias: []
+          - value: duo
+            alias: []
+          - value: trio
+            alias: []
+          - value: '>3'
+            alias: []
     caseStatus:
         type: string
         enum:
-          - solved
-          - partially solved
-          - unclear
-          - unsolved
+          - value: solved
+            alias: []
+          - value: partially solved
+            alias: []
+          - value: unclear
+            alias: []
+          - value: unsolved
+            alias: []
     testConducted:
         type: string
         enum:
-          - Panel
-          - Exome
-          - Genome
-          - array
+          - value: Panel
+            alias: []
+          - value: Exome
+            alias: []
+          - value: Genome
+            alias: []
+          - value: Array
+            alias: []
     selektivvertrag:
         type: string
         enum: 
-          - ja
-          - nein
-          - beantragt
-          - unbekannt
+          - value: ja
+            alias: ['yes']
+          - value: nein
+            alias: ['no']
+          - value: beantragt
+            alias: []
+          - value: unbekannt
+            alias: [unknown]
     diseaseCategory:
         type: string
         enum:
-          - neurodevelopmental
-          - neurological/neuromuscular
-          - organ abnormality
-          - haematopoiesis/immune system
-          - endocrine
-          - metabolic
-          - mitochondrial nutritional
-          - cardiovascular
-          - other
+          - value: neurodevelopmental
+            alias: []
+          - value: neurological/neuromuscular
+            alias: []
+          - value: organ abnormality
+            alias: []
+          - value: haematopoiesis/immune system
+            alias: []
+          - value: endocrine
+            alias: []
+          - value: metabolic
+            alias: []
+          - value: mitochondrial nutritional
+            alias: []
+          - value: cardiovascular
+            alias: []
+          - value: other
+            alias: []
     referringClinician:
         type: string
     bisherigeDiagnostik:
@@ -102,75 +131,127 @@ scheme:
         variantSolvesCase:
             type: string
             enum:
-              - primary
-              - incidental
-              - candidate
+              - value: primary
+                alias: []
+              - value: incidental
+                alias: []
+              - value: candidate
+                alias: []
         ifNewDiseaseGeneLevelOfEvidence:
             type: string
         acmg:
             class:
                 type: string
                 enum:
-                  - pathogenic
-                  - likely pathogenic
-                  - unclear
-                  - likely benign
-                  - benign
+                  - value: pathogenic
+                    alias: []
+                  - value: likely pathogenic
+                    alias: []
+                  - value: unclear
+                    alias: [VUS]
+                  - value: likely benign
+                    alias: []
+                  - value: benign
+                    alias: []
             criteria:
               - type: string
+                delimiter: ',|;| '
                 enum:
-                  - PVS1
-                  - PS1
-                  - PS2
-                  - PS3
-                  - PS4
-                  - PM1
-                  - PM2
-                  - PM3
-                  - PM4
-                  - PM5
-                  - PM6
-                  - PP1
-                  - PP2
-                  - PP3
-                  - PP4
-                  - PP5
-                  - BA1
-                  - BS1
-                  - BS2
-                  - BS3
-                  - BS4
-                  - BP1
-                  - BP2
-                  - BP3
-                  - BP4
-                  - BP5
-                  - BP6
-                  - BP7
+                  - value: PVS1
+                    alias: []
+                  - value: PS1
+                    alias: []
+                  - value: PS2
+                    alias: []
+                  - value: PS3
+                    alias: []
+                  - value: PS4
+                    alias: []
+                  - value: PM1
+                    alias: []
+                  - value: PM2
+                    alias: []
+                  - value: PM3
+                    alias: []
+                  - value: PM4
+                    alias: []
+                  - value: PM5
+                    alias: []
+                  - value: PM6
+                    alias: []
+                  - value: PP1
+                    alias: []
+                  - value: PP2
+                    alias: []
+                  - value: PP3
+                    alias: []
+                  - value: PP4
+                    alias: []
+                  - value: PP5
+                    alias: []
+                  - value: BA1
+                    alias: []
+                  - value: BS1
+                    alias: []
+                  - value: BS2
+                    alias: []
+                  - value: BS3
+                    alias: []
+                  - value: BS4
+                    alias: []
+                  - value: BP1
+                    alias: []
+                  - value: BP2
+                    alias: []
+                  - value: BP3
+                    alias: []
+                  - value: BP4
+                    alias: []
+                  - value: BP5
+                    alias: []
+                  - value: BP6
+                    alias: []
+                  - value: BP7
+                    alias: []
         zygosity:
             type: string
             enum:
-              - heterozygous
-              - homozygous
-              - comp het
-              - hemi
-              - homoplasmic
-              - heteroplasmic
+              - value: heterozygous
+                alias: []
+              - value: homozygous
+                alias: []
+              - value: comp het
+                alias: []
+              - value: hemi
+                alias: []
+              - value: homoplasmic
+                alias: []
+              - value: heteroplasmic
+                alias: []
         segregationsanalyse:
             type: string
             enum:
-              - not performed
-              - de novo
-              - transmitted from father
-              - transmitted from mother
+              - value: not performed
+                alias: []
+              - value: de novo
+                alias: []
+              - value: transmitted from father
+                alias: []
+              - value: transmitted from mother
+                alias: []
         modeOfInheritance:
             type: string
             enum:
-              - dominant
-              - recessive
-              - X-linked
-              - mitochondrial
-              - unclear
+              - value: dominant
+                alias: []
+              - value: recessive
+                alias: []
+              - value: X-linked
+                alias: []
+              - value: mitochondrial
+                alias: []
+              - value: unclear
+                alias: []
         pubMedId:
             type: string
         clinvarAccessionId:
@@ -376,6 +457,26 @@ layouts:
                 path: clinvarAccessionId
                 label: Clinvar Accession ID
                 importTarget: true
+              - id: IMPORT_ISCN
+                path: ISCN
+                label: ISCN
+                importTarget: true
+                gridColumn: false
+              - id: IMPORT_HGVS_cDNA
+                path: HGVS_cDNA
+                label: HGVS_cDNA
+                importTarget: true
+                gridColumn: false
+              - id: IMPORT_gDNA
+                path: HGVS_gDNA
+                label: HGVS_gDNA
+                importTarget: true
+                gridColumn: false
+              - id: IMPORT_HGVS_protein
+                path: HGVS_protein
+                label: HGVS_protein
+                importTarget: true
+                gridColumn: false
           - label: Variante
             type: 
                 id: nested

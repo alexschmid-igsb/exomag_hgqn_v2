@@ -745,6 +745,11 @@ export default function Grid() {
 
                 console.log("   LAYOUT FIELD: " + layoutField.id)
 
+                // check if no grid column field
+                if(layoutField.gridColumn === false) {
+                    continue
+                }
+
                 // set data path for this column def
                 let dataPath = layoutField.path
 

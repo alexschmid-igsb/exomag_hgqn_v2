@@ -1,19 +1,19 @@
 
 const fs = require('fs')
 
-const db = require('../../database/connector').connector
-const users = require('../../users/manager')
+const db = require('../database/connector').connector
+const users = require('../users/manager')
 
 const lodash = require('lodash')
 
-const console = require('../../util/PrettyfiedConsole')
-const BackendError = require('../../util/BackendError')
+const console = require('../util/PrettyfiedConsole')
+const BackendError = require('../util/BackendError')
 const StackTrace = require('stacktrace-js')
 
 const xlsx = require('xlsx')
-xlsx.helper = require('../../util/xlsx-helper')
+xlsx.helper = require('../util/xlsx-helper')
 
-const Processing = require('./processing.js')
+const Processing = require('./excel_template/processing.js')
 
 const WorkerThreads = require('worker_threads')
 

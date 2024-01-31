@@ -56,16 +56,33 @@ const lodash = require('lodash')
 */
 
 
-const performColumnMapping = (row,mapping) => {
 
-    row.outputRow = {}
+
+
+// create the base object to apply all the sucessive processing steps on
+const createEmptyRecord = () => {
+    return {
+        targetFields: [],
+        excel: null,
+        generic: null,
+        report: Report.createInstance()
+    }
+}
+
+
+
+
+
+const performColumnMapping = (record,mapping) => {
+
+    record.generic = {}
 
     let i = 1
     for(let mappingEntry of mapping) {
 
         if(mappingEntry.activated === true) {
 
-            let cell = row.excelRow[mappingEntry.sourceColumn]
+            let cell = record.excel[mappingEntry.sourceColumn]
             if(cell == null) {
                 continue
             }
@@ -75,11 +92,11 @@ const performColumnMapping = (row,mapping) => {
                 continue
             }
 
-            row.targetFields.push(mappingEntry.targetColumn.path)
-            lodash.set(row.outputRow, mappingEntry.targetColumn.path, value)
+            record.targetFields.push(mappingEntry.targetColumn.path)
+            lodash.set(record.generic, mappingEntry.targetColumn.path, value)
 
             /*
-            lodash.set(row.outputRow, mappingEntry.targetColumn.path, {
+            lodash.set(record.generic, mappingEntry.targetColumn.path, {
                 __TARGETFIELD__: true,
                 value: value
             })
@@ -96,17 +113,17 @@ const performColumnMapping = (row,mapping) => {
 
 
 
-const performCellSplitting = (row) => {
+const performCellSplitting = (record) => {
 
-    const variantValues = row.outputRow['variants']
+    const variantValues = record.generic['variants']
     if(variantValues == null) {
-        row.report.addTopLevelWarning('The record does not seem to have clinical/variant information (like gene, HGVS variants descriptions, ACMG clssification, ...)')
-        row.outputRow['variants'] = []
+        record.report.addTopLevelWarning('The record does not seem to have clinical/variant information (like gene, HGVS variants descriptions, ACMG clssification, ...)')
+        record.generic['variants'] = []
         return
     }
 
     // get target path strings
-    let targetFields = row.targetFields.filter(entry => entry.length > 'variants.'.length && entry.startsWith('variants.')).map(entry => entry.substring('variants.'.length))
+    let targetFields = record.targetFields.filter(entry => entry.length > 'variants.'.length && entry.startsWith('variants.')).map(entry => entry.substring('variants.'.length))
 
     // determine the miximum number of merged values of all the variant fields
     let count = 0
@@ -120,7 +137,7 @@ const performCellSplitting = (row) => {
 
     // if no merged values found, no splitting is necessary, the variant array will have one entry only
     if(count === 1) {
-        row.outputRow['variants'] = [ row.outputRow['variants'] ]
+        record.generic['variants'] = [ record.generic['variants'] ]
         return
     }
 
@@ -131,14 +148,13 @@ const performCellSplitting = (row) => {
         const parts = str.split('/')
         if(parts.length !== 1 && parts.length !== count) {
             hasErrors = true
-            row.report.addTopLevelError(`Merged cell value inconsistency: Cell value "${str}" in path "${'variants.'+targetField}" splits into ${parts.length} parts (inconsistent with max. split of ${size})`)
+            record.report.addTopLevelError(`Merged cell value inconsistency: Cell value "${str}" in path "${'variants.'+targetField}" splits into ${parts.length} parts (expected ${count} parts)`)
         }
     }
 
     // on top level errors, set unsplitted values to variant array and return
-    // TODO hier lieber im report direkt nachschauen anstatt dieses flag zu nutzen
     if(hasErrors === true) {
-        row.outputRow['variants'] = [ row.outputRow['variants'] ]
+        record.generic['variants'] = [ record.generic['variants'] ]
         return
     }
 
@@ -159,8 +175,90 @@ const performCellSplitting = (row) => {
     }
 
     // set splitted values as variant array
-    row.outputRow['variants'] = splittedValues
+    record.generic['variants'] = splittedValues
 }
+
+
+
+
+const performCompHetSplitting = (record) => {
+
+    // get target path strings
+    let targetFields = record.targetFields.filter(entry => entry.length > 'variants.'.length && entry.startsWith('variants.')).map(entry => entry.substring('variants.'.length))
+
+    // resulting rows
+    let resultingRows = []
+
+    // iterate variant entries
+    for(let variantValues of record.generic['variants']) {
+
+        // determine the miximum number of merged values of all the variant fields
+        let count = 0
+        for(let targetField of targetFields) {
+            let str = String(lodash.get(variantValues, targetField))
+            const parts = str.split(';')
+            if(parts.length > count) {
+                count = parts.length
+            }
+        }
+
+        // if no merged values found, no splitting is necessary, the variant values will be pushed to the resulting array
+        if(count === 1) {
+            resultingRows.push(variantValues)
+            continue
+        }
+
+        // otherwise, if merged values found, check consistency first
+        let hasErrors = false
+        for(let targetField of targetFields) {
+            let str = String(lodash.get(variantValues, targetField))
+            const parts = str.split(';')
+            if(parts.length !== 1 && parts.length !== count) {
+                hasErrors = true
+                record.report.addTopLevelError(`Merged cell value inconsistency: Cell value "${str}" in path "${'variants.'+targetField}" splits into ${parts.length} parts (expected ${count} parts)`)
+            }
+        }
+
+        // on top level errors, set unsplitted values to variant array and return
+        if(hasErrors === true) {
+            resultingRows.push(variantValues)
+            continue
+        }
+
+        // otherwise, perform the actual splitting
+        let splittedValues = Array(count).fill(0).map(() => ({}))
+        for(let targetField of targetFields) {
+            let str = String(lodash.get(variantValues, targetField))
+            const parts = str.split(';')
+            for(let j=0; j<count; j++) {
+                let part = parts.length === 1 ? parts[0] : parts[j]
+                if(lodash.isString(part)) {
+                    part = part.trim()
+                }
+                if(lodash.isString(part) && part.length > 0) {
+                    lodash.set(splittedValues[j], targetField, part)
+                }
+            }
+        }
+
+        // TODO:
+        // 1. alle gesplitteten rows müssen comp het sein (hier hat die werte korrektur noch nicht stattgefunden, vielleicht muss man als ausnahme zuerst durchführen)
+        // 2. die spezielle hgvs notation kann zu falsch gesplitteten einträgen führen, dass muss abgefangen und korrigiert werden
+
+        // add splitted rows
+        resultingRows.push(...splittedValues)
+    }
+
+    // set resulting rows as variant rows
+    record.generic['variants'] = resultingRows
+}
+
+
+
+
+
+
+
 
 
 class Processing {
@@ -169,72 +267,63 @@ class Processing {
         this.mapping = context.mapping
     }
 
-    process(excelRow) {
-
-        // create the base object to apply all the sucessive processing steps on
-        let record = {
-            excelRow: excelRow,
-            targetFields: [],
-            outputRow: null,
-            report: Report.createInstance()
-        }
+    process(record) {
 
         // perform the column mapping
         performColumnMapping(record, this.mapping)
-        console.log(JSON.stringify(record.outputRow,null,4))
+        // console.log(JSON.stringify(record.generic,null,4))
 
         // perform the top-level cell splitting
         performCellSplitting(record)
-        // TODO: HIER AUF FEHLER PRÜFEN DIREKT ÜBER DEN REPORT WIE UNTEN
-        /*
-        if(lodash.isArray(targetEntry[RECORD_LEVEL_ERRORS]) && targetEntry[RECORD_LEVEL_ERRORS].length > 0) {
-            // processing wird aufgrund der top level fehler abgebrochen
-            return targetEntry
+        if(record.report.hasTopLevelErrors() === true) {
+            record.report.addTopLevelError(`Can not continue processing this record due to previous errors`)
+            return
         }
-        */
 
-        console.log(JSON.stringify(record.outputRow,null,4))
+        // console.log("NCAH SPLIT")
+        // console.log(JSON.stringify(record.generic,null,4))
 
-
-        // TODO: JETZT DAS COMP HET NOCHMAL AN DIE NEUE FUNKTION ANPASSEN
-
-        // DANN DIESES MODUL ABSCHLIEßEN
-
-        // AUF TOP LEVEL EBENE GEHT MAN DANN IN DAS GENERIC PROCESSING MODUL 
-        // HIER UNBEDINGT DEN REPORT MITNEHMEN !
+        performCompHetSplitting(record)
+        if(record.report.hasTopLevelErrors() === true) {
+            record.report.addTopLevelError(`Can not continue processing this record due to previous errors`)
+            return
+        }
 
         
 
+        // console.log("NCAH COMP HET")
+        // console.log(JSON.stringify(record.generic,null,4))
+
+
+        // TODO:
+        // DAS COMPE HET CHECKING MACHEN
 
 
 
+        // DAS GENERIC PROCESSING MOUDEL
+
+        // enum korrektur und checking
+        // zellen fehlerhandling
+
+        // variant validator abfragen
+        // feherhandling für den variant validator output
+
+        // ALLES WAS KORREKT DURCHLÄUFT MUSS IMPORTIERTBAR SEIN
+
+        // IMPORT:
+
+        // für alle variants: prüfen ob variant vorhanden? wenn nein, importieren (die kann man impirtiert lassen, selbst wenn der case import fehlschlägt)
+        // prüfen ob der case schon vorhanden ist
+        // wenn nein, import, wenn ja, muss ein update konstruiert werden WICHTIG ist hier zu verstehen, wie das variant array dabei geupdatet wird
+        // 1. neue variants, 
+        // 2. update in vorhandenen variants spalten.
+        // WICHTIG: Die schon vorhandenen array entries haben eine objekt id. Wenn also ein update passiert, dann muss diese id im update object stehen
+        // wie soll man das aber zuordnen? die variant id ist die einzige möglichkeit
+        // HIER GIBT ES EIN GROßES PROBLEM, WEIL DAS NICHT eindeutig ist, wenn man keine variant id hat
+        // variant id, gene, transcript, eines von denen muss vorhanden sein (bei update) sonst lässt sich das nicht zuordnen
+        // man könnte auch noch sagen: Solange nur ein array eintrag vorhanden ist, dann handelt es sich immer um diesen einen vorhandenen eintrag!
 
 
-
-
-
-
-        /*
-        // split multiple fields
-        splitMultiCells(targetEntry)
-        if(lodash.isArray(targetEntry[RECORD_LEVEL_ERRORS]) && targetEntry[RECORD_LEVEL_ERRORS].length > 0) {
-            // processing wird aufgrund der top level fehler abgebrochen
-            return targetEntry
-        }
-
-        // split comp het fields
-        splitCompHet(targetEntry)
-        if(lodash.isArray(targetEntry[RECORD_LEVEL_ERRORS]) && targetEntry[RECORD_LEVEL_ERRORS].length > 0) {
-            // processing wird aufgrund der top level fehler abgebrochen
-            return targetEntry
-        }
-        */
-
-
-
-
-        // return targetEntry
-        return null
     }
 
 
@@ -250,253 +339,9 @@ class Processing {
 module.exports = {
     createInstance: (context) => {
         return new Processing(context)
-    }
+    },
+    createEmptyRecord: () => createEmptyRecord()
 }
-
-
-
-
-
-
-/*
-
-
-OLD:
-
-
-const addRecordLevelError = (target,item) => {
-    if(lodash.isArray(target[RECORD_LEVEL_ERRORS]) === false) {
-        target[RECORD_LEVEL_ERRORS] = []
-    }
-    if(lodash.isArray(item)) {
-        target[RECORD_LEVEL_ERRORS].push(...item)
-    } else {
-        target[RECORD_LEVEL_ERRORS].push(item)
-    }
-}
-
-
-const splitMultiCells = (row) => {
-
-    let source = row['variants']
-    if(source == null) {
-        addRecordLevelError(row, "The record has no clinical/variant information (like gene, HGVS variants descriptions, ACMG clssification, ...)")
-        return row
-    }
-
-    let size = 0
-    const calcSize = (entry) => {
-        for(let [key,child] of Object.entries(entry)) {
-            if(child['__TARGETFIELD__'] === true) {
-                const str = String(child.value.new)
-                const parts = str.split('/')
-                if(parts.length > size) {
-                    size = parts.length
-                }
-            } else if(lodash.isObject(child)) {
-                calcSize(child)
-            }
-        }
-    }
-    calcSize(source)
-
-    console.log("SIZE: " + size)
-    if(size === 1) {
-        row['variants'] = [row['variants']]
-        return row
-    }
-
-    let errors = []
-    const checkErrors = (entry,path) => {
-        for(let [key,child] of Object.entries(entry)) {
-            let childPath = path != null ? path + '.' + key : key
-            if(child['__TARGETFIELD__'] === true) {
-                const str = String(child.value.new)
-                const parts = str.split('/')
-                if(parts.length !== 1 && parts.length !== size) {
-                    errors.push(`The cell value "${str}" in path "${childPath}" splits in ${parts.length} parts (but ${size} required)`)
-                }
-            } else if(lodash.isObject(child)) {
-                checkErrors(child, childPath)
-            }
-        }
-    }
-    checkErrors(source)
-    
-    console.log("ERRORS:")
-    for(let error of errors) {
-        console.log(error)
-    }
-
-    if(errors.length > 0) {
-        addRecordLevelError(row, errors)
-        row['variants'] = [ row['variants'] ]
-        return row
-    }
-
-    let splittedRows = Array(size).fill(0).map(() => ({}))
-
-    const split = (entry,path) => {
-        for(let [key,child] of Object.entries(entry)) {
-            let childPath = path != null ? path + '.' + key : key
-            if(child['__TARGETFIELD__'] === true) {
-                const str = String(child.value.new)
-                const parts = str.split('/')
-                for(let j=0; j<size; j++) {
-                    let part = parts.length === 1 ? parts[0] : parts[j]
-                    lodash.set(splittedRows[j], childPath, {
-                        __TARGETFIELD__: true,
-                        value: {
-                            new: part
-                        }
-                    })
-                }
-            } else if(lodash.isObject(child)) {
-                split(child, childPath)
-            }
-        }
-    }
-    split(source)
-
-    // set split
-    row['variants'] = splittedRows
-}
-
-
-
-const splitCompHet = (row) => {
-
-    let resultingRows = []
-
-    for(let variantRow of row['variants']) {
-
-        let size = 0
-        const calcSize = (entry) => {
-            for(let [key,child] of Object.entries(entry)) {
-                if(child['__TARGETFIELD__'] === true) {
-                    const str = String(child.value.new)
-                    const parts = str.split(';')
-                    if(parts.length > size) {
-                        size = parts.length
-                    }
-                } else if(lodash.isObject(child)) {
-                    calcSize(child)
-                }
-            }
-        }
-        calcSize(variantRow)
-
-        console.log("COMP HET SIZE: " + size)
-        if(size === 1) {
-            // nichts zu splitten, variant row wird übernommen
-            resultingRows.push(variantRow)
-            continue
-        }
-
-        let errors = []
-        const checkErrors = (entry,path) => {
-            for(let [key,child] of Object.entries(entry)) {
-                let childPath = path != null ? path + '.' + key : key
-                if(child['__TARGETFIELD__'] === true) {
-                    const str = String(child.value.new)
-                    const parts = str.split(';')
-                    if(parts.length !== 1 && parts.length !== size) {
-                        errors.push(`The cell value "${str}" in path "${childPath}" splits in ${parts.length} parts (but ${size} required)`)
-                    }
-                } else if(lodash.isObject(child)) {
-                    checkErrors(child, childPath)
-                }
-            }
-        }
-        checkErrors(variantRow)
-        
-        console.log("ERRORS:")
-        for(let error of errors) {
-            console.log(error)
-        }
-    
-        if(errors.length > 0) {
-            // fehler werden hinzugefügt und die variantRow wird unverändert übernommen, da aufgrund der fehler nicht gesplittet werden kann
-            addRecordLevelError(variantRow, errors)
-            resultingRows.push(variantRow)
-            continue
-        }
-
-        let splittedRow = Array(size).fill(0).map(() => ({}))
-
-        const split = (entry,path) => {
-            for(let [key,child] of Object.entries(entry)) {
-                let childPath = path != null ? path + '.' + key : key
-                if(child['__TARGETFIELD__'] === true) {
-                    const str = String(child.value.new)
-                    const parts = str.split(';')
-                    for(let j=0; j<size; j++) {
-                        let part = parts.length === 1 ? parts[0] : parts[j]
-                        lodash.set(splittedRow[j], childPath, {
-                            __TARGETFIELD__: true,
-                            value: {
-                                new: part
-                            }
-                        })
-                    }
-                } else if(lodash.isObject(child)) {
-                    split(child, childPath)
-                }
-            }
-        }
-        split(variantRow)
-
-        // TODO:
-        // 1. alle gesplitteten rows müssen comp het sein (hier hat die werte korrektur noch nicht stattgefunden, vielleicht muss man als ausnahme zuerst durchführen)
-        // 2. die spezielle hgvs notation kann zu falsch gesplitteten einträgen führen, dass muss abgefangen und korrigiert werden
-    
-        // add splitted row to tj
-        resultingRows.push(...splittedRow)
-    }
-
-    // set splittedRows as new variant rows
-    row['variants'] = resultingRows
-}
-
-
-
-*/
-
-
-
-
-
-
-
-
-
-// braucht man das dann nocht?
-/*
-const finalize = (row) => {
-
-    let collapsed = {}
-    const calc = (entry,path) => {
-        for(let [key,child] of Object.entries(entry)) {
-            let childPath = path != null ? path + '.' + key : key
-            if(child['__TARGETFIELD__'] === true) {
-                let value = child.value.new
-                lodash.set(collapsed, childPath, value)
-            } else if(lodash.isArray(child)) {
-                
-            } else if(lodash.isObject(child)) {
-                calc(child, childPath)
-            }
-        }
-    }
-    split(variantRow)
-}
-*/
-
-
-
-
-
-
 
 
 
@@ -669,6 +514,7 @@ const finalize = (row) => {
   08 Mode of Inheritance
   09 PubMed ID
   10 Clinvar Accession ID
+
   11 ISCN
   12 HGVS_cDNA
   13 HGVS_gDNA

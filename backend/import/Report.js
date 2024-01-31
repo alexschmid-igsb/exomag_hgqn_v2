@@ -24,19 +24,44 @@
 
 
 class Entry {
-    // type warning, error
-    // man kann auch eine phase zuweisen, damit man später fehler filtern kann je nachdem wo sie entstanden sind
+
+    constructor(field,message) {
+        this.field = field
+        this.message = message
+    }
+
+    getField() {
+        return this.field
+    }
+
+    getMessage() {
+        return this.message
+    }
+
+
+
+
+
 }
 
 class Report {
 
-
-
-    addTopLevelError(msg) {
-        console.log("TODO TODO TODO TODO TODO: add top level error")
+    constructor() {
+        this.topLevelErrors = []
+        this.fieldErrors = []
     }
 
+    addTopLevelError(msg) {
+        this.topLevelErrors.push(new Entry(null,msg))
+    }
 
+    hasTopLevelErrors() {
+        return this.topLevelErrors.length > 0
+    }
+
+    addFieldError(field,msg) {
+        this.fieldErrors.push(new Entry(field,msg))
+    }
 }
 
 module.exports = {

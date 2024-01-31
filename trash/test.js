@@ -45,12 +45,32 @@
 
 
 
+
+/*
 bla = (item) => {
     item.push('neu',123)
 }
 let dings = ['xyz']
 bla(dings)
 console.log(dings)
+*/
+
+
+
+
+let ui = [
+    {abc: 123},
+    {xyz: 456}
+]
+
+
+for(let item of ui) {
+    item.neu = 'x'
+    item.xyz = 'abc'
+}
+
+
+console.log(ui)
 
 
 
