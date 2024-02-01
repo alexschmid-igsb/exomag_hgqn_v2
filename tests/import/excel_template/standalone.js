@@ -465,7 +465,7 @@ async function main() {
     const excelRows = xlsx.helper.parseRowsFromFile('/home/alex/exomag_testdaten.xlsx', 'Data', 1).rows
 
     const excelProcessing = ExcelProcessing.createInstance({ mapping: mapping })
-    const genericProcessing = GenericProcessing.createInstance({ scheme: scheme })
+    const genericProcessing = GenericProcessing.createInstance({ scheme: scheme, sequencingLab: '72d98c4a-5780-449b-b70a-849634deaa19' })
     const importer = Importer.createInstance()
 
     let i = 0
@@ -476,11 +476,13 @@ async function main() {
             record.excel = excelRow
 
             excelProcessing.process(record)
-            // console.log(JSON.stringify(record,null,4))
 
-            genericProcessing.process(record)
+            await genericProcessing.process(record)
 
+            console.log(JSON.stringify(record.report,null,4))
 
+            // apply uploader
+            
 
         }
         i++

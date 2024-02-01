@@ -51,6 +51,7 @@ scheme:
             alias: []
           - value: unsolved
             alias: []
+        required: true
     testConducted:
         type: string
         enum:
@@ -128,6 +129,7 @@ scheme:
     variants:
       - gene:
             type: string
+            required: true
         variantSolvesCase:
             type: string
             enum:
@@ -137,6 +139,7 @@ scheme:
                 alias: []
               - value: candidate
                 alias: []
+            required: true
         ifNewDiseaseGeneLevelOfEvidence:
             type: string
         acmg:
@@ -153,6 +156,7 @@ scheme:
                     alias: []
                   - value: benign
                     alias: []
+                required: true
             criteria:
               - type: string
                 delimiter: ',|;| '
@@ -213,6 +217,7 @@ scheme:
                     alias: []
                   - value: BP7
                     alias: []
+                required: true
         zygosity:
             type: string
             enum:
@@ -228,6 +233,7 @@ scheme:
                 alias: []
               - value: heteroplasmic
                 alias: []
+            required: true
         segregationsanalyse:
             type: string
             enum:

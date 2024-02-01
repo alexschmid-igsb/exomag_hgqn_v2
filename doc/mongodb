@@ -4,8 +4,8 @@
 
    mongosh
    use admin
-   database.createUser({ user: 'root', pwd: '<secure password #1>', roles: ['root'] })
-   database.auth('root', '<secure password #1>')
+   db.createUser({ user: 'root', pwd: '<secure password #1>', roles: ['root'] })
+   db.auth('root', '<secure password #1>')
 
 
 
