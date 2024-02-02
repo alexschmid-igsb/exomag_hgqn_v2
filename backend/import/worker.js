@@ -13,7 +13,10 @@ const StackTrace = require('stacktrace-js')
 const xlsx = require('xlsx')
 xlsx.helper = require('../util/xlsx-helper')
 
-const Processing = require('./excel_template/processing.js')
+const ExcelProcessing = require('./excel_template/processing.js')
+const GenericProcessing = require('./generic/processing.js')
+const Uploader = require('./Uploader.js')
+
 
 const WorkerThreads = require('worker_threads')
 
@@ -39,7 +42,7 @@ async function getImportInstance(importId,userId,loadFileData=false) {
             throw new Error('database query result is not an array')
         }
         if(dbRes.data.length != 1) {
-            throw new Error('database query does not return a single itme')
+            throw new Error('database query does not return a single item')
         }
         return dbRes.data[0]
     } catch(err) {
@@ -47,6 +50,24 @@ async function getImportInstance(importId,userId,loadFileData=false) {
     }
 }
 
+
+async function getUser(userId) {
+    try {
+        let dbRes = await db.find('CORE_users', {
+            fields: '-password',
+            filter: { _id: userId }
+        })
+        if(lodash.isArray(dbRes.data) === false) {
+            throw new Error('database query result is not an array')
+        }
+        if(dbRes.data.length != 1) {
+            throw new Error('database query does not return a single item')
+        }
+        return dbRes.data[0]
+    } catch(err) {
+        throw new BackendError(`Unexpected Error: Could not load user [userId: ${userId}]`,500,err)
+    }
+}
 
 
 async function updateImportInstance(importId,userId,update) {
@@ -104,24 +125,31 @@ async function loadExcelTemplateRowData(importId,userId) {
 
 async function executeMainLoop(importId,userId,rowData) {
 
+    const user = await getUser(userId)
+
+    const sequencingLab = user.lab
+    if(sequencingLab == null) {
+        throw new BackendError(`Unexpected Error: The user has no lab assigend`)
+    }
+
+    const scheme = db.getScheme('GRID_cases')
+
     let importInstance = await getImportInstance(importId, userId)
 
-    const processing = Processing.createInstance({
-        mapping: importInstance?.valueMapping?.excel?.mapping
-    })
+    const excelProcessing = ExcelProcessing.createInstance({ mapping: importInstance?.valueMapping?.excel?.mapping })
+    const genericProcessing = GenericProcessing.createInstance({ scheme: scheme, sequencingLab: sequencingLab })
 
     let entries = []
 
     let i = 0
-    for(const row of rowData) {
+    for(const excelRow of rowData) {
 
         console.log("WORKER: ITERATION #" + i)
 
         // get current import instance
         importInstance = await getImportInstance(importId, userId)
         
-        // abort processing if state change from 'RUNNING' to something else (for example 'CANCELED' by
-        // api request by user through user interface)
+        // abort processing if state change from 'RUNNING' to something else (for example 'CANCELED' by api request by user through user interface)
         if(importInstance?.processing?.excel?.state !== 'RUNNING') {
             return {
                 finished: false,
@@ -129,12 +157,20 @@ async function executeMainLoop(importId,userId,rowData) {
             }
         }
 
-        // process row
-        // die row wird in die pipeline geschickt
-        // die rückgabe ist IMMER ein entry case (fehler werdem im entry gesammelt)
-        // das ganze geht dann je nach dem ob fehler flag gesetzt wurde in die entsprechende liste der importInstance
-        // und damit zurück ans frontend
-        let entry = processing.process(row)
+        das processing wird anscheinend durchgeführt
+        alllerdings gibt es im frontend kein update
+
+        // create processing record
+        let record = ExcelProcessing.createEmptyRecord()
+        record.excel = excelRow
+
+        // excel processing
+        excelProcessing.process(record)
+
+        // generic processing
+        await genericProcessing.process(record)
+
+        // add processed record to etries
         entries.push(entry)
 
         // update importInstance
@@ -151,7 +187,7 @@ async function executeMainLoop(importId,userId,rowData) {
             }
         })
 
-        await sleep(1500)
+        // await sleep(1500)
         
         i++
     }
@@ -169,14 +205,20 @@ async function main() {
     await db.initPromise
     await users.initPromise
 
+    const {
+        importId,
+        userId
+    } = WorkerThreads.workerData
+
+    console.log("GET IMPORT INSTANCE")
+    let importInstance = await getImportInstance(importId,userId)
+
+    console.log("FERTIG")
+
+
     try {
 
         // console.log(WorkerThreads.workerData)
-
-        const {
-            importId,
-            userId
-        } = WorkerThreads.workerData
 
         if(importId == null) {
             // TODO: hier einen unexpected error in die db posten
@@ -189,7 +231,6 @@ async function main() {
         }
 
         // check import state
-        let importInstance = await getImportInstance(importId,userId)
         if(importInstance?.processing?.excel?.state !== 'PENDING') {
             // do not start processing unless state equals 'PENDING'
             return
@@ -259,7 +300,83 @@ async function main() {
 
 
         // execute main loop        
-        const processed = await executeMainLoop(importId,userId,rowData)
+        const result = await executeMainLoop(importId,userId,rowData)
+
+        // TODO: hier muss geprüft werden, ob wirklich finished oder ob früher abgebrochen wurde
+        // das wird später wieder wichtig, wenn man validierung wieder abbrechen könnne sollte
+
+        // set import state to 'FINISHED'
+        await updateImportInstance(importId, userId, {
+            processing: {
+                ...importInstance?.processing,
+                excel: {
+                    ...importInstance?.processing?.excel,
+                    state: 'FINISHED',
+                    progress: {
+                        processed: rowData.length,
+                        total: rowData.length,
+                    }
+                }
+            }
+        })
+
+
+
+        // TODO: hier müssen die entries in die import instance geschrieben werden
+        console.log("WORKER: PROCESSED RESULT")
+        fs.writeFileSync('./TEST.json', JSON.stringify(result.entries,null,4))
+
+        console.log("worker ended")
+
+
+    } catch(err) {
+
+        console.error(err)
+
+        await updateImportInstance(importId, userId, {
+            processing: {
+                ...importInstance?.processing,
+                excel: {
+                    ...importInstance?.processing?.excel,
+                    state: 'ERROR',
+                    progress: {
+                        processed: 0,
+                        total: 0,
+                    },
+                    error: {
+                        message: "Unexpected Error",
+                        cause: {
+                            name: err.name,
+                            message: err.message,
+                            stackTrace: await StackTrace.fromError(err)
+                        }
+                    }
+                }
+            }
+        })
+
+        
+    }
+}
+
+
+
+// Hier sollten dann eigentlich nur noch die fehler ankommen, die im globalen catch block entstehen...
+
+main().catch(err => console.error(err))
+
+
+
+
+
+
+
+
+
+
+
+
+        /*
 
         // check if loop finished
         if(processed.finished === true) {
@@ -483,6 +600,7 @@ async function main() {
                             console.error(err)
                         }
                     }
+
 
                     const cases = [
                         {
@@ -761,37 +879,7 @@ async function main() {
 
         }
 
-
-        // TODO: hier müssen die entries in die import instance geschrieben werden
-        console.log("WORKER: PROCESSED RESULT")
-        console.log(processed.entries)
-        fs.writeFileSync('./TEST.json', JSON.stringify(processed.entries,null,4))
-
-
-        console.log("worker ended")
-
-    } catch(err) {
-
-        // TODO: fehler in die datenbank und state auf ERROR
-
-        // Diese Fehler sollen als unexpected errors in die Datenbank
-        // wenn dabei ein fehler passiert, dann gibt es nur noch die möglichkeit über den catch weiter unten und die console
-
-        console.error(err)
-    }
-}
-
-
-
-// Hier sollten dann eigentlich nur noch die fehler ankommen, die im globalen catch block entstehen...
-
-main().catch(err => console.error(err))
-
-
-
-
-
-
+        */
 
 
 

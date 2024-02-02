@@ -8,9 +8,8 @@ const lodash = require('lodash')
 // create the base object to apply all the sucessive processing steps on
 const createEmptyRecord = () => {
     return {
-        targetFields: [],
-        excel: null,
-        generic: null,
+        genericCase: null,
+        parsedVariants: [],
         report: Report.createInstance()
     }
 }
@@ -20,11 +19,9 @@ const createEmptyRecord = () => {
 
 
 async function vvQuery(build,variant,transcripts = 'all') {
-    // const url = `https://rest.variantvalidator.org/VariantValidator/variantvalidator/${encodeURI(build)}/${encodeURI(variant)}/${encodeURI(transcripts)}`
     // const url = `https://rest.variantvalidator.org/VariantValidator/variantvalidator/${build}/${variant}/${transcripts}`
-    // const url = `http://localhost:8000/VariantValidator/variantvalidator/${encodeURI(build)}/${encodeURI(variant)}/${encodeURI(transcripts)}`
-
-    const url = `https://exomag.meb.uni-bonn.de/vv/VariantValidator/variantvalidator/${encodeURI(build)}/${encodeURI(variant)}/${encodeURI(transcripts)}`
+    // const url = `https://exomag.meb.uni-bonn.de/vv/VariantValidator/variantvalidator/${encodeURI(build)}/${encodeURI(variant)}/${encodeURI(transcripts)}`
+    const url = `https://rest.variantvalidator.org/VariantValidator/variantvalidator/${encodeURI(build)}/${encodeURI(variant)}/${encodeURI(transcripts)}`
     console.log(url)
     return FetchAPI.get(url)
 }
@@ -301,8 +298,6 @@ const validateField = (record, root, localPath, fullPath, desc) => {
 
 
 const parse_primary_assembly_loci = (item) => {
-
-    console.log(item)
     
     let parsed = {
         variant: {}
@@ -342,15 +337,15 @@ const parse_primary_assembly_loci = (item) => {
         parsed.variant.GRCh38.alt != null
 
     if(isValid === true) {
+        parsed.hasError = false
         parsed.variant._id = `GRCh38-${parsed.variant.GRCh38.chr}-${parsed.variant.GRCh38.pos}-${parsed.variant.GRCh38.ref}-${parsed.variant.GRCh38.alt}`
     } else {
-        parsed.error = `primary_assembly_loci could not be parsed: ${JSON.stringify(item)}`
+        parsed.hasError = true
     }
-
-    console.log(parsed)
 
     return parsed
 }
+
 
 
 
@@ -368,21 +363,21 @@ class Processing {
     validateFieldFormat(record) {
 
         // set sequencing lab
-        record.generic['sequencingLab'] = this.sequencingLab
+        record.genericCase['sequencingLab'] = this.sequencingLab
         
         // case fields
         for(let [path,desc] of Object.entries(this.fieldDescriptions.case)) {
             if(path === '_id') {
                 continue
             }
-            validateField(record, record.generic, path, path, desc)
+            validateField(record, record.genericCase, path, path, desc)
         }
 
         // variant fields
         for(let [path,desc] of Object.entries(this.fieldDescriptions.variant)) {
 
             let i = 0
-            for(let variantEntry of record.generic['variants']) {
+            for(let variantEntry of record.genericCase['variants']) {
 
                 // set full path for error report 
                 const fullPath = `variants[${i}].${path}`
@@ -400,58 +395,67 @@ class Processing {
 
     async normalizeVariants(record) {
 
+        /*
+            Bekannte Probleme:
+
+                Manche legale VariantValidator Abfragen führen im ExomAG VariantValidator Instan zu einem fehler 500 ohne weitere fehlerinfos..
+                In der öffentlichen API scheint es zu funktionieren.
+
+                Beispiel:
+                https://rest.variantvalidator.org/VariantValidator/variantvalidator/GRCh38/NC_000023.10%3Ag.64743962T%3EC/auth_raw
+                https://exomag.meb.uni-bonn.de/vv/VariantValidator/variantvalidator/GRCh38/NC_000023.10%3Ag.64743962T%3EC/auth_raw
+
+                Allerdings war der Grund für die lokale Instanz, dass bestimmte (legale) Abfragen in der öffentliche API eine Fehler verursacht haben.
+
+                Früher oder später muss man hier mal sorgfältige Fehlersuche betreiben.
+        */
+
         let i = 0
-        for(let variantEntry of record.generic['variants']) {
+        for(let variantEntry of record.genericCase['variants']) {
             
-
-
             // parse cDNA
 
             let cDNA_processed = {
                 source: variantEntry['HGVS_cDNA'],
                 vvOutput: null,
-                hasError: false,
-                parsed: null
+                parsed: null,
+                state: 'VALID'
             }
 
             if(cDNA_processed.source != null) {
 
                 const fullPath = `variants[${i}].HGVS_cDNA`
 
-                console.log()
-                console.log(cDNA_processed.source)
-
+                let caught = null
                 try {
                     cDNA_processed.vvOutput = await vvQuery('GRCh38',cDNA_processed.source,'mane_select')
                 } catch(err) {
-                    const msg = `Could not generate VariantValidator Output for cDNA (Error Code 1): ${cDNA_processed.source}`
-                    record.report.addFieldError(fullPath, msg)
-                    record.report.addTopLevelError(msg)
-                    cDNA_processed.hasError = true
+                    caught = err
                 }
 
-                if(cDNA_processed.vvOutput == null) {
+                if(caught != null || cDNA_processed.vvOutput == null) {
                     const msg = `Could not generate VariantValidator Output for cDNA (Error Code 2): ${cDNA_processed.source}`
                     record.report.addFieldError(fullPath, msg)
                     record.report.addTopLevelError(msg)
-                    cDNA_processed.hasError = true
+                    cDNA_processed.state = 'ERROR'
                 }
 
-                if(cDNA_processed.vvOutput.flag !== 'gene_variant') {
+                if(cDNA_processed.vvOutput != null && cDNA_processed.vvOutput.flag !== 'gene_variant') {
                     const msg = `VariantValidator returned error for cDNA (Error Code 3): ${cDNA_processed.source}`
                     record.report.addFieldError(fullPath, msg)
                     record.report.addTopLevelError(msg)
-                    cDNA_processed.hasError = true
+                    cDNA_processed.state = 'ERROR'
                 }
 
                 if(Object.keys(cDNA_processed.vvOutput).length !== 3 || cDNA_processed.vvOutput.flag == null || cDNA_processed.vvOutput.metadata == null) {
-                    const msg = `VariantValidator returned ambigious results for cDNA (Error Code 4): ${cDNA_processed.source}`
+                    const msg = `VariantValidator returned ambiguous results for cDNA (Error Code 4): ${cDNA_processed.source}`
                     record.report.addFieldError(fullPath, msg)
                     record.report.addTopLevelError(msg)
-                    cDNA_processed.hasError = true
+                    cDNA_processed.state = 'ERROR'
                 }
 
-                if(cDNA_processed.vvOutput != null && cDNA_processed.hasError === false) {
+                if(cDNA_processed.vvOutput != null && cDNA_processed.state !== 'ERROR') {
+
                     let vvKey = null
                     let vvEntry = null
                     for(let [key,entry] of Object.entries(cDNA_processed.vvOutput)) {
@@ -464,15 +468,17 @@ class Processing {
                     
                     cDNA_processed.parsed = parse_primary_assembly_loci(vvEntry.primary_assembly_loci)
 
-                    if(cDNA_processed.parsed.error != null) {
-                        const msg = `Could not parse loci from VariantValidator output for cDNA (Error Code 5): ${cDNA_processed.source}`
+                    if(cDNA_processed.parsed.hasError === true) {
+                        const msg = `Could not parse loci from VariantValidator output for cDNA (Error Code 5). cDNA is '${cDNA_processed.source}'. primary_assembly_loci is '${JSON.stringify(primary_assembly_loci)}.'`
                         record.report.addFieldError(fullPath, msg)
                         record.report.addTopLevelError(msg)
-                        cDNA_processed.hasError = true
+                        cDNA_processed.parsed = null
+                        cDNA_processed.state = 'ERROR'
                     }
                 }
+            } else {
+                cDNA_processed.state = 'MISSING'
             }
-
 
 
             // parse gDNA
@@ -480,60 +486,55 @@ class Processing {
             let gDNA_processed = {
                 source: variantEntry['HGVS_gDNA'],
                 vvOutput: null,
-                hasError: false,
-                parsed: null
+                parsed: null,
+                state: 'VALID'
             }
 
             if(gDNA_processed.source != null) {
 
                 const fullPath = `variants[${i}].HGVS_gDNA`
 
-                console.log()
-                console.log(gDNA_processed.source)
-
+                let caught = null
                 try {
                     gDNA_processed.vvOutput = await vvQuery('GRCh38',gDNA_processed.source,'mane_select')
                 } catch(err) {
-                    const msg = `Could not generate VariantValidator Output for gDNA (Error Code 1): ${gDNA_processed.source}`
-                    record.report.addFieldError(fullPath, msg)
-                    record.report.addTopLevelError(msg)
-                    gDNA_processed.hasError = true
+                    caught = err
                 }
 
-                if(gDNA_processed.vvOutput == null) {
-                    const msg = `Could not generate VariantValidator Output for gDNA (Error Code 2): ${gDNA_processed.source}`
+                if(caught != null || gDNA_processed.vvOutput == null) {
+                    const msg = `Could not generate VariantValidator Output for gDNA (Error Code 7): ${gDNA_processed.source}`
                     record.report.addFieldError(fullPath, msg)
                     record.report.addTopLevelError(msg)
-                    gDNA_processed.hasError = true
+                    gDNA_processed.state = 'ERROR'
                 }
 
                 if(gDNA_processed.vvOutput != null && gDNA_processed.vvOutput.flag !== 'gene_variant') {
-                    const msg = `VariantValidator returned error for gDNA (Error Code 3): ${gDNA_processed.source}`
+                    const msg = `VariantValidator returned error for gDNA (Error Code 8): ${gDNA_processed.source}`
                     record.report.addFieldError(fullPath, msg)
                     record.report.addTopLevelError(msg)
-                    gDNA_processed.hasError = true
+                    gDNA_processed.state = 'ERROR'
                 }
                 
-                if(gDNA_processed.vvOutput != null && gDNA_processed.hasError === false) {
+                if(gDNA_processed.vvOutput != null && gDNA_processed.state !== 'ERROR') {
                     for(let [vvKey,vvEntry] of Object.entries(gDNA_processed.vvOutput)) {
                         if(vvEntry.primary_assembly_loci != null) {
                             let parsed = parse_primary_assembly_loci(vvEntry.primary_assembly_loci)
                             if(gDNA_processed.parsed == null) {
-                                if(parsed.error == null) {
-                                    gDNA_processed.parsed = parsed
+                                if(parsed.hasError === true) {
+                                    // es gibt noch kein geparstes, aber das eben geparste ist fehlerhaft
+                                    // diesen fall einfach ignorieren, in der hoffnung, dass die nächsten entries korrekt geparst werden
+                                    // ein fehler wird in jedem fall generiert, wenn nach dem for loop kein gDNA_processed.parsed vorhanden ist
                                 } else {
-                                    // es gibt noch keins, aber das eben geparste ist fehlerhaft
-                                    // diesen fall einfach ignorieren, in der hoffnung, dass die nächsten entries korrekt geparst werden können
-                                    // ein fehler wird so oder so generiert, wenn nach dem for loop kein gDNA_processed.parsed vorhanden ist
+                                    gDNA_processed.parsed = parsed
                                 }
                             } else {
-                                // es gibt breits ein geparsten loci, der soeben geparset muss identisch sein, alles andere ist als fehler zu werten
-                                let isEqual = isEqual_primary_assembly_loci(gDNA_processed.parsed, parsed)
+                                // es gibt breits ein geparsten loci. der soeben geparset muss identisch sein, alles andere ist als fehler zu werten
+                                let isEqual = lodash.isEqual(parsed, gDNA_processed.parsed)
                                 if(isEqual === false) {
-                                    const msg = `VariantValidator returned ambigious results for gDNA (Error Code 17): ${gDNA_processed.source}`
+                                    const msg = `VariantValidator returned ambiguous results for gDNA (Error Code 9): ${gDNA_processed.source}`
                                     record.report.addFieldError(fullPath, msg)
                                     record.report.addTopLevelError(msg)
-                                    gDNA_processed.hasError = true
+                                    gDNA_processed.state = 'ERROR'
                                     break
                                 }
                             }
@@ -541,148 +542,110 @@ class Processing {
                     }
 
                     if(gDNA_processed.parsed == null) {
-                        const msg = `Could not parse loci from VariantValidator output for gDNA (Error Code 19): ${gDNA_processed.source}`
+                        const msg = `Could not parse loci from VariantValidator output for gDNA (Error Code 10): ${gDNA_processed.source}`
                         record.report.addFieldError(fullPath, msg)
                         record.report.addTopLevelError(msg)
-                        gDNA_processed.hasError = true
+                        gDNA_processed.state = 'ERROR'
                     }
                 }
 
+            } else {
+                gDNA_processed.state = 'MISSING'
             }
 
-
-
-
-
-            // process parsed cDNA and gDNA
-
-            // SIEHE AUCH AB 03_import_data Zeile 1313
-
-            // wenn cDNA einen fehler hat, dann sollte gDNA zwar geprüft werden, aber der die variante ist nicht erfolgreich und damit auch der case nicht
-
-
+            
             /*
-            const gDNA = variantEntry['HGVS_gDNA']
-            let vv_gDNA = null
-            if(gDNA != null) {
-                console.log()
-                console.log(gDNA)
-                vv_gDNA = await vvQuery('GRCh38',gDNA,'auth_all')
-                console.log(vv_gDNA)
+                process parsed gDNA and cDNA
+
+                Fallunterscheidungen:
+
+                gDNA        cDNA
+
+                ERROR       ERROR           Bei Fehler wird keine Variante erstellt
+                ERROR       VALID           Bei Fehler wird keine Variante erstellt
+                ERROR       MISSING         Bei Fehler wird keine Variante erstellt
+
+                MISSING     ERROR           Bei Fehler wird keine Variante erstellt
+                VALID       ERROR           Bei Fehler wird keine Variante erstellt
+
+                MISSING     MISSING         Fehler: Einer von beiden einträgen ist required
+
+                VALID       MISSING         VALID: Variante wird aus gDNA erstellt
+                MISSING     VALID           VALID: Variante wird aus cDNA erstellt
+                VALID       VALID           VALID: Variante wird aus gDNA erstellt und mit cDNA abgeglichen
+            */
+
+            if(gDNA_processed.state === 'ERROR' || cDNA_processed.state === 'ERROR') {
+                // fehler bei gDNA und/oder cDNA
+                record.report.addTopLevelError(`Could not complete cDNA/gDNA processing because of previous parsing errors`)
+
+            } else if(gDNA_processed.state === 'MISSING' && cDNA_processed.state === 'MISSING') {
+                // weder gDNA noch cDNA vorhanden
+                record.report.addTopLevelError(`At least cDNA or gDNA field is required`)
+
+            } else if(gDNA_processed.state === 'VALID' && cDNA_processed.state === 'MISSING') {
+                // gDNA ist valid, cDNA nicht vohanden ==> variante kann aus gDNA erstellt werden
+                record.parsedVariants.push(gDNA_processed.parsed)
+                record.genericCase['variants'][i].variant = {
+                    reference: gDNA_processed.parsed._id
+                    // TODO: die beiden Felder ISCN und protein sollte man hier in variant hinzufügen, falls vorhanden. Die müssen aber auch noch ins scheme. Es muss gecheckt werden, ob das irgendwie mit dem automatischen field format validation in konflikt gerät.
+                }
+
+            } else if(gDNA_processed.state === 'MISSING' && cDNA_processed.state === 'VALID') {
+                // gDNA nicht vorhanden, cDNA ist valid ==> variante kann aus cDNA erstellt werden
+                record.parsedVariants.push(cDNA_processed.parsed)
+                record.genericCase['variants'][i].variant = {
+                    reference: cDNA_processed.parsed._id,
+                    transcript: cDNA_processed.source
+                    // TODO: die beiden Felder ISCN und protein sollte man hier in variant hinzufügen, falls vorhanden. Die müssen aber auch noch ins scheme. Es muss gecheckt werden, ob das irgendwie mit dem automatischen field format validation in konflikt gerät.
+                }
+
+            } else if(gDNA_processed.state === 'VALID' && cDNA_processed.state === 'VALID') {
+                // gDNA ist valid, cDNA ist valid ==> variante wird aus gDNA erstellt und mit cDNA abgeglichen
+                if(lodash.isEqual(gDNA_processed.parsed, cDNA_processed.parsed)) {
+                    record.parsedVariants.push(gDNA_processed.parsed)
+                    record.genericCase['variants'][i].variant = {
+                        reference: gDNA_processed.parsed._id,
+                        transcript: cDNA_processed.source
+                        // TODO: die beiden Felder ISCN und protein sollte man hier in variant hinzufügen, falls vorhanden. Die müssen aber auch noch ins scheme. Es muss gecheckt werden, ob das irgendwie mit dem automatischen field format validation in konflikt gerät.
+                    }
+                } else {
+                    const msg = `Normalization mismatch. Parsed gDNA and cDNA resolve to different variants. gDNA: ${gDNA_processed.source} ==> ${JSON.stringify(gDNA_processed.parsed)}. cDNA ${cDNA_processed.source} ==> ${JSON.stringify(cDNA_processed.parsed)}.`
+                }
+
+            } else {
+                // dieser fall sollte in keinem Fall auftreten dürfen
+                record.report.addTopLevelError(`Unexpected Fatal Error. Error Code 42.`)
             }
-            */
 
-
-            // BEI gDNA PRÜFE ICH KOMPLETT DURCH, OB ALLE EINTRÄGE DIE GLEICHE POSITION BESCHREIBEN
-
-
-
-            /*
-                cDNA und gDNA jeweils getrennt voneinander normalisieren
-
-                Fälle
-
-                cDNA x
-                gDNA x
-                Fehler, da eins von beiden vorhanden sein sollte
-
-                cDNA o
-                gDNA x
-                ID aus cDNA holen
-
-                cDNA x
-                gDNA o
-                ID aus gDNA holen
-
-                cDNA o
-                gDNA o
-                ID aus gDNA holen, cDNA Id vergleichen mit der aus gDNA geholt
-
-
-                checks todo:
-                    1. es ist ein problem, wenn an VV diese multiform übergeben wird.. das muss man im output erkennen
-
-                Probleme:
-                Manche legalen abfragen bringen den variant validator zu einem ffehler 500 ohne fehlerinfos.. wie soll man damit umgehen??
-
-                komischerweise geht es im webservice
-
-                https://rest.variantvalidator.org/VariantValidator/variantvalidator/GRCh38/NC_000023.10%3Ag.64743962T%3EC/auth_raw
-                https://exomag.meb.uni-bonn.de/vv/VariantValidator/variantvalidator/GRCh38/NC_000023.10%3Ag.64743962T%3EC/auth_raw
-
-                vielleicht liegt das an einem timeout oder so?
-
-            */
-
-            
-
-
-
-
-
-
-
-
-
-
-
-            // console.log(gDNA)
-
-
-
-
-            
-
-
+            // iterate main loop
             i++
         }
 
-
-        /*
-            pahse 1
-
-            gDNA und cDNA durch den variant validator
-
-
-            phase 2
-            interpretation der results
-
-
-
-
-        */
-
-
-
-
     }
-
+    
 
     async process(record) {
 
+        // if record already has errors, do not continue processing
         if(record.report.hasTopLevelErrors() === true) {
             record.report.addTopLevelError(`Can not continue processing this record due to previous errors`)
             return
         }
 
+        // add parsed variants array
+        if(record.parsedVariants == null) {
+            record.parsedVariants = []
+        }
+
+        // field validation
         this.validateFieldFormat(record)
-        if(record.report.hasTopLevelErrors() === true) {
-            record.report.addTopLevelError(`Can not continue processing this record due to previous errors`)
-            return
-        }
 
+        // variant normalization
         await this.normalizeVariants(record)
-        if(record.report.hasTopLevelErrors() === true) {
-            record.report.addTopLevelError(`Can not continue processing this record due to previous errors`)
-            return
-        }
-
-
-
-
-
     }
 }
+
 
 
 module.exports = {

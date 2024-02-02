@@ -64,7 +64,7 @@ const createEmptyRecord = () => {
     return {
         targetFields: [],
         excel: null,
-        generic: null,
+        genericCase: null,
         report: Report.createInstance()
     }
 }
@@ -75,7 +75,7 @@ const createEmptyRecord = () => {
 
 const performColumnMapping = (record,mapping) => {
 
-    record.generic = {}
+    record.genericCase = {}
 
     let i = 1
     for(let mappingEntry of mapping) {
@@ -93,10 +93,10 @@ const performColumnMapping = (record,mapping) => {
             }
 
             record.targetFields.push(mappingEntry.targetColumn.path)
-            lodash.set(record.generic, mappingEntry.targetColumn.path, value)
+            lodash.set(record.genericCase, mappingEntry.targetColumn.path, value)
 
             /*
-            lodash.set(record.generic, mappingEntry.targetColumn.path, {
+            lodash.set(record.genericCase, mappingEntry.targetColumn.path, {
                 __TARGETFIELD__: true,
                 value: value
             })
@@ -115,10 +115,10 @@ const performColumnMapping = (record,mapping) => {
 
 const performCellSplitting = (record) => {
 
-    const variantValues = record.generic['variants']
+    const variantValues = record.genericCase['variants']
     if(variantValues == null) {
         record.report.addTopLevelWarning('The record does not seem to have clinical/variant information (like gene, HGVS variants descriptions, ACMG clssification, ...)')
-        record.generic['variants'] = []
+        record.genericCase['variants'] = []
         return
     }
 
@@ -137,7 +137,7 @@ const performCellSplitting = (record) => {
 
     // if no merged values found, no splitting is necessary, the variant array will have one entry only
     if(count === 1) {
-        record.generic['variants'] = [ record.generic['variants'] ]
+        record.genericCase['variants'] = [ record.genericCase['variants'] ]
         return
     }
 
@@ -154,7 +154,7 @@ const performCellSplitting = (record) => {
 
     // on top level errors, set unsplitted values to variant array and return
     if(hasErrors === true) {
-        record.generic['variants'] = [ record.generic['variants'] ]
+        record.genericCase['variants'] = [ record.genericCase['variants'] ]
         return
     }
 
@@ -175,7 +175,7 @@ const performCellSplitting = (record) => {
     }
 
     // set splitted values as variant array
-    record.generic['variants'] = splittedValues
+    record.genericCase['variants'] = splittedValues
 }
 
 
@@ -190,7 +190,7 @@ const performCompHetSplitting = (record) => {
     let resultingRows = []
 
     // iterate variant entries
-    for(let variantValues of record.generic['variants']) {
+    for(let variantValues of record.genericCase['variants']) {
 
         // determine the miximum number of merged values of all the variant fields
         let count = 0
@@ -250,7 +250,7 @@ const performCompHetSplitting = (record) => {
     }
 
     // set resulting rows as variant rows
-    record.generic['variants'] = resultingRows
+    record.genericCase['variants'] = resultingRows
 }
 
 
@@ -271,7 +271,7 @@ class Processing {
 
         // perform the column mapping
         performColumnMapping(record, this.mapping)
-        // console.log(JSON.stringify(record.generic,null,4))
+        // console.log(JSON.stringify(record.genericCase,null,4))
 
         // perform the top-level cell splitting
         performCellSplitting(record)
@@ -281,7 +281,7 @@ class Processing {
         }
 
         // console.log("NCAH SPLIT")
-        // console.log(JSON.stringify(record.generic,null,4))
+        // console.log(JSON.stringify(record.genericCase,null,4))
 
         performCompHetSplitting(record)
         if(record.report.hasTopLevelErrors() === true) {
@@ -292,7 +292,7 @@ class Processing {
         
 
         // console.log("NCAH COMP HET")
-        // console.log(JSON.stringify(record.generic,null,4))
+        // console.log(JSON.stringify(record.genericCase,null,4))
 
 
         // TODO:

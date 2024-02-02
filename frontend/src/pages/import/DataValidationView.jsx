@@ -20,6 +20,13 @@ import MenuItem from '@mui/material/MenuItem'
 import Tooltip from '@mui/material/Tooltip'
 import LinearProgress from '@mui/material/LinearProgress'
 
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
+import Modal from '@mui/material/Modal'
+
+import ErrorView from '../../error/ErrorView'
+
 import jQuery from 'jquery'
 
 import JSONView from '../../components/util/JSONView'
@@ -117,10 +124,10 @@ const ControlPanel = ({ processing, cancelValidation, restartValidation }) => {
         if (processed == null || total == null) {
             return 0.0
         } else {
-            let percent = 100.0 * (processed/total)
-            if(percent < 0 || isNaN(percent)) {
+            let percent = 100.0 * (processed / total)
+            if (percent < 0 || isNaN(percent)) {
                 percent = 0.0
-            } else if(percent > 100) {
+            } else if (percent > 100) {
                 percent = 100.0
             }
             return percent
@@ -139,7 +146,7 @@ const ControlPanel = ({ processing, cancelValidation, restartValidation }) => {
 
     const state = React.useMemo(() => {
         let value = processing?.excel?.state
-        if(value == null) {
+        if (value == null) {
             return 'PENDING'
         } else {
             return value
@@ -176,11 +183,11 @@ const ControlPanel = ({ processing, cancelValidation, restartValidation }) => {
 
     React.useEffect(() => {
         let current = componentRef.current
-        if(current != null) {
+        if (current != null) {
             let labelCells = jQuery(current).find('div.cell.label')
             let maxWidth = 0
-            labelCells.each((index,element) => {
-                if(element.clientWidth > maxWidth) {
+            labelCells.each((index, element) => {
+                if (element.clientWidth > maxWidth) {
                     maxWidth = element.clientWidth
                 }
             })
@@ -209,7 +216,7 @@ const ControlPanel = ({ processing, cancelValidation, restartValidation }) => {
                                 size="normal"
                                 onClick={handleCancel}
                             >
-                                <IconifyIcon icon="mingcute:stop-fill" /> 
+                                <IconifyIcon icon="mingcute:stop-fill" />
                             </IconButton>
                         </Tooltip>
                     </span>
@@ -220,7 +227,7 @@ const ControlPanel = ({ processing, cancelValidation, restartValidation }) => {
                     <span className={`state ${state}`}>
                         FINISHED
                         <IconButton
-                            style={{display: 'none'}}
+                            style={{ display: 'none' }}
                             className="restart-button inline-button"
                             size="normal"
                             onClick={handleRestart}
@@ -229,7 +236,7 @@ const ControlPanel = ({ processing, cancelValidation, restartValidation }) => {
                         </IconButton>
                     </span>
                 )
-        case 'CANCELED':
+            case 'CANCELED':
                 return (
                     <span className={`state ${state}`}>
                         CANCELED
@@ -320,8 +327,8 @@ const ControlPanel = ({ processing, cancelValidation, restartValidation }) => {
                     {renderState()}
                 </div>
             </div>
-            { renderProgressRow() }
-            { renderErrorRow() }
+            {renderProgressRow()}
+            {renderErrorRow()}
         </div>
     )
 }
@@ -330,6 +337,35 @@ const ControlPanel = ({ processing, cancelValidation, restartValidation }) => {
 
 
 
+
+
+// TODO: das hier sollte sicherlich als eine eigenständige Komponente implemnetiert werden.
+
+
+const ErrorModal = ({error}) => {
+
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+    
+    return (
+        <>
+            <Button onClick={handleOpen} size="small" endIcon={<IconifyIcon size="small" icon="solar:folder-error-bold"/>}>Details</Button>
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box className="error-modal">
+                    {/* <ErrorView title={error.message} error={error.cause} /> */}
+                    <h1>{error.message}</h1>
+                    <span>{error.cause.message}</span>
+                </Box>
+            </Modal>
+        </>
+    )
+}
 
 
 
@@ -383,7 +419,7 @@ export default function DataValidationView(props) {
             />
 
 
-            { 
+            {
                 importInstance?.processing?.excel?.state === 'FINISHED' ?
                     <div className="summary">
                         <div className="box">
@@ -395,26 +431,32 @@ export default function DataValidationView(props) {
                             </p>
                         </div>
                     </div>
-                : importInstance?.processing?.excel?.state === 'ERROR' ?
-                    <div className="summary">
-                        <div className="bla">
-                            <img className="bla" src={bla} />
+                    : importInstance?.processing?.excel?.state === 'ERROR' ?
+                        <div className="summary">
+                            <div className="bla">
+                                <img className="bla" src={bla} />
+                            </div>
+                            <div className="box">
+                                <p>
+                                    <b>Leider ist bei der Bearbeitung der hochgeladenen Daten ein unerwartetes Problem aufgetreten.</b>
+                                </p>
+                                <p>&nbsp;</p>
+                                <p>
+                                    Das Problem wurde an das Entwicklerteam übermittelt und wird in Kürze behoben werden.
+                                </p>
+                                {importInstance?.processing?.excel?.error != null ?
+                                    <div className="error">
+                                        <ErrorModal error={importInstance?.processing?.excel?.error}/>
+
+                                        {/* {importInstance?.processing?.excel?.error?.message} */}
+
+
+                                    </div>
+                                    : null}
+                            </div>
                         </div>
-                        <div className="box">
-                            <p>
-                                <b>Leider ist bei der Interpretation der hochgeladenen Daten ein Problem aufgetreten.</b>
-                            </p>
-                            <p>&nbsp;</p>
-                            <p>
-                                Bitte überprüfe deine Daten auf Korrektheit.
-                            </p>
-                            <p>
-                                Falls das Problem weiterhin auftritt, nimm bitte mit uns Kontakt auf, damit wir deine Daten analysieren und dieses Problem in Zukunft vermeiden können.
-                            </p>
-                        </div>
-                    </div>
-                :
-                    null
+                        :
+                        null
             }
 
 

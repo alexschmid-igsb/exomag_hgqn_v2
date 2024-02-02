@@ -1127,7 +1127,7 @@ router.post('/excel-template-trigger-processing', [auth], async function (req, r
         throw new BackendError('Unexpected Error: Could not meet preconditions for processing of excel template import')
     }
 
-    new Worker('./backend/import/excel_template/worker.js', { workerData: { importId: importId, userId: userId } })
+    new Worker('./backend/import/worker.js', { workerData: { importId: importId, userId: userId } })
 
     res.send({})
 })

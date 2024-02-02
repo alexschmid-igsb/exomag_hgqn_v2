@@ -296,9 +296,37 @@ div.data-validation-view {
 
 
 
+        div.error {
+            padding: 0px;
+            margin: 0px;
+
+            & > button {
+            
+                background-color: rgba(0,0,0, 0.05);
+
+                margin: 0px;
+                margin-top: 20px;
+    
+                padding: 4px 10px;
+                border-radius: 3px;
+    
+                line-height: 1.0;
+    
+                &:hover {
+                    background-color: rgba(9, 30, 66, 0.13);
+                }
+    
+                & > .MuiButton-startIcon > svg,
+                & > .MuiButton-endIcon > svg {
+                    font-size: 22px;
+                }
+            }
+        }
+
+
+
 
     }
-
 
 
 
@@ -324,3 +352,29 @@ div.data-validation-view {
 
 
 }
+
+
+
+
+
+div.error-modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    border: 1px solid rgba(0,0,0,0.1);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    h1 {
+        font-size: 13px;
+        margin: 0px;
+    }
+    span {
+        font-size: 13px;
+    }
+}
+
