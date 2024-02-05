@@ -450,7 +450,7 @@ class Processing {
                     cDNA_processed.state = 'ERROR'
                 }
 
-                if(Object.keys(cDNA_processed.vvOutput).length !== 3 || cDNA_processed.vvOutput.flag == null || cDNA_processed.vvOutput.metadata == null) {
+                if(cDNA_processed.vvOutput != null && (Object.keys(cDNA_processed.vvOutput).length !== 3 || cDNA_processed.vvOutput.flag == null || cDNA_processed.vvOutput.metadata == null) ) {
                     const msg = `VariantValidator returned ambiguous results for cDNA (Error Code 4): ${cDNA_processed.source}`
                     record.report.addFieldError(fullPath, msg)
                     // record.report.addTopLevelError(msg)
