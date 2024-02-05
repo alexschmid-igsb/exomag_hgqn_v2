@@ -210,7 +210,7 @@ const ControlPanel = ({ processing, cancelValidation, restartValidation }) => {
                 return (
                     <span className={`state ${state}`}>
                         IN PROGRESS
-                        <Tooltip title="Cancel Validation" placement="bottom">
+                        {/* <Tooltip title="Cancel Validation" placement="bottom">
                             <IconButton
                                 className="cancel-button inline-button"
                                 size="normal"
@@ -218,7 +218,7 @@ const ControlPanel = ({ processing, cancelValidation, restartValidation }) => {
                             >
                                 <IconifyIcon icon="mingcute:stop-fill" />
                             </IconButton>
-                        </Tooltip>
+                        </Tooltip> */}
                     </span>
                 )
             case 'FINISHED':
@@ -226,21 +226,23 @@ const ControlPanel = ({ processing, cancelValidation, restartValidation }) => {
                 return (
                     <span className={`state ${state}`}>
                         FINISHED
-                        <IconButton
-                            style={{ display: 'none' }}
-                            className="restart-button inline-button"
-                            size="normal"
-                            onClick={handleRestart}
-                        >
-                            <IconifyIcon icon="mingcute:play-fill" />
-                        </IconButton>
+                        {/* <Tooltip title="Restart Validation" placement="bottom">
+                            <IconButton
+                                style={{ display: 'none' }}
+                                className="restart-button inline-button"
+                                size="normal"
+                                onClick={handleRestart}
+                            >
+                                <IconifyIcon icon="mingcute:play-fill" />
+                            </IconButton>
+                        </Tooltip> */}
                     </span>
                 )
             case 'CANCELED':
                 return (
                     <span className={`state ${state}`}>
                         CANCELED
-                        <Tooltip title="Restart Validation" placement="bottom">
+                        {/* <Tooltip title="Restart Validation" placement="bottom">
                             <IconButton
                                 className="restart-button inline-button"
                                 size="normal"
@@ -248,7 +250,7 @@ const ControlPanel = ({ processing, cancelValidation, restartValidation }) => {
                             >
                                 <IconifyIcon icon="mingcute:play-fill" />
                             </IconButton>
-                        </Tooltip>
+                        </Tooltip> */}
                     </span>
                 )
             case 'ERROR':
@@ -321,7 +323,8 @@ const ControlPanel = ({ processing, cancelValidation, restartValidation }) => {
         <div ref={componentRef} className="control-panel">
             <div className="row">
                 <div className="cell label">
-                    Data Validation:
+                    {/* Data Validation: */}
+                    Data Import:
                 </div>
                 <div className="cell state grow">
                     {renderState()}
@@ -351,17 +354,12 @@ const ErrorModal = ({error}) => {
     return (
         <>
             <Button onClick={handleOpen} size="small" endIcon={<IconifyIcon size="small" icon="solar:folder-error-bold"/>}>Details</Button>
-            <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Box className="error-modal">
-                    {/* <ErrorView title={error.message} error={error.cause} /> */}
-                    <h1>{error.message}</h1>
-                    <span>{error.cause.message}</span>
-                </Box>
+            <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+                <div className="error-modal">
+                    {/* <h1>{error.message}</h1>
+                    <span>{error.cause.message}</span> */}
+                    <ErrorView title={error.message} error={error.cause} />
+                </div>
             </Modal>
         </>
     )
@@ -397,6 +395,86 @@ export default function DataValidationView(props) {
 
 
 
+    const resultCount = React.useMemo(() => {
+        const entries = importInstance?.processing?.processedEntries
+        if(entries != null && lodash.isArray(entries)) {
+            return {
+                success: entries.reduce( (sum,item) => sum + (item?.state?.importSuccessful === true ? 1 : 0), 0),
+                error: entries.reduce( (sum,item) => sum + (item?.state?.importSuccessful == false ? 1 : 0), 0),
+            }
+        } else {
+            return {
+                success: 0,
+                error: 0
+            }
+        }
+    }, [importInstance])
+
+
+    const renderDetails = () => {
+
+        const entries = importInstance?.processing?.processedEntries
+        if(entries == null || lodash.isArray(entries) === false) {
+            return null
+        }
+
+        let list = []
+        let i = 1
+        for(let entry of entries) {
+            let errors = []
+
+            for(let fieldError of entry.report.fieldErrors) {
+                errors.push(
+                    <div className="error">
+                        <IconifyIcon className="icon" icon="ph:caret-double-right-duotone"/>
+                        <span>
+                            <b>{fieldError.field}:</b> {fieldError.message}
+                        </span>
+                    </div>
+                )
+            }
+
+            for(let topLevelError of entry.report.topLevelErrors) {
+                errors.push(
+                    <div className="error">
+                        <IconifyIcon className="icon" icon="ph:caret-double-right-duotone"/>
+                        <span>
+                            {topLevelError.message}:
+                        </span>
+                    </div>
+                )
+            }
+
+            for(let importError of entry.report.importErrors) {
+                errors.push(
+                    <div className="error">
+                        <IconifyIcon className="icon" icon="ph:caret-double-right-duotone"/>
+                        <span>
+                            {importError.message}:
+                        </span>
+                    </div>
+                )
+            }
+
+            list.push(
+                <div className="entry-detail">
+                    <div className="label">Datensatz {i}:</div>
+                    { errors.length === 0 && entry.state != null && entry.state.importSuccessful === true ? 
+                        <div className="success">
+                            <IconifyIcon className="icon" icon="ph:caret-double-right-duotone"/>
+                            <span><b>importiert</b></span>
+                        </div>
+                    :
+                        null
+                    }
+                    {errors}
+                </div>
+            )
+            i++
+        }
+
+        return list
+    }
 
 
     return (
@@ -421,18 +499,27 @@ export default function DataValidationView(props) {
 
             {
                 importInstance?.processing?.excel?.state === 'FINISHED' ?
+
                     <div className="summary">
                         <div className="box">
+                            <div className="label">Zusammenfassung</div>
                             <p>
-                                <b>Übersicht</b>
+                                Importierte Datensätze: <b>{ resultCount.success }</b>
                             </p>
                             <p>
-                                Datensätze importiert: 3
+                                Fehlerhafte Datensätze:  <b>{ resultCount.error }</b>
                             </p>
                         </div>
+                        <div className="box scroll">
+                            <div className="label">Detailansicht</div>
+                            { renderDetails() }
+                            {/* <JSONView target={importInstance} /> */}
+                        </div>
                     </div>
+
                     : importInstance?.processing?.excel?.state === 'ERROR' ?
-                        <div className="summary">
+
+                        <div className="summary error">
                             <div className="bla">
                                 <img className="bla" src={bla} />
                             </div>
@@ -447,15 +534,11 @@ export default function DataValidationView(props) {
                                 {importInstance?.processing?.excel?.error != null ?
                                     <div className="error">
                                         <ErrorModal error={importInstance?.processing?.excel?.error}/>
-
-                                        {/* {importInstance?.processing?.excel?.error?.message} */}
-
-
                                     </div>
                                     : null}
                             </div>
                         </div>
-                        :
+                    :
                         null
             }
 

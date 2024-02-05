@@ -172,12 +172,14 @@ export default function Imports() {
         setIsLoading(true)
 
         API.get('/api/import/get-import-list').then( response => {
-            console.log(response.data)
+            // console.log(response.data)
+            response.data = response.data.map(item => ({...item, state: item?.processing?.excel?.state}))
+
             setImports(response.data)
             setIsLoading(false)
         })
 
-        setImports(imports)
+        // setImports(imports)
     }
 
 
@@ -194,9 +196,17 @@ export default function Imports() {
             },
             {
                 autoHeight: true,
-                field: 'state',
+                field: 'created',
                 valueGetter: valueGetter,
-                headerName: 'Status',
+                headerName: 'Created',
+                filter: false,
+                resizable: true,
+                valueFormatter: DateFormatter
+            },
+            {
+                autoHeight: true,
+                valueGetter: params => params?.data['user']?.firstname + ' ' + params?.data['user']?.lastname,
+                headerName: 'User',
                 filter: false,
                 resizable: true,
             },
@@ -211,19 +221,11 @@ export default function Imports() {
             },
             {
                 autoHeight: true,
-                valueGetter: params => params?.data['user']?.firstname + ' ' + params?.data['user']?.lastname,
-                headerName: 'User',
-                filter: false,
-                resizable: true,
-            },
-            {
-                autoHeight: true,
-                field: 'created',
+                field: 'state',
                 valueGetter: valueGetter,
-                headerName: 'Created',
+                headerName: 'Status',
                 filter: false,
                 resizable: true,
-                valueFormatter: DateFormatter
             },
         ]
         return ret

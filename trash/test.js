@@ -1,3 +1,5 @@
+const lodash = require('lodash')
+
 // const hpoCheck = /^[hH][pP]:\d{7}$/
 
 // const hpoParse = /([hH][pP][: ]?\d{7})[\s;,]*/g
@@ -57,7 +59,7 @@ console.log(dings)
 
 
 
-
+/*
 let ui = [
     {abc: 123},
     {xyz: 456}
@@ -69,9 +71,77 @@ for(let item of ui) {
     item.xyz = 'abc'
 }
 
-
 console.log(ui)
+*/
 
+
+
+
+
+
+/*
+
+let value = "2019-08-18T22:00:00.000Z"
+
+
+const dateTest = /^\d\d\.\d\d\.\d\d\d\d$/
+
+function bla(value) {
+
+    if(dateTest.test(value)) {
+        console.log("EINS")
+        let date = DateTime.fromFormat(value, 'dd.MM.yyyy').toUTC()
+        return new Date(date).toISOString()
+    } else {
+        console.log("ZWEI")
+        let date = Date.parse(value)
+        if(isNaN(date) === false) {
+            // return new Date(date).toISOString()
+            return  new Date(date)
+        }
+    }
+    
+
+}
+
+
+let result = bla(value)
+
+console.log(value)
+
+if(lodash.isString(result)) {
+    console.log("IS STRING")
+}
+
+console.log(result)
+
+*/
+
+
+
+
+
+/*
+let str = "2019-08-18T22:00:00.000Z"
+let bla = new Date(str)
+console.log(str)
+console.log(bla)
+console.log(bla.toString())
+*/
+
+
+
+
+
+
+
+const str = 'NC_000001.11:g.[123G>A];[345del]'
+const check = /^(.+:[gc]\.)\[(.+)\];\[(.+)\]$/
+let result = check.exec(str)
+
+console.log(result)
+console.log(result[1] + result[2])
+console.log(result[1] + result[3])
 
 
 

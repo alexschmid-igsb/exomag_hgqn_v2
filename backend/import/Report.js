@@ -49,6 +49,7 @@ class Report {
     constructor() {
         this.topLevelErrors = []
         this.fieldErrors = []
+        this.importErrors = []
     }
 
     addTopLevelError(msg) {
@@ -61,6 +62,22 @@ class Report {
 
     addFieldError(field,msg) {
         this.fieldErrors.push(new Entry(field,msg))
+    }
+
+    hasFieldErrors() {
+        return this.fieldErrors.length > 0
+    }
+
+    addImportError(msg) {
+        this.importErrors.push(new Entry(null,msg))
+    }
+
+    hasImportErrors() {
+        return this.importErrors.length > 0
+    }
+
+    hasErrors() {
+        return this.hasTopLevelErrors() === true || this.hasFieldErrors() === true || this.hasImportErrors() === true
     }
 }
 

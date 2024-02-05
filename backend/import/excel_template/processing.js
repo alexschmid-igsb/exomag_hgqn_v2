@@ -181,6 +181,9 @@ const performCellSplitting = (record) => {
 
 
 
+const hgvsInTransParse = /^(.+:[gc]\.)\[(.+)\];\[(.+)\]$/
+
+
 const performCompHetSplitting = (record) => {
 
     // get target path strings
@@ -241,9 +244,37 @@ const performCompHetSplitting = (record) => {
             }
         }
 
-        // TODO:
-        // 1. alle gesplitteten rows müssen comp het sein (hier hat die werte korrektur noch nicht stattgefunden, vielleicht muss man als ausnahme zuerst durchführen)
-        // 2. die spezielle hgvs notation kann zu falsch gesplitteten einträgen führen, dass muss abgefangen und korrigiert werden
+        // check count
+        if(count != 2) {
+            record.report.addTopLevelError(`Could not split cells for 'comp het' variants. Expecting two merged values per cell but found ${count}.`)
+            resultingRows.push(variantValues)
+            continue
+        }
+
+        // check "comp het" zygosity
+        let check = true
+        for(let item of splittedValues) {
+            if(lodash.isString(item.zygosity) && item.zygosity.trim() !== 'comp het') {
+                record.report.addTopLevelError(`Could not split cells for 'comp het' variants. All variants bound by the 'comp het' delimiter character ';' must have 'comp het' in field 'zygosity'.`)
+                resultingRows.push(variantValues)
+                check = false
+            }
+        }
+        if(check == false) {
+            continue
+        }
+
+        // check cDNA and gDNA for HGVS "variants in trans" format
+        let cDNA_parse = lodash.isString(variantValues.HGVS_cDNA) ? hgvsInTransParse.exec(variantValues.HGVS_cDNA) : null
+        let gDNA_parse = lodash.isString(variantValues.HGVS_gDNA) ? hgvsInTransParse.exec(variantValues.HGVS_gDNA) : null
+        if(cDNA_parse != null) {
+            splittedValues[0].HGVS_cDNA = cDNA_parse[1] + cDNA_parse[2]
+            splittedValues[1].HGVS_cDNA = cDNA_parse[1] + cDNA_parse[3]
+        }
+        if(gDNA_parse != null) {
+            splittedValues[0].HGVS_gDNA = gDNA_parse[1] + gDNA_parse[2]
+            splittedValues[1].HGVS_gDNA = gDNA_parse[1] + gDNA_parse[3]
+        }
 
         // add splitted rows
         resultingRows.push(...splittedValues)
@@ -289,46 +320,9 @@ class Processing {
             return
         }
 
-        
-
-        // console.log("NCAH COMP HET")
-        // console.log(JSON.stringify(record.genericCase,null,4))
-
-
-        // TODO:
-        // DAS COMPE HET CHECKING MACHEN
-
-
-
-        // DAS GENERIC PROCESSING MOUDEL
-
-        // enum korrektur und checking
-        // zellen fehlerhandling
-
-        // variant validator abfragen
-        // feherhandling für den variant validator output
-
-        // ALLES WAS KORREKT DURCHLÄUFT MUSS IMPORTIERTBAR SEIN
-
-        // IMPORT:
-
-        // für alle variants: prüfen ob variant vorhanden? wenn nein, importieren (die kann man impirtiert lassen, selbst wenn der case import fehlschlägt)
-        // prüfen ob der case schon vorhanden ist
-        // wenn nein, import, wenn ja, muss ein update konstruiert werden WICHTIG ist hier zu verstehen, wie das variant array dabei geupdatet wird
-        // 1. neue variants, 
-        // 2. update in vorhandenen variants spalten.
-        // WICHTIG: Die schon vorhandenen array entries haben eine objekt id. Wenn also ein update passiert, dann muss diese id im update object stehen
-        // wie soll man das aber zuordnen? die variant id ist die einzige möglichkeit
-        // HIER GIBT ES EIN GROßES PROBLEM, WEIL DAS NICHT eindeutig ist, wenn man keine variant id hat
-        // variant id, gene, transcript, eines von denen muss vorhanden sein (bei update) sonst lässt sich das nicht zuordnen
-        // man könnte auch noch sagen: Solange nur ein array eintrag vorhanden ist, dann handelt es sich immer um diesen einen vorhandenen eintrag!
-
+        delete record.targetFields
 
     }
-
-
-
-
 
 
 }

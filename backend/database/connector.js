@@ -141,6 +141,12 @@ function schemeMapping(genericScheme) {
                 }
                 break
 
+            case 'date':
+                mappedScheme = {
+                    type: SchemaTypes.Date
+                }
+                break
+    
             case 'boolean':
                 mappedScheme = {
                     type: SchemaTypes.Boolean

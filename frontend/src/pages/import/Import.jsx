@@ -464,6 +464,7 @@ export default function Import() {
         // TODO: bei weitern upload mehtoden muss das hier ergänzt werden
         return (
             importInstance?.processing?.excel?.state === 'RUNNING' || 
+            importInstance?.processing?.excel?.state === 'FINISHED' || 
             processingIntervalId != null
         )
     })

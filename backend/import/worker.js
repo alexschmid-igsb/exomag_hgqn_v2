@@ -15,8 +15,7 @@ xlsx.helper = require('../util/xlsx-helper')
 
 const ExcelProcessing = require('./excel_template/processing.js')
 const GenericProcessing = require('./generic/processing.js')
-const Uploader = require('./Uploader.js')
-
+const DatabaseImport = require('./DatabaseImport.js')
 
 const WorkerThreads = require('worker_threads')
 
@@ -123,18 +122,24 @@ async function loadExcelTemplateRowData(importId,userId) {
 
 
 
-async function executeMainLoop(importId,userId,rowData) {
+async function executeValidation(importId,userId,rowData) {
 
+    /*
     const user = await getUser(userId)
-
     const sequencingLab = user.lab
     if(sequencingLab == null) {
         throw new BackendError(`Unexpected Error: The user has no lab assigend`)
     }
+    */
 
     const scheme = db.getScheme('GRID_cases')
 
     let importInstance = await getImportInstance(importId, userId)
+
+    const sequencingLab = importInstance?.user?.lab
+    if(sequencingLab == null) {
+        throw new BackendError(`Unexpected Error: The user has no lab assigend`)
+    }
 
     const excelProcessing = ExcelProcessing.createInstance({ mapping: importInstance?.valueMapping?.excel?.mapping })
     const genericProcessing = GenericProcessing.createInstance({ scheme: scheme, sequencingLab: sequencingLab })
@@ -157,9 +162,6 @@ async function executeMainLoop(importId,userId,rowData) {
             }
         }
 
-        das processing wird anscheinend durchgeführt
-        alllerdings gibt es im frontend kein update
-
         // create processing record
         let record = ExcelProcessing.createEmptyRecord()
         record.excel = excelRow
@@ -171,7 +173,7 @@ async function executeMainLoop(importId,userId,rowData) {
         await genericProcessing.process(record)
 
         // add processed record to etries
-        entries.push(entry)
+        entries.push(record)
 
         // update importInstance
         importInstance = await updateImportInstance(importId, userId, {
@@ -192,6 +194,8 @@ async function executeMainLoop(importId,userId,rowData) {
         i++
     }
 
+    console.log(JSON.stringify(entries,null,4))
+
     return {
         finished: true,
         entries: entries
@@ -210,15 +214,9 @@ async function main() {
         userId
     } = WorkerThreads.workerData
 
-    console.log("GET IMPORT INSTANCE")
     let importInstance = await getImportInstance(importId,userId)
 
-    console.log("FERTIG")
-
-
     try {
-
-        // console.log(WorkerThreads.workerData)
 
         if(importId == null) {
             // TODO: hier einen unexpected error in die db posten
@@ -232,7 +230,7 @@ async function main() {
 
         // check import state
         if(importInstance?.processing?.excel?.state !== 'PENDING') {
-            // do not start processing unless state equals 'PENDING'
+            // do not start processing unless state is 'PENDING'
             return
         }
 
@@ -257,7 +255,7 @@ async function main() {
         try {
             rowData = await loadExcelTemplateRowData(importId, userId)
         } catch(err) {
-            // Post error to importInstance and return from worker
+            // Post error and return from worker
             await updateImportInstance(importId, userId, {
                 processing: {
                     ...importInstance?.processing,
@@ -299,35 +297,39 @@ async function main() {
         })
 
 
-        // execute main loop        
-        const result = await executeMainLoop(importId,userId,rowData)
+        // execute validation
+        const result = await executeValidation(importId,userId,rowData)
 
-        // TODO: hier muss geprüft werden, ob wirklich finished oder ob früher abgebrochen wurde
-        // das wird später wieder wichtig, wenn man validierung wieder abbrechen könnne sollte
+        // process validation results
+        if(result.finished === true) {
+            // es wird nur weiterprozessiert, wenn der main loop wirklich komplett durchgelaufen ist
 
-        // set import state to 'FINISHED'
-        await updateImportInstance(importId, userId, {
-            processing: {
-                ...importInstance?.processing,
-                excel: {
-                    ...importInstance?.processing?.excel,
-                    state: 'FINISHED',
-                    progress: {
-                        processed: rowData.length,
-                        total: rowData.length,
-                    }
+            // TODO: VORÜBERGEHDEN HIER IN DIE DATENBANK SCHREIGEN
+            // später wird die validierung und das schreiben in die Datenbank als zwei getrennte aktionen durchgeführt
+            const databaseImport = DatabaseImport.createInstance()
+            await databaseImport.importRecords(result.entries)
+
+            await updateImportInstance(importId, userId, {
+                processing: {
+                    ...importInstance?.processing,
+                    excel: {
+                        ...importInstance?.processing?.excel,
+                        state: 'FINISHED',
+                        progress: {
+                            processed: rowData.length,
+                            total: rowData.length,
+                        }
+                    },
+                    processedEntries: result.entries
                 }
-            }
-        })
+            })
+    
+        } else {
+            // dieser fall sollte eigentlich nur eintreten, wenn der validation loop vorzeitig endet z.b. durch CANCEL
+            // unexpected errors gehen über den catch block
+        }
 
-
-
-        // TODO: hier müssen die entries in die import instance geschrieben werden
-        console.log("WORKER: PROCESSED RESULT")
-        fs.writeFileSync('./TEST.json', JSON.stringify(result.entries,null,4))
-
-        console.log("worker ended")
-
+        console.log("WORKER ENDED")
 
     } catch(err) {
 

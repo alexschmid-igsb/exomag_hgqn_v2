@@ -547,6 +547,10 @@ export default function Grid() {
                 return DefaultEnumValueRenderer
             }
 
+            if(fieldDefinition.type === 'date') {
+                return DateFormatter
+            }
+
         }
 
         return renderer

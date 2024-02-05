@@ -14,6 +14,8 @@ div.data-validation-view {
 
     flex: 1;
 
+    overflow: hidden;
+
 
 
 
@@ -236,8 +238,12 @@ div.data-validation-view {
 
     div.summary {
 
-        flex: 0;
-        overflow: visible;
+        &.error {
+            flex-flow: row;
+        }
+
+        flex: 1;
+        overflow: hidden;
 
         width: 50%;
     
@@ -249,7 +255,7 @@ div.data-validation-view {
         margin: 20px 0px 30px 0px;
     
         display: flex;
-        flex-flow: row;
+        flex-flow: column;
         // align-items: center;
         align-items: flex-start;
     
@@ -268,7 +274,6 @@ div.data-validation-view {
             margin: 10px;
         }
 
-
         div.bla {
             img.bla {
                 width: 300px;
@@ -281,15 +286,72 @@ div.data-validation-view {
         color: rgba(0,0,0,0.7);
 
         div.box {
+
+            overflow: visible;
+
+            &.scroll {
+                overflow-y: auto;
+                overflow-x: hidden;
+            }
+
             align-self: stretch;
-            border: 2px solid rgba(0,0,0,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
             background-color: rgba(255,255,255,0.9);
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 3px;
+
+            div.entry-detail {
+                display: flex;
+                flex-flow: column;
+                margin-left: 30px;
+                margin-bottom: 20px;
+                // border: 2px solid green;
+            }
+
+            * {
+                // border: 1px solid red;
+            }
 
             p {
                 margin: 0px;
                 margin-bottom: 8px;
+                &:last-child {
+                    margin-bottom: 0px;
+                }
+            }
+
+            div.label {
+                margin: 0px;
+                font-weight: bold;
+                margin-bottom: 16px;
+                // border: 1px solid red;
+            }
+
+            div.error,
+            div.success {
+                &.success {
+                    color: #006400;
+                }
+                // border: 2px dashed blue;
+                & > * {
+                    // border: 1px solid green;
+                }
+                svg {
+                    height: 16px;
+                    width: 16px;
+                    min-width: 16px;
+                    min-height: 16px;
+                    margin-right: 4px;
+                }
+                // border: 1px solid blue;
+                margin: 0px;
+                margin-left: 30px;
+                margin-bottom: 12px;
+                color: rgba(207, 0, 15, 0.8);
+                display: flex;
+                flex-flow: row;
+                align-items: flex-start;
+                line-height: 16px;
             }
 
         }
@@ -362,13 +424,15 @@ div.error-modal {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 50%;
     border: 1px solid rgba(0,0,0,0.1);
     border: none;
-    padding: 10px 20px;
+    padding: 10px;
     border-radius: 5px;
-    background-color: white;
+    background-color: rgba(255,255,255,1.0);
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+
+    /*
     h1 {
         font-size: 13px;
         margin: 0px;
@@ -376,5 +440,86 @@ div.error-modal {
     span {
         font-size: 13px;
     }
+    */
+
+    // copy paste vom ErrorHandler.scss
+    // TODO: EINE EINZELNEN KOMPONENTE FÜR ERROR RENDERING, DIE AN ALLEN STELLEN VERWENDET WERDEN KANN WO BENÖTIGT
+
+    div.error-view {
+        /* background-color: white; */
+        flex: 1;
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    div.error-view > h1 {
+        margin: 0px;
+        padding: 0px;
+        font-family: monospace;
+        font-size: 16px;
+        color: black;
+        margin-bottom: 8px;
+    }
+
+    div.error-view > div.error {
+        font-family: monospace;
+        font-size: 14px;
+        margin-bottom: 8px;
+        color: black;
+    }
+
+    div.error-view > div.error > span.name {
+        font-weight: bold;
+    }
+
+    div.error-view > div.error > span.message {
+        font-weight: normal;
+    }
+
+    div.error-view > table.stack-trace {
+        /*
+        background-color: #666;
+        color: white;
+        */
+        background-color: #DDD;
+        color: #666;
+
+        border-radius: 3px;
+        font-size: 10px;
+        font-family: monospace;
+        /* font-weight: bold; */
+        padding: 8px;
+    }
+
+    /*
+    div.error-view > table.stack-trace td.function {
+    }
+    */
+
+    div.error-view > table.stack-trace td.file {
+        padding-left: 8px;
+    }
+
+    div.error-view > table.stack-trace td.file a {
+        color: #114aaf;
+    }
+
+    div.error-view > table.stack-trace td.file a span.location {
+        color: #107ce9;
+    }
+
+
+    div.error-view > span.message {
+        font-weight: bold;
+        color: red;
+        font-size: 14px;
+        font-family: monospace;
+    }
+
+
+
+
+
 }
 

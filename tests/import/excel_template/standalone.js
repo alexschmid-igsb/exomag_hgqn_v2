@@ -7,10 +7,12 @@ const users = require('../../../backend/users/manager.js')
 
 const ExcelProcessing = require('../../../backend/import/excel_template/processing.js')
 const GenericProcessing = require('../../../backend/import/generic/processing.js')
-const Importer = require('../../../backend/import/Uploader.js')
+const Importer = require('../../../backend/import/DatabaseImport.js')
 
 const xlsx = require('xlsx')
 xlsx.helper = require('../../../backend/util/xlsx-helper.js')
+
+const { v4: uuidv4 } = require('uuid')
 
 const mapping = [
     {
@@ -459,6 +461,21 @@ async function main() {
 
     await db.initPromise
     await users.initPromise
+
+
+
+    await db.insert('GRID_cases', {
+        _id: uuidv4(),
+        internalCaseId: 'blabla',
+        sequencingLab: '72d98c4a-5780-449b-b70a-849634deaa19',
+        caseStatus: 'solved',
+        befunddatum: new Date('12.12.2022')
+    })
+
+    process.exit()
+
+
+
 
     const scheme = db.getScheme('GRID_cases')
 

@@ -228,7 +228,7 @@ scheme:
               - value: comp het
                 alias: []
               - value: hemi
-                alias: []
+                alias: [hemizygous]
               - value: homoplasmic
                 alias: []
               - value: heteroplasmic
@@ -242,9 +242,9 @@ scheme:
               - value: de novo
                 alias: []
               - value: transmitted from father
-                alias: []
+                alias: [paternal]
               - value: transmitted from mother
-                alias: []
+                alias: [maternal]
         modeOfInheritance:
             type: string
             enum:
@@ -267,6 +267,10 @@ scheme:
                 type: string
                 reference: GRID_variants
             transcript:
+                type: string
+            ISCN:
+                type: string
+            protein:
                 type: string
 layouts:
     default:
