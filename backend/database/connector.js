@@ -141,6 +141,12 @@ function schemeMapping(genericScheme) {
                 }
                 break
 
+            case 'date':
+                mappedScheme = {
+                    type: SchemaTypes.Date
+                }
+                break
+    
             case 'boolean':
                 mappedScheme = {
                     type: SchemaTypes.Boolean
@@ -534,7 +540,7 @@ class Connector {
         let scheme = this.getScheme(target)
 
         params = this.prepareParams(params)
-        console.log(params)
+        // console.log(params)
 
         try {
 

@@ -8,6 +8,7 @@ const md5 = require('md5')
 const extract = require('../../shared/extract/extract.js')
 
 const lodash = require('lodash')
+const { Worker } = require("worker_threads")
 
 const auth = require('../users/auth')
 const isSuperuser = require('../users/isSuperuser')
@@ -16,7 +17,6 @@ const database = require('../database/connector.js').connector
 const BackendError = require('../util/BackendError')
 
 const xlsx = require('xlsx')
-const { Console } = require('console')
 xlsx.helper = require('../util/xlsx-helper')
 
 
@@ -47,7 +47,7 @@ router.get('/get-import-list', [auth], async function (req, res, next) {
             fields: '-uploadedFiles',
             filter: { user: userId },
             sort: { created: -1 },
-            populate: ['user', '-password']
+            populate: [ { path: 'user', select: '-password' } ]
         })
     } catch (error) {
         throw new BackendError('could not get users imports', 500, error)
@@ -72,7 +72,7 @@ router.post('/get-import', [auth], async function (req, res, next) {
         dbRes = await database.find('STATIC_imports', {
             fields: '-uploadedFiles.data',
             filter: { _id: importId, user: userId },
-            populate: ['user', '-password']
+            populate: [ { path: 'user', select: '-password' } ]
         })
     } catch (error) {
         throw new BackendError('could not get import', 500, error)
@@ -93,6 +93,8 @@ router.post('/create', [auth], async function (req, res, next) {
         throw new BackendError('import name is missing')
     }
 
+    // Der import wird per default mit uploadFormat: 'excel_template' angelegt. Die properties valueMapping und pocessing
+    // werden passend dazu angelegt werden.
     let newImport = {
         name: name,
         progress: 'file_upload',
@@ -100,10 +102,21 @@ router.post('/create', [auth], async function (req, res, next) {
         user: req.auth.user._id,
         created: new Date(),
         uploadedFiles: [],
-        valueMapping: {},
-        data: {
-            bla: "123"
+        valueMapping: {
+            excel: {}
+        },
+        processing: {
+            excel: {
+                state: 'PENDING',
+                progress: {
+                    processed: 0,
+                    total: 0,
+                },
+                // TODO: HIER DIE ARRAYS FÜR KORREKTE UND FEHLERHAFTE VORBEREITEN
+            }
         }
+
+        
     }
 
     try {
@@ -136,15 +149,38 @@ router.post('/set-upload-format', [auth], async function (req, res, next) {
     let update = {
         uploadFormat: uploadFormat,
         uploadedFiles: [],
-        valueMapping: {}
     }
 
+    // initialize value mapping and processing properties depending on the upload_format
+    // TODO: hier auch die init für die anderen upload formate
+    switch(uploadFormat) {
+        case 'excel_template':
+            update.valueMapping = {
+                excel: {}
+            }
+            update.processing = {
+                excel: {
+                    state: 'PENDING',
+                    progress: {
+                        processed: 0,
+                        total: 0,
+                    },
+                    // TODO: HIER DIE ARRAYS FÜR KORREKTE UND FEHLERHAFTE VORBEREITEN
+                }
+            }
+            break
+    }
+
+    // console.log("EXECUTE UPATE")
+    // console.log(update)
+
+    // execute update
     let dbRes = null
     try {
         dbRes = await database.findOneAndUpdate('STATIC_imports', {
             fields: '-uploadedFiles.data',
             filter: { _id: importId, user: userId },
-            populate: ['user', '-password']
+            populate: [ { path: 'user', select: '-password' } ]
         }, update)
     } catch (error) {
         throw new BackendError('could not get import', 500, error)
@@ -175,12 +211,19 @@ router.post('/set-progress', [auth], async function (req, res, next) {
         throw new BackendError('progress is missing')
     }
 
+    /*
+    const progress = req.body.progress ? req.body.progress.trim() : undefined
+    if (progress == null) {
+        throw new BackendError('progress is missing')
+    }
+    */
+
     let update = {
         progress: progress
     }
 
-    console.log("PROGRESS")
-    console.log(update)
+    // console.log("PROGRESS")
+    // console.log(update)
 
     // if(progress )
 
@@ -189,7 +232,7 @@ router.post('/set-progress', [auth], async function (req, res, next) {
         dbRes = await database.findOneAndUpdate('STATIC_imports', {
             fields: '-uploadedFiles.data',
             filter: { _id: importId, user: userId },
-            populate: ['user', '-password']
+            populate: [ { path: 'user', select: '-password' } ]
         }, update)
     } catch (error) {
         throw new BackendError('could not get import', 500, error)
@@ -251,7 +294,7 @@ router.post('/upload-files', [auth, upload], async (req, res) => {
     try {
         let dbRes = await database.find('STATIC_imports', {
             filter: { _id: importId, user: userId },
-            populate: ['user', '-password']
+            populate: [ { path: 'user', select: '-password' } ]
         })
         importInstance = dbRes.data[0]
         if (importInstance == null) {
@@ -454,7 +497,7 @@ router.post('/upload-files', [auth, upload], async (req, res) => {
         dbRes = await database.findOneAndUpdate('STATIC_imports', {
             fields: '-uploadedFiles.data',
             filter: { _id: importId, user: userId },
-            populate: ['user', '-password']
+            populate: [ { path: 'user', select: '-password' } ]
         }, update)
     } catch (error) {
         throw new BackendError('could not get import', 500, error)
@@ -482,7 +525,7 @@ router.post('/upload-files', [auth, upload], async (req, res) => {
 
 
 
-// set selected excel sheet for the given import (excel_template mode only)
+// set selected excel sheet for the given import (mode 'excel_template' only)
 router.post('/excel-template-set-sheet', [auth], async function (req, res, next) {
 
     const userId = req.auth.user._id
@@ -502,7 +545,7 @@ router.post('/excel-template-set-sheet', [auth], async function (req, res, next)
         let dbRes = await database.find('STATIC_imports', {
             // fields: '-uploadedFiles.data',
             filter: { _id: importId, user: userId },
-            populate: ['user', '-password']
+            populate: [ { path: 'user', select: '-password' } ]
         })
         current = dbRes.data[0]
     } catch (error) {
@@ -531,11 +574,21 @@ router.post('/excel-template-set-sheet', [auth], async function (req, res, next)
         }
     }
 
-    // scheme in ein format umbauen das für das frontend besser geeignet ist
+
+
     const scheme = database.getScheme('GRID_cases')
     const dataDesc = {
-        fields: {}
+        // bleibt erstmal leer, weil im frontend nicht gebraucht. Eventuell wird das später benötigt. Im naiven fall
+        // kämen dann hier einfach die schemeDescription rein..
+        fields: {}  
     }
+    // scheme in ein format umbauen das für das frontend besser geeignet 
+    // die idee hier ist, das scheme in eine form umzubauen, die für das frontend besser geeignet ist.
+    // allerdings braucht man das im frontend gar nicht, da das value_mapping auf dem layout arbeitet und
+    // nicht auf den scheme descriptions
+    // es bleibt hier erstmal stehen, weil man eventuell für den eigentlich import ein ganze ähnliches
+    // vorgehen gebrauchen könnte..
+    /*
     const transform = (fields, base) => {
 
         for (let [id, field] of Object.entries(fields)) {
@@ -561,12 +614,15 @@ router.post('/excel-template-set-sheet', [auth], async function (req, res, next)
 
     }
     transform(scheme.schemeDescription)
-    dataDesc.layout = scheme.layouts.default
+    */
+    dataDesc.layout = scheme.layouts.default                    // sollte die wahl des layouts nicht felxibel anstatt hardgecoded sein?
 
 
 
 
-    // mock up data
+
+    /*
+    // test data
     let testData =
         [
             {
@@ -811,10 +867,13 @@ router.post('/excel-template-set-sheet', [auth], async function (req, res, next)
         console.log(casesLayout)
         console.log(casesScheme)
 
+        */
 
 
-    // walk data based on the layout
 
+
+    // das hier ist exemplarisch ein processing?
+    /*
     let index = 1;
     for(let row of testData) {
     
@@ -929,13 +988,10 @@ router.post('/excel-template-set-sheet', [auth], async function (req, res, next)
             }
         }
 
-
         index++
-
     }
     console.log(testData)
-
-
+    */
 
 
     // values to update
@@ -947,12 +1003,8 @@ router.post('/excel-template-set-sheet', [auth], async function (req, res, next)
                 dataSheet: excelSheet,
                 columnNames: columnNames,
                 dataDesc: dataDesc,
-                mapping: []
+                mapping: [],
             }
-        },
-        data: {
-            neu: 123,
-            validated: testData
         }
     }
 
@@ -962,7 +1014,7 @@ router.post('/excel-template-set-sheet', [auth], async function (req, res, next)
         dbRes = await database.findOneAndUpdate('STATIC_imports', {
             fields: '-uploadedFiles.data',
             filter: { _id: importId, user: userId },
-            populate: ['user', '-password']
+            populate: [ { path: 'user', select: '-password' } ]
         }, update)
     } catch (error) {
         throw new BackendError('could not update import', 500, error)
@@ -997,17 +1049,14 @@ router.post('/excel-template-set-mapping', [auth], async function (req, res, nex
     let current = null
     try {
         let dbRes = await database.find('STATIC_imports', {
-            // fields: '-uploadedFiles.data',
+            fields: '-uploadedFiles.data',
             filter: { _id: importId, user: userId },
-            populate: ['user', '-password']
+            populate: [ { path: 'user', select: '-password' } ]
         })
         current = dbRes.data[0]
     } catch (error) {
         throw new BackendError('could not get import', 500, error)
     }
-
-
-
 
     // values to update
     let update = {
@@ -1026,17 +1075,205 @@ router.post('/excel-template-set-mapping', [auth], async function (req, res, nex
         dbRes = await database.findOneAndUpdate('STATIC_imports', {
             fields: '-uploadedFiles.data',
             filter: { _id: importId, user: userId },
-            populate: ['user', '-password']
+            populate: [ { path: 'user', select: '-password' } ]
         }, update)
     } catch (error) {
         throw new BackendError('could not update import', 500, error)
     }
 
     if (debug === true) {
-        await sleep(2000)
+        // await sleep(2000)
     }
 
     res.send(dbRes)
+})
+
+
+
+
+
+
+
+// trigger processing for excel template import
+router.post('/excel-template-trigger-processing', [auth], async function (req, res, next) {
+
+    const userId = req.auth.user._id
+
+    const importId = req.body.importId ? req.body.importId.trim() : undefined
+    if (importId == null) {
+        throw new BackendError('import id is missing')
+    }
+
+    let current = null
+    try {
+        let dbRes = await database.find('STATIC_imports', {
+            fields: '-uploadedFiles.data',
+            filter: { _id: importId, user: userId },
+            populate: [ { path: 'user', select: '-password' } ]
+        })
+        current = dbRes.data[0]
+    } catch (error) {
+        throw new BackendError('could not get import', 500, error)
+    }
+
+    // current?.valueMapping?.excel?.dataSheet == null ||
+    // lodash.isArray(current?.valueMapping?.excel?.columnNames) === false ||
+    // current?.valueMapping?.excel?.columnNames.length <= 0 ||
+    // lodash.isArray(current?.valueMapping?.excel?.mapping) === false ||
+    // current?.valueMapping?.excel?.mapping.length <= 0 ) 
+    
+    // check preconditions
+    if(current.uploadFormat !== 'excel_template' && current?.processing?.excel?.state !== 'PENDING') {
+        throw new BackendError('Unexpected Error: Could not meet preconditions for processing of excel template import')
+    }
+
+    new Worker('./backend/import/worker.js', { workerData: { importId: importId, userId: userId } })
+
+    res.send({})
+})
+
+
+
+
+
+// trigger processing for excel template import
+router.post('/excel-template-cancel-processing', [auth], async function (req, res, next) {
+
+    const userId = req.auth.user._id
+
+    const importId = req.body.importId ? req.body.importId.trim() : undefined
+    if (importId == null) {
+        throw new BackendError('import id is missing')
+    }
+
+    let current = null
+    try {
+        let dbRes = await database.find('STATIC_imports', {
+            fields: '-uploadedFiles.data',
+            filter: { _id: importId, user: userId },
+            populate: [ { path: 'user', select: '-password' } ]
+        })
+        current = dbRes.data[0]
+    } catch (error) {
+        throw new BackendError('could not get import', 500, error)
+    }
+
+    // console.log("CURRENT")
+    // console.log(current)
+    
+    // check if canceling is allowed
+    if(current.uploadFormat === 'excel_template' && current?.processing?.excel?.state === 'RUNNING') {
+
+        // console.log("EXECUTE UPDATE")
+
+        // update
+        let update = {
+            processing: {
+                ...current?.processing,
+                excel: {
+                    ...current?.processing?.excel,
+                    state: 'CANCELED',
+                    progress: {
+                        processed: 0,
+                        total: 0,
+                    }
+                }
+            }
+        }
+
+        // execute update
+        let dbRes = null
+        try {
+            dbRes = await database.findOneAndUpdate('STATIC_imports', {
+                fields: '-uploadedFiles.data',
+                filter: { _id: importId, user: userId },
+                populate: [ { path: 'user', select: '-password' } ]
+            }, update)
+        } catch (error) {
+            throw new BackendError('could not update import', 500, error)
+        }
+
+        // Hier keine rückgabe der upgedateten importInstance, weil diese
+        // periodisch übers frontend geholt wird, solange auf frontend seite der state
+        // noch als RUNNING wahrgenommen wird. Vielleicht sollte man das ändern (d.h.
+        // importInstance zurückschicken) wenn das ganze zu problemen führt.
+    }
+
+    res.send({})
+})
+
+
+
+
+
+
+// trigger processing for excel template import
+router.post('/excel-template-clear-canceled', [auth], async function (req, res, next) {
+
+    const userId = req.auth.user._id
+
+    const importId = req.body.importId ? req.body.importId.trim() : undefined
+    if (importId == null) {
+        throw new BackendError('import id is missing')
+    }
+
+    let current = null
+    try {
+        let dbRes = await database.find('STATIC_imports', {
+            fields: '-uploadedFiles.data',
+            filter: { _id: importId, user: userId },
+            populate: [ { path: 'user', select: '-password' } ]
+        })
+        current = dbRes.data[0]
+    } catch (error) {
+        throw new BackendError('could not get import', 500, error)
+    }
+
+    // console.log("CURRENT")
+    // console.log(current)
+    
+    // check if reset is allowed
+    // if(current.uploadFormat === 'excel_template' && current?.processing?.excel?.state === 'CANCELED') {
+        if(current.uploadFormat === 'excel_template' && (current?.processing?.excel?.state === 'CANCELED' || current?.processing?.excel?.state === 'FINISHED')) {
+
+        // console.log("EXECUTE UPDATE")
+
+        // update
+        let update = {
+            processing: {
+                ...current?.processing,
+                excel: {
+                    ...current?.processing?.excel,
+                    state: 'PENDING',
+                    progress: {
+                        processed: 0,
+                        total: 0,
+                    }
+                }
+            }
+        }
+
+        // execute update
+        let dbRes = null
+        try {
+            dbRes = await database.findOneAndUpdate('STATIC_imports', {
+                fields: '-uploadedFiles.data',
+                filter: { _id: importId, user: userId },
+                populate: [ { path: 'user', select: '-password' } ]
+            }, update)
+        } catch (error) {
+            throw new BackendError('could not update import', 500, error)
+        }
+
+        res.send(dbRes)
+
+    } else {
+
+        res.send({
+            data: current
+        })
+
+    }
 })
 
 
@@ -1072,7 +1309,7 @@ router.post('/parse-excel-template-columns', [auth], async function (req, res, n
         dbRes = await database.find('STATIC_imports', {
             fields: '-uploadedFiles.data',
             filter: { _id: importId, user: userId },
-            populate: ['user', '-password']
+            populate: [ { path: 'user', select: '-password' } ]
         })
     } catch(error) {
         throw new BackendError('could not get import', 500, error)
