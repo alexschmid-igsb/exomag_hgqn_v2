@@ -183,12 +183,12 @@ class PrettyfiedConsole extends Console {
             line.TEXT(before).BG('red')
             line.TEXT(' \u25b8 \u25b8 \u25b8 CAUSED BY \u25b8 \u25b8 \u25b8 ').RESET()
             line.TEXT(' ').FGBG('white','blue').TEXT(' ').TEXT(error.name).TEXT(' ').RESET()
-            line.TEXT(' ').FGBG('black','white').TEXT(' ').TEXT(error.message).TEXT(' ').RESET()
+            line.TEXT(' ').FGBG('black','white').TEXT(' ').TEXT(error.message.replace(/(\r\n|\n|\r)/gm, " | ")).TEXT(' ').RESET()
         } else {
             line.TEXT(indent).BG('red')
             line.TEXT(' \u25b8 ERROR \u25b8 ').RESET()
             line.TEXT(' ').FGBG('white','blue').TEXT(' ').TEXT(error.name).TEXT(' ').RESET()
-            line.TEXT(' ').FGBG('black','white').TEXT(' ').TEXT(error.message).TEXT(' ').RESET()
+            line.TEXT(' ').FGBG('black','white').TEXT(' ').TEXT(error.message.replace(/(\r\n|\n|\r)/gm, " | ")).TEXT(' ').RESET()
         }
         console.log(line.toString())
 

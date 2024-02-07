@@ -196,6 +196,36 @@ const VariantLinksRenderer = props => {
 }
 
 
+const GenPosRenderer = props => {
+
+    const render = value => {
+        if(value == null) {
+            return null
+        }
+        return (
+            <span className="cell_value_genomic_position">
+                <span className="build">{value.build}</span>
+                <span className="separator">:</span>
+                <span className="chr">{value.chr}</span>
+                <span className="separator">:</span>
+                <span className="pos">{value.pos}</span>
+                <span className="separator">:</span>
+                <span className="ref">{value.ref}</span>
+                <span className="separator">:</span>
+                <span className="alt">{value.alt}</span>
+            </span>
+        )
+    }
+
+    return (
+        render(props.value)
+    )
+}
+
+
+
+
+
 
 
 
@@ -501,12 +531,8 @@ export default function Grid() {
             switch(layoutField.customValueRenderer) {
                 case 'variant_external_links':
                     return VariantLinksRenderer
-                /*
-                case 'bla':
-                    return SomeRenderer
-                case 'foo':
-                    return SomeOtherRenderer
-                */
+                case 'gen_pos_renderer':
+                    return GenPosRenderer
             }
         }
 
@@ -519,6 +545,10 @@ export default function Grid() {
 
             if(fieldDefinition.type === 'string' && lodash.isArray(fieldDefinition.enum) && fieldDefinition.enum.length > 0) {
                 return DefaultEnumValueRenderer
+            }
+
+            if(fieldDefinition.type === 'date') {
+                return DateFormatter
             }
 
         }
@@ -718,6 +748,11 @@ export default function Grid() {
             for(let layoutField of layoutGroup.fields) {
 
                 console.log("   LAYOUT FIELD: " + layoutField.id)
+
+                // check if no grid column field
+                if(layoutField.gridColumn === false) {
+                    continue
+                }
 
                 // set data path for this column def
                 let dataPath = layoutField.path

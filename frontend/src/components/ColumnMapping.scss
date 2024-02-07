@@ -1,17 +1,28 @@
 
 
-
+div.data-mapping-view > div.label.field-mapping {
+    margin-bottom: -48px;
+    margin-left: 10px;
+}
 
 div.column-mapping {
     // background-color: white;
     // border: 1px solid green;
 
-    margin-top: -38px;
+    // margin-top: -50px;
 
     overflow: hidden;
 
     display: flex;
     flex-flow: column;
+
+
+    /* border: 2px solid rgba(0,0,0,0.05); */
+    border-radius: 5px;
+    padding: 16px;
+    background-color: rgba(0,0,0,0.06);
+
+
 
 
 
@@ -63,7 +74,8 @@ div.column-mapping {
 
 
 div.column-mapping div.buttons {
-    margin-bottom: 8px;
+    margin-top: -4px;
+    margin-bottom: 10px;
     display: flex;
     flex-flow: row;
     align-items: center;
@@ -92,7 +104,7 @@ div.column-mapping div.buttons Button {
 }
 
 div.column-mapping div.buttons Button:last-child {
-    margin-right: 16px;
+    margin-right: 0px;
 }
 
 div.column-mapping div.ag-header-row div.ag-header-cell:first-child {
@@ -119,8 +131,8 @@ div.column-mapping div.validation-message {
     padding: 0px;
     background-color: white;
     border-radius: 0px;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
     margin-top: 0px;
     font-size: 13px;
     font-weight: normal;
@@ -191,7 +203,9 @@ div.column-mapping div.ag-header {
 }
 
 div.column-mapping div.ag-root-wrapper {
-    background-color: #F0F0F0;
+    // background-color: #F0F0F0;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
     border: none;
 }
 
@@ -259,7 +273,7 @@ div.column-mapping div.ag-row div.ag-cell .MuiFormControl-root .MuiFilledInput-r
 
     padding: 0px;
     margin: 0px;
-    height: 20px;
+    height: 24px;
     padding: 0px 26px 0px 6px;
 
     border-radius: 5px;
@@ -286,6 +300,16 @@ div.column-mapping div.ag-row div.ag-cell .MuiFormControl-root .MuiFilledInput-r
 
     /* border: 2px solid green; */
     padding: 0px;
+
+    // border: 1px solid red;
+    // background-color: rgba(255,0,0,0.1) !important;
+    height: 100%;
+
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    margin-top: 4px;
+    padding-left: 2px;
 }
 
 div.column-mapping div.ag-row.deactivated div.ag-cell .MuiFormControl-root .MuiFilledInput-root.Mui-disabled,
@@ -327,6 +351,8 @@ div.column-mapping div.ag-row div.ag-cell {
     flex-flow: row;
     align-items: center;
     justify-content: flex-start;
+
+    min-height: 100%;
 
     border: none;
 }

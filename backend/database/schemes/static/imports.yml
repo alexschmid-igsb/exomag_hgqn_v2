@@ -36,11 +36,8 @@ scheme:
             reuqired: true
     valueMapping:
         type: any
-    data:
-        bla:
-            type: string
-        validated:
-            type: any
+    processing:
+        type: any
     user:
         type: UUID
         reference: CORE_users

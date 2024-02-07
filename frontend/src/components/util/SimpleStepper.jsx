@@ -231,17 +231,17 @@ const SimpleStepper = ({
 
     const renderFlag = React.useMemo( () => {
         if(children.length <= 0 || stepState.size <= 0) {
-            console.log("case 0")
+            // console.log("case 0")
             return false
         }
         for(let child of children) {
             if(child?.props?.id == null) {
-                console.log("case a")
+                // console.log("case a")
                 return false
             }
             if(stepState.get(child.props.id) == null || stepState.get(child.props.id).state == null) {
-                console.log("case b")
-                console.log(stepState)
+                // console.log("case b")
+                // console.log(stepState)
                 return false
             }
         }

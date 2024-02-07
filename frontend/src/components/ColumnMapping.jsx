@@ -281,6 +281,45 @@
 
 
 
+        /*
+            Excel Column Names
+            müssen zugeordnet werden können zu import pfaden
+
+            Das problem ist, dass die ganzen variant felder gar nicht im layout existieren.
+
+            Beim eigentlichen import braucht man:
+              1. die exel felder, in denen die werte für gDNA und cDNA stehen
+              2. diese werden dann in eine variante umgesetzt und der user sieht dann
+                 in der feedback tabelle:
+                 user defined cDNA und gDNA     UND dann die variant spalten, die daraus generieirt wurde und nach variants gehen
+                 Wenn cDNA oder gDNA fehlerhaft sind, dann werden die fehler (und korrektur möglichkeiten) in den beiden
+                 user defined feldern angezeigt, die variant felder sind READ ONLY
+
+            
+            Man braucht zusätzliche targets die für die gDNA und cDNA
+
+
+            Das auto mapping soll immer über die Labels passieren
+            Ein label im grid soll dann so auch im Excel angelegt werden, um das zu mappen
+
+            man sollte aufjedenfall 
+
+            {
+                id: 
+                target: {
+                    label: <DAS LABEL WIE IM GRID>
+                    path: <HIER SOLL DER PATH HIN WIE IN DEN TARGET DATEN>
+
+                }
+
+                updateMode: <WIRD ÜBER USER INTERFACE GESETZT>,
+                sourceColumn:  <WIRD ÜBER USER INTERFACE GESETZT>,
+            }
+
+
+            
+            
+        */
         const buildMappingData = (reset = false) => {
 
             // TODO: um die descriptions holen zu können, müssen noch die korrekten ids berechnet werden
@@ -289,44 +328,48 @@
                 return
             }
 
-            // console.log(targetFields.fields)
+            // console.log(targetFields)
+            // console.log(sourceColumnNames)
 
             let newMappingData = []
 
-            const layout = targetFields.layout
+            const layout = targetFields.layout.description
+            //console.log(layout)
+
             for(let group of layout) {
+
                 if(lodash.isArray(group.fields) === false) {
                     continue
                 }
+
                 for(let field of group.fields) {
+
                     if(field.importTarget !== true) {
                         continue
                     }
-                    let id = null
+
+                    let targetPath = null
                     if(group.type.id === 'primary') {
-                        id = field.id
+                        targetPath = field.path
                     } else if(group.type.id === 'nested') {
-                        id = group.type.root + '.' + (field.path != null ? field.path : field.id)
+                        targetPath = group.type.root + '.' + field.path
                     }
 
-                    // console.log(field)
-
                     let entry = {
-                        id: id,
+                        id: field.id,
                         activated: field.importMappingRequired === true ? true : false,
                         sourceColumn: '',
                         targetColumn: {
-                            id: id,
                             label: field.label,
-                            is_key: field.importMappingRequired === true ? true : false
-                            // is_key: true
+                            path: targetPath,
+                            is_key: field.importMappingRequired === true ? true : false,
                         },
                         updateMode: 'KEEP'
                     }
 
                     if(reset === false) {
                         for(let oldEntry of mappingData) {
-                            if(oldEntry?.targetColumn?.id === entry?.targetColumn?.id) {
+                            if(oldEntry?.id === entry?.id) {
                                 entry.activated = oldEntry.activated
                                 entry.sourceColumn = oldEntry.sourceColumn
                                 entry.updateMode = oldEntry.updateMode
@@ -337,6 +380,12 @@
                     newMappingData.push(entry)
                 }
             }
+
+            // console.log("SOURCE COLUMNS")
+            // console.log(sourceColumnNames)
+
+            // console.log("TARGET LABELS")
+            // console.log(newMappingData.map(item => item.targetColumn.label))
             
             setMappingData(newMappingData)
         }
@@ -349,7 +398,7 @@
         }
 
         const toggleActivated = (rowIndex,state) => {
-            console.log("toggleActivated: " + rowIndex + " " + state)
+            // console.log("toggleActivated: " + rowIndex + " " + state)
             setMappingData([
                 ...mappingData.slice(0,rowIndex),
                 {
@@ -416,9 +465,9 @@
 
 
         const changeSourceColumn = (rowIndex,value) => {
-            console.log("CHANGE SOURCE COLUMN")
-            console.log(rowIndex)
-            console.log(value)
+            // console.log("CHANGE SOURCE COLUMN")
+            // console.log(rowIndex)
+            // console.log(value)
             setMappingData([
                 ...mappingData.slice(0,rowIndex),
                 {
@@ -436,9 +485,9 @@
 
 
         const changeUpdateMode = (rowIndex,value) => {
-            console.log("CHANGE UPDATE COLUMN")
-            console.log(rowIndex)
-            console.log(value)
+            // console.log("CHANGE UPDATE COLUMN")
+            // console.log(rowIndex)
+            // console.log(value)
             setMappingData([
                 ...mappingData.slice(0,rowIndex),
                 {
@@ -466,7 +515,7 @@
 
         const applyAutoMapping = event => {
 
-            console.log("START AUTO MAPPING")
+            // console.log("START AUTO MAPPING")
 
             if(targetFields == null || sourceColumnNames == null) {
                 return
@@ -475,31 +524,34 @@
             let newMappingData = []
             let availableSourceColumnNames = new Set(sourceColumnNames)
 
-            const layout = targetFields.layout
+            const layout = targetFields.layout.description
             for(let group of layout) {
+
                 if(lodash.isArray(group.fields) === false) {
                     continue
                 }
+
                 for(let field of group.fields) {
+                    
                     if(field.importTarget !== true) {
                         continue
                     }
-                    let id = null
+
+                    let targetPath = null
                     if(group.type.id === 'primary') {
-                        id = field.id
+                        targetPath = field.path
                     } else if(group.type.id === 'nested') {
-                        id = group.type.root + '.' + (field.path != null ? field.path : field.id)
+                        targetPath = group.type.root + '.' + field.path
                     }
 
                     let entry = {
-                        id: id,
+                        id: field.id,
                         activated: field.importMappingRequired === true ? true : false,
                         sourceColumn: '',
                         targetColumn: {
-                            id: id,
                             label: field.label,
-                            is_key: field.importMappingRequired === true ? true : false
-                            // is_key: true
+                            path: targetPath,
+                            is_key: field.importMappingRequired === true ? true : false,
                         },
                         updateMode: 'KEEP'
                     }
@@ -511,7 +563,7 @@
     
                     for(const sourceColumnName of availableSourceColumnNames) {
                         if(targetColumnName === sourceColumnName) {
-                            console.log("FOUND EXACT MATCH: " + targetColumnName + " --> " + sourceColumnName)
+                            // console.log("FOUND EXACT MATCH: " + targetColumnName + " --> " + sourceColumnName)
                             entry.sourceColumn = sourceColumnName
                             entry.activated = true
                             availableSourceColumnNames.delete(sourceColumnName)
@@ -526,7 +578,7 @@
     
                     for(const sourceColumnName of availableSourceColumnNames) {
                         if(targetColumnName.trim().localeCompare(sourceColumnName.trim(), 'de', { sensitivity: 'base' }) === 0) {
-                            console.log("FOUND OTHER MATCH: " + targetColumnName + " --> " + sourceColumnName)
+                            // console.log("FOUND OTHER MATCH: " + targetColumnName + " --> " + sourceColumnName)
                             entry.sourceColumn = sourceColumnName
                             entry.activated = true
                             availableSourceColumnNames.delete(sourceColumnName)
@@ -583,8 +635,8 @@
 
                         domLayout='autoHeight'
 
-                        rowHeight={31}
-                        headerHeight={31}
+                        rowHeight={37}
+                        headerHeight={37}
 
                         ref={gridRef}
 

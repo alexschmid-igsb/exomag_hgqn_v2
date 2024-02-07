@@ -21,8 +21,8 @@ module.exports = async function (req, res, next) {
     try {
         // der x-auth-token kann nur mit dem private key verifiziert und dekodiert werden
         payload = jwt.verify(token, config.jwt.privateKey)
-        console.log("decoded token payload")
-        console.log(payload)
+        // console.log("decoded token payload")
+        // console.log(payload)
     }
     catch(error) {
         throw new BackendError("Authentication failed. Invalid token.",401,error)
