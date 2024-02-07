@@ -59,7 +59,7 @@ class DatabaseImport {
             } else {
 
                 // variante existiert noch nicht und wird eingefügt
-                await db.insert('GRID_variants',importVariant)
+                await db.insert('GRID_variants',variant)
             }
         }
     }

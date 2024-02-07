@@ -607,9 +607,9 @@ class Processing {
 
             } else if(gDNA_processed.state === 'MISSING' && cDNA_processed.state === 'VALID') {
                 // gDNA nicht vorhanden, cDNA ist valid ==> variante kann aus cDNA erstellt werden
-                record.parsedVariants.push(gDNA_processed.parsed.variant)
+                record.parsedVariants.push(cDNA_processed.parsed.variant)
                 record.genericCase['variants'][i].variant = {
-                    reference: gDNA_processed.parsed.variant._id,
+                    reference: cDNA_processed.parsed.variant._id,
                     transcript: cDNA_processed.source
                 }
                 delete record.genericCase['variants'][i].HGVS_cDNA
