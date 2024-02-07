@@ -34,7 +34,7 @@ import LargeSpinnerOverlay from '../../components/util/LargeSpinnerOverlay'
 
 import ValidationGrid from './ValidationGrid'
 
-import bla from '../../util/bla2.svg'
+import ExceptionVector from '../../util/exception_vector_2.svg'
 
 import './DataValidationView.scss'
 
@@ -520,8 +520,8 @@ export default function DataValidationView(props) {
                     : importInstance?.processing?.excel?.state === 'ERROR' ?
 
                         <div className="summary error">
-                            <div className="bla">
-                                <img className="bla" src={bla} />
+                            <div className="exception-vector">
+                                <img className="exception-vector" src={ExceptionVector} />
                             </div>
                             <div className="box">
                                 <p>
