@@ -122,6 +122,7 @@ div.ag-theme-alpine-modified span.ag-cell-value {
 div.ag-theme-alpine-modified div.ag-row div.ag-cell {
 
     height: unset;
+    min-height: 40px;
 
     border: none;
     border-right: 1px dashed rgba(0,0,0,0.2);
