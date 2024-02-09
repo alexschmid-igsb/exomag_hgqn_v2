@@ -55,14 +55,14 @@ export default function UserMenu() {
         user ?
             <Box className="menu user-menu" sx={{ color: 'white', marginRight: '4px', flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
 
-                <RouterButton
+                {/* <RouterButton
                     className="menu-button user-menu-button"
                     uniqueKey="users"
                     to="/users"
                     icon={<IconifyIcon icon="ph:user-list-fill"/>}
                 >
                     Users
-                </RouterButton>
+                </RouterButton> */}
 
                 {user && user.isSuperuser === true ?
                     <RouterButton

@@ -43,7 +43,7 @@ root.render(
                             <Route path="grids" element={<Grids />} />
                             <Route path="imports" element={<Imports />} />
                             <Route path="imports/:importId" element={<Import />} />
-                            <Route path="users" element={<UserList />} />
+                            {/* <Route path="users" element={<UserList />} /> */}
                             <Route path="admin" element={<Admin />} />
                             <Route path="admin/status" element={<Status />} />
                             <Route path="admin/usermanagement" element={<UserManagement />} />
