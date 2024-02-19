@@ -117,7 +117,7 @@ const performCellSplitting = (record) => {
 
     const variantValues = record.genericCase['variants']
     if(variantValues == null) {
-        record.report.addTopLevelWarning('The record does not seem to have clinical/variant information (like gene, HGVS variants descriptions, ACMG clssification, ...)')
+        record.report.addTopLevelError('The record does not seem to have clinical/variant information (gene, HGVS variant descriptions, ACMG classification, etc)')
         record.genericCase['variants'] = []
         return
     }
