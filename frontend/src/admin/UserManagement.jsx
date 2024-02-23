@@ -31,6 +31,10 @@ import CheckIcon from '@mui/icons-material/Check'
 import TextField from '@mui/material/TextField'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
+import Select from '@mui/material/Select'
+import MenuItem from '@mui/material/MenuItem'
+import InputLabel from '@mui/material/InputLabel'
+import FormControl from '@mui/material/FormControl';
 
 import Dialog, { DialogProps } from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
@@ -95,12 +99,13 @@ const StateRenderer = (props) => {
 
 
 
-function AddUserForm({usernames,emails,onSuccess}) {
+function AddUserForm({usernames,emails,labs,onSuccess}) {
 
     const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
     const [username, setUsername] = React.useState(null)
     const [email, setEmail] = React.useState(null)
+    const [lab, setLab] = React.useState('')
     const [sendActivationLink, setSendActivationLink] = React.useState(true)
 
     const [errorMessage, setErrorMessage] = React.useState(null)
@@ -108,7 +113,14 @@ function AddUserForm({usernames,emails,onSuccess}) {
 
     const handleUsernameChange = (event) => setUsername(event.target.value)
     const handleEmailChange = (event) => setEmail(event.target.value)
+    // const handleLabChange = (event) => setLab(event.target.value)
     const handleSendActivationLinkChange = (event) => setSendActivationLink(event.target.checked)
+
+    const handleLabChange = (event) => {
+        console.log("HANDLE LAB CHANGE")
+        console.log(event.target.value)
+        setLab(event.target.value)
+    }
 
     const addUser = () => {
         // console.log(`username: ${username}`)
@@ -122,6 +134,11 @@ function AddUserForm({usernames,emails,onSuccess}) {
 
         if(typeof email !== 'string' || email.trim().length == 0) {
             setErrorMessage('Email is required')
+            return
+        }
+
+        if(typeof lab !== 'string' || lab.trim().length == 0) {
+            setErrorMessage('Lab is required')
             return
         }
 
@@ -148,6 +165,7 @@ function AddUserForm({usernames,emails,onSuccess}) {
             params: {
                 username: username.trim(),
                 email: email.trim(),
+                lab: lab.trim(),
                 sendActivationLink: sendActivationLink,
                 template: templates['activation']
             }
@@ -177,6 +195,32 @@ function AddUserForm({usernames,emails,onSuccess}) {
                 value={email}
                 onChange={handleEmailChange}
             />
+            <FormControl variant="filled" style={{width: '100%'}}>
+                <InputLabel id="lab-select-label">Lab</InputLabel>
+                <Select
+                    labelId="lab-select-label"
+                    className="lab-select"
+                    value={lab}
+                    onChange={handleLabChange}
+                >
+                    {/* <MenuItem
+                        key={"default"}
+                        value={null}
+                    > 
+                        <span>blabla</span>
+                    </MenuItem>
+                    */}
+
+                    { labs.map(lab => 
+                        <MenuItem
+                            key={lab._id}
+                            value={lab._id}
+                        >
+                            <span>{lab.name}</span>
+                        </MenuItem>
+                    )}
+                </Select>
+            </FormControl>
             <FormControlLabel
                 control={
                     <Checkbox
@@ -216,6 +260,7 @@ export default function UserManagement() {
     const currentUser = useSelector((state) => state.user)
 
     const [users, setUsers] = React.useState(null)
+    const [labs, setLabs] = React.useState(null)
 
     const breadcrumbs = [
         {
@@ -366,6 +411,7 @@ export default function UserManagement() {
         dispatch(setBreadcrumbs(breadcrumbs))
         dispatch(setToolbar(renderToolbar()))
         loadUserData()
+        loadLabData()
     }, [])
 
 
@@ -378,6 +424,15 @@ export default function UserManagement() {
 
         setTimeout(() => { gridRef.current.api.sizeColumnsToFit() }, 200)
     }
+
+    const loadLabData = () => {
+
+        API.get('/api/labs/list/').then(response => {
+            console.log(response)
+            setLabs(response.data)
+        })
+    }
+
 
     const gridSizeChanged = () => {
         gridRef.current.api.sizeColumnsToFit()
@@ -439,6 +494,7 @@ export default function UserManagement() {
                 <AddUserForm
                     usernames={users !== null ? users.map(user => user.username) : []}
                     emails={users !== null ? users.map(user => user.email) : []}
+                    labs={labs}
                     onSuccess={onAddUserSuccess}
                 />
             </DialogContent>

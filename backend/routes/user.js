@@ -197,6 +197,7 @@ router.post('/add-user-admin', [auth, isSuperuser], async function (req, res, ne
     // get params
 	const username = req.body.username ? req.body.username.trim() : undefined
 	const email = req.body.email ? req.body.email.trim() : undefined
+    const lab =  req.body.lab ? req.body.lab.trim() : undefined
     const sendActivationLink = req.body.sendActivationLink ? req.body.sendActivationLink : false
     
     // check params
@@ -206,6 +207,10 @@ router.post('/add-user-admin', [auth, isSuperuser], async function (req, res, ne
 
     if(!email) {
         throw new BackendError("Email is missing", 400)
+    }
+
+    if(!lab) {
+        throw new BackendError("Lab is missing", 400)
     }
 
     if(await usersStore.getUserByUsername(username) != null) {
@@ -226,6 +231,12 @@ router.post('/add-user-admin', [auth, isSuperuser], async function (req, res, ne
         throw new BackendError(`Template is missing`, 400)
     }
 
+    // check if lab exisit
+    const labCheck = await database.find('STATIC_labs', { filter: { _id: lab } } )
+    if(labCheck.data.length !== 1) {
+        throw new BackendError(`Lab does not exist: ${lab}`, 400)
+    }
+
     // add user
     let userId = uuidv4()
 
@@ -243,6 +254,7 @@ router.post('/add-user-admin', [auth, isSuperuser], async function (req, res, ne
         id: userId,
         username: username,
         email: email,
+        lab: lab,
         isSuperuser: false,
         state: {
             id: stateId,

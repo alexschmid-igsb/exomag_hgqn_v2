@@ -68,8 +68,8 @@ export default function Admin() {
                     <h2>Administration</h2>
                     <Link className="link" to="/admin/status"><LinkBullet/><span>Status</span></Link>
                     <Link className="link" to="/admin/usermanagement"><LinkBullet/><span>User Management</span></Link>
-                    <Link className="link" to="/admin/uploads"><LinkBullet/><span>Uploads</span></Link>
-                    <Link className="link" to="/admin/emailtemplates"><LinkBullet/><span>Email Templates</span></Link>
+                    <Link className="link" to="/admin/emailtemplates"><LinkBullet/><span>Email Template Vorschau</span></Link>
+                    <Link className="link" to="/admin/uploads"><LinkBullet/><span>Upload Übersicht</span></Link>
                 </div>
                 :
                 <Navigate replace to="/home" />
