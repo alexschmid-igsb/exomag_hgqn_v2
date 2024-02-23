@@ -1,11 +1,12 @@
 import * as React from 'react'
 
-/*
 import { Navigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux'
 
 import { setToolbar } from '../store/toolbar'
 import { setBreadcrumbs } from '../store/breadcrumbs'
+
+/*
 
 import { AgGridReact } from 'ag-grid-react'
 
@@ -33,7 +34,6 @@ import DialogContentText from '@mui/material/DialogContentText'
 
 import DialogTitle from '../components/DialogTitle'
 
-import { Icon as IconifyIcon, InlineIcon as IconifyIconInline } from "@iconify/react"
 
 import VerticalSeparator from '../components/VerticalSeparator'
 
@@ -41,6 +41,11 @@ import BooleanCellRenderer from '../components/aggrid/BooleanCellRenderer'
 
 import API from '../api/fetchAPI'
 */
+
+import AdminIcon from '@mui/icons-material/AdminPanelSettingsRounded'
+import HomeIcon from '@mui/icons-material/HomeRounded'
+import { Icon as IconifyIcon, InlineIcon as IconifyIconInline } from "@iconify/react"
+
 
 import templates from '../util/mail/base/Templates'
 
@@ -62,6 +67,7 @@ const desc = [
     },
 ]
 */
+
 
 
 const desc = Object.keys(templates).map( item => ({ id: item, data: {}}) )
@@ -102,6 +108,35 @@ export default function EmailTemplatesPreview() {
     const handleChange = (event, newValue) => {
         setValue(newValue)
     }
+
+    const dispatch = useDispatch()
+
+
+    const breadcrumbs = [
+        {
+            key: 'home',
+            label: 'Home',
+            path: '/home',
+            icon: HomeIcon
+        },
+        {
+            key: 'admin',
+            label: 'Admin',
+            path: '/admin',
+            icon: AdminIcon
+        },
+        {
+            key: 'emailtemplates',
+            label: 'Email Template Vorschau',
+            path: '/admin/emailtemplates',
+            icon: () => <IconifyIcon icon="material-symbols:stacked-email-outline-rounded" />
+        }
+    ]
+
+    React.useEffect(() => {
+        dispatch(setBreadcrumbs(breadcrumbs))
+    }, [])
+
 
     
 

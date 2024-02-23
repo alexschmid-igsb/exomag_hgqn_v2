@@ -4,10 +4,11 @@
 
 
 div.add-user-form {
+    width: 500px;
     margin: 20px;
     display: flex;
     flex-flow: column;
-    align-items: flex-start;
+    align-items: stretch;
     justify-content: center;
 }
 
@@ -33,6 +34,8 @@ div.add-user-form > div.message {
 }
 
 div.add-user-form > div.error-message {
+    border: none;
+    background-color: unset;
     color: #D8000C;
 }
 
@@ -40,6 +43,10 @@ div.add-user-form > div.success-message {
     color: #4F8A10;
 }
 
+
+div.add-user-form >  div.lab-select {
+    width: 100%;
+}
 
 
 
