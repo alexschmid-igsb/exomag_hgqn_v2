@@ -14,7 +14,7 @@ const jwt = require('jsonwebtoken')
 const usersStore = require('../users/manager')
 const database = require('../../backend/database/connector').connector
 
-const Brevo = require('../util/mail/Brevo')
+const Mailer = require('../util/mail/Brevo')
 
 const BackendError = require('../util/BackendError')
 
@@ -266,7 +266,7 @@ router.post('/add-user-admin', [auth, isSuperuser], async function (req, res, ne
     await usersStore.insertUser(user)
 
     if(sendActivationLink) {
-        await Brevo.sendTransactionMail({
+        await Mailer.sendTransactionMail({
             to: {
                 name: username,
                 email: email
@@ -518,7 +518,7 @@ router.post('/send-username', async function (req, res, next) {
         return
     }
 
-    await Brevo.sendTransactionMail({
+    await Mailer.sendTransactionMail({
         to: {
             name: user.username,
             email: email
@@ -571,7 +571,7 @@ router.post('/reset-activation-admin', [auth, isSuperuser], async function (req,
 
     await usersStore.resetState(userid, username, state)
 
-    await Brevo.sendTransactionMail({
+    await Mailer.sendTransactionMail({
         to: {
             name: username,
             email: email
@@ -626,7 +626,7 @@ router.post('/reset-password-user', async function (req, res, next) {
 
     await usersStore.resetState(user._id, username, state)
 
-    await Brevo.sendTransactionMail({
+    await Mailer.sendTransactionMail({
         to: {
             name: username,
             email: email
@@ -676,7 +676,7 @@ router.post('/reset-password-admin', [auth, isSuperuser], async function (req, r
 
     await usersStore.resetState(userid, username, state)
 
-    await Brevo.sendTransactionMail({
+    await Mailer.sendTransactionMail({
         to: {
             name: username,
             email: email

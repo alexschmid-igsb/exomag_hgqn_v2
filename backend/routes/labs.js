@@ -14,8 +14,6 @@ const jwt = require('jsonwebtoken')
 const usersStore = require('../users/manager')
 const database = require('../database/connector').connector
 
-const Brevo = require('../util/mail/Brevo')
-
 const BackendError = require('../util/BackendError')
 
 var EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
