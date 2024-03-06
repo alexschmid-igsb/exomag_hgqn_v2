@@ -14,7 +14,7 @@ const jwt = require('jsonwebtoken')
 const usersStore = require('../users/manager')
 const database = require('../../backend/database/connector').connector
 
-const Mailer = require('../util/mail/Brevo')
+const Mailer = require('../util/mail/BrevoMailer')
 
 const BackendError = require('../util/BackendError')
 

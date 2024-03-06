@@ -89,18 +89,18 @@ export default function UserMenu() {
                         popoverClass="user-actions-submenu"
                         paperClass="user-actions-submenu-paper"
                         items={[
-                            {
-                                key: 'profile',
-                                icon: ProfileIcon,
-                                label: 'My Profile',
-                                routerPath: '/profile'
-                            },
-                            {
-                                key: 'settings',
-                                icon: SettingsIcon,
-                                label: 'Settings',
-                                routerPath: '/settings'
-                            },
+                            // {
+                            //     key: 'profile',
+                            //     icon: ProfileIcon,
+                            //     label: 'My Profile',
+                            //     routerPath: '/profile'
+                            // },
+                            // {
+                            //     key: 'settings',
+                            //     icon: SettingsIcon,
+                            //     label: 'Settings',
+                            //     routerPath: '/settings'
+                            // },
                             {
                                 key: 'logout',
                                 icon: LogoutIcon,
