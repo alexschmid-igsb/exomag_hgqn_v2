@@ -8,7 +8,7 @@ import './Linkout.scss'
 
 const Icon = () => <IconifyIcon className="icon" icon="akar-icons:link-out"/>
 
-export default function FranklinLogo({flavor}) {
+export default function Linkout({flavor}) {
 
     const render = () => {
         switch (flavor) {
