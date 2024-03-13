@@ -1,5 +1,5 @@
 #!/bin/bash
 set -e
-./backend/redis/start.sh
-sleep 5
-pm2 --env production start backend.exomag.pm2.config.js
+sudo systemctl start redis_exomag_production.service
+sleep 2
+production/start_backend.sh

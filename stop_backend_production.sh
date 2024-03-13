@@ -1,5 +1,5 @@
 #!/bin/bash
 set -e
-pm2 --env production stop backend.exomag.pm2.config.js
-sleep 5
-./backend/redis/stop.sh
+production/stop_backend.sh
+sleep 2
+sudo systemctl stop redis_exomag_production.service

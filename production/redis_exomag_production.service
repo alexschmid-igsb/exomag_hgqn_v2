@@ -1,0 +1,13 @@
+[Unit]
+Description=Redis for ExomAG Backend [Production]
+After=network.target
+
+[Service]
+Type=forking
+ExecStart=/home/alex/code/arbeit/main/exomag_hgqn_v2/backend/redis/start.sh
+ExecStop=/home/alex/code/arbeit/main/exomag_hgqn_v2/backend/redis/stop.sh
+WorkingDirectory=/home/alex/code/arbeit/main/exomag_hgqn_v2
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
