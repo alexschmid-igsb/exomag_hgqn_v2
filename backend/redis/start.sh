@@ -26,10 +26,13 @@ APP_ROOT=$( echo $CURRENT | rev | cut -d'/' -f3- | rev )
 PID_FILE=$APP_ROOT/runtime/redis/redis.pid
 
 if [ -f "$PID_FILE" ]; then
-    echo "ERROR"
-    echo "THE REDIS PID FILE AREADY EXIST"
-    echo "IT SEEMS THAT THE SERVER IS ALREADY RUNNING"
-    exit 1
+    kill -15 `cat $PID_FILE` || true
+    rm $PID_FILE || true
+    sleep 1
+#    echo "ERROR"
+#    echo "THE REDIS PID FILE AREADY EXIST"
+#    echo "IT SEEMS THAT THE SERVER IS ALREADY RUNNING"
+#    exit 1
 fi
 
 : > ${APP_ROOT}/runtime/redis/redis.log
