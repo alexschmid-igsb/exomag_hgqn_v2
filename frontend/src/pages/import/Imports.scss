@@ -46,13 +46,16 @@ div.create-import-dialog {
 
 div.imports {
 
-    height: 100%;
     display: flex;
     flex-flow: column;
+    height: 100%;
+    overflow: hidden;
 
     padding: 20px;
 
     & div.grid-container {
+        height: 100%;
+        overflow: hidden;
     }
     
 

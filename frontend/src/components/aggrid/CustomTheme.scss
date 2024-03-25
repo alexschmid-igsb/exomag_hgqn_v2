@@ -1,11 +1,49 @@
 
 
+
+
+
+
+
+div.grid-container.scroll {
+
+    // border-radius: 10px;
+    // padding: 4px;
+
+    overflow: hidden;
+    & > div {
+        height: 100%;
+        overflow: hidden;
+        & > div.ag-root-wrapper {
+            height: 100%;
+            overflow: hidden;
+            & > div.ag-root-wrapper-body {
+                height: 100%;
+                overflow: hidden;
+                & > div.ag-root {
+                    height: 100%;
+                    overflow: hidden;
+                    & > div.ag-body-viewport {
+                        overflow-y: auto;
+                        padding: 0px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+
 /* generischer style für ag-grids */
 
 div.ag-theme-alpine-modified {
 }
 
 div.ag-theme-alpine-modified div.ag-root-wrapper {
+    height: 100%;
+    overflow: hidden;
     // border-radius: 5px;
     border: 1px solid rgba(0,0,0,0.2);
 }

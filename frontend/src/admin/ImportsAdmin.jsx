@@ -288,7 +288,7 @@ export default function ImportsAdmin() {
         <>
             <div className="imports">
 
-                <div className={`grid-container ag-theme-alpine ag-theme-alpine-modified`} style={{position: 'relative'}}>
+                <div className={`grid-container scroll ag-theme-alpine ag-theme-alpine-modified`} style={{position: 'relative'}}>
 
                     { isLoading === true ?
                         <LargeSpinnerOverlay label="loading..."/>
