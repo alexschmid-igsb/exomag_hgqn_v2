@@ -159,64 +159,291 @@ scheme:
                 required: true
             criteria:
               - type: string
-                delimiter: ',|;| '
+                delimiter: ',|;'
+                singleValues: [no specification possible]
                 enum:
+                  - value: no specification possible
+                    alias: [undefined, 'null', none, empty]
                   - value: PVS1
                     alias: []
+                  - value: PVS1_SUP
+                    alias: [PVS1_supporting]
+                  - value: PVS1_MOD
+                    alias: [PVS1_moderate]
+                  - value: PVS1_STR
+                    alias: [PVS1_strong]
+                  - value: PVS1_VSTR
+                    alias: [PVS1_very_strong]
                   - value: PS1
                     alias: []
+                  - value: PS1_SUP
+                    alias: [PS1_supporting]
+                  - value: PS1_MOD
+                    alias: [PS1_moderate]
+                  - value: PS1_STR
+                    alias: [PS1_strong]
+                  - value: PS1_VSTR
+                    alias: [PS1_very_strong]
                   - value: PS2
                     alias: []
+                  - value: PS2_SUP
+                    alias: [PS2_supporting]
+                  - value: PS2_MOD
+                    alias: [PS2_moderate]
+                  - value: PS2_STR
+                    alias: [PS2_strong]
+                  - value: PS2_VSTR
+                    alias: [PS2_very_strong]
                   - value: PS3
                     alias: []
+                  - value: PS3_SUP
+                    alias: [PS3_supporting]
+                  - value: PS3_MOD
+                    alias: [PS3_moderate]
+                  - value: PS3_STR
+                    alias: [PS3_strong]
+                  - value: PS3_VSTR
+                    alias: [PS3_very_strong]
                   - value: PS4
                     alias: []
+                  - value: PS4_SUP
+                    alias: [PS4_supporting]
+                  - value: PS4_MOD
+                    alias: [PS4_moderate]
+                  - value: PS4_STR
+                    alias: [PS4_strong]
+                  - value: PS4_VSTR
+                    alias: [PS4_very_strong]
                   - value: PM1
                     alias: []
+                  - value: PM1_SUP
+                    alias: [PM1_supporting]
+                  - value: PM1_MOD
+                    alias: [PM1_moderate]
+                  - value: PM1_STR
+                    alias: [PM1_strong]
+                  - value: PM1_VSTR
+                    alias: [PM1_very_strong]
                   - value: PM2
                     alias: []
+                  - value: PM2_SUP
+                    alias: [PM2_supporting]
+                  - value: PM2_MOD
+                    alias: [PM2_moderate]
+                  - value: PM2_STR
+                    alias: [PM2_strong]
+                  - value: PM2_VSTR
+                    alias: [PM2_very_strong]
                   - value: PM3
                     alias: []
+                  - value: PM3_SUP
+                    alias: [PM3_supporting]
+                  - value: PM3_MOD
+                    alias: [PM3_moderate]
+                  - value: PM3_STR
+                    alias: [PM3_strong]
+                  - value: PM3_VSTR
+                    alias: [PM3_very_strong]
                   - value: PM4
                     alias: []
+                  - value: PM4_SUP
+                    alias: [PM4_supporting]
+                  - value: PM4_MOD
+                    alias: [PM4_moderate]
+                  - value: PM4_STR
+                    alias: [PM4_strong]
+                  - value: PM4_VSTR
+                    alias: [PM4_very_strong]
                   - value: PM5
                     alias: []
+                  - value: PM5_SUP
+                    alias: [PM5_supporting]
+                  - value: PM5_MOD
+                    alias: [PM5_moderate]
+                  - value: PM5_STR
+                    alias: [PM5_strong]
+                  - value: PM5_VSTR
+                    alias: [PM5_very_strong]
                   - value: PM6
                     alias: []
+                  - value: PM6_SUP
+                    alias: [PM6_supporting]
+                  - value: PM6_MOD
+                    alias: [PM6_moderate]
+                  - value: PM6_STR
+                    alias: [PM6_strong]
+                  - value: PM6_VSTR
+                    alias: [PM6_very_strong]
                   - value: PP1
                     alias: []
+                  - value: PP1_SUP
+                    alias: [PP1_supporting]
+                  - value: PP1_MOD
+                    alias: [PP1_moderate]
+                  - value: PP1_STR
+                    alias: [PP1_strong]
+                  - value: PP1_VSTR
+                    alias: [PP1_very_strong]
                   - value: PP2
                     alias: []
+                  - value: PP2_SUP
+                    alias: [PP2_supporting]
+                  - value: PP2_MOD
+                    alias: [PP2_moderate]
+                  - value: PP2_STR
+                    alias: [PP2_strong]
+                  - value: PP2_VSTR
+                    alias: [PP2_very_strong]
                   - value: PP3
                     alias: []
+                  - value: PP3_SUP
+                    alias: [PP3_supporting]
+                  - value: PP3_MOD
+                    alias: [PP3_moderate]
+                  - value: PP3_STR
+                    alias: [PP3_strong]
+                  - value: PP3_VSTR
+                    alias: [PP3_very_strong]
                   - value: PP4
                     alias: []
+                  - value: PP4_SUP
+                    alias: [PP4_supporting]
+                  - value: PP4_MOD
+                    alias: [PP4_moderate]
+                  - value: PP4_STR
+                    alias: [PP4_strong]
+                  - value: PP4_VSTR
+                    alias: [PP4_very_strong]
                   - value: PP5
                     alias: []
-                  - value: BA1
-                    alias: []
-                  - value: BS1
-                    alias: []
-                  - value: BS2
-                    alias: []
-                  - value: BS3
-                    alias: []
-                  - value: BS4
-                    alias: []
+                  - value: PP5_SUP
+                    alias: [PP5_supporting]
+                  - value: PP5_MOD
+                    alias: [PP5_moderate]
+                  - value: PP5_STR
+                    alias: [PP5_strong]
+                  - value: PP5_VSTR
+                    alias: [PP5_very_strong]
                   - value: BP1
                     alias: []
+                  - value: BP1_SUP
+                    alias: [BP1_supporting]
+                  - value: BP1_MOD
+                    alias: [BP1_moderate]
+                  - value: BP1_STR
+                    alias: [BP1_strong]
+                  - value: BP1_VSTR
+                    alias: [BP1_very_strong]
                   - value: BP2
                     alias: []
+                  - value: BP2_SUP
+                    alias: [BP2_supporting]
+                  - value: BP2_MOD
+                    alias: [BP2_moderate]
+                  - value: BP2_STR
+                    alias: [BP2_strong]
+                  - value: BP2_VSTR
+                    alias: [BP2_very_strong]
                   - value: BP3
                     alias: []
+                  - value: BP3_SUP
+                    alias: [BP3_supporting]
+                  - value: BP3_MOD
+                    alias: [BP3_moderate]
+                  - value: BP3_STR
+                    alias: [BP3_strong]
+                  - value: BP3_VSTR
+                    alias: [BP3_very_strong]
                   - value: BP4
                     alias: []
+                  - value: BP4_SUP
+                    alias: [BP4_supporting]
+                  - value: BP4_MOD
+                    alias: [BP4_moderate]
+                  - value: BP4_STR
+                    alias: [BP4_strong]
+                  - value: BP4_VSTR
+                    alias: [BP4_very_strong]
                   - value: BP5
                     alias: []
+                  - value: BP5_SUP
+                    alias: [BP5_supporting]
+                  - value: BP5_MOD
+                    alias: [BP5_moderate]
+                  - value: BP5_STR
+                    alias: [BP5_strong]
+                  - value: BP5_VSTR
+                    alias: [BP5_very_strong]
                   - value: BP6
                     alias: []
+                  - value: BP6_SUP
+                    alias: [BP6_supporting]
+                  - value: BP6_MOD
+                    alias: [BP6_moderate]
+                  - value: BP6_STR
+                    alias: [BP6_strong]
+                  - value: BP6_VSTR
+                    alias: [BP6_very_strong]
                   - value: BP7
                     alias: []
+                  - value: BP7_SUP
+                    alias: [BP7_supporting]
+                  - value: BP7_MOD
+                    alias: [BP7_moderate]
+                  - value: BP7_STR
+                    alias: [BP7_strong]
+                  - value: BP7_VSTR
+                    alias: [BP7_very_strong]                    
+                  - value: BS1
+                    alias: []
+                  - value: BS1_SUP
+                    alias: [BS1_supporting]
+                  - value: BS1_MOD
+                    alias: [BS1_moderate]
+                  - value: BS1_STR
+                    alias: [BS1_strong]
+                  - value: BS1_VSTR
+                    alias: [BS1_very_strong]
+                  - value: BS2
+                    alias: []
+                  - value: BS2_SUP
+                    alias: [BS2_supporting]
+                  - value: BS2_MOD
+                    alias: [BS2_moderate]
+                  - value: BS2_STR
+                    alias: [BS2_strong]
+                  - value: BS2_VSTR
+                    alias: [BS2_very_strong]
+                  - value: BS3
+                    alias: []
+                  - value: BS3_SUP
+                    alias: [BS3_supporting]
+                  - value: BS3_MOD
+                    alias: [BS3_moderate]
+                  - value: BS3_STR
+                    alias: [BS3_strong]
+                  - value: BS3_VSTR
+                    alias: [BS3_very_strong]
+                  - value: BS4
+                    alias: []
+                  - value: BS4_SUP
+                    alias: [BS4_supporting]
+                  - value: BS4_MOD
+                    alias: [BS4_moderate]
+                  - value: BS4_STR
+                    alias: [BS4_strong]
+                  - value: BS4_VSTR
+                    alias: [BS4_very_strong]
+                  - value: BA1
+                    alias: []
+                  - value: BA1_SUP
+                    alias: [BA1_supporting]
+                  - value: BA1_MOD
+                    alias: [BA1_moderate]
+                  - value: BA1_STR
+                    alias: [BA1_strong]
+                  - value: BA1_VSTR
+                    alias: [BA1_very_strong]
                 required: true
         zygosity:
             type: string

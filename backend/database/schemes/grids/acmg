@@ -1,0 +1,125 @@
+
+
+
+
+  Es fehlt jetzt noch die Darstellung
+
+  1. Die _SUP, _MOD usw irgendwie kürzer darstellen, z.b. PM4[S]  wobei das (S) grauer ist (Das muss )
+
+  2. Sollen die Farben jetzt bzgl SUP geändert werden?
+
+  DONE 3. Die null message soll eher ausgegraut und eventuell ohne kasten dargestellt werden
+
+
+
+
+
+
+
+
+  SUP
+  MOD
+  STR
+  VSTR
+  
+  
+  
+  
+  Alle in der Datenbank:
+
+  
+            Komplette Liste laut dem Paper: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4544753/
+
+            n = 28
+
+                                                    VarSome Farben
+
+            PVS1    pathogenic very strong          ganz dunkles rot (very strong)
+
+            PS1     pathogenic strong               dunkles rot in varsome (strong)
+            PS2     pathogenic strong               dunkles rot in varsome (strong)
+            PS3     pathogenic strong               dunkles rot in varsome (strong)
+            PS4     pathogenic strong               dunkles rot in varsome (strong)
+
+            PM1     pathogenic moderate             dunkles rot (strong)
+            PM2     pathogenic moderate             helles orange (supporting)
+            PM3     pathogenic moderate             dunkles orange (moderate)
+            PM4     pathogenic moderate             dunkles orange (moderate)
+            PM5     pathogenic moderate             dunkles rot (strong)
+            PM6     pathogenic moderate             dunkles orange (moderate)
+
+            PP1     pathogenic supporting           helles orange (supporting)
+            PP2     pathogenic supporting           helles orange (supporting)
+            PP3     pathogenic supporting           dunkles rot (strong)
+            PP4     pathogenic supporting           helles orange (supporting)
+            PP5     pathogenic supporting           ganz dunkles rot (very strong, WIESO?)
+
+            BP1     benign supporting           alle die gleiche farbe bei varsome (das leichte grün)
+            BP2     benign supporting
+            BP3     benign supporting
+            BP4     benign supporting
+            BP5     benign supporting
+            BP6     benign supporting
+            BP7     benign supporting
+
+            BS1     benign strong               alle die gleiche farbe bei varsome (das dunklere grün)
+            BS2     benign strong
+            BS3     benign strong
+            BS4     benign strong
+
+            BA1     benign stand alone (das höchste level an benign)           das ganz dunkle grün
+
+
+
+            Abkürzungen: 
+
+            BA: benign (citeria basierend auf allele frequency)
+
+            BS: benign strong;
+            BP: benign supporting
+
+            PM, pathogenic moderate;
+            PP, pathogenic supporting;
+            PS, pathogenic strong;
+            PVS, pathogenic very strong
+
+
+
+
+
+        SVI recommendations
+
+
+        Es muss wohl alles für alles erlaubt sein. 
+        Es gibt verschiedene unterschiedliche guidelines für spezifische krankheitsbilder, welche dann nur bestimmte citerias überhaupt als modifizierbar beschreiben. Alles in allem muss es aber für alle erlaubt sein.
+
+
+        Fragen:
+           1. Was ist default? PP2 === PP2_SUP ??? Ich glaube hier kann man nicht davon ausgehen.
+              Es ist eine Datenbank, hier werden daten gespeichert. Legitimes Format ist _MOD, _SUP_ usw. Wenn man das nicht angeben will, dann ist es halt nicht da
+              Man kann _sup oder _supporting als alias anlegen und hat dann alles abgedeckt
+              
+
+            
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
