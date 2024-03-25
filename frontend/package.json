@@ -16,6 +16,7 @@
         "@react-email/components": "^0.0.6",
         "ag-grid-community": "^27.2.1",
         "ag-grid-react": "^27.2.1",
+        "buffer": "^6.0.3",
         "downloadjs": "^1.4.7",
         "immer": "^9.0.14",
         "jquery": "^3.7.1",

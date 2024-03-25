@@ -36,6 +36,55 @@ async function sleep(ms) {
 
 
 
+
+// get all imports (without the file data) for the admin view
+router.get('/get-all-imports-admin', [auth, isSuperuser], async function (req, res, next) {
+
+    let dbRes = null
+    try {
+        dbRes = await database.find('STATIC_imports', {
+            fields: '-uploadedFiles',
+            filter: { },
+            sort: { created: -1 },
+            populate: [ { path: 'user', select: '-password' } ]
+        })
+    } catch (error) {
+        throw new BackendError('could not get imports', 500, error)
+    }
+
+    res.send(dbRes)
+})
+
+
+// get import with file data for the admin view
+router.post('/get-full-import-admin', [auth, isSuperuser], async function (req, res, next) {
+
+    const importId = req.body.importId ? req.body.importId.trim() : undefined
+    if (importId == null) {
+        throw new BackendError('import id is missing')
+    }
+
+    let dbRes = null
+    try {
+        dbRes = await database.find('STATIC_imports', {
+            // fields: '-uploadedFiles.data',
+            filter: { _id: importId },
+            populate: [ { path: 'user', select: '-password' } ]
+        })
+    } catch (error) {
+        throw new BackendError('could not get import', 500, error)
+    }
+
+    await sleep(2000)
+
+    res.send(dbRes)
+})
+
+
+
+
+
+
 // get the imports (without the data) for the current user
 router.get('/get-import-list', [auth], async function (req, res, next) {
 
