@@ -22,7 +22,7 @@ import ResetPassword from './user/ResetPassword'
 import Admin from './admin/Admin'
 import Status from './admin/Status'
 import UserManagement from './admin/UserManagement'
-import Uploads from './admin/Uploads'
+import ImportsAdmin from './admin/ImportsAdmin'
 import EmailTemplatesPreview from './admin/EmailTemplatesPreview'
 import Imports from './pages/import/Imports'
 import Import from './pages/import/Import'
@@ -46,8 +46,8 @@ root.render(
                             {/* <Route path="users" element={<UserList />} /> */}
                             <Route path="admin" element={<Admin />} />
                             <Route path="admin/status" element={<Status />} />
+                            <Route path="admin/imports" element={<ImportsAdmin />} />
                             <Route path="admin/usermanagement" element={<UserManagement />} />
-                            <Route path="admin/uploads" element={<Uploads />} />
                             <Route path="admin/emailtemplates" element={<EmailTemplatesPreview />} />
                         </Route>
                         <Route path="activation/:activationToken" element={<Activation />} />

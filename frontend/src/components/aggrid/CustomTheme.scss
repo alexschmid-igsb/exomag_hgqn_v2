@@ -1,11 +1,49 @@
 
 
+
+
+
+
+
+div.grid-container.scroll {
+
+    // border-radius: 10px;
+    // padding: 4px;
+
+    overflow: hidden;
+    & > div {
+        height: 100%;
+        overflow: hidden;
+        & > div.ag-root-wrapper {
+            height: 100%;
+            overflow: hidden;
+            & > div.ag-root-wrapper-body {
+                height: 100%;
+                overflow: hidden;
+                & > div.ag-root {
+                    height: 100%;
+                    overflow: hidden;
+                    & > div.ag-body-viewport {
+                        overflow-y: auto;
+                        padding: 0px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+
 /* generischer style für ag-grids */
 
 div.ag-theme-alpine-modified {
 }
 
 div.ag-theme-alpine-modified div.ag-root-wrapper {
+    height: 100%;
+    overflow: hidden;
     // border-radius: 5px;
     border: 1px solid rgba(0,0,0,0.2);
 }
@@ -122,6 +160,7 @@ div.ag-theme-alpine-modified span.ag-cell-value {
 div.ag-theme-alpine-modified div.ag-row div.ag-cell {
 
     height: unset;
+    min-height: 40px;
 
     border: none;
     border-right: 1px dashed rgba(0,0,0,0.2);
@@ -163,7 +202,7 @@ div.ag-theme-alpine-modified div.ag-row div.ag-cell div.cell-content {
 div.ag-theme-alpine-modified div.has-expanded-rows div.ag-row.expanded {
 
 
-    
+
     background-color: #aed9e0;
     background-color: rgba(174, 217, 224, 0.8);
     background-color: #c4e0ed;
@@ -171,7 +210,6 @@ div.ag-theme-alpine-modified div.has-expanded-rows div.ag-row.expanded {
     background-color: #EACBD2;
     background-color: #F7B538;
     background-color: #DB7C26;
-    background-color: #D8572A;
     background-color: #DEBAC0;
     background-color: #8D9EC6;
     background-color: #A06B9A;
@@ -187,6 +225,8 @@ div.ag-theme-alpine-modified div.has-expanded-rows div.ag-row.expanded {
     background-color: #90bba4;
     background-color: #71a88a;
     background-color: #66A182;
+    background-color: #D8572A;
+    background-color: #B8B7B7;
     background-color: #81b197;
 
     color: white;

@@ -58,7 +58,9 @@ div.ag-theme-alpine-modified div.enum-value-renderer > span.enum-value {
     border-radius: 3px; 
     padding: 2px 5px;
     font-weight: bold;
-    border: 1px dashed rgba(0,0,0,0.3);
+
+    // border: 1px dashed rgba(0,0,0,0.3);
+    border: 1px solid rgba(0,0,0,0.2);
     background-color: rgba(0,0,0,0.15);
     
 
@@ -211,14 +213,24 @@ div.ag-theme-alpine-modified div.enum-value-renderer.COLUMN_acmgClass > span.enu
 
 div.ag-theme-alpine-modified div.enum-value-renderer.COLUMN_acmgCriteria > span.enum-value {
     
-    color: white;
     margin-right: 4px;
 
     &:last-child {
         margin-right: 4px;
     }
 
+    &.VALUE-nospecificationpossible {
+        // background: rgba(0,0,0,0.1);
+        // border-color: rgba(0,0,0,0.1);
 
+        /*
+        color: rgba(0,0,0,0.5);
+        border: 1px solid rgba(0,0,0,0.15);
+        background-color: rgba(0,0,0,0.1);
+        */
+        
+        // color: white;
+    }
 
     &.VALUE-PVS1 {
         background-color: rgb(199, 7, 0);
@@ -270,7 +282,7 @@ div.ag-theme-alpine-modified div.enum-value-renderer.COLUMN_acmgCriteria > span.
     }
 
     // in varsome gibt es noch eine sehr hellgrüne farbe: rgb(115, 195, 111)
-    // ist aber nicht klar, was diese farbe kodiert
+    // ist mir aber nicht klar, für was das steht
 
     /*
 
@@ -323,6 +335,12 @@ div.ag-theme-alpine-modified div.enum-value-renderer.COLUMN_acmgCriteria > span.
     */
 
 }
+
+
+
+
+
+
 
 
 

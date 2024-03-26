@@ -100,7 +100,7 @@ const validateEnum = (record, fullPath, value, desc) => {
     for(let enumEntry of desc.enum) {
         if(enumEntry.value.localeCompare(value, 'de', { sensitivity: 'base' }) === 0) {
             // matched enum value
-            return value
+            return enumEntry.value
         }
     }
 
@@ -118,7 +118,7 @@ const validateEnum = (record, fullPath, value, desc) => {
     }
 
     // invalid enum value
-    record.report.addFieldError(fullPath, `The value '${value}' is not allowed at path '${fullPath}'. Allowed values are ${desc.enum.map(item => `'${item.value}'`)}`)
+    record.report.addFieldError(fullPath, `The value '${value}' is not allowed at path '${fullPath}'. Allowed values are ${desc.enum.map(item => `"${item.value}"`).join(', ')}`)
     return null
 }
 
@@ -253,6 +253,16 @@ const validateField = (record, root, localPath, fullPath, desc) => {
                 // ignore
             } else {
                 values.push(val)
+            }
+        }
+
+        // check single value violation
+        if(lodash.isArray(desc.singleValues) && values.length > 1) {
+            for(let singleValue of desc.singleValues) {
+                if(values.includes(singleValue)) {
+                    // single value violation found because value array includes a single value but has more than one entry
+                    record.report.addFieldError(fullPath, `The value '${singleValue}' must not be combined with other values at path '${fullPath}'`)
+                }
             }
         }
 
@@ -472,7 +482,7 @@ class Processing {
                     cDNA_processed.parsed = parse_primary_assembly_loci(vvEntry.primary_assembly_loci)
 
                     if(cDNA_processed.parsed.hasError === true) {
-                        const msg = `Could not parse loci from VariantValidator output for cDNA (Error Code 5). cDNA is '${cDNA_processed.source}'. primary_assembly_loci is '${JSON.stringify(primary_assembly_loci)}.'`
+                        const msg = `Could not parse loci from VariantValidator output for cDNA (Error Code 5). cDNA is '${cDNA_processed.source}'. primary_assembly_loci is '${JSON.stringify(vvEntry.primary_assembly_loci)}.'`
                         record.report.addFieldError(fullPath, msg)
                         // record.report.addTopLevelError(msg)
                         cDNA_processed.parsed = null

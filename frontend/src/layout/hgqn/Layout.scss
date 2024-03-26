@@ -17,6 +17,7 @@ div#page-layout {
     flex: 1;
     display: flex;
     flex-flow: column;
+    overflow: hidden;
 }
 
 
@@ -27,6 +28,7 @@ main.page-content {
     /* padding: 12px; */
     padding: 0px;
     position: relative;
+    overflow: hidden;
 
     // background-color: #F0F0F0;
     background-color: $CONTENT_BGCOLOR;

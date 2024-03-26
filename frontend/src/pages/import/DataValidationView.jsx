@@ -36,6 +36,8 @@ import ValidationGrid from './ValidationGrid'
 
 import ExceptionVector from '../../util/exception_vector_2.svg'
 
+import ProcessingLog from './ProcessingLog'
+
 import './DataValidationView.scss'
 
 /*
@@ -395,86 +397,7 @@ export default function DataValidationView(props) {
 
 
 
-    const resultCount = React.useMemo(() => {
-        const entries = importInstance?.processing?.processedEntries
-        if(entries != null && lodash.isArray(entries)) {
-            return {
-                success: entries.reduce( (sum,item) => sum + (item?.state?.importSuccessful === true ? 1 : 0), 0),
-                error: entries.reduce( (sum,item) => sum + (item?.state?.importSuccessful == false ? 1 : 0), 0),
-            }
-        } else {
-            return {
-                success: 0,
-                error: 0
-            }
-        }
-    }, [importInstance])
 
-
-    const renderDetails = () => {
-
-        const entries = importInstance?.processing?.processedEntries
-        if(entries == null || lodash.isArray(entries) === false) {
-            return null
-        }
-
-        let list = []
-        let i = 1
-        for(let entry of entries) {
-            let errors = []
-
-            for(let fieldError of entry.report.fieldErrors) {
-                errors.push(
-                    <div className="error">
-                        <IconifyIcon className="icon" icon="ph:caret-double-right-duotone"/>
-                        <span>
-                            <b>{fieldError.field}:</b> {fieldError.message}
-                        </span>
-                    </div>
-                )
-            }
-
-            for(let topLevelError of entry.report.topLevelErrors) {
-                errors.push(
-                    <div className="error">
-                        <IconifyIcon className="icon" icon="ph:caret-double-right-duotone"/>
-                        <span>
-                            {topLevelError.message}:
-                        </span>
-                    </div>
-                )
-            }
-
-            for(let importError of entry.report.importErrors) {
-                errors.push(
-                    <div className="error">
-                        <IconifyIcon className="icon" icon="ph:caret-double-right-duotone"/>
-                        <span>
-                            {importError.message}:
-                        </span>
-                    </div>
-                )
-            }
-
-            list.push(
-                <div className="entry-detail">
-                    <div className="label">Datensatz {i}:</div>
-                    { errors.length === 0 && entry.state != null && entry.state.importSuccessful === true ? 
-                        <div className="success">
-                            <IconifyIcon className="icon" icon="ph:caret-double-right-duotone"/>
-                            <span><b>importiert</b></span>
-                        </div>
-                    :
-                        null
-                    }
-                    {errors}
-                </div>
-            )
-            i++
-        }
-
-        return list
-    }
 
 
     return (
@@ -498,87 +421,30 @@ export default function DataValidationView(props) {
 
 
             {
-                importInstance?.processing?.excel?.state === 'FINISHED' ?
+                importInstance?.processing?.excel?.state === 'ERROR' ?
 
-                    <div className="summary">
-                        <div className="box">
-                            <div className="label">Zusammenfassung</div>
-                            <p>
-                                Importierte Datensätze: <b>{ resultCount.success }</b>
-                            </p>
-                            <p>
-                                Fehlerhafte Datensätze:  <b>{ resultCount.error }</b>
-                            </p>
+                    <div className="summary error">
+                        <div className="exception-vector">
+                            <img className="exception-vector" src={ExceptionVector} />
                         </div>
-                        <div className="box scroll">
-                            <div className="label">Detailansicht</div>
-                            { renderDetails() }
-                            {/* <JSONView target={importInstance} /> */}
+                        <div className="box">
+                            <p>
+                                <b>Leider ist bei der Bearbeitung der hochgeladenen Daten ein unerwartetes Problem aufgetreten.</b>
+                            </p>
+                            <p>&nbsp;</p>
+                            <p>
+                                Das Problem wurde an das Entwicklerteam übermittelt und wird in Kürze behoben werden.
+                            </p>
+                            {importInstance?.processing?.excel?.error != null ?
+                                <div className="error">
+                                    <ErrorModal error={importInstance?.processing?.excel?.error}/>
+                                </div>
+                                : null}
                         </div>
                     </div>
-
-                    : importInstance?.processing?.excel?.state === 'ERROR' ?
-
-                        <div className="summary error">
-                            <div className="exception-vector">
-                                <img className="exception-vector" src={ExceptionVector} />
-                            </div>
-                            <div className="box">
-                                <p>
-                                    <b>Leider ist bei der Bearbeitung der hochgeladenen Daten ein unerwartetes Problem aufgetreten.</b>
-                                </p>
-                                <p>&nbsp;</p>
-                                <p>
-                                    Das Problem wurde an das Entwicklerteam übermittelt und wird in Kürze behoben werden.
-                                </p>
-                                {importInstance?.processing?.excel?.error != null ?
-                                    <div className="error">
-                                        <ErrorModal error={importInstance?.processing?.excel?.error}/>
-                                    </div>
-                                    : null}
-                            </div>
-                        </div>
-                    :
-                        null
+                :
+                    <ProcessingLog importInstance={importInstance} />
             }
-
-
-
-
-            {/* <JSONView target={importInstance} /> */}
-
-
-
-
-
-            {/* <ValidationGrid
-                dataValidated={importInstance.data.validated}
-            /> */}
-
-
-
-            {/* 
-            { importInstance?.uploadFormat === 'excel_template' ? 
-                <ExcelTemplateMapping
-                    importInstance={importInstance}
-                    onExcelSheetChange={onExcelSheetChange}
-                    onMappingChange={onMappingChange}
-                 />
-
-            : importInstance?.uploadFormat === 'excel_clinvar' ? 
-                <div>The upload format '<b>Excel</b> (Clinvar)' will be available only from the next version of this application. Please go back and use the "Excel Template" upload format in the meantime.</div>
-
-            : importInstance?.uploadFormat === 'phenopacket' ? 
-                <div>The upload format '<b>Phenopacket</b>' will be available only from the next version of this application. Please go back and use the "Excel Template" upload format in the meantime.</div>
-            :
-                null
-            }
-            */}
-
-
-
-
-
 
 
         </div>
