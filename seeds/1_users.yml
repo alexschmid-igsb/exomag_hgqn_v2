@@ -1497,8 +1497,8 @@ data:
     state:
       id: CREATED
   - _id: 076caba6-69da-4285-b651-2cc5978c02f1
-    username: astrid.preuße
-    email: apreuße@dna-diagnostik.hamburg
+    username: astrid.preusse
+    email: apreusse@dna-diagnostik.hamburg
     isSuperuser: false
     firstname: Astrid
     lastname: Preuße
