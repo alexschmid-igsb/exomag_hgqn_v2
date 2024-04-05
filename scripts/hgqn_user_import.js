@@ -276,19 +276,22 @@ async function importUsersMitZuordnung(data) {
         // user activation
         // unabhängig davon ob der user bereits in der datenbank war oder gerade neu hnzugefügt wurde, muss der user einen
         // registry link bekommen, solange das noch nicht passiert ist
+
+        TODO WICHTIG: Auch alles accounts die auf activation pending stehen
         if(dbUser.state.id === 'CREATED') {
             // 
             console.log("aktivierung " + dbUser.email)
 
 
-            /*
-            todo: hier jetzt die aktivierungsschritte aus dem code holen
-            token erstellen,
-            email schicken,
-            datenbank updaten mit token und state,
-            BEIM EMAIL SCHICKEN ERSTMAL ALLE AN MEINE EIGENEN ADRESSE SCHICKEN UM ZU TESTEN, OB MAN MASSENHAFT EMAILS
-            VERSCHICKEN DARF
-            */
+            TODO:
+            1. Token generieren, token in user in datebank speichern 
+            
+            2. Siehe email_test.js
+               Email versenden über den Mailer
+               Das template für die email erstmal hardgecoded anlegen (siehe email_test.js)
+
+            BEIM EMAIL SCHICKEN ERSTMAL ALLE AN die eignene ADRESSE SCHICKEN UM ZU TESTEN, OB MAN MASSENEMAILS
+            VERSCHICKEN DARF ODER OB DAS IRGENDWAN ABBRICHT
 
             countActivationSent++
         }
