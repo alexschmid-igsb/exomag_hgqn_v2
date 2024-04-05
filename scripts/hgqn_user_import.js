@@ -281,12 +281,14 @@ async function importUsersMitZuordnung(data) {
             console.log("aktivierung " + dbUser.email)
 
 
+            /*
             todo: hier jetzt die aktivierungsschritte aus dem code holen
             token erstellen,
             email schicken,
             datenbank updaten mit token und state,
             BEIM EMAIL SCHICKEN ERSTMAL ALLE AN MEINE EIGENEN ADRESSE SCHICKEN UM ZU TESTEN, OB MAN MASSENHAFT EMAILS
             VERSCHICKEN DARF
+            */
 
             countActivationSent++
         }
