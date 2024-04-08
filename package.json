@@ -16,6 +16,7 @@
         "express": "~4.16.1",
         "express-async-errors": "^3.1.1",
         "http-errors": "~1.6.3",
+        "imapflow": "^1.0.158",
         "jade": "~1.11.0",
         "js-yaml": "^4.1.0",
         "jsonwebtoken": "^8.5.1",
