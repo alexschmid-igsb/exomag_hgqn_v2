@@ -5,6 +5,9 @@ const lodash = require('lodash')
 lodash.templateSettings.interpolate = /\{\{=([\s\S]+?)\}\}/g
 
 const nodemailer = require('nodemailer')
+const MailComposer = require('nodemailer/lib/mail-composer')
+
+const { ImapFlow } = require('imapflow')
 
 let transport = nodemailer.createTransport({
     host: mailConfig.smtp.host,
@@ -15,6 +18,22 @@ let transport = nodemailer.createTransport({
     }
 })
 
+let imap = null
+if(mailConfig.imap != null) {
+    imap = new ImapFlow({
+        host: mailConfig.imap.host,
+        port: 993,
+        secure: true,
+        auth: {
+            user: mailConfig.imap.user,
+            pass: mailConfig.imap.password,
+        },
+        logger: false
+    })
+}
+
+
+
 
 module.exports = {
 
@@ -24,7 +43,7 @@ module.exports = {
             throw new Error(`Missing template`)
         }
 
-        var mail = {
+        var mailOptions = {
             from: `"${mailConfig.from.name}" <${mailConfig.from.email}>`,
             to: `${to.name} <${to.email}>`,
             subject: lodash.template(template.subject)(params),
@@ -38,10 +57,52 @@ module.exports = {
             // }
         }
 
-        let result = await transport.sendMail(mail)
+        let result = await transport.sendMail(mailOptions)
 
         return result
+    },
+
+
+
+
+
+    test: async function({to,template,params}) {
+
+        var mailOptions = {
+            from: `"${mailConfig.from.name}" <${mailConfig.from.email}>`,
+            to: `${to.name} <${to.email}>`,
+            subject: lodash.template(template.subject)(params),
+            text: lodash.template(template.text)(params),
+            html: lodash.template(template.html)(params)
+        }
+
+        let mail = new MailComposer(mailOptions)
+        console.log(mail)
+
+        let message_rfc822 = await mail.compile().build()
+
+        console.log(message_rfc822)
+        
+
+
+
+
+        jetzt: das wieder in imap kapseln und hier die imap bib verwenden, damit das senden automatisch nach imap schiebt, immer wenn imap vorhanden ist
+
+
+        await imap.connect()
+
+        let result = await imap.append('INBOX.Sent', message_rfc822, [ '\\Seen' ], new Date())
+        console.log(result)
+
+        await imap.logout()
+
+
+
+
     }
+
+
 }
 
 

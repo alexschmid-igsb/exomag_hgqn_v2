@@ -6,8 +6,7 @@ const lodash = require('lodash')
 const console = require('../backend/util/PrettyfiedConsole')
 
 const Mailer = require('../backend/util/mail/SMTPMailer')
-
-
+const IMAPClient = require('../backend/util/mail/IMAPClient')
 
 const nodemailer = require('nodemailer')
 const { text } = require('express')
@@ -135,7 +134,13 @@ async function main() {
         token: "==THIS IS TOKEN=="
     }
 
-    await Mailer.sendTransactionMail({
+
+
+
+
+
+
+    await Mailer.test({
         to: to,
         template: template,
         params: params
@@ -143,12 +148,50 @@ async function main() {
 
 
 
+    /*
+    try {
+        let result = await Mailer.sendTransactionMail({
+            to: to,
+            template: template,
+            params: params
+        })
+        console.log(result)
+    } catch(err) {
+        // TODO
+        console.log(err)
+        process.exit(1)
+    }
+    */
 
+
+
+
+
+
+
+
+
+
+    // await IMAPClient.test()
+
+
+
+
+
+
+
+
+
+
+
+
+    /*
     TODO:
     Durch SMTP gesendete Email werden nicht im Postfächern oder Sent Ordnern abgelegt.
     Das müsste man manuell machen:
     https://www.example-code.com/nodejs/smtp_sendWithCopyToSentFolder.asp
     Anstelle von chilkat besser https://www.npmjs.com/package/imap verwenden
+    */
     
 
 
