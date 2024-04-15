@@ -19,7 +19,8 @@ async function main() {
 
     let to = {
         name: 'Alex Schmid',
-        email: 'alexschmid@gmx.de'
+        // email: 'alexschmid@gmx.de'
+        email: 'schmida@uni-bonn.de'
     }
 
 
@@ -138,13 +139,23 @@ async function main() {
 
 
 
+    await Mailer.sendTransactionMail({
+        to: to,
+        template: template,
+        params: params
+    })
 
 
+
+
+
+    /*
     await Mailer.test({
         to: to,
         template: template,
         params: params
     })
+    */
 
 
 
