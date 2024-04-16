@@ -30,19 +30,12 @@ module.exports = {
             subject: lodash.template(template.subject)(params),
             text: lodash.template(template.text)(params),
             html: lodash.template(template.html)(params)
-
-            // SMTP envelope is usually auto generated from from, to, cc and bcc fields in the message object but if for some reason you want to specify it yourself (custom envelopes are usually used for VERP addresses), you can do it with the envelope property in the message object.
-            // envelope: {
-            //     from: 'Daemon <deamon@nodemailer.com>',                          // used as MAIL FROM: address for SMTP
-            //     to: 'mailer@nodemailer.com, Mailer <mailer2@nodemailer.com>'     // used as RCPT TO: address for SMTP
-            // }
-
         }
 
         let result = null
         try {
             result = await transport.sendMail(mailOptions)
-
+            
             if(imapSession != null && imapSession.isAvailable() === true) {
                 let rfc822_message = await (new MailComposer(mailOptions)).compile().build()
                 await imapSession.appendMail({imapPath: 'INBOX.Sent', rfc822_message})
