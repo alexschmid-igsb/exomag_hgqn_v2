@@ -411,8 +411,8 @@ class Processing {
         /*
             Bekannte Probleme:
 
-                Manche legale VariantValidator Abfragen führen im ExomAG VariantValidator Instan zu einem fehler 500 ohne weitere fehlerinfos..
-                In der öffentlichen API scheint es zu funktionieren.
+                Manche legale VariantValidator Abfragen führen im ExomAG VariantValidator Instanz zu einem fehler 500 ohne weitere fehlerinfos..
+                In der öffentlichen API scheint es aber zu funktionieren.
 
                 Beispiel:
                 https://rest.variantvalidator.org/VariantValidator/variantvalidator/GRCh38/NC_000023.10%3Ag.64743962T%3EC/auth_raw
@@ -420,7 +420,7 @@ class Processing {
 
                 Allerdings war der Grund für die lokale Instanz, dass bestimmte (legale) Abfragen in der öffentliche API eine Fehler verursacht haben.
 
-                Früher oder später muss man hier mal sorgfältige Fehlersuche betreiben.
+                Früher oder später muss hier eine sorgfältige Fehlersuche betreiben.
         */
 
         let i = 0
@@ -447,7 +447,12 @@ class Processing {
                 }
 
                 if(caught != null || cDNA_processed.vvOutput == null) {
-                    const msg = `Could not generate VariantValidator Output for cDNA (Error Code 2): ${cDNA_processed.source}`
+                    msg = `Unexpected error during VariantValidator query (Error Code 2). cDNA is '${cDNA_processed.source}'.`
+                    if(caught != null) {
+                         msg += ` Error from VariantValidator is '${caught}'.`
+                    } else {
+                        msg += ` VariantValidator returned 'null'.`
+                    }
                     record.report.addFieldError(fullPath, msg)
                     // record.report.addTopLevelError(msg)
                     cDNA_processed.state = 'ERROR'
@@ -515,10 +520,15 @@ class Processing {
                 }
 
                 if(caught != null || gDNA_processed.vvOutput == null) {
-                    const msg = `Could not generate VariantValidator Output for gDNA (Error Code 7): ${gDNA_processed.source}`
+                    msg = `Unexpected error during VariantValidator query (Error Code 7). gDNA is '${gDNA_processed.source}'.`
+                    if(caught != null) {
+                         msg += ` Error from VariantValidator is '${caught}'.`
+                    } else {
+                        msg += ` VariantValidator returned 'null'.`
+                    }
                     record.report.addFieldError(fullPath, msg)
                     // record.report.addTopLevelError(msg)
-                    gDNA_processed.state = 'ERROR'
+                    cDNA_processed.state = 'ERROR'
                 }
 
                 if(gDNA_processed.vvOutput != null && gDNA_processed.vvOutput.flag !== 'gene_variant') {
