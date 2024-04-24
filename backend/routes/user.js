@@ -15,6 +15,7 @@ const usersStore = require('../users/manager')
 const database = require('../../backend/database/connector').connector
 
 const Mailer = require('../../backend/util/mail/SMTPMailer')
+const IMAPClient = require('../../backend/util/mail/IMAPClient')
 
 const BackendError = require('../util/BackendError')
 
@@ -266,6 +267,8 @@ router.post('/add-user-admin', [auth, isSuperuser], async function (req, res, ne
     await usersStore.insertUser(user)
 
     if(sendActivationLink) {
+        let imapSession = IMAPClient.createSession()
+        await imapSession.connect()
         await Mailer.sendTransactionMail({
             to: {
                 name: username,
@@ -273,8 +276,10 @@ router.post('/add-user-admin', [auth, isSuperuser], async function (req, res, ne
             },
             from: mailConfig.from,
             template: template,
-            params: { token: token }
+            params: { token: token },
+            imapSession
         })
+        await imapSession.disconnect()
     }
     
     return res.send({})
@@ -518,6 +523,8 @@ router.post('/send-username', async function (req, res, next) {
         return
     }
 
+    let imapSession = IMAPClient.createSession()
+    await imapSession.connect()
     await Mailer.sendTransactionMail({
         to: {
             name: user.username,
@@ -525,8 +532,10 @@ router.post('/send-username', async function (req, res, next) {
         },
         from: mailConfig.from,
         template: template,
-        params: { username: user.username }
+        params: { username: user.username },
+        imapSession
     })
+    await imapSession.disconnect()
 
     res.send({})
 })
@@ -571,6 +580,8 @@ router.post('/reset-activation-admin', [auth, isSuperuser], async function (req,
 
     await usersStore.resetState(userid, username, state)
 
+    let imapSession = IMAPClient.createSession()
+    await imapSession.connect()
     await Mailer.sendTransactionMail({
         to: {
             name: username,
@@ -578,8 +589,10 @@ router.post('/reset-activation-admin', [auth, isSuperuser], async function (req,
         },
         from: mailConfig.from,
         template: template,
-        params: { token: state.token }
+        params: { token: state.token },
+        imapSession
     })
+    await imapSession.disconnect()
 
     return res.send({})
 })
@@ -614,6 +627,9 @@ router.post('/reset-password-user', async function (req, res, next) {
     let user = await usersStore.getUserByUsername(username)
 
     if(user == null || user.email !== email) {
+        console.log("WARNING: Password reset email not sent because user not found or wrong email for username")
+        console.log(email)
+        console.log(user)
         res.send({})
         return
     }
@@ -626,6 +642,8 @@ router.post('/reset-password-user', async function (req, res, next) {
 
     await usersStore.resetState(user._id, username, state)
 
+    let imapSession = IMAPClient.createSession()
+    await imapSession.connect()
     await Mailer.sendTransactionMail({
         to: {
             name: username,
@@ -633,8 +651,10 @@ router.post('/reset-password-user', async function (req, res, next) {
         },
         from: mailConfig.from,
         template: template,
-        params: { token: state.token }
+        params: { token: state.token },
+        imapSession
     })
+    await imapSession.disconnect()
 
     return res.send({})
 })
@@ -676,6 +696,8 @@ router.post('/reset-password-admin', [auth, isSuperuser], async function (req, r
 
     await usersStore.resetState(userid, username, state)
 
+    let imapSession = IMAPClient.createSession()
+    await imapSession.connect()
     await Mailer.sendTransactionMail({
         to: {
             name: username,
@@ -683,8 +705,10 @@ router.post('/reset-password-admin', [auth, isSuperuser], async function (req, r
         },
         from: mailConfig.from,
         template: template,
-        params: { token: state.token }
+        params: { token: state.token },
+        imapSession
     })
+    await imapSession.disconnect()
 
     return res.send({})
 })

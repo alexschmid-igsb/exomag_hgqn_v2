@@ -165,8 +165,8 @@ async function loadData() {
         for(let lab of res.data) {
             data.db.labs.byId.set(lab._id,lab)
             data.db.labs.byShortName.set(lab.shortName,lab)
-            data.db.labs.byName.set(lab.name,lab),
-            data.db.labs.byWebsite.set(lab.website,lab),
+            data.db.labs.byName.set(lab.name,lab)
+            data.db.labs.byWebsite.set(lab.website,lab)
             data.db.labs.byEmail.set(lab.email,lab)
         }
     }
@@ -190,7 +190,7 @@ async function loadData() {
 
     // hgqn labs aus dem zu importierenden excel file
     {
-        let res = xlsx.helper.parseRowsFromFile(path.join(__dirname, 'HGQN Labs_260324.xlsx'), 'Sheet1', 1)
+        let res = xlsx.helper.parseRowsFromFile(path.join(__dirname, '../config/hgqn/HGQN Labs_260324.xlsx'), 'Sheet1', 1)
         data.excel.labs = {
             all: res.rows,
             byId: new Map(),
@@ -200,14 +200,16 @@ async function loadData() {
             for(let propertyName of Object.getOwnPropertyNames(row)) {
                 row[propertyName] = lodash.isString(row[propertyName].value) ? row[propertyName].value.trim() : row[propertyName].value
             }
-            data.excel.labs.byId.set(row['ID'].trim(),row)
+            if(row['ID'] != null) {
+                data.excel.labs.byId.set(row['ID'].trim(),row)
+            }
             data.excel.labs.byShortName.set(row['Anzeigename'].trim(),row)
         }
     }
 
     // hgqn user mit lab zuordnung
     {
-        let res = xlsx.helper.parseRowsFromFile(path.join(__dirname, 'HGQN Variantendatenbank_MG mit Zuordnung_gesamt.xlsx'), 'Tabelle1', 1)
+        let res = xlsx.helper.parseRowsFromFile(path.join(__dirname, '../config/hgqn/HGQN Variantendatenbank_MG mit Zuordnung_gesamt.xlsx'), 'Tabelle1', 1)
         data.excel.usersMitLab = {
             all: res.rows,
             byEmail: new Map(),
@@ -223,7 +225,7 @@ async function loadData() {
     
     // hgqn user ohne lab zuordnung
     {
-        let res = xlsx.helper.parseRowsFromFile(path.join(__dirname, 'HGQN Variantendatenbank Verteiler_MG ohne Zuordnung.xlsx'), 'Tabelle2', 1)
+        let res = xlsx.helper.parseRowsFromFile(path.join(__dirname, '../config/hgqn/HGQN Variantendatenbank Verteiler_MG ohne Zuordnung.xlsx'), 'Tabelle2', 1)
         data.excel.usersOhneLab = {
             all: res.rows,
             byEmail: new Map(),
@@ -292,29 +294,67 @@ async function importLabs(data) {
 
         } else {
 
+            // nicht in der datenbank vorhanden
 
             let lab = {}
             for(let mapping of mappings) {
                 let excelValue = importLab[mapping.excel] != null ? lodash.isString(importLab[mapping.excel]) ? importLab[mapping.excel].trim() : importLab[mapping.excel] : null
-                if(excelValue !== dbValue) {
-                    lab[mapping.db] = excelValue
-                }
+                lab[mapping.db] = excelValue
             }
             if(id != null) {
-
-            } else {
-
+                lab._id = id
             }
-            geht das sowohl mit als auch ohne id?
-            dbLab = await database.insert('CORE_users', lab)
+
+            // nur einfügen, wenn der short name oder name noch nicht vorhanden sind
+            if(data.db.labs.byShortName.get(lab.shortName) != null) {
+                // let zeile = `   ZEILE ${index+2}: `
+                // console.log(`${zeile}FEHLER BEIM HINZUFÜGEN VON NEUEM LAB`)
+                // console.log(`${(new Array(zeile.length)).fill(' ').join('')}ES EXISTIERT BEREITS EIN LAB MIT ANZEIGENAME '${lab.shortName}'`)
+                // console.log(`${(new Array(zeile.length)).fill(' ').join('')}DER IMPORT DIESES LABS WIRD ÜBERSPRUNGEN`)
+                // console.log()
+                continue
+            } else {
+                // console.log("shortName: " + lab.shortName + " OK")
+            }
+
+            if(data.db.labs.byName.get(lab.name) != null) {
+                // let zeile = `   ZEILE ${index+2}: `
+                // console.log(`${zeile}FEHLER BEIM HINZUFÜGEN VON NEUEM LAB`)
+                // console.log(`${(new Array(zeile.length)).fill(' ').join('')}ES EXISTIERT BEREITS EIN LAB MIT NAME '${lab.name}'`)
+                // console.log(`${(new Array(zeile.length)).fill(' ').join('')}DER IMPORT DIESES LABS WIRD ÜBERSPRUNGEN`)
+                // console.log()
+                continue
+            } else {
+                // console.log("name: " + lab.name + " OK")
+            }
             
+            // if(data.db.labs.byWebsite.get(lab.website) != null) {
+            //     let zeile = `   ZEILE ${index+2}: `
+            //     console.log(`${zeile}FEHLER BEIM HINZUFÜGEN VON NEUEM LAB`)
+            //     console.log(`${(new Array(zeile.length)).fill(' ').join('')}ES EXISTIERT BEREITS EIN LAB MIT WEBSITE '${lab.website}'`)
+            //     console.log(`${(new Array(zeile.length)).fill(' ').join('')}DER IMPORT DIESES LABS WIRD ÜBERSPRUNGEN`)
+            //     console.log()
+            //     continue
+            // }
+            // if(data.db.labs.byEmail.get(lab.email) != null) {
+            //     let zeile = `   ZEILE ${index+2}: `
+            //     console.log(`${zeile}FEHLER BEIM HINZUFÜGEN VON NEUEM LAB`)
+            //     console.log(`${(new Array(zeile.length)).fill(' ').join('')}ES EXISTIERT BEREITS EIN LAB MIT EMAIL '${lab.email}'`)
+            //     console.log(`${(new Array(zeile.length)).fill(' ').join('')}DER IMPORT DIESES LABS WIRD ÜBERSPRUNGEN`)
+            //     console.log()
+            //     continue
+            // }
 
+            // console.log("ADDE")
+            // console.log(lab)
 
+            dbLab = await database.insert('STATIC_labs', lab)
 
-            
-            // TODO: ADDEN
-            // checken ob es ein ab mit dem kurname oder voll name gibt
-            // wenn nein, dann adden, wenn doch, kann man die ID nehmen?
+            data.db.labs.byId.set(dbLab._id,dbLab)
+            data.db.labs.byShortName.set(dbLab.shortName,dbLab)
+            data.db.labs.byName.set(dbLab.name,dbLab),
+            data.db.labs.byWebsite.set(dbLab.website,dbLab),
+            data.db.labs.byEmail.set(dbLab.email,dbLab)
 
             countAdded++
         }
@@ -326,19 +366,23 @@ async function importLabs(data) {
     console.log(`     unchanged: ${countUnchaged}`)
     console.log(`     total: ${index}`)
 
-    // reload the updated labs from database
+    // reload added or updated labs from database
     {
         const res = await database.find('STATIC_labs')
         data.db.labs = {
             all: res.data,
             byId: new Map(),
             byName: new Map(),
-            byShortName: new Map()
+            byShortName: new Map(),
+            byWebsite: new Map(),
+            byEmail: new Map()
         }
         for(let lab of res.data) {
             data.db.labs.byId.set(lab._id,lab)
-            data.db.labs.byName.set(lab.name,lab)
             data.db.labs.byShortName.set(lab.shortName,lab)
+            data.db.labs.byName.set(lab.name,lab),
+            data.db.labs.byWebsite.set(lab.website,lab),
+            data.db.labs.byEmail.set(lab.email,lab)
         }
     }
 
@@ -347,8 +391,6 @@ async function importLabs(data) {
 
 
 async function importUsersMitZuordnung(data) {
-
-    // console.log(data.excel.usersMitLab.all)
 
     let index = 0
     let firstError = true
@@ -443,7 +485,7 @@ async function importUsersMitZuordnung(data) {
         // unabhängig davon ob der user bereits in der datenbank war oder gerade eben erst neu hinzugefügt wurde,
         // muss der user einen registry link geschickt bekommen (vorrausgesetzt das ist noch nicht passiert).
         
-        if(dbUser.state.id !== 'ACTIVE' && dbUser.state.id !== 'ACTIVATION_PENDING_AFTER_IMPORT') {
+        if(dbUser.state.id !== 'ACTIVE' && dbUser.state.id !== 'ACTIVATION_PENDING') {
         
             console.log("aktivierung " + dbUser.email)
 
@@ -453,7 +495,7 @@ async function importUsersMitZuordnung(data) {
             // state anpassen, activation token generieren
             let update = {
                 state: {
-                    id: 'ACTIVATION_PENDING_AFTER_IMPORT',
+                    id: 'ACTIVATION_PENDING',
                     token: token,
                     when: new Date(Date.now()).toISOString()
                 }
@@ -466,7 +508,8 @@ async function importUsersMitZuordnung(data) {
             await Mailer.sendTransactionMail({
                 to: {
                     name: dbUser.username,
-                    email: 'schmida@uni-bonn.de' // dbUser.email
+                    email: dbUser.email
+                    // email: 'schmida@uni-bonn.de'     // zum testen des massenversands
                 },
                 template: template,
                 params: { token: token },
@@ -490,7 +533,120 @@ async function importUsersMitZuordnung(data) {
 
 
 async function importUsersOhneZuordnung(data) {
-    
+
+    let index = 0
+    let firstError = true
+
+    let countErrors = 0
+    let countUsersExisting = 0
+    let countUsersAdded = 0
+    let countActivationSent = 0
+
+    for(let excelUser of data.excel.usersOhneLab.all) {
+
+        let excelLabShortName = excelUser['Anzeigename'] != null ? lodash.isString(excelUser['Anzeigename']) ? excelUser['Anzeigename'].trim() : excelUser['Anzeigename'] : null
+        let excelLabName = excelUser['Vollständiger Name'] != null ? lodash.isString(excelUser['Vollständiger Name']) ? excelUser['Vollständiger Name'].trim() : excelUser['Vollständiger Name'] : null
+
+        let excelEmail = excelUser['Email'] != null ? lodash.isString(excelUser['Email']) ? excelUser['Email'].trim() : excelUser['Email'] : null
+
+        let excelName = excelUser['Name'] != null ? lodash.isString(excelUser['Name']) ? excelUser['Name'].trim() : excelUser['Name'] : null
+        let username = excelName.toLowerCase().replaceAll(' ', '.')
+
+        // checken ob es schon einen user mit dieser email gibt
+        let dbUser = data.db.users.byEmail.get(excelEmail)
+        if(dbUser == null) {
+
+            // es gibt noch keinen user mit der emailadresse
+            // jetzt checken ob der username schon existiert
+            let check = data.db.users.byUsername.get(username)
+            if(check != null) {
+                // es gibt den username bereits. das kann passieren, wenn zwei verschiedene user den gleichen namen haben und deswegen den
+                // gleichen username generiert bekommen haben. Oder aber weil der bereits in der datenbank existierende user eine falsche
+                // email eingetragen hatte (im fall der HGQN Daten sind das emails mit umlauten oder 'ß')
+                let emailKorrigiert = check.email.replaceAll('ö','oe').replaceAll('ö','ae').replaceAll('ü','ue').replaceAll('ß','ss')
+                if(emailKorrigiert === excelEmail) {
+                    // In diesem fall war der user bereits mit einer "falschen" emailadresse vorhanden.
+                    // der alte user wird entfernt damit der neue hinzugefügt werden kann
+                    await database.deleteOne('CORE_users', {_id: check._id, username: check.username, email: check.email})
+                } else {
+                    // In diesem fall ist unklar, warum es eine kollision der usernames gibt (eventuell ein user mit dem gleichen Namen).
+                    // die einfachste lösung ist, einfach auf einen alternativen username auszuweichen (z.b. einfach die email)
+                    username = excelEmail
+                    // console.log("username change")
+                }
+            }
+
+            // user einfügen
+            dbUser = await database.insert('CORE_users', {
+                username: username,
+                email: excelEmail,
+                isSuperuser: false,
+                state: { id: 'IMPORTED' }
+            })
+
+            // add user to user maps
+            data.db.users.byId.set(dbUser._id, dbUser)
+            data.db.users.byEmail.set(dbUser.email, dbUser)
+            data.db.users.byUsername.set(dbUser.username, dbUser)
+
+            countUsersAdded++
+
+            console.log()
+
+        } else {
+
+            countUsersExisting++
+
+        }
+
+        // user activation
+        // unabhängig davon ob der user bereits in der datenbank war oder gerade eben erst neu hinzugefügt wurde,
+        // muss der user einen registry link geschickt bekommen (vorrausgesetzt das ist noch nicht passiert).
+        
+        if(dbUser.state.id !== 'ACTIVE' && dbUser.state.id !== 'ACTIVATION_PENDING') {
+        
+            console.log("aktivierung " + dbUser.email)
+
+            // token generieren
+            let token = randHex(32)
+
+            // state anpassen, activation token generieren
+            let update = {
+                state: {
+                    id: 'ACTIVATION_PENDING',
+                    token: token,
+                    when: new Date(Date.now()).toISOString()
+                }
+            }
+
+            // update user in datenbank
+            await database.findByIdAndUpdate('CORE_users', dbUser._id, update)
+
+            // activation mail senden
+            await Mailer.sendTransactionMail({
+                to: {
+                    name: dbUser.username,
+                    email: dbUser.email
+                    // email: 'schmida@uni-bonn.de'     // zum testen des massenversands
+                },
+                template: template,
+                params: { token: token },
+                imapSession
+            })
+
+            countActivationSent++
+        }
+
+        index++
+    }
+
+    console.log(`   existing: ${countUsersExisting}`)
+    console.log(`   added: ${countUsersAdded}`)
+    console.log(`   errors: ${countErrors}`)
+    console.log(`   total: ${index}`)
+    console.log()
+    console.log(`   new activations sent: ${countActivationSent}`)
+   
 }
 
 
@@ -514,14 +670,10 @@ async function main() {
     await importLabs(data)
     console.log()
 
-    // NACHDEM DIE LABS SYNCHRONISIERT SIND, BRAUCHT MAN FÜR DIE ZUORDNUNG ZWEI WEITERE MAPS,
-    // shortName nach db lab 
-    // name nach db lab
-
     // process users "mit zuordnung"
-    console.log('\n3. IMPORT USERS "mit Zuordnung"')
-    await importUsersMitZuordnung(data)
-    console.log()
+    // console.log('\n3. IMPORT USERS "mit Zuordnung"')
+    // await importUsersMitZuordnung(data)
+    // console.log()
 
     // process users "ohne zuordnung"
     console.log('\n4. IMPORT USERS "ohne Zuordnung"')
