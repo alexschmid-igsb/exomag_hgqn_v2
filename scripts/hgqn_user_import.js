@@ -671,9 +671,9 @@ async function main() {
     console.log()
 
     // process users "mit zuordnung"
-    // console.log('\n3. IMPORT USERS "mit Zuordnung"')
-    // await importUsersMitZuordnung(data)
-    // console.log()
+    console.log('\n3. IMPORT USERS "mit Zuordnung"')
+    await importUsersMitZuordnung(data)
+    console.log()
 
     // process users "ohne zuordnung"
     console.log('\n4. IMPORT USERS "ohne Zuordnung"')
