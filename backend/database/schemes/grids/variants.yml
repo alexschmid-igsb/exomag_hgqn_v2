@@ -79,7 +79,6 @@ layouts:
           - label: Externe Links
             type: 
                 id: primary
-                root: GRCh37
             fields:
               - id: links
                 path: _id
@@ -87,6 +86,9 @@ layouts:
                 customValueRenderer: variant_external_links
                 majorField: true
                 pinned: true
+              - id: wefkjhwkjf
+                path: GRCh38
+                label: blabla
 
 
         #   - label: GRCh38

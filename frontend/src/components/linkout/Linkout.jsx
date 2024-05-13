@@ -8,13 +8,14 @@ import './Linkout.scss'
 
 const Icon = () => <IconifyIcon className="icon" icon="akar-icons:link-out"/>
 
-export default function FranklinLogo({flavor}) {
+export default function LinkOut(props) {
 
     const render = () => {
-        switch (flavor) {
+        switch (props.flavor) {
             case 'franklin':
                 return (
                     <div className="linkout franklin">
+                        {JSON.stringify(props.value)}
                         <img className="logo" src={franklin} />
                         <Icon/>
                     </div>
@@ -23,6 +24,7 @@ export default function FranklinLogo({flavor}) {
             case 'gnomad':
                 return (
                     <div className="linkout gnomad">
+                        {JSON.stringify(props.value)}
                         <img className="logo" src={gnomad} />
                         <Icon/>
                     </div>
@@ -31,6 +33,7 @@ export default function FranklinLogo({flavor}) {
             case 'varsome':
                 return (
                     <div className="linkout varsome">
+                        {JSON.stringify(props.value)}
                         <img className="logo" src={varsome} />
                         <Icon/>
                     </div>
@@ -39,6 +42,7 @@ export default function FranklinLogo({flavor}) {
             default:
                 return (
                     <div className="linkout">
+                        {JSON.stringify(props.value)}
                         <span className="text">Link</span>
                         <Icon/>
                     </div>

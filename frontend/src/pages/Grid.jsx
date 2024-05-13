@@ -185,6 +185,7 @@ const ColumnStateControl = ({columnApi,updateIncrement}) => {
 
 
 // TODO: in scss übernehmen usw
+/*
 const VariantLinksRenderer = props => {
     return (
         <div className="variant-links">
@@ -194,6 +195,18 @@ const VariantLinksRenderer = props => {
         </div>
     )
 }
+*/
+
+const VariantLinksRenderer = props => {
+    return (
+        <div className="variant-links">
+            <Linkout flavor="varsome" {...props} />
+            <Linkout flavor="gnomad" {...props}/>
+            <Linkout flavor="franklin" {...props}/>
+        </div>
+    )
+}
+
 
 
 const GenPosRenderer = props => {
