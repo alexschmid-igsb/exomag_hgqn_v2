@@ -62,7 +62,7 @@ layouts:
                 label: HGVS gDNA
                 path: GRCh38.gDNA
               - id: gen_pos_GRCh38
-                label: HGVS gDNA
+                label: Genomic Position
                 path: GRCh38
                 customValueRenderer: gen_pos_renderer
           - label: GRCh37
@@ -73,23 +73,37 @@ layouts:
                 label: HGVS gDNA
                 path: GRCh37.gDNA
               - id: gen_pos_GRCh37
-                label: HGVS gDNA
+                label: Genomic Position
                 path: GRCh37
                 customValueRenderer: gen_pos_renderer
           - label: Externe Links
             type: 
                 id: primary
             fields:
-              - id: links
-                path: _id
-                label: Externe Links
-                customValueRenderer: variant_external_links
+              # - id: links
+              #   path: _id
+              #   label: Externe Links
+              #   customValueRenderer: variant_external_links
+              #   majorField: true
+              #   pinned: true
+              - id: variant_link_franklin
+                path: GRCh38
+                label: Franklin
+                customValueRenderer: variant_link_franklin
                 majorField: true
                 pinned: true
-              - id: wefkjhwkjf
+              - id: variant_link_gnomad
                 path: GRCh38
-                label: blabla
-
+                label: gnomAD
+                customValueRenderer: variant_link_gnomad
+                majorField: true
+                pinned: true
+              - id: variant_link_varsome
+                path: GRCh38
+                label: VarSome
+                customValueRenderer: variant_link_varsome
+                majorField: true
+                pinned: true
 
         #   - label: GRCh38
         #     type: 

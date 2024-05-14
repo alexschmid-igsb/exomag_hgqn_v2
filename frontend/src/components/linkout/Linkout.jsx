@@ -1,3 +1,5 @@
+import React from 'react'
+
 import franklin from './franklin.svg'
 import gnomad from './gnomad.svg'
 import varsome from './varsome.svg'
@@ -6,7 +8,92 @@ import { Icon as IconifyIcon, InlineIcon as IconifyIconInline } from "@iconify/r
 
 import './Linkout.scss'
 
-const Icon = () => <IconifyIcon className="icon" icon="akar-icons:link-out"/>
+const LinkIcon = () => <IconifyIcon className="icon" icon="pajamas:external-link"/>
+
+const ErrorIcon = () => <IconifyIcon className="icon error" icon="tabler:face-id-error"/>
+// const ErrorIcon = () => <IconifyIcon className="icon error" icon="material-symbols:error-med-outline-rounded"/>
+
+export const Gnomad = props => {
+
+    const GRCh38 = React.useMemo(() => props.value != null ? props.value : {}, [props])
+
+    const buildLink = url => 
+        <div className="link-container">
+            <a
+                className="linkout gnomad"
+                href={url}
+                target="_blank"
+            >
+                <img className="logo" src={gnomad} />
+                <LinkIcon/>
+            </a>
+        </div>
+
+
+    const render = () => {
+        console.log(GRCh38)
+
+        if(GRCh38.ref != null && GRCh38.ref.length === 1 && GRCh38.alt != null && GRCh38.alt.length === 1) {
+            // SNV
+            return buildLink(`https://gnomad.broadinstitute.org/variant/${GRCh38.chr}-${GRCh38.pos}-${GRCh38.ref}-${GRCh38.alt}?dataset=gnomad_r4`)
+        } else {
+            return (
+                <div className="link-container">
+                    <ErrorIcon/>
+                </div>
+            )
+        }
+    }
+
+    return(render())
+}
+
+
+export const Franklin = props => {
+
+    const urlFromGRCh38 = (GRCh38) => {
+        return 'error'
+    }
+
+    return(
+        <div className="link-container">
+            <a
+                className="linkout franklin"
+                href={urlFromGRCh38(props.value)}
+                target="_blank"
+            >
+                <img className="logo" src={franklin} />
+                <LinkIcon/>
+            </a>
+        </div>
+    )
+}
+
+
+export const Varsome = props => {
+
+    const urlFromGRCh38 = (GRCh38) => {
+        return 'error'
+    }
+
+    return(
+        <div className="link-container">
+            <a
+                className="linkout varsome"
+                href={urlFromGRCh38(props.value)}
+                target="_blank"
+            >
+                <img className="logo" src={varsome} />
+                <LinkIcon/>
+            </a>
+        </div>
+    )
+}
+
+
+
+
+/*
 
 export default function LinkOut(props) {
 
@@ -55,15 +142,6 @@ export default function LinkOut(props) {
     )
 }
 
-
-
-
-
-
-
-
-
-
-
+*/
 
 

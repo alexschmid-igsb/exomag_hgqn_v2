@@ -79,8 +79,12 @@ import DefaultCellRenderer from '../components/aggrid/DefaultCellRenderer'
 
 import DefaultEnumValueRenderer from '../components/aggrid/DefaultEnumValueRenderer'
 
-import Linkout from '../components/linkout/Linkout'
-import { unstable_composeClasses } from '@mui/material'
+// import Linkout from '../components/linkout/Linkout'
+
+import {
+    Franklin as FranklinLink, Gnomad as GnomadLink, Varsome as VarsomeLink
+} from '../components/linkout/Linkout'
+
 
 
 
@@ -197,15 +201,7 @@ const VariantLinksRenderer = props => {
 }
 */
 
-const VariantLinksRenderer = props => {
-    return (
-        <div className="variant-links">
-            <Linkout flavor="varsome" {...props} />
-            <Linkout flavor="gnomad" {...props}/>
-            <Linkout flavor="franklin" {...props}/>
-        </div>
-    )
-}
+
 
 
 
@@ -542,8 +538,14 @@ export default function Grid() {
         // map from custom renderer names to actual renderer components
         if(layoutField.customValueRenderer != null) {
             switch(layoutField.customValueRenderer) {
-                case 'variant_external_links':
-                    return VariantLinksRenderer
+                // case 'variant_external_links':
+                //     return VariantLinksRenderer
+                case 'variant_link_franklin':
+                    return FranklinLink
+                case 'variant_link_gnomad':
+                    return GnomadLink
+                case 'variant_link_varsome':
+                    return VarsomeLink
                 case 'gen_pos_renderer':
                     return GenPosRenderer
             }

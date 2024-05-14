@@ -162,6 +162,8 @@ div.ag-theme-alpine-modified div.ag-row div.ag-cell {
     height: unset;
     min-height: 40px;
 
+    display: flex;
+
     border: none;
     border-right: 1px dashed rgba(0,0,0,0.2);
     // border-right: 1px solid rgba(0,0,0,0.1);
@@ -179,16 +181,24 @@ div.ag-theme-alpine-modified div.ag-row div.ag-cell {
 
     box-sizing: border-box;
 
+    overflow: hidden;
+
 
 }
 
 div.ag-theme-alpine-modified div.ag-row div.ag-cell div.cell-content {
     margin: 0px;
+    min-height: inherit;
+    overflow: visible;
     overflow-x: hidden;
+    // width: 100%;
 
-    // border: 1px solid blue;
-    // background-color: rgba(255,0,0,0.2);
-    
+    // background-color: #9ba7c0;
+}
+
+
+div.ag-theme-alpine-modified div.ag-row div.ag-cell div.cell-content > * {
+    min-height: inherit;
 }
 
 
