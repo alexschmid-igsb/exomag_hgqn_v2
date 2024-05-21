@@ -10,14 +10,15 @@ import './Linkout.scss'
 
 const LinkIcon = () => <IconifyIcon className="icon" icon="pajamas:external-link"/>
 
-const ErrorIcon = () => <IconifyIcon className="icon error" icon="tabler:face-id-error"/>
+const ErrorIcon = () => <IconifyIcon className="icon error" icon="solar:minus-circle-bold-duotone"/>
+// const ErrorIcon = () => <IconifyIcon className="icon error" icon="tabler:face-id-error"/>
 // const ErrorIcon = () => <IconifyIcon className="icon error" icon="material-symbols:error-med-outline-rounded"/>
 
 export const Gnomad = props => {
 
     const GRCh38 = React.useMemo(() => props.value != null ? props.value : {}, [props])
 
-    const buildLink = url => 
+    const renderLink = url => 
         <div className="link-container">
             <a
                 className="linkout gnomad"
@@ -30,12 +31,13 @@ export const Gnomad = props => {
         </div>
 
 
-    const render = () => {
-        console.log(GRCh38)
+const render = () => {
+        // console.log(GRCh38)
 
         if(GRCh38.ref != null && GRCh38.ref.length === 1 && GRCh38.alt != null && GRCh38.alt.length === 1) {
             // SNV
-            return buildLink(`https://gnomad.broadinstitute.org/variant/${GRCh38.chr}-${GRCh38.pos}-${GRCh38.ref}-${GRCh38.alt}?dataset=gnomad_r4`)
+            // return renderLink(`https://gnomad.broadinstitute.org/variant/${GRCh38.chr}-${GRCh38.pos}-${GRCh38.ref}-${GRCh38.alt}?dataset=gnomad_r4`)
+            return <span></span>
         } else {
             return (
                 <div className="link-container">

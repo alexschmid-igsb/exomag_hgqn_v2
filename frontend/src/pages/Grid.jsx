@@ -98,9 +98,9 @@ const ColumnStateControl = ({columnApi,updateIncrement}) => {
 
     const toggleVisibility = columnState => () => {
         const column = columnApi.getColumn(columnState.colId)
-        console.log("TOGGLE VISIBILITY: ")
-        console.log(columnState)
-        console.log(column)
+        // console.log("TOGGLE VISIBILITY: ")
+        // console.log(columnState)
+        // console.log(column)
         columnApi.applyColumnState({
             state: [{
                 colId: columnState.colId,
@@ -214,13 +214,13 @@ const GenPosRenderer = props => {
         return (
             <span className="cell_value_genomic_position">
                 <span className="build">{value.build}</span>
-                <span className="separator">:</span>
+                <span className="separator"></span>
                 <span className="chr">{value.chr}</span>
-                <span className="separator">:</span>
+                <span className="separator"></span>
                 <span className="pos">{value.pos}</span>
-                <span className="separator">:</span>
+                <span className="separator"></span>
                 <span className="ref">{value.ref}</span>
-                <span className="separator">:</span>
+                <span className="separator"></span>
                 <span className="alt">{value.alt}</span>
             </span>
         )
@@ -392,7 +392,8 @@ export default function Grid() {
         if(gridRef?.current?.api == null || gridRef?.current?.columnApi == null) {
             return
         }
-        console.log("UPDATE FILTER SUMMARYYYIEIEEE")
+
+        // console.log("UPDATE FILTER SUMMARY")
 
         const filterModel = gridRef.current.api.getFilterModel()
         const colIds = Object.keys(filterModel)
@@ -445,15 +446,15 @@ export default function Grid() {
 
     function loadGridData() {
 
-        console.log(`loadGridData: ${gridId}`)
+        // console.log(`loadGridData: ${gridId}`)
 
         // TODO: hier auch nocht das verwendetet layout an die api übergeben
 
         const path = '/api/grid/get/' + gridId
         API.get(path, { doNotThrowFor: [404] }).then(response => {
-            console.log("LOAD GRID DATA")
 
-            console.log(response)
+            // console.log("LOAD GRID DATA")
+            // console.log(response)
             // console.log(cleanOut(response.data))
 
             buildColumnDefs(response.scheme)
@@ -718,8 +719,8 @@ export default function Grid() {
 
     function buildColumnDefs(scheme) {
 
-        console.log('buildColumnDefs')
-        console.log(scheme)
+        // console.log('buildColumnDefs')
+        // console.log(scheme)
 
         const layout = scheme?.layouts?.[gridLayout]
         if(lodash.isObject(layout) === false || lodash.isArray(layout.description) === false) {
@@ -731,7 +732,7 @@ export default function Grid() {
         // Translate layout groups into AGGrid Groups
         for(let layoutGroup of layout.description) {
 
-            console.log("LAYOUT GROUP: " + layoutGroup.label)
+            // console.log("LAYOUT GROUP: " + layoutGroup.label)
 
             // Create AGGrid column def group
             let group = {
@@ -762,7 +763,7 @@ export default function Grid() {
             // translate the layout fields for the current group into AGGrid column definitions
             for(let layoutField of layoutGroup.fields) {
 
-                console.log("   LAYOUT FIELD: " + layoutField.id)
+                // console.log("   LAYOUT FIELD: " + layoutField.id)
 
                 // check if no grid column field
                 if(layoutField.gridColumn === false) {
@@ -1082,8 +1083,8 @@ export default function Grid() {
     // https://www.ag-grid.com/react-data-grid/row-sorting/#sorting-api
 
     const handleRemoveSorting = colEntry => event => {
-        console.log("REMOVE SORTING:")
-        console.log(colEntry)
+        // console.log("REMOVE SORTING:")
+        // console.log(colEntry)
 
         gridRef.current.columnApi.applyColumnState({
             state: [{
@@ -1118,7 +1119,7 @@ export default function Grid() {
 
 
     const updateColumnStateControl = event => {
-        console.log("UPDATE COLUMN STATE CONTROL")
+        //  console.log("UPDATE COLUMN STATE CONTROL")
         setColumnStateUpdateIncrement(columnStateUpdateIncrement+1)
     }
 
@@ -1219,18 +1220,52 @@ export default function Grid() {
     const toggleExpand = (aggridRowNode,jQueryRowElement) => {
 
         // TODO
-        // Es ist nicht getestet, wie sich AGGrid verhält, wenn expanded rows aus dem suchtbaren bereich gescrollt
+
+        // Es ist nicht getestet, wie sich AGGrid verhält, wenn expanded rows aus dem sichtbaren bereich gescrollt
         // und entfernt werden.
-        // Wenn die expanded row wieder reingescrollt wird, ist zu erwarten, dass der zustand nicht konsistent
-        // wiederhergestellt wird. Entweder geht das __isExpanded__ flag verloren (hier sollte man testen, ob stattdessen
-        // das interne expand flag siehe setExpanded wiederhergestellt wird und ggf. das verwenden anstellle von __isExpanded__
+        // Wenn die expanded row wieder in den sichtbaren bereich gescrollt wird, st zu erwarten, dass der zustand
+        // nicht konsistent wiederhergestellt wird. Entweder geht das __isExpanded__ flag verloren (hier sollte man
+        // testen, ob stattdessen das interne expand flag siehe setExpanded wiederhergestellt wird und dann ggf.
+        // das anstellle von __isExpanded__ verwenden
+
         // Wird die row expanded gerenedert? Das passiert wenn überhaupt unvollständig, da zwar die cell expansions
         // gerendert werden (vorrausgesetzt das flag ist gesetzt), aber NICHT die zusätzliche row expansion, das
         // passiert nur beim expanden selbst.
-        // Es könnte also sein, dass man besser darauf setzten sollte, dass raus und wieder reingescrollte rows
-        // nicht als expanded zurück kommen
+
+        // Es könnte also sein, dass es besser ist, wenn raus und wieder reingescrollte rows gar nicht erst als
+        // expanded zurück kommen.
         // Ansonsten müsstem man schauen, ob es ein AGGrid Event gibt, welches beim einscrollen (wiedererscheinen)
-        // einer row triggert. Hier könnte man das je nach flag auch den row expansions div rendern.
+        // einer row triggert. Hier könnte man dann je nach flag auch den row expansions div rendern.
+
+
+        // TODO: Besseres Konzept
+        // Irgendwie sollte man das ganze nochmal überarbeiten um eine saubere Lösung zu finden. Momentan läuft es so,
+        // dass zuerst die paddings durch das expand flag gerdendert werden und sich durch transition mit verzögerung
+        // öffnen. DANACH erst kann die höhe der row ermittelt und gesetzt werden.
+        // Beim schließen das gleiche, nur umgekehrt.
+
+        // Gewünscht wäre, wenn das berechnen der benötigten höhe ohne verzögerung möglich wäre
+        // Option 1: Man öffnet das ganze ohne transition und kann direkt nach dem rerender die row höhe setzen (diese
+        // kann dann problemlos per transition geöffnet werden). Es gibt keine zuverlässigen trigger für das ende des
+        // renderings (oder?) und deswegen muss man wieder über setTimeout gehen.
+        // Eventuell Kann man im hinzugerenderte elementen js code unterbringen, der ausgeführt wird, wenn das element
+        // erzeugt (hinzugefügt? gerendert?) wurde und so einen trigger generieren.
+        // Eine weitere option wäre, die Höhe der bekannten Teile (padding + expanded rows) fest zu berechnen und dann
+        // nur die Höhe des zusätzlichen Teils zu holen und zu addieren. Wenn es sofort (d.h. ohne timeout und/oder rendering)
+        // trigger gehen soll, dann müsste derzusätzliche teil entweder verher bestimmbar sein, oder im vorraus
+        // gerendert sein (was wahrscheinlich keine gute idee ist, da man hier eventuell auswändigere dinge rendern möchte
+        // und das nicht für tausende rows bei grid loading machen will)
+
+        // Letztendlich könnte man das top padding hinzuaddieren und dann gleichzeitig mit set row height setzen, um einen
+        // einheitlichen öffnen effekt zu bekommen
+
+        // Jetzt: Damit anfangen, den zusätzlihen bereich als dummy mit random height zu generieren bzw zu rendern
+        // dann kann man versuchen den rest 
+
+    
+
+
+
 
         let nextExpandFlag = aggridRowNode.data.__isExpanded__ === false
 
@@ -1252,17 +1287,16 @@ export default function Grid() {
         // save row height before expanding
         if(nextExpandFlag === true) {
             const height = getRowHeightByContent(jQueryRowElement)
+            console.log("height before expand: " + JSON.stringify(height))
             aggridRowNode['__heightBeforeExpand__'] = height
         }
-
-
-                
 
         // expand the row by setRowHeight and api.onRowHeightChanged()
         setTimeout(() => {
             let aggridCells = jQueryRowElement.children('div.ag-cell')
             if(nextExpandFlag === true) {
                 const height = getRowHeightByContent(jQueryRowElement)
+                console.log("neue height berechnet: " + JSON.stringify(height))
                 aggridCells.height(height.content)
                 aggridRowNode.setRowHeight(height.outer)
             } else {
@@ -1271,11 +1305,7 @@ export default function Grid() {
                 aggridRowNode.setRowHeight(height.outer)
             }
             gridRef.current.api.onRowHeightChanged()
-        }, 100)
-
-
-
-
+        }, 500)
  
     }
 
@@ -1469,7 +1499,7 @@ export default function Grid() {
                 }}
 
                 onFilterChanged={ event => {
-                    console.log("onFilterChanged")
+                    // console.log("onFilterChanged")
                     dispatch(GridStore.incrementGridFilterUpdateCount(gridId))
                 }}
 
