@@ -16,7 +16,7 @@ const imapSession = IMAPClient.createSession()
 
 const console = require('../backend/util/PrettyfiedConsole')
 
-let dataMode = 'TEST'
+let dataMode = 'PRODUCTION'
 let emailMode = 'PRODUCTION'
 
 function randHex(len) {
