@@ -16,6 +16,9 @@ const imapSession = IMAPClient.createSession()
 
 const console = require('../backend/util/PrettyfiedConsole')
 
+let dataMode = 'TEST'
+let emailMode = 'PRODUCTION'
+
 function randHex(len) {
     let maxlen = 8
     let min = Math.pow(16, Math.min(len, maxlen) - 1)
@@ -31,7 +34,7 @@ function randHex(len) {
 
 let template = {
 
-    subject: `Your "HGQN Datenbank" account has been created`,
+    subject: `Zugang zur neuen HGQN Datenbank`,
 
     html: `
         <html lang="en">
@@ -96,9 +99,9 @@ let template = {
                                     <tr>
                                     <td>
                                         <br/>
-                                        <p style="font-size:14px;line-height:1.5;margin:16px 0">Dear User,</p>
-                                        <p style="font-size:14px;line-height:1.5;margin:16px 0">an HGQN Datenbank Account has been created for this email address.</p>
-                                        <p style="font-size:14px;line-height:1.5;margin:16px 0">Please finish your registration to activate your account.</p>
+                                        <p style="font-size:14px;line-height:1.5;margin:16px 0">Sehr geehrte BVDH-Mitglieder,</p>
+                                        <p style="font-size:14px;line-height:1.5;margin:16px 0">nach einigen Startschwierigkeiten schicken wir Ihnen hiermit den Link zur Registrierung der neuen HGQN-Datenbank zu.</p>
+                                        <p style="font-size:14px;line-height:1.5;margin:16px 0">Wenn sie sich bereits vor einigen Wochen erfolgreich registrieren konnten, ist <b>keine</b> erneute Registrierung notwendig.</p>
                                     </td>
                                     </tr>
                                 </tbody>
@@ -106,7 +109,9 @@ let template = {
                                 <table align="center" width="100%" style="text-align:center;padding:5px 50px 10px 60px;background-color:rgba(170, 187, 204, 0.3);border:1px solid rgba(0,0,0,0.3);border-bottom:none;border-top:none;display:flex;justify-content:center;aling-items:center" border="0" cellpadding="0" cellspacing="0" role="presentation">
                                 <tbody>
                                     <tr>
-                                    <td><a href="https://app.hgqn.de/activation/{{=token}}" target="_blank" style="border-radius:3px;background-color:#1976d2;font-weight:600;color:#fff;font-size:15px;text-decoration:none;line-height:100%;max-width:100%;padding:12px 20px;display:inline-block"><span><!--[if mso]><i style="letter-spacing: 20px;mso-font-width:-100%;mso-text-raise:18" hidden>&nbsp;</i><![endif]--></span><span style="max-width:100%;display:inline-block;line-height:120%;mso-padding-alt:0px;mso-text-raise:9px">Activate Account</span><span><!--[if mso]><i style="letter-spacing: 20px;mso-font-width:-100%" hidden>&nbsp;</i><![endif]--></span></a></td>
+                                    <td>
+                                        <a href="https://app.hgqn.de/activation/{{=token}}" target="_blank" style="border-radius:3px;background-color:#1976d2;font-weight:600;color:#fff;font-size:15px;text-decoration:none;line-height:100%;max-width:100%;padding:12px 20px;display:inline-block"><span><!--[if mso]><i style="letter-spacing: 20px;mso-font-width:-100%;mso-text-raise:18" hidden>&nbsp;</i><![endif]--></span><span style="max-width:100%;display:inline-block;line-height:120%;mso-padding-alt:0px;mso-text-raise:9px">Registrierung durchführen</span><span><!--[if mso]><i style="letter-spacing: 20px;mso-font-width:-100%" hidden>&nbsp;</i><![endif]--></span></a>
+                                    </td>
                                     </tr>
                                 </tbody>
                                 </table>
@@ -114,9 +119,8 @@ let template = {
                                 <tbody>
                                     <tr>
                                     <td>
-                                        <p style="font-size:14px;line-height:1.5;margin:16px 0">Alternatively copy and paste the following URL into your browser:</p>
-                                        <p style="font-size:14px;line-height:1.5;margin:16px 0;font-family:monospace;padding:4px 8px;border-radius:3px;background-color:#DDD;text-align:center">https://app.hgqn.de/activation/{{=token}}</p>
-                                        <p style="font-size:14px;line-height:1.5;margin:16px 0">You will not be able to log into the "HGQN Datenbank" before you properly finish the activation of your account.</p>
+                                        <p style="font-size:14px;line-height:1.5;margin:16px 0">Rückfragen zur Registrierung an: <a href="mailto:hgqn@bvdh.de">hgqn@bvdh.de</a></p>
+                                        <p style="font-size:14px;line-height:1.5;margin:16px 0">Mit freundlichen Grüßen<br/>Der Vorstand des BVDH und das HGQN-Entwicklerteam</p>
                                     </td>
                                     </tr>
                                 </tbody>
@@ -130,16 +134,19 @@ let template = {
         </html>`,
 
     text: `
-        Dear User,
+        Sehr geehrte BVDH-Mitglieder,
 
-        an "HGQN Datenbank" account has been created for this email address.
-        
-        To finish your registration, follow the activation link:
+        nach einigen Startschwierigkeiten schicken wir Ihnen hiermit den Link zur Registrierung der neuen HGQN-Datenbank zu.
+
+        Wenn sie sich bereits vor einigen Wochen erfolgreich registrieren konnten, ist keine erneute Registrierung notwendig.
 
         https://app.hgqn.de/activation/{{=token}}
 
-        You will not be able to log into HGQN Datenbank before you properly finish the
-        activation of your account.`
+        Registrierung durchführen
+        Rückfragen zur Registrierung an: hgqn@bvdh.de
+
+        Mit freundlichen Grüßen
+        Der Vorstand des BVDH und das HGQN-Entwicklerteam`
 }
 
 
@@ -209,7 +216,12 @@ async function loadData() {
 
     // hgqn user mit lab zuordnung
     {
-        let res = xlsx.helper.parseRowsFromFile(path.join(__dirname, '../config/hgqn/HGQN Variantendatenbank_MG mit Zuordnung_gesamt.xlsx'), 'Tabelle1', 1)
+        let res = null
+        if(dataMode === 'PRODUCTION') {
+            res = xlsx.helper.parseRowsFromFile(path.join(__dirname, '../config/hgqn/HGQN Variantendatenbank_MG mit Zuordnung_gesamt_ORIGINAL.xlsx'), 'Tabelle1', 1)
+        } else {
+            res = xlsx.helper.parseRowsFromFile(path.join(__dirname, '../config/hgqn/HGQN Variantendatenbank_MG mit Zuordnung_gesamt_TEST.xlsx'), 'Tabelle1', 1)
+        }
         data.excel.usersMitLab = {
             all: res.rows,
             byEmail: new Map(),
@@ -225,7 +237,12 @@ async function loadData() {
     
     // hgqn user ohne lab zuordnung
     {
-        let res = xlsx.helper.parseRowsFromFile(path.join(__dirname, '../config/hgqn/HGQN Variantendatenbank Verteiler_MG ohne Zuordnung.xlsx'), 'Tabelle2', 1)
+        let res = null
+        if(dataMode === 'PRODUCTION') {
+            res = xlsx.helper.parseRowsFromFile(path.join(__dirname, '../config/hgqn/HGQN Variantendatenbank Verteiler_MG ohne Zuordnung_ORIGINAL.xlsx'), 'Tabelle2', 1)
+        } else {
+            res = xlsx.helper.parseRowsFromFile(path.join(__dirname, '../config/hgqn/HGQN Variantendatenbank Verteiler_MG ohne Zuordnung_TEST.xlsx'), 'Tabelle2', 1)
+        }
         data.excel.usersOhneLab = {
             all: res.rows,
             byEmail: new Map(),
@@ -485,14 +502,17 @@ async function importUsersMitZuordnung(data) {
         // unabhängig davon ob der user bereits in der datenbank war oder gerade eben erst neu hinzugefügt wurde,
         // muss der user einen registry link geschickt bekommen (vorrausgesetzt das ist noch nicht passiert).
         
-        if(dbUser.state.id !== 'ACTIVE' && dbUser.state.id !== 'ACTIVATION_PENDING') {
+        // if(dbUser.state.id !== 'ACTIVE' && dbUser.state.id !== 'ACTIVATION_PENDING') {
+        if(true) {
         
             console.log("aktivierung " + dbUser.email)
 
-            // token generieren
-            let token = randHex(32)
+            let token = dbUser.state.token
+            if(lodash.isString(token) === false || token.length !== 32) {
+                token = randHex(32)
+            }
 
-            // state anpassen, activation token generieren
+            // state anpassen
             let update = {
                 state: {
                     id: 'ACTIVATION_PENDING',
@@ -508,8 +528,7 @@ async function importUsersMitZuordnung(data) {
             await Mailer.sendTransactionMail({
                 to: {
                     name: dbUser.username,
-                    email: dbUser.email
-                    // email: 'schmida@uni-bonn.de'     // zum testen des massenversands
+                    email: emailMode === 'PRODUCTION' ? dbUser.email : 'schmida@uni-bonn.de'
                 },
                 template: template,
                 params: { token: token },
@@ -603,12 +622,15 @@ async function importUsersOhneZuordnung(data) {
         // unabhängig davon ob der user bereits in der datenbank war oder gerade eben erst neu hinzugefügt wurde,
         // muss der user einen registry link geschickt bekommen (vorrausgesetzt das ist noch nicht passiert).
         
-        if(dbUser.state.id !== 'ACTIVE' && dbUser.state.id !== 'ACTIVATION_PENDING') {
+        // if(dbUser.state.id !== 'ACTIVE' && dbUser.state.id !== 'ACTIVATION_PENDING') {
+        if(true) {
         
             console.log("aktivierung " + dbUser.email)
 
-            // token generieren
-            let token = randHex(32)
+            let token = dbUser.state.token
+            if(lodash.isString(token) === false || token.length !== 32) {
+                token = randHex(32)
+            }
 
             // state anpassen, activation token generieren
             let update = {
@@ -626,8 +648,7 @@ async function importUsersOhneZuordnung(data) {
             await Mailer.sendTransactionMail({
                 to: {
                     name: dbUser.username,
-                    email: dbUser.email
-                    // email: 'schmida@uni-bonn.de'     // zum testen des massenversands
+                    email: emailMode === 'PRODUCTION' ? dbUser.email : 'schmida@uni-bonn.de'
                 },
                 template: template,
                 params: { token: token },
