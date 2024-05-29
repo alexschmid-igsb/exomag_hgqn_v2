@@ -110,6 +110,15 @@ div.ag-theme-alpine-modified div.enum-value-renderer > span.enum-value:last-chil
 
 div.ag-theme-alpine-modified span.cell_value_genomic_position {
 
+    border-radius: 5px; 
+    padding: 3px 5px;
+    font-weight: bold;
+    border: 1px solid rgba(0,0,0,0.4);
+    background-color: rgba(0,0,0,0.15);
+
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+
+    /*
     * {
         margin-right: 4px;
         border-radius: 3px; 
@@ -122,9 +131,13 @@ div.ag-theme-alpine-modified span.cell_value_genomic_position {
     *:last-child {
         margin-right: 0px;
     }
+    */
 
     span.separator {
-        display: none;
+        // display: none;
+        border-left: 1px solid rgba(0,0,0,0.2);
+        width: 0px;
+        margin: 0px 6px;
     }
 
     span.build {

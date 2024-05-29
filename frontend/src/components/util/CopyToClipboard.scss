@@ -1,0 +1,115 @@
+
+
+div.copy-to-clipboard {
+    height: 100%;
+    width: 40px;
+    position: absolute;
+    right: 4px;
+    top: 0px;
+    opacity: 1.0;
+    border-radius: 0px;
+
+    // background: radial-gradient(white 0%, white 55%, transparent 75%, transparent 100%);
+    // background: linear-gradient(red 0%, white 100%);
+
+    // border: 1px solid red;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: center;
+
+    div.blurred-background {
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+
+        position: absolute;
+        background-color: rgba(255,255,255,0.9);    
+        filter: blur(5px);
+    }
+}
+
+
+div.ag-row > div.ag-cell > div.cell-content > div.copy-to-clipboard {
+
+    // transition: opacity 0.2s 0.0s;
+    // opacity: 0;
+
+    // align-items: flex-start;
+
+    height: 40px;
+
+    button {
+        z-index: 1;
+        outline: 0;
+
+        padding: 1px;
+        border-radius: 3px;
+
+        width: 24px;
+        height: 24px;
+
+        border: none;
+        box-shadow: none;
+
+        // background-color: unset;
+        // color: rgba(0,0,0,0.5);
+
+        color: rgba(0,0,0,0.7);
+        border: 1px solid rgba(0,0,0,0.3);
+        box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+
+        display: flex;
+        flex-flow: row;
+        align-items: center;
+        justify-content: center;
+
+        transition: background-color 0.3s, border 0.3s, box-shadow 0.3s, color 0.3s;
+
+        cursor: pointer;
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        &:hover {
+            color: rgba(0,0,0,0.8);
+            border: 1px solid rgba(0,0,0,0.5);
+            background-color: rgba(255,255,255,0.9);
+        }
+
+        &:active {
+            color: rgba(0,0,0,0.8);
+            border: 1px solid rgba(0,0,0,0.6);
+            background-color: rgba(255,255,255,1.0);
+            box-shadow: inset 0 0 2px;
+        }
+
+        // display :none; 
+    }
+}
+
+div.ag-row > div.ag-cell:hover > div.cell-content > div.copy-to-clipboard {
+    // transition: opacity 0.5s 1.0s;
+    opacity: 1.0;
+}
+
+
+
+div.ag-row.expanded > div.ag-cell > div.cell-content > div.copy-to-clipboard {
+
+    // Muss angepasst werden an padding in CustomTheme.scss unter
+    // div.ag-theme-alpine-modified div.has-expanded-rows div.ag-row.expanded div.ag-cell
+    top: 10px;
+}
+
+
+
+
+
+
+

@@ -162,6 +162,8 @@ div.ag-theme-alpine-modified div.ag-row div.ag-cell {
     height: unset;
     min-height: 40px;
 
+    display: flex;
+
     border: none;
     border-right: 1px dashed rgba(0,0,0,0.2);
     // border-right: 1px solid rgba(0,0,0,0.1);
@@ -177,27 +179,34 @@ div.ag-theme-alpine-modified div.ag-row div.ag-cell {
 
     transition: padding 0.1s;
 
-    box-sizing: border-box;
+    // box-sizing: border-box;
+
+    overflow: hidden;
+}
 
 
+
+
+div.ag-theme-alpine-modified div.ag-row div.ag-cell div.cell-content > * {
+    min-height: inherit;
 }
 
 div.ag-theme-alpine-modified div.ag-row div.ag-cell div.cell-content {
     margin: 0px;
+    min-height: inherit;
+    overflow: visible;
     overflow-x: hidden;
 
-    // border: 1px solid blue;
-    // background-color: rgba(255,0,0,0.2);
-    
-}
+    // width: 100%;
+    // background-color: #9ba7c0;
 
+    // position: relative;
+}
 
 
 
 
 /* EXPANDED ROWS */
-
-
 
 div.ag-theme-alpine-modified div.has-expanded-rows div.ag-row.expanded {
 
@@ -241,6 +250,31 @@ div.ag-theme-alpine-modified div.has-expanded-rows div.ag-row.expanded {
     // padding-top: 20px;
     // padding-bottom: 20px;
 
+
+    & > div.ag-cell {
+
+        padding-top: 10px;
+        padding-bottom: 10px;
+        font-weight: bold;
+
+        & > div.ag-cell-wrapper {
+            font-weight: bold;    
+        }
+
+        & > div.cell-content {
+            // cell content in expanded row, aber ohne cell expansion content
+        }
+
+
+        & > div.cell-content.row-expansion {
+            // cell content mit expansion rows
+            background-color: red;
+            width: 100%;
+        }
+
+    }
+
+
 }
 
 div.ag-theme-alpine-modified div.has-expanded-rows div.ag-row.expanded + div.ag-row.expanded {
@@ -254,34 +288,22 @@ div.ag-theme-alpine-modified div.has-expanded-rows div.ag-row:not(.expanded) {
 }
 
 
-div.ag-theme-alpine-modified div.has-expanded-rows div.ag-row.expanded div.ag-cell div.ag-cell-wrapper {
-    font-weight: bold;    
-}
 
+// div.ag-theme-alpine-modified div.has-expanded-rows div.ag-row.expanded div.ag-cell div.ag-cell-wrapper {
+//     font-weight: bold;    
+// }
 
-div.ag-theme-alpine-modified div.has-expanded-rows div.ag-row.expanded div.ag-cell div.ag-cell-wrapper span.ag-cell-value {
+// div.ag-theme-alpine-modified div.has-expanded-rows div.ag-row.expanded div.ag-cell div.ag-cell-wrapper span.ag-cell-value {
+//     // background-color:rgba(0,0,0,0.1);
+// }
 
-    // background-color:rgba(0,0,0,0.1);
+// div.ag-theme-alpine-modified div.has-expanded-rows div.ag-row.expanded div.cell-content {
+//     // margin: 8px 0px;
+// }
 
-}
-
-div.ag-theme-alpine-modified div.has-expanded-rows div.ag-row.expanded div.cell-content {
-
-    // margin: 8px 0px;
-}
-
-div.ag-theme-alpine-modified div.has-expanded-rows div.ag-row.expanded div.ag-cell {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    font-weight: bold;
-}
-
-
-/*
-div.ag-theme-alpine-modified div.has-expanded-rows div.ag-row.expanded * {
-    border: 1px solid red;
-    margin: 2px;
-    padding: 2px;
-}
-*/
+// div.ag-theme-alpine-modified div.has-expanded-rows div.ag-row.expanded * {
+//     border: 1px solid red;
+//     margin: 2px;
+//     padding: 2px;
+// }
 
