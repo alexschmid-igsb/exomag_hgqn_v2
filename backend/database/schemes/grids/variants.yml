@@ -87,7 +87,7 @@ layouts:
               #   majorField: true
               #   pinned: true
               - id: variant_link_franklin
-                path: GRCh38
+                path: GRCh37
                 label: Franklin
                 customValueRenderer: variant_link_franklin
                 majorField: true

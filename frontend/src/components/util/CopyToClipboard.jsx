@@ -35,16 +35,24 @@ export default function({getTextForClipboard}) {
     }
     
     return (
-        <div className="copy-to-clipboard">
-            <div className="blurred-background">
-            </div>
-            <button onClick={copyToClipboard}>
-                <IconifyIcon
-                    icon={icon.id}
-                    style={{ marginLeft: `${icon.hOffset}px` }}
-                />
-            </button>
-        </div>
+        <></>
+
+        // TODO: hier aktivieren
+        // Die copy methode muss fertig geschrieben werden
+        // der Ansatz war, den copy string vom value renderer als hidden element in die zelle zu schreiben
+        // Der click handler muss dieses element dann lesen (über eine ref auf das copy to clipboard element
+        // kann man zur cell content navigieren und da das versteckte element finden).
+
+        // <div className="copy-to-clipboard">
+        //     <div className="blurred-background">
+        //     </div>
+        //     <button onClick={copyToClipboard}>
+        //         <IconifyIcon
+        //             icon={icon.id}
+        //             style={{ marginLeft: `${icon.hOffset}px` }}
+        //         />
+        //     </button>
+        // </div>
     )
 }
 

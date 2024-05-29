@@ -82,7 +82,9 @@ import DefaultEnumValueRenderer from '../components/aggrid/DefaultEnumValueRende
 // import Linkout from '../components/linkout/Linkout'
 
 import {
-    Franklin as FranklinLink, Gnomad as GnomadLink, Varsome as VarsomeLink
+    Franklin as FranklinLink,
+    Gnomad as GnomadLink,
+    Varsome as VarsomeLink
 } from '../components/linkout/Linkout'
 
 
