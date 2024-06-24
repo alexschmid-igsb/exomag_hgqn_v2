@@ -1254,9 +1254,9 @@ export default function Grid() {
         // erzeugt (hinzugefügt? gerendert?) wurde und so einen trigger generieren.
         // Eine weitere option wäre, die Höhe der bekannten Teile (padding + expanded rows) fest zu berechnen und dann
         // nur die Höhe des zusätzlichen Teils zu holen und zu addieren. Wenn es sofort (d.h. ohne timeout und/oder rendering)
-        // trigger gehen soll, dann müsste derzusätzliche teil entweder verher bestimmbar sein, oder im vorraus
-        // gerendert sein (was wahrscheinlich keine gute idee ist, da man hier eventuell auswändigere dinge rendern möchte
-        // und das nicht für tausende rows bei grid loading machen will)
+        // trigger gehen soll, dann müsste derzusätzliche teil entweder vorher bestimmbar sein, oder im vorraus
+        // gerendert sein (was wahrscheinlich keine gute idee ist, da man hier eventuell aufwändigere dinge rendern möchte
+        // und das nicht für tausende rows beim grid loading machen will)
 
         // Letztendlich könnte man das top padding hinzuaddieren und dann gleichzeitig mit set row height setzen, um einen
         // einheitlichen öffnen effekt zu bekommen
