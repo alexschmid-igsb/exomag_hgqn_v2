@@ -447,7 +447,7 @@ class Processing {
                 }
 
                 if(caught != null || cDNA_processed.vvOutput == null) {
-                    msg = `Unexpected error during VariantValidator query (Error Code 2). cDNA is '${cDNA_processed.source}'.`
+                    const msg = `Unexpected error during VariantValidator query (Error Code 2). cDNA is '${cDNA_processed.source}'.`
                     if(caught != null) {
                          msg += ` Error from VariantValidator is '${caught}'.`
                     } else {
@@ -520,7 +520,7 @@ class Processing {
                 }
 
                 if(caught != null || gDNA_processed.vvOutput == null) {
-                    msg = `Unexpected error during VariantValidator query (Error Code 7). gDNA is '${gDNA_processed.source}'.`
+                    const msg = `Unexpected error during VariantValidator query (Error Code 7). gDNA is '${gDNA_processed.source}'.`
                     if(caught != null) {
                          msg += ` Error from VariantValidator is '${caught}'.`
                     } else {
