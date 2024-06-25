@@ -85,7 +85,9 @@ export default function Import() {
         console.log('loadImportInstance')
         if(blocking === true) setIsLoading(true)
         if (importId != null) {
-            API.post('/api/import/get-import', { params: { importId: importId } }).then(response => {
+            // Habe hier doNotThrowFor eingefüg, weil auch irgendwelchen gründen beim ersten request die auth nicht funktioniert
+            // das das ignore hat man kein fehlerhandling, ab dem zweiten request geht die auth dann.....
+            API.post('/api/import/get-import', { doNotThrowFor: [401], params: { importId: importId } }).then(response => {
                 if (response == null || lodash.isArray(response.data) === false || response.data.length < 1 || response.data[0] == null) {
                     throw new Error(`could not get import for id ${importId}`)
                 } else {
