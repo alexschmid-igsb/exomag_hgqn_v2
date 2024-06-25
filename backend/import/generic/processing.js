@@ -447,7 +447,7 @@ class Processing {
                 }
 
                 if(caught != null || cDNA_processed.vvOutput == null) {
-                    const msg = `Unexpected error during VariantValidator query (Error Code 2). cDNA is '${cDNA_processed.source}'.`
+                    let msg = `Unexpected error during VariantValidator query (Error Code 2). cDNA is '${cDNA_processed.source}'.`
                     if(caught != null) {
                          msg += ` Error from VariantValidator is '${caught}'.`
                     } else {
@@ -459,14 +459,14 @@ class Processing {
                 }
 
                 if(cDNA_processed.vvOutput != null && cDNA_processed.vvOutput.flag !== 'gene_variant') {
-                    const msg = `VariantValidator returned error for cDNA (Error Code 3): ${cDNA_processed.source}`
+                    let msg = `VariantValidator returned error for cDNA (Error Code 3): ${cDNA_processed.source}`
                     record.report.addFieldError(fullPath, msg)
                     // record.report.addTopLevelError(msg)
                     cDNA_processed.state = 'ERROR'
                 }
 
                 if(cDNA_processed.vvOutput != null && (Object.keys(cDNA_processed.vvOutput).length !== 3 || cDNA_processed.vvOutput.flag == null || cDNA_processed.vvOutput.metadata == null) ) {
-                    const msg = `VariantValidator returned ambiguous results for cDNA (Error Code 4): ${cDNA_processed.source}`
+                    let msg = `VariantValidator returned ambiguous results for cDNA (Error Code 4): ${cDNA_processed.source}`
                     record.report.addFieldError(fullPath, msg)
                     // record.report.addTopLevelError(msg)
                     cDNA_processed.state = 'ERROR'
@@ -487,7 +487,7 @@ class Processing {
                     cDNA_processed.parsed = parse_primary_assembly_loci(vvEntry.primary_assembly_loci)
 
                     if(cDNA_processed.parsed.hasError === true) {
-                        const msg = `Could not parse loci from VariantValidator output for cDNA (Error Code 5). cDNA is '${cDNA_processed.source}'. primary_assembly_loci is '${JSON.stringify(vvEntry.primary_assembly_loci)}.'`
+                        let msg = `Could not parse loci from VariantValidator output for cDNA (Error Code 5). cDNA is '${cDNA_processed.source}'. primary_assembly_loci is '${JSON.stringify(vvEntry.primary_assembly_loci)}.'`
                         record.report.addFieldError(fullPath, msg)
                         // record.report.addTopLevelError(msg)
                         cDNA_processed.parsed = null
@@ -520,7 +520,7 @@ class Processing {
                 }
 
                 if(caught != null || gDNA_processed.vvOutput == null) {
-                    const msg = `Unexpected error during VariantValidator query (Error Code 7). gDNA is '${gDNA_processed.source}'.`
+                    let msg = `Unexpected error during VariantValidator query (Error Code 7). gDNA is '${gDNA_processed.source}'.`
                     if(caught != null) {
                          msg += ` Error from VariantValidator is '${caught}'.`
                     } else {
@@ -532,7 +532,7 @@ class Processing {
                 }
 
                 if(gDNA_processed.vvOutput != null && gDNA_processed.vvOutput.flag !== 'gene_variant') {
-                    const msg = `VariantValidator returned error for gDNA (Error Code 8): ${gDNA_processed.source}`
+                    let msg = `VariantValidator returned error for gDNA (Error Code 8): ${gDNA_processed.source}`
                     record.report.addFieldError(fullPath, msg)
                     // record.report.addTopLevelError(msg)
                     gDNA_processed.state = 'ERROR'
@@ -554,7 +554,7 @@ class Processing {
                                 // es gibt breits ein geparsten loci. der soeben geparset muss identisch sein, alles andere ist als fehler zu werten
                                 let isEqual = lodash.isEqual(parsed, gDNA_processed.parsed)
                                 if(isEqual === false) {
-                                    const msg = `VariantValidator returned ambiguous results for gDNA (Error Code 9): ${gDNA_processed.source}`
+                                    let msg = `VariantValidator returned ambiguous results for gDNA (Error Code 9): ${gDNA_processed.source}`
                                     record.report.addFieldError(fullPath, msg)
                                     // record.report.addTopLevelError(msg)
                                     gDNA_processed.state = 'ERROR'
@@ -565,7 +565,7 @@ class Processing {
                     }
 
                     if(gDNA_processed.parsed == null) {
-                        const msg = `Could not parse loci from VariantValidator output for gDNA (Error Code 10): ${gDNA_processed.source}`
+                        let msg = `Could not parse loci from VariantValidator output for gDNA (Error Code 10): ${gDNA_processed.source}`
                         record.report.addFieldError(fullPath, msg)
                         // record.report.addTopLevelError(msg)
                         gDNA_processed.state = 'ERROR'
@@ -664,7 +664,7 @@ class Processing {
     
                 } else {
                     record.genericCase['variants'][i].variant = {}
-                    const msg = `Normalization mismatch. Parsed gDNA and cDNA resolve to different variants. gDNA: ${gDNA_processed.source} ==> ${JSON.stringify(gDNA_processed.parsed)}. cDNA ${cDNA_processed.source} ==> ${JSON.stringify(cDNA_processed.parsed)}.`
+                    let msg = `Normalization mismatch. Parsed gDNA and cDNA resolve to different variants. gDNA: ${gDNA_processed.source} ==> ${JSON.stringify(gDNA_processed.parsed)}. cDNA ${cDNA_processed.source} ==> ${JSON.stringify(cDNA_processed.parsed)}.`
                     record.report.addTopLevelError(msg)
                 }
 
