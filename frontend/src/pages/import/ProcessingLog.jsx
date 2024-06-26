@@ -3,6 +3,9 @@ import React from 'react'
 import lodash from 'lodash'
 
 import { Icon as IconifyIcon, InlineIcon as IconifyIconInline } from "@iconify/react"
+import LogErrorDetails from './LogErrorDetails.jsx'
+
+import ErrorView from '../../error/ErrorView.jsx'
 
 import './ProcessingLog.scss'
 
@@ -40,11 +43,34 @@ export default function ProcessingLog({importInstance}) {
             let errors = []
 
             for(let fieldError of entry.report.fieldErrors) {
+                // console.log(JSON.stringify(fieldError))
                 errors.push(
                     <div className="error">
                         <IconifyIcon className="icon" icon="ph:caret-double-right-duotone"/>
                         <span>
                             <b>{fieldError.field}:</b> {fieldError.message}
+                            {
+                                fieldError.cause != null ? 
+                                    <div className="cause">
+                                        <b>CAUSED BY</b><br/>
+                                        <b>Type:</b> {fieldError.cause.name}<br/>
+                                        <b>Message: </b> {fieldError.cause.message}<br/>
+
+                                        <LogErrorDetails>
+                                            <ErrorView
+                                                title={fieldError.message}
+                                                error={fieldError.cause}
+                                            />
+                                        </LogErrorDetails>
+
+                                        {/* { Object.getOwnPropertyNames(fieldError.cause).map(prop => <>
+                                            <b>{prop}:</b> 
+                                            <br/>
+                                        </>) } */}
+
+                                    </div>
+                                : null
+                            }
                         </span>
                     </div>
                 )

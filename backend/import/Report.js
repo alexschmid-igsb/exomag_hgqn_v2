@@ -2,32 +2,13 @@
 
 
 
-/*
-    Hier alles rein, was das reporting unterstützt
-    
-    Fehler und warning hinzufügen zu top level oder field spezifisch
-    diese abfragen hasError
-
-    Am besten eine klasse "report"
-
-    ZIEL IST ES, DASS DIESES MODUL ÜBERALL VERWENDET WERDEN KANN!!
-
-
-    Wie können 
-
-
-*/
-
-
-
-
-
 
 class Entry {
 
-    constructor(field,message) {
+    constructor(field, message, cause=null) {
         this.field = field
         this.message = message
+        this.cause = cause
     }
 
     getField() {
@@ -38,10 +19,9 @@ class Entry {
         return this.message
     }
 
-
-
-
-
+    getCause() {
+        return this.cause == null ? null : this.cause
+    }
 }
 
 class Report {
@@ -52,16 +32,16 @@ class Report {
         this.importErrors = []
     }
 
-    addTopLevelError(msg) {
-        this.topLevelErrors.push(new Entry(null,msg))
+    addTopLevelError(msg,cause=null) {
+        this.topLevelErrors.push(new Entry(null,msg,cause))
     }
 
     hasTopLevelErrors() {
         return this.topLevelErrors.length > 0
     }
 
-    addFieldError(field,msg) {
-        this.fieldErrors.push(new Entry(field,msg))
+    addFieldError(field,msg,cause=null) {
+        this.fieldErrors.push(new Entry(field,msg,cause))
     }
 
     hasFieldErrors() {

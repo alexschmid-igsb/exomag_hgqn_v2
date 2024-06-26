@@ -1,6 +1,8 @@
 import * as React from 'react'
 import StackTrace from "stacktrace-js"
 
+import './ErrorView.scss'
+
 export default function ErrorView({ title, error }) {
 
 	const [stackTrace, setStackTrace] = React.useState(null)

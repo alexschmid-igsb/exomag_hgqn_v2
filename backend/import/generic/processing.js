@@ -2,6 +2,7 @@
 const Report =  require("../Report")
 const BackendError = require("../../util/BackendError")
 const FetchAPI = require('../FetchAPI')
+const StackTrace = require('stacktrace-js')
 
 const lodash = require('lodash')
 
@@ -447,14 +448,22 @@ class Processing {
                 }
 
                 if(caught != null || cDNA_processed.vvOutput == null) {
-                    let msg = `Unexpected error during VariantValidator query (Error Code 2). cDNA is '${cDNA_processed.source}'.`
-                    if(caught != null) {
-                         msg += ` Error from VariantValidator is '${caught}'.`
-                    } else {
-                        msg += ` VariantValidator returned 'null'.`
+                    // console.dir(caught, {depth: null})
+                    let msg = `Unexpected error during VariantValidator query (Error Code 2).\ncDNA is '${cDNA_processed.source}'.`
+                    
+                    // if(caught != null) {
+                    //     msg += ` Error message from VariantValidator was '${caught.message != null ? caught.message : caught}'.`
+                    // } else {
+                    //     msg += ` VariantValidator returned 'null'.`
+                    // }
+
+                    let cause = {
+                        status: caught.status || 500,
+                        name: caught.name,
+                        message: caught.message,
+                        stackTrace: await StackTrace.fromError(caught)
                     }
-                    record.report.addFieldError(fullPath, msg)
-                    // record.report.addTopLevelError(msg)
+                    record.report.addFieldError(fullPath, msg, cause)
                     cDNA_processed.state = 'ERROR'
                 }
 
@@ -520,14 +529,22 @@ class Processing {
                 }
 
                 if(caught != null || gDNA_processed.vvOutput == null) {
-                    let msg = `Unexpected error during VariantValidator query (Error Code 7). gDNA is '${gDNA_processed.source}'.`
-                    if(caught != null) {
-                         msg += ` Error from VariantValidator is '${caught}'.`
-                    } else {
-                        msg += ` VariantValidator returned 'null'.`
+                    // console.dir(caught, {depth: null})
+                    let msg = `Unexpected error during VariantValidator query (Error Code 7).\ngDNA is '${gDNA_processed.source}'.`
+
+                    // if(caught != null) {
+                    //     msg += ` Error message from VariantValidator was '${caught.message != null ? caught.message : caught}'.`
+                    // } else {
+                    //     msg += ` VariantValidator returned 'null'.`
+                    // }
+
+                    let cause = {
+                        status: caught.status || 500,
+                        name: caught.name,
+                        message: caught.message,
+                        stackTrace: await StackTrace.fromError(caught)
                     }
-                    record.report.addFieldError(fullPath, msg)
-                    // record.report.addTopLevelError(msg)
+                    record.report.addFieldError(fullPath, msg, cause)
                     cDNA_processed.state = 'ERROR'
                 }
 

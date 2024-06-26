@@ -194,7 +194,7 @@ async function executeValidation(importId,userId,rowData) {
         i++
     }
 
-    console.log(JSON.stringify(entries,null,4))
+    // console.log(JSON.stringify(entries,null,4))
 
     return {
         finished: true,

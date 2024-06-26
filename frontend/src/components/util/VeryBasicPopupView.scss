@@ -1,0 +1,70 @@
+
+
+
+
+
+
+button.very-basic-popup-toggle-button {
+
+
+    & > div.toggle-button-label {
+        margin: 0px;
+        // border: 1px solid red;
+        margin-bottom: -0.168em;
+    }
+
+
+}
+
+
+
+
+div.very-basic-popup-overlay {
+    position: fixed;
+    z-index: 100;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255,255,255,0.7);
+
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    transition: opacity 1.5s;
+}
+
+
+
+
+div.very-basic-popup-container {
+
+    position: fixed;
+    z-index: 100;
+    top: 5%;
+    left: 5%;
+    width: 90%;
+    height: 90%;
+
+
+    background-color: white;
+    // border: 5px solid red;
+
+    opacity: 0;
+    transition: opacity 0.3s;
+
+    border-radius: 3px;
+    border: 1px solid rgba(0,0,0,0.5);
+
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+
+    & > button.very-basic-popup-close-button {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        border-radius: 40%;
+    }
+}
