@@ -6,6 +6,29 @@ const StackTrace = require('stacktrace-js')
 
 const lodash = require('lodash')
 
+
+
+
+const VV_CONSTANTS = {
+    MAX_RETRY: 5,
+    SLEEP_AFTER_RETRY: 5000
+}
+
+
+
+
+
+
+async function sleep(ms) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms)
+    })
+}
+
+
+
+
+
 // create the base object to apply all the sucessive processing steps on
 const createEmptyRecord = () => {
     return {
@@ -440,11 +463,19 @@ class Processing {
 
                 const fullPath = `variants[${i}].HGVS_cDNA`
 
+                let pass = 0
                 let caught = null
-                try {
-                    cDNA_processed.vvOutput = await vvQuery('GRCh38',cDNA_processed.source,'mane_select')
-                } catch(err) {
-                    caught = err
+                while( pass === 0 || (caught != null && caught.status === 429 && pass < VV_CONSTANTS.MAX_RETRY) ) {
+                    caught = null
+                    if(pass > 0) {
+                        await sleep(VV_CONSTANTS.SLEEP_AFTER_RETRY)
+                    }
+                    try {
+                        cDNA_processed.vvOutput = await vvQuery('GRCh38',cDNA_processed.source,'mane_select')
+                    } catch(err) {
+                        caught = err
+                    }
+                    pass++
                 }
 
                 if(caught != null || cDNA_processed.vvOutput == null) {
@@ -457,12 +488,20 @@ class Processing {
                     //     msg += ` VariantValidator returned 'null'.`
                     // }
 
-                    let cause = {
-                        status: caught.status || 500,
-                        name: caught.name,
-                        message: caught.message,
-                        stackTrace: await StackTrace.fromError(caught)
+                    let cause = null
+                    if(caught != null) {
+                        cause = {
+                            status: caught.status || 500,
+                            name: caught.name,
+                            message: caught.message,
+                            stackTrace: await StackTrace.fromError(caught)
+                        }
+                    } else {
+                        cause = {
+                            message: "vvQuery returned null",
+                        }
                     }
+
                     record.report.addFieldError(fullPath, msg, cause)
                     cDNA_processed.state = 'ERROR'
                 }
@@ -521,11 +560,19 @@ class Processing {
 
                 const fullPath = `variants[${i}].HGVS_gDNA`
 
+                let pass = 0
                 let caught = null
-                try {
-                    gDNA_processed.vvOutput = await vvQuery('GRCh38',gDNA_processed.source,'mane_select')
-                } catch(err) {
-                    caught = err
+                while( pass === 0 || (caught != null && caught.status === 429 && pass < VV_CONSTANTS.MAX_RETRY) ) {
+                    caught = null
+                    if(pass > 0) {
+                        await sleep(VV_CONSTANTS.SLEEP_AFTER_RETRY)
+                    }
+                    try {
+                        gDNA_processed.vvOutput = await vvQuery('GRCh38',gDNA_processed.source,'mane_select')
+                    } catch(err) {
+                        caught = err
+                    }
+                    pass++
                 }
 
                 if(caught != null || gDNA_processed.vvOutput == null) {
@@ -538,12 +585,20 @@ class Processing {
                     //     msg += ` VariantValidator returned 'null'.`
                     // }
 
-                    let cause = {
-                        status: caught.status || 500,
-                        name: caught.name,
-                        message: caught.message,
-                        stackTrace: await StackTrace.fromError(caught)
+                    let cause = null
+                    if(caught != null) {
+                        cause = {
+                            status: caught.status || 500,
+                            name: caught.name,
+                            message: caught.message,
+                            stackTrace: await StackTrace.fromError(caught)
+                        }
+                    } else {
+                        cause = {
+                            message: "vvQuery returned null",
+                        }
                     }
+
                     record.report.addFieldError(fullPath, msg, cause)
                     cDNA_processed.state = 'ERROR'
                 }
