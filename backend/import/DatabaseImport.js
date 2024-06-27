@@ -30,6 +30,31 @@ class DatabaseImport {
 
             if(item != null) {
 
+                console.log("HIER ####### ############### ########### ############# ############### ########### ########## ############ ######### ########## ######### ######## #####")
+
+                function cmp(path,entryA,entryB) {
+                    let a = lodash.get(entryA,path)
+                    let b = lodash.get(entryB,path)
+                    console.log(`${path}: ${a} (${typeof a}) <=> ${b} (${typeof b})`)
+                }
+
+                cmp('_id',item,variant)
+                cmp('GRCh37.gDNA',item,variant)
+                cmp('GRCh37.build',item,variant)
+                cmp('GRCh37.chr',item,variant)
+                cmp('GRCh37.pos',item,variant)
+                cmp('GRCh37.ref',item,variant)
+                cmp('GRCh37.alt',item,variant)
+                cmp('GRCh38.gDNA',item,variant)
+                cmp('GRCh38.build',item,variant)
+                cmp('GRCh38.chr',item,variant)
+                cmp('GRCh38.pos',item,variant)
+                cmp('GRCh38.ref',item,variant)
+                cmp('GRCh38.alt',item,variant)
+
+                console.log()
+                console.log()
+
                 // schon vorhanden
                 let check =
                     item._id === variant._id &&
@@ -53,7 +78,7 @@ class DatabaseImport {
                     throw new Error(msg)
 
                 } else {
-                    // variante für diese id existiert schon und ist identisch
+                    // variante für diese id existiert schon und ist identisch --> keine aktion notwendig
                 }
     
             } else {
