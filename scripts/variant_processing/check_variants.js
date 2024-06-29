@@ -3,19 +3,19 @@ const path = require('path')
 
 const lodash = require('lodash')
 
-const database = require('../backend/database/connector').connector
-const users = require('../backend/users/manager')
+const database = require('../../backend/database/connector').connector
+const users = require('../../backend/users/manager')
 
-const Mailer = require('../backend/util/mail/SMTPMailer')
+const Mailer = require('../../backend/util/mail/SMTPMailer')
 
-const IMAPClient = require('../backend/util/mail/IMAPClient')
+const IMAPClient = require('../../backend/util/mail/IMAPClient')
 const imapSession = IMAPClient.createSession()
 
-const console = require('../backend/util/PrettyfiedConsole')
+const console = require('../../backend/util/PrettyfiedConsole')
 const StackTrace = require('stacktrace-js')
 
 
-const FetchAPI = require('./FetchAPI')
+const FetchAPI = require('../FetchAPI')
 
 
 
