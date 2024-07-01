@@ -19,7 +19,7 @@ const clearStore = name => {
 
 }
 
-const addToStore = async (name, build, variants, transcript) => {
+const addToStore = async (name, build, variants, transcript, retryError = true) => {
     
     let filename = path.join(__dirname, `${name}.store`)
     let store = {}
@@ -28,13 +28,33 @@ const addToStore = async (name, build, variants, transcript) => {
         store = JSON.parse(fs.readFileSync(filename, 'utf8'))
     }
 
+
+    // console.log(store['NC_000017.11:g.50600739G>'])
+    // return
+
     for(let [i,variant] of variants.entries()) {
         
-        if(store[variant] == null) {
+        if( store[variant] != null ) {
+
+            // console.log(store[variant])
+
+            if(store[variant].__STORE_ERROR__ != null) {
+                if(retryError === false) {
+                    console.log(`${i+1}/${variants.length} - ${variant}: ERROR: ${store[variant].__STORE_ERROR__} NO RETRY`)
+                    continue
+                } else {
+                    console.log(`${i+1}/${variants.length} - ${variant}: ERROR: ${store[variant].__STORE_ERROR__}`)
+                }
+            } else {
+                console.log(`${i+1}/${variants.length} - ${variant}: ALREADY EXISTS`)
+                continue
+            }
+        
+        } else {
 
             let response = null
-
             let caught = null
+
             try {
                 response = await vvQuery(build,variant,transcript)
             } catch(err) {
@@ -46,15 +66,17 @@ const addToStore = async (name, build, variants, transcript) => {
                 console.log(`${i+1}/${variants.length} - ${variant}: ADDED`)
                 await sleep(500)
             } else {
-                console.log(`${i+1}/${variants.length} - ${variant}: ERROR: ${caught.message}${caught.status != null ? ` (${caught.status})` : '' }`)
+                let msg = `${caught.message}${caught.status != null ? ` (${caught.status})` : '' }`
+                store[variant] = {
+                    __STORE_ERROR__: msg
+                }
+                console.log(`${i+1}/${variants.length} - ${variant}: ERROR: ${msg}`)
             }
-
-        } else {
-            console.log(`${i+1}/${variants.length} - ${variant}: ALREADY EXISTS`)
         }
 
         fs.writeFileSync(filename, JSON.stringify(store))
     }
+
 }
 
 module.exports = {
