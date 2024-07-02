@@ -45,8 +45,15 @@ async function main() {
         toStore.GRCh38.push(dbVariant.GRCh38.gDNA)
     }
     
-    await VVStore.addToStore('HGQN_GRCh37_gDNA', 'GRCh37', toStore.GRCh37, 'mane_select', false)
-    await VVStore.addToStore('HGQN_GRCh38_gDNA', 'GRCh38', toStore.GRCh38, 'mane_select', false)
+    // await VVStore.addToStore('HGQN_gDNA', 'GRCh37', toStore.GRCh37, 'mane_select', false)
+
+    console.log(toStore.GRCh37.length)
+    console.log(toStore.GRCh38.length)
+
+    let retryError = false
+
+    await VVStore.addToStore('HGQN_gDNA', 'GRCh38', toStore.GRCh37, 'mane_select', retryError)
+    await VVStore.addToStore('HGQN_gDNA', 'GRCh38', toStore.GRCh38, 'mane_select', retryError)
     
     await database.disconnect()
 }

@@ -14,14 +14,17 @@ async function vvQuery(build,variant,transcripts = 'all') {
     return FetchAPI.get(url)
 }
 
-const clearStore = name => {
-    // file löschen
-
+const clearStore = (name, build, transcript) => {
+    let filename = path.join(__dirname, `${name}.${build}.${transcript}.store`)
+    if(fs.existsSync(filename)) {
+        fs.unlinkSync(filename)
+    }
 }
 
 const addToStore = async (name, build, variants, transcript, retryError = true) => {
     
-    let filename = path.join(__dirname, `${name}.store`)
+    // let filename = path.join(__dirname, `${name}.store`)
+    let filename = path.join(__dirname, `${name}.${build}.${transcript}.store`)
     let store = {}
 
     if(fs.existsSync(filename)) {
@@ -76,11 +79,26 @@ const addToStore = async (name, build, variants, transcript, retryError = true) 
 
         fs.writeFileSync(filename, JSON.stringify(store))
     }
-
 }
 
+
+const loadStore = (name, build, transcript) => {
+    let filename = path.join(__dirname, `${name}.${build}.${transcript}.store`)
+    if(fs.existsSync(filename)) {
+        let store = new Map()
+        for(const [key,value] of Object.entries(JSON.parse(fs.readFileSync(filename, 'utf8')))) {
+            store.set(key,value)
+        }
+        return store
+    } else {
+        throw new Error(`Store file does not exist: ${filename}`)
+    }
+}
+
+
 module.exports = {
-    addToStore: addToStore
+    addToStore: addToStore,
+    loadStore: loadStore
 }
 
 
