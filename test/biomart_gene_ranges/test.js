@@ -389,6 +389,20 @@ class GeneDatabase {
 
 
 
+
+
+function isNonEmptyString(val) {
+    return val != null && lodash.isString(val) && val.length > 0
+}
+
+
+
+
+
+
+
+
+
 async function main() {
 
     // init
@@ -567,7 +581,7 @@ async function main() {
     // console.log(content)
 
 
-    let entries = parse(content, {
+    let newEntries = parse(content, {
         columns: true,
         delimiter: '\t',
         trim: true,
@@ -619,184 +633,585 @@ async function main() {
 
 
     
-
+    
+    
+    let error_count = 0
+    let error_genes = new Map()
 
     /*
-    let root = new Map()
 
-    for(let entry of entries) {
+        1. keine adds bei problematischen entries (HGNC Infos oder source HGNC source muss vorhanden sein)
 
-        if(chromosomes.includes(entry['Chromosome/scaffold name'])) {
+        2. ncbi ids sammeln
+           problem:
+                ist die kombi NCBI ID und synonym relavant?
+                also gibt es zb ncbi ids die nur für ein synonym eintrag kommen??
+                das muss man einfach zählen um zu sehen, ob das so ist
+
+        ich zähle das einfach als kombi key
+        vorher brauche ich eine methode, die den check macht
 
 
 
-            // 1. BUILD ID FROM POSITION
+        es werden bestimmte felder als id felder definierert und alle anderen nicht.
+        dann sollte automatisch gesammelt und gezählt werden können
 
-            let pos = {
-                chr: entry['Chromosome/scaffold name'],
-                start: entry['Gene start (bp)'],
-                end: entry['Gene end (bp)']
-            }
 
-            if(pos.chr == null || pos.start == null || pos.end == null) {
-                console.log("ERROR: Chromosome, start oder end position ist nicht vorhanden. Entry wird übersprungen.")
-                console.log(pos)
-                continue
-            }
-
-            let id = pos.chr + '-' + pos.start + '-' + pos.end
-
-            if(root.has(id) === true) {
-                console.log('FATAL ERROR: id schon vorhanden')
-                console.log(id)
-                console.log(root.get(id))
-                console.log(entry)
-                return
-            }
-
-            root.set(id, entry)
+        Es ist gleich, wenn die id felder gleich sind
+        für das hinzufügen gilt dann:
+        die "restlichen felder" wird dann ein set oder map erstellt wo ein zusammengesetzter wert eingetragen wird.
+        das kann ich dann am ende ausgeben
 
 
 
 
-        }
+
+        Ebenen:
+
+        0
+        chromosome, start, end
+
+        1
+        HGNC (einfach weil der main fokus ist)
+        Gene name und gene source = HGNC nur dann interpretieren, wenn HGNC ID UND SYMBOL NICHT GEGEBEN SIND
+        Für alle einen untereintrag hinzufügen
+        Grundannahme: HGNC ID und SYMBOL sind eine eins zu eins verbindung. ist gecheckt
+
+
+        2 ncbi, synonym, ensembl sammeln? einzlen oder in kombination?
+
+
+
+
+
 
 
 
         
-        
-        
-      
 
-    }
+
+
+
+
+
     */
 
 
 
+    
+    const idFields = ['Gene stable ID', 'HGNC ID', 'HGNC symbol', 'Gene name', 'Source of gene name', 'Chromosome/scaffold name', 'Gene start (bp)', 'Gene end (bp)' ]
+    const multiFields = ['Gene Synonym', 'NCBI gene (formerly Entrezgene) ID']
 
 
 
 
-    let ensemblSet = new Map()
-    let hgncSymbolSet = new Map()
-    let hgncIdSet = new Map()
-    let geneNameSet = new Map()
-    let entrezSet = new Map()
+    const compareByIdFields = (entry,newEntry,idFields) => {
+        let equal = true
+        for(let key of idFields) {
+            let a = entry[key]
+            let b = newEntry[key]
+            equal &&= lodash.isEqual(a,b)
+        }
+        return equal
+    }
 
-    let sources = new Map()
-
-    for(let entry of entries) {
-
-        let chromosome = entry['Chromosome/scaffold name']
-
-        if(chromosomes.includes(chromosome)) {
-
-
-
-            let source = entry['Source of gene name']
-            if(sources.has(source) === false) {
-                sources.set(source, 0)
+    const buildMultiValue = (newEntry,multiFields) => {
+        let result = ''
+        let first = true
+        for(let key of idFields) {
+            if(first === true) {
+                first = false
+            } else {
+                result += '__'
             }
-            sources.set(source, sources.get(source) + 1)
-            
+            let value = newEntry[key] == null || lodash.isString(newEntry[key]) === false || newEntry[key].length <= 0 ? 'NULL' : newEntry[key]
+            result += value
+        }
+        return result
+    }
 
 
 
 
-            let ensembl = entry['Gene stable ID']
-            if(ensembl == null || ensembl.length === 0) {
-                console.log("ensembl is null")
+
+    // check ob HGNC ID und HGNC symbol eins-zu-eins beziehung haben
+    // let hgncIDs = new Map()
+    // let hgncSymbols = new Map()
+
+    // for(let newEntry of newEntries) {
+
+    //     if(chromosomes.includes(newEntry['Chromosome/scaffold name'])) {
+
+    //         let id = newEntry['HGNC ID']
+    //         let symbol = newEntry['HGNC symbol']
+
+    //         if(hgncIDs.has(id) === true) {
+    //             if(hgncIDs.get(id) !== symbol) {
+    //                 console.log()
+    //                 console.log('FATAL ERROR:')
+    //                 console.log("geparster eintrag")
+    //                 console.log(entry)
+    //                 console.log("neuer eintrag")
+    //                 console.log(newEntry)
+    //                 return 
+    //             }
+    //         } else {
+    //             hgncIDs.set(newEntry['HGNC ID'],newEntry['HGNC symbol'])
+    //         }
+
+    //         if(hgncSymbols.has(symbol) === true) {
+    //             if(hgncSymbols.get(symbol) !== id) {
+    //                 console.log()
+    //                 console.log('FATAL ERROR:')
+    //                 console.log("geparster eintrag")
+    //                 console.log(entry)
+    //                 console.log("neuer eintrag")
+    //                 console.log(newEntry)
+    //                 return 
+    //             }
+    //         } else {
+    //             hgncSymbols.set(newEntry['HGNC symbol'],newEntry['HGNC ID'])
+    //         }
+    //     }
+    // }
+    // console.log(hgncIDs)
+    // console.log(hgncSymbols)
+    // return
+
+
+
+
+
+    // let sources = new Set()
+    // for(let newEntry of newEntries) {
+    //     if(chromosomes.includes(newEntry['Chromosome/scaffold name'])) {
+    //         sources.add(newEntry['Source of gene name'])
+    //     }
+    // }
+    // console.log(sources)
+    // return
+
+
+
+
+
+
+
+
+    let rootEntries = new Map()
+
+    for(let newEntry of newEntries) {
+
+        if(chromosomes.includes(newEntry['Chromosome/scaffold name'])) {
+
+            // 1. position id erzeugen
+
+            let pos = {
+                chr: newEntry['Chromosome/scaffold name'],
+                start: newEntry['Gene start (bp)'],
+                end: newEntry['Gene end (bp)']
             }
-            else if(ensemblSet.has(ensembl)) {
-                // console.log("ensembl duplicate " + ensembl)
-                // console.log(entry)
-                // console.log(ensemblSet.get(ensembl))
+            if(pos.chr == null || pos.start == null || pos.end == null) {
+                console.log("WARNUNG: Chromosome, start oder end position ist nicht vorhanden. Der eintrag wird übersprungen.")
+                console.log(pos)
+                continue
+            }
+            let posId = pos.chr + '-' + pos.start + '-' + pos.end
 
-                // if(
-                //     entry['Chromosome/scaffold name'] !== ensemblSet.get(ensembl)['Chromosome/scaffold name'] ||
-                //     entry['Gene start (bp)'] !== ensemblSet.get(ensembl)['Gene start (bp)'] ||
-                //     entry['Gene end (bp)'] !== ensemblSet.get(ensembl)['Gene end (bp)']
-                // ) {
-                //     console.log("ensembl duplicate " + ensembl)
-                //     console.log(entry)
-                //     console.log(ensemblSet.get(ensembl))
+
+
+            // 2. root entry für pos id holen (falls vorhanden)
+
+            let rootEntry = rootEntries.get(posId)
+
+
+
+            // 3. entry abhängig vom type verarbeiten
+
+            if( isNonEmptyString(newEntry['HGNC ID']) && isNonEmptyString(newEntry['HGNC symbol']) ) {
+
+                // HGNC
+
+                const HGNC = {
+                    id: newEntry['HGNC ID'],
+                    symbol: newEntry['HGNC symbol']
+                }
+
+                if(rootEntry == null) {
+
+                    // neues entry anlegen
+
+                    rootEntries.set(posId, {
+                        id: posId,
+                        pos: pos,
+                        children: new Map([
+                            [
+                                HGNC.id,
+                                {
+                                    type: 'HGNC',
+                                    HGNC: HGNC,
+                                    synonyms: [],
+                                    NCBI: [],
+                                    ENSEMBL: []
+                                }
+                            ]
+                        ])
+                    })
+
+                } else {
+
+                    // vorhandenes entry bearbeiten
+
+                    let child = rootEntry.children.get(HGNC.id)
+
+                    if(child == null) {
+
+                        child = {
+                            type: 'HGNC',
+                            HGNC: HGNC,
+                            synonyms: [],
+                            NCBI: [],
+                            ENSEMBL: []
+                        }
+                        rootEntry.children.set(HGNC.id, child)
+
+                    } else {
+
+                        // kann man das so machen? Oder muss die hierarchie von synonym, ncbi und enseble beachtet werden?
+                        // wenn ja, wie sieht diese hierarchie aus?
+                        
+
+                        let synonym = newEntry['Gene Synonym']
+                        let ensembl = newEntry['Gene stable ID']
+                        let ncbi = newEntry['NCBI gene (formerly Entrezgene) ID']
+
+                        if(child.synonyms.includes(synonym) === false) {
+                            child.synonyms.push(synonym)
+                            console.log(child.synonyms)
+                        }
+
+                        // child.syno
+
+                        // child vorhanden
+                        // console.log()
+                        // console.log('vorhanden')
+                        // console.dir(rootEntry, {depth: null})
+                        // console.log('neu')
+                        // console.dir(newEntry, {depth: null})
+
+                        /*
+                            hier muss man jetzt schauen, ob man 
+                        */
+                    }
+                }
+
+
+            } else if(isNonEmptyString(newEntry['Gene name'])) {
+
+                if(newEntry['Source of gene name'] === 'HGNC Symbol') {
+
+                    // HGNC (aber über external gene name und external source type)
+                    // kann man das genauso handeln wie HGNC ???
+
+                    console.log()
+                    console.log("neuer eintrag")
+                    console.log(newEntry)
+                    continue
+
+                } else if(newEntry['Source of gene name'] === 'NCBI gene (formerly Entrezgene)') {
+
+
+                    continue
+
+                    // console.log()
+                    // console.log("neuer eintrag")
+                    // console.log(newEntry)
+
+                } else if(newEntry['Source of gene name'] === 'RFAM') {
+                    continue
+                } else if(newEntry['Source of gene name'] === 'miRBase') {
+                    continue
+                } else {
+                    continue
+                }
+                
+            } else {
+                // nur ensembl id und ncbi id
+                continue
+            }
+
+
+
+
+
+
+
+
+            // if(rootEntries.has(id) === true) {
+
+            //     let entry = rootEntries.get(id)
+
+            //     let hgnc = {}
+
+                // in dem entry suchen, ob HGNC ID und SYMBOL vorhanden sind
+                // wenn ja, dann hat man den eintrag gefunden mit dem es weitergeht, wenn nicht, dann muss man das entry bewerten und
+                // eintragen
+
+                // let entry = rootEntries.get(id)
+                // let comp = compareByIdFields(entry,newEntry,['Chromosome/scaffold name', 'Gene start (bp)', 'Gene end (bp)', 'HGNC ID', 'HGNC symbol'  ])
+                // if(comp === true) {
+
+                //     // OK
+
+                //     // let multiValue = buildMultiValue(newEntry,multiFields)
+                //     // entry.meta.push(multiValue)
+
+                // } else {
+
+                //     // nicht identische id felder aber gleiche positions id ==> widerspruch zur annahmen, genauer anschauen
+                //     console.log()
+                //     console.log('FATAL ERROR: gleiche id aber unterschiedliche id felder ' + id)
+                //     console.log("geparster eintrag")
+                //     console.log(rootEntries.get(id))
+                //     console.log("neuer eintrag")
+                //     console.log(newEntry)
                 // }
 
-            }
-            ensemblSet.set(ensembl,entry)
 
-            let hgncSymbol = entry['HGNC symbol']
-            if(hgncSymbol == null || hgncSymbol.length === 0) {
-                // console.log("HGNC symbol duplicate")
-                // console.log(entry)
-                // console.log(geneNameSet.get(hgncSymbol))
-            }
-            else if(hgncSymbolSet.has(hgncSymbol)) {
-                // console.log("hgncSymbol duplicate")
-            }
-            hgncSymbolSet.set(hgncSymbol,entry)
-            
-            let hgncId = entry['HGNC ID']
-            if(hgncId == null || hgncId.length === 0) {
-                // console.log("hgncId is null")
-            }
-            else if(hgncIdSet.has(hgncId)) {
-                // console.log("hgncId duplicate")
-            }
-            hgncIdSet.set(hgncId,entry)
+                // // wenn es schon einen eintrag für die id gibt, dann prüfen, ob über den neuen eintrag ein neues synonym geliefert wird
+                // // dazu muss alles außer dem synonym identisch sein
 
+                // let entry = rootEntries.get(id)
+                // let copyExisting = lodash.cloneDeep(entry)
+                // let synonyms = copyExisting['Gene Synonym']
+                // delete copyExisting['Gene Synonym']
 
-            let geneName = entry['Gene name']
-            if(geneName == null || geneName.length === 0) {
-                // console.log("geneName is null")
-            }
-            else if(geneNameSet.has(geneName)) {
-                // console.log("geneName duplicate")
-                // console.log(entry)
-                // console.log(geneNameSet.get(geneName))
-            }
-            geneNameSet.set(geneName,entry)
+                // let copyNew = lodash.cloneDeep(newEntry)
+                // let newSynonym = copyNew['Gene Synonym']
+                // delete copyNew['Gene Synonym']
 
-            let entrez = entry['NCBI gene (formerly Entrezgene) ID']
-            if(entrez == null || entrez.length === 0) {
-                // console.log("entrez is null")
-            }
-            else if(entrezSet.has(entrez)) {
-                // console.log("entrez duplicate")
-                // console.log(entry)
-                // console.log(entrezSet.get(entrez))
-            }
-            entrezSet.set(entrez,entry)
+                // if(lodash.isArray(synonyms) === false) {
+                //     // das hier müsste eigentlich ausgeschlossen sein
+                //     console.log("FATAL: synonyms is not an array")
+                //     return
+                // }
 
+                // if(lodash.isEqual(copyExisting,copyNew) === true) {
+                //     // sind identisch bis auf synonym
 
+                //     if(newSynonym != null && lodash.isString(newSynonym) === true && newSynonym.length > 0 && synonyms.includes(newSynonym) === false) {
+                //         // das neue synonym kann hinzugefügt werden
+                //         entry['Gene Synonym'].push(newSynonym)
+                //         // console.log('add synonym: ' + id)
+                //     }
 
+                // } else {
 
+                //     // if(id === 'Y-9398421-9401223') {
+                //     //     console.log('')
+                //     //     console.log(error_count + ' FATAL ERROR: id schon vorhanden: ' + id)
+                //     //     console.log("geparster eintrag")
+                //     //     console.log(rootEntries.get(id))
+                //     //     console.log("neuer eintrag")
+                //     //     console.log(newEntry)
+                //     //     error_count++
+                //     // }
 
+                //     console.log('FATAL ERROR: id schon vorhanden: ' + id)
+                //     console.log("geparster eintrag")
+                //     console.log(rootEntries.get(id))
+                //     console.log("neuer eintrag")
+                //     console.log(newEntry)
 
+                //     if(error_genes.has(id) === false) {
+                //         error_genes.set(id,0)
+                //     }
+                //     error_genes.set(id,error_genes.get(id) + 1)
+                //     error_count++
 
-            // console.log(symbol + " " + symbol.length)
+                // }
 
+               
 
-            // if(symbol == null || symbol.length === 0) {
-            //     console.log(entry)
+            // } else {
+
+                // erstmaliges übernehmen des entries
+
+                // für die synonyms ein array erstellen
+                // const synonym = newEntry['Gene Synonym']
+                // newEntry['Gene Synonym'] = []
+                // if(synonym != null && lodash.isString(synonym) === true && synonym.length > 0) {
+                //     newEntry['Gene Synonym'].push(synonym)
+                // }
+
+                // let multiValue = buildMultiValue(newEntry,multiFields)
+                // newEntry.meta = [multiValue]
+
+                // entry hinzufügen
+                // rootEntries.set(id, newEntry)
+
             // }
-            //
 
-            // if(symbols.has(symbol)) {
-            //     console.log('error: doeppel: ' + symbol)
-            //     return
-            // }
-            //
+
+
+
+
+
+
+
+        }
+        
+      
+
+    }
+
+
+    for(let [key,value] of rootEntries.entries()) {
+        console.dir(value, {depth: null})
+    }
+
+
+
+
+
+    // console.log(error_genes)
+    // for(let [key,value] of error_genes.entries()) {
+    //     console.log(key + ' => ' + value)
+    // }
+    // console.log(error_count)
+
+
+
 
 
     
-        }
 
 
-        // console.log(entry)
-    }
 
-    // console.log(sources)
+
+
+
+
+    // let ensemblSet = new Map()
+    // let hgncSymbolSet = new Map()
+    // let hgncIdSet = new Map()
+    // let geneNameSet = new Map()
+    // let entrezSet = new Map()
+
+    // let sources = new Map()
+
+    // for(let entry of entries) {
+
+    //     let chromosome = entry['Chromosome/scaffold name']
+
+    //     if(chromosomes.includes(chromosome)) {
+
+
+
+    //         let source = entry['Source of gene name']
+    //         if(sources.has(source) === false) {
+    //             sources.set(source, 0)
+    //         }
+    //         sources.set(source, sources.get(source) + 1)
+            
+
+
+
+
+    //         let ensembl = entry['Gene stable ID']
+    //         if(ensembl == null || ensembl.length === 0) {
+    //             console.log("ensembl is null")
+    //         }
+    //         else if(ensemblSet.has(ensembl)) {
+    //             // console.log("ensembl duplicate " + ensembl)
+    //             // console.log(entry)
+    //             // console.log(ensemblSet.get(ensembl))
+
+    //             // if(
+    //             //     entry['Chromosome/scaffold name'] !== ensemblSet.get(ensembl)['Chromosome/scaffold name'] ||
+    //             //     entry['Gene start (bp)'] !== ensemblSet.get(ensembl)['Gene start (bp)'] ||
+    //             //     entry['Gene end (bp)'] !== ensemblSet.get(ensembl)['Gene end (bp)']
+    //             // ) {
+    //             //     console.log("ensembl duplicate " + ensembl)
+    //             //     console.log(entry)
+    //             //     console.log(ensemblSet.get(ensembl))
+    //             // }
+
+    //         }
+    //         ensemblSet.set(ensembl,entry)
+
+    //         let hgncSymbol = entry['HGNC symbol']
+    //         if(hgncSymbol == null || hgncSymbol.length === 0) {
+    //             // console.log("HGNC symbol duplicate")
+    //             // console.log(entry)
+    //             // console.log(geneNameSet.get(hgncSymbol))
+    //         }
+    //         else if(hgncSymbolSet.has(hgncSymbol)) {
+    //             // console.log("hgncSymbol duplicate")
+    //         }
+    //         hgncSymbolSet.set(hgncSymbol,entry)
+            
+    //         let hgncId = entry['HGNC ID']
+    //         if(hgncId == null || hgncId.length === 0) {
+    //             // console.log("hgncId is null")
+    //         }
+    //         else if(hgncIdSet.has(hgncId)) {
+    //             // console.log("hgncId duplicate")
+    //         }
+    //         hgncIdSet.set(hgncId,entry)
+
+
+    //         let geneName = entry['Gene name']
+    //         if(geneName == null || geneName.length === 0) {
+    //             // console.log("geneName is null")
+    //         }
+    //         else if(geneNameSet.has(geneName)) {
+    //             // console.log("geneName duplicate")
+    //             // console.log(entry)
+    //             // console.log(geneNameSet.get(geneName))
+    //         }
+    //         geneNameSet.set(geneName,entry)
+
+    //         let entrez = entry['NCBI gene (formerly Entrezgene) ID']
+    //         if(entrez == null || entrez.length === 0) {
+    //             // console.log("entrez is null")
+    //         }
+    //         else if(entrezSet.has(entrez)) {
+    //             // console.log("entrez duplicate")
+    //             // console.log(entry)
+    //             // console.log(entrezSet.get(entrez))
+    //         }
+    //         entrezSet.set(entrez,entry)
+
+
+
+
+
+
+
+    //         // console.log(symbol + " " + symbol.length)
+
+
+    //         // if(symbol == null || symbol.length === 0) {
+    //         //     console.log(entry)
+    //         // }
+    //         //
+
+    //         // if(symbols.has(symbol)) {
+    //         //     console.log('error: doeppel: ' + symbol)
+    //         //     return
+    //         // }
+    //         //
+
+
+    
+    //     }
+
+
+    //     // console.log(entry)
+    // }
+
+    // // console.log(sources)
 
 
 
