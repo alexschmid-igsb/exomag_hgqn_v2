@@ -1,0 +1,35 @@
+---
+scheme:
+    _id:
+        type: string
+        required: true
+    type:
+        type: string
+        required: true
+    hgnc:
+        id:
+            type: string
+            required: true
+        symbol:
+            type: string
+            required: true
+    occurrences:
+      - pos:
+            chr:
+                type: string
+                required: true
+            start:
+                type: integer
+                required: true
+            end:
+                type: integer
+                required: true
+        synonyms: 
+          - type: string
+            required: true
+        ncbi: 
+          - type: string
+            required: true
+        ensembl: 
+          - type: string
+            required: true

@@ -643,6 +643,7 @@ class Connector {
 
 
 
+    // wir anscheinend nicht genutzt, vielleicht kann das ganz raus
     async insertOne(target,item) {
         // get model (throws on error)
         let model = this.getModel(target)
@@ -652,6 +653,18 @@ class Connector {
 
         } catch(error) {
             throw new Error(`could not insert new item into database: ${targetErrMsg(target)}`, { cause: error })
+        }
+    }
+
+
+
+
+    async insertMany(target, items) {
+        let model = this.getModel(target)
+        try {
+            return await model.insertMany(items, { rawResult: true })
+        } catch(error) {
+            throw new Error(`could not insert items into database: ${targetErrMsg(target)}`, { cause: error })
         }
     }
 
@@ -678,7 +691,7 @@ class Connector {
     async deleteAll(target) {
         let model = this.getModel(target)
         try {
-            await model.deleteMany({})
+            return await model.deleteMany({})
         } catch(error) {
             throw new Error(`error`, { cause: error })
         }
