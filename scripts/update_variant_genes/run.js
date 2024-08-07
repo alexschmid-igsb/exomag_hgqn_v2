@@ -825,6 +825,23 @@ async function updateVariantGenes() {
     const genesByPosition = new GenesByPosition(genesResult.data)
 
 
+
+    let all = 0
+    let count = 0
+    for(let gene of genesResult.data) {
+        if(gene.occurrences.length > 1) {
+            console.log()
+            console.dir(gene, { depth: null })
+            count++
+        }
+        all++
+    }
+    console.log()
+    console.log(count)
+    console.log(all)
+    return 
+
+
     // load variants from database
     const variantsResult = await database.find('GRID_variants')
     for(let [i, variant] of variantsResult.data.entries()) {
@@ -834,9 +851,9 @@ async function updateVariantGenes() {
         let found = genesByPosition.find(variant.GRCh38.chr, variant.GRCh38.pos)
 
         if(found.length > 1) {
-            console.log(variant.GRCh38)
-            console.log(variant.GRCh38.gDNA)
-            console.dir(found, {depth : null})
+            // console.log(variant.GRCh38)
+            // console.log(variant.GRCh38.gDNA)
+            // console.dir(found, {depth : null})
         }
 
         
