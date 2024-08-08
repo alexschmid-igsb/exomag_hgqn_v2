@@ -484,6 +484,40 @@ div.ag-row {
 
 
 
+/* Variant Genes */
+
+div.ag-theme-alpine-modified div.variant-genes {
+
+    & > span.variant-gene {
+        border-radius: 3px; 
+        padding: 1px 3px;
+        font-weight: bold;
+        border: 1px solid rgba(0,0,0,0.4);
+        background-color: rgba(0,0,0,0.1);
+        color: rgba(0,0,0,0.65);
+    
+        box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+
+        margin-right: 8px;
+        cursor: pointer;
+
+        transition: border 0.2s, background-color 0.2s, color 0.2s, box-shadow 0.2s;
+    }
+
+    & > span.variant-gene:last-child {
+        margin-right: 0px;
+    }
+
+    & > span.variant-gene:hover {
+        border: 1px solid rgba(0,0,0,0.6);
+        background-color: rgba(255,255,255,0.4);
+        color: rgba(0,0,0,0.9);
+    }
+}
+
+
+
+
 
 
 

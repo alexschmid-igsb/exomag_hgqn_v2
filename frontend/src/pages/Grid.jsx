@@ -240,6 +240,70 @@ const GenPosRenderer = props => {
 
 
 
+
+/*
+    very basic popup view?
+    wie kann man verhindern, dass für jedes entry die overlay schon gerendert werden?
+    Alles in das gleiche popup rendern?
+
+    Wo war das erzeugen des popups aus dem source element? 
+    
+
+*/
+
+const VariantGenesRenderer = props => {
+
+    const render = value => {
+
+        if(value == null) {
+            return null
+        }
+
+        if(lodash.isArray(value) === true) {
+
+            let result = []
+
+            for(const entry of value) {
+
+                if(entry.type === 'HGNC' && lodash.isString(entry.hgnc.symbol) && entry.hgnc.symbol.length > 0) {
+                    result.push(
+                        <span className="variant-gene hgnc">
+                            { entry.hgnc.symbol }
+                        </span>
+                                                
+                    )
+                }
+            }
+
+            if(result.length > 0) {
+                return (
+                    <div className="variant-genes">
+                        {result}
+                    </div>
+                )
+            }
+        }
+
+        return null
+    }
+
+    return (
+        render(props.value)
+    )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 export default function Grid() {
 
     const routeParams = useParams()
@@ -551,6 +615,8 @@ export default function Grid() {
                     return VarsomeLink
                 case 'gen_pos_renderer':
                     return GenPosRenderer
+                case 'variant_genes_renderer':
+                    return VariantGenesRenderer
             }
         }
 

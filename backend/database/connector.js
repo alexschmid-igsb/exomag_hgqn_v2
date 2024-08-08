@@ -712,6 +712,18 @@ class Connector {
     
 
 
+
+    async bulkWrite(target,operations) {
+        let model = this.getModel(target)
+        try {
+            await model.bulkWrite(operations)
+        } catch(error) {
+            throw new Error(`could not execute bulk write ${targetErrMsg(target)}${itemErrMsg(operations)}`, { cause: error })
+        }
+    }
+
+
+
     /*
     TODO: der allgemeinere Fall basiert auf dem allgemeine selector
     async findOneAndUpdate(target, selector, data) {

@@ -815,8 +815,61 @@ class GenesByPosition {
 
 
 
-async function updateVariantGenes() {
+class gDNAParser {
 
+    constructor() {
+
+        const sequence_identifier = '(?<sequence_identifier>NC_\\d{6}\\.\\d{1,2})'
+        const coordinate_type = '(?<coordinate_type>g)'
+        const position = '(?<position>\\d+)'
+        const range = '(?<range>\\d+_\\d+)'
+        const position_or_range = '(' + position + '|' + range + ')'
+        const sequence = '(?<sequence>[ACGT]+)'
+        const reference_sequence_single = '(?<reference_sequence>[ACGT])'
+        const alternate_sequence_single = '(?<alternate_sequence>[ACGT])'
+
+        this.pattern = {
+            substitution:       new RegExp('^' + sequence_identifier + ':' + coordinate_type + '\\.' + position + reference_sequence_single + '>' + alternate_sequence_single + '$'),
+            deletion:           new RegExp('^' + sequence_identifier + ':' + coordinate_type + '\\.' + position_or_range + '(?<keyword>del)' + '$'),
+            duplication:        new RegExp('^' + sequence_identifier + ':' + coordinate_type + '\\.' + position_or_range + '(?<keyword>dup)' + '$'),
+            insertion:          new RegExp('^' + sequence_identifier + ':' + coordinate_type + '\\.' + range + '(?<keyword>ins)' + sequence + '$'),
+            inversion:          new RegExp('^' + sequence_identifier + ':' + coordinate_type + '\\.' + range + '(?<keyword>inv)' + '$'),
+            deletion_insertion: new RegExp('^' + sequence_identifier + ':' + coordinate_type + '\\.' + position_or_range + '(?<keyword>delins)' + sequence + '$'),
+        }
+    }
+
+    execute(str) {
+        if(isNonEmptyString(str)) {
+            for(const component of Object.keys(this.pattern)) {
+                let pattern = this.pattern[component]
+                const result = str.match(pattern)
+                if(result) {
+                    let ret = lodash.isObject(result.groups) === false ? null : {
+                        input: str,
+                        matchedPattern: pattern,
+                        type: component,
+                        groups: Object.fromEntries(Object.entries(result.groups).filter(item => item[1] != null))
+                    }
+                    if(ret.groups.range != null) {
+                        ret.groups.range = {
+                            start: parseInt(ret.groups.range.substring(0,ret.groups.range.indexOf('_'))),
+                            end: parseInt(ret.groups.range.substring(ret.groups.range.indexOf('_')+1))
+                        }
+                    }
+                    if(ret.groups.position != null) {
+                        ret.groups.position = parseInt(ret.groups.position)
+                    }
+                    return ret
+                }
+            }
+        }
+        return null
+    }
+}
+
+
+
+async function updateVariantGenes() {
 
     // load genes from database
     const genesResult = await database.find('GRID_genes')
@@ -824,67 +877,144 @@ async function updateVariantGenes() {
     // build interval search trees
     const genesByPosition = new GenesByPosition(genesResult.data)
 
-
-
-    let all = 0
-    let count = 0
-    for(let gene of genesResult.data) {
-        if(gene.occurrences.length > 1) {
-            console.log()
-            console.dir(gene, { depth: null })
-            count++
-        }
-        all++
-    }
-    console.log()
-    console.log(count)
-    console.log(all)
-    return 
-
-
     // load variants from database
     const variantsResult = await database.find('GRID_variants')
+
+    // mongoose variant updates
+    let variantUpdates = []
+
+    // process variants
+    let applyPositionTest = false
+    const parser = new gDNAParser()
     for(let [i, variant] of variantsResult.data.entries()) {
 
-        // console.log(variant)
+        // console.log(i)
 
-        let found = genesByPosition.find(variant.GRCh38.chr, variant.GRCh38.pos)
-
-        if(found.length > 1) {
-            // console.log(variant.GRCh38)
-            // console.log(variant.GRCh38.gDNA)
-            // console.dir(found, {depth : null})
+        // parse GRCh38 gDNA
+        let result = parser.execute(variant.GRCh38.gDNA)
+        if(result == null) {
+            console.log('ERROR: Could not parse variant.GRCh38.gDNA: "' + variant.GRCh38.gDNA + '"')
+            return
         }
 
-        
+        let foundGenes = []
 
-        /*
-            TODO:
-            1. delins usw versuchen zu erkennen
-                - Zählen, wie viele solcher varianten es eigentlich sind, im vergleich zu allen
-                - am besten über regexp auf der normierten gDNA
-                - und zusätzlich über die length von alt/ref rückversichern
-                - dann irgendwie ein intervall daraus berechnen
+        if(result.groups.position != null) {
 
+            // search genes by single position
+            foundGenes = genesByPosition.find(variant.GRCh38.chr, variant.GRCh38.pos)
 
-            2. PRÜFEN
-                - für jede variant und alle ihrerr gefundenne genes :
-                    * liegt sie in mind. einem intervall des gene entries (wenn nein, dann ist das ein falsche gefundenes gene)
-                    * Alle anderen genes durchgehen und manuell sichergehen, dass die variant pos in KEINEM der gene intervalls liegt
+            // apply a deep test on the gene search results
+            if(applyPositionTest === true) {
 
-        */
+                // 1. the variant position must be inside the range of the found gene
+                for(let foundGene of foundGenes) {
+                    let inside = false
+                    for(let occurrence of foundGene.occurrences) {
+                        if((variant.GRCh38.chr === occurrence.pos.chr) && (variant.GRCh38.pos >= occurrence.pos.start) && (variant.GRCh38.pos <= occurrence.pos.end)) {
+                            inside = true
+                        }
+                    }
+                    if(inside === false) {
+                        console.log('ERROR: variant pos is not inside a gene found by the position search')
+                        console.log(variant)
+                        console.log(foundGene)
+                        return
+                    }
+                }
+                
+                // 2. the variant position must NOT be inside the range of all the genes that have been found by the position search
+                for(let gene of genesResult.data) {
+                    if(foundGenes.includes(gene) === false) {
+                        let inside = false
+                        for(let occurrence of gene.occurrences) {
+                            if((variant.GRCh38.chr === occurrence.pos.chr) && (variant.GRCh38.pos >= occurrence.pos.start) && (variant.GRCh38.pos <= occurrence.pos.end)) {
+                                inside = true
+                            }
+                        }
+                        if(inside === true) {
+                            console.log('ERROR: variant pos is inside gene range but gene has not been selected by position search')
+                            console.log(variant)
+                            console.log(gene)
+                            return
+                        }
+    
+                    }
+                }
+            }
 
+        } else if(result.groups.range != null) {
+
+            // search genes for the given variant range
+            let start = result.groups.range.start
+            let end = result.groups.range.end
+            foundGenes = genesByPosition.find( variant.GRCh38.chr, [start,end] )
+
+            // apply a deep test on the gene search results
+            if(applyPositionTest === true) {
+
+                // 1. the variant range must overlap the range of the found gene
+                for(let foundGene of foundGenes) {
+                    let overlap = false
+                    for(let occurrence of foundGene.occurrences) {
+                        if(
+                            ( variant.GRCh38.chr === occurrence.pos.chr ) &&
+                            !( ((start < occurrence.pos.start) && (end < occurrence.pos.start)) || ((start > occurrence.pos.end) && (end > occurrence.pos.end)) )
+                        ) {
+                            overlap = true
+                        }
+                    }
+                    if(overlap === false) {
+                        console.log('ERROR: variant range is not inside a gene found by the position search')
+                        console.log(variant)
+                        console.log(foundGene)
+                        return
+                    }
+                }
+                
+                // 2. the variant position must NOT be inside the range of all the genes that have been found by the position search
+                for(let gene of genesResult.data) {
+                    if(foundGenes.includes(gene) === false) {
+                        let overlap = false
+                        for(let occurrence of gene.occurrences) {
+                            if(
+                                ( variant.GRCh38.chr === occurrence.pos.chr ) &&
+                                !( ((start < occurrence.pos.start) && (end < occurrence.pos.start)) || ((start > occurrence.pos.end) && (end > occurrence.pos.end)) )
+                            ) {
+                                overlap = true
+                            }
+                        }
+                        if(overlap === true) {
+                            console.log('ERROR: variant range is inside gene range but gene has not been selected by position search')
+                            console.log(variant)
+                            console.log(gene)
+                            return
+                        }
+    
+                    }
+                }
+            }
+
+        } else {
+            console.log('ERROR: Missing position and range in parsed result')
+            console.log(result)
+            return
+        }
+
+        // create update for the variant
+        let update = {
+            updateOne: {
+                filter: { _id: variant._id },
+                update: { genes: foundGenes.map(item => item._id) }
+            }
+        }
+        variantUpdates.push(update)
     }
 
-
-
+    // perform database update
+    await database.bulkWrite('GRID_variants', variantUpdates)
 }
 
-
-
-
-
-// INSTANCE_CONFIG_PATH=./config/hgqn PROFILE=development_default node scripts/update_variant_genes/run.js UPDATE_VARIANT_GENES
 
 
 
@@ -893,6 +1023,9 @@ async function updateVariantGenes() {
 
 async function main() {
 
+    // INSTANCE_CONFIG_PATH=./config/hgqn PROFILE=development_default node scripts/update_variant_genes/run.js IMPORT_BIOMART_GENES
+    // INSTANCE_CONFIG_PATH=./config/hgqn PROFILE=development_default node scripts/update_variant_genes/run.js UPDATE_VARIANT_GENES
+    
     // commands
     let commands = new Map(
         [
