@@ -14,6 +14,8 @@ import lodash from 'lodash'
 
 import PopoverButton from '../components/PopoverButton'
 
+import DefaultPopover from '../components/DefaultPopover.jsx'
+
 import Paper from '@mui/material/Paper'
 import InputBase from '@mui/material/InputBase'
 import SearchIcon from '@mui/icons-material/Search'
@@ -232,6 +234,162 @@ const GenPosRenderer = props => {
         render(props.value)
     )
 }
+
+
+
+
+
+
+
+const LinkIcon = () => <IconifyIcon className="icon" icon="pajamas:external-link"/>
+
+
+
+
+
+
+
+const VariantGeneDetails = ({gene}) => {
+
+    const renderGeneHGNC = () => {
+        let result = []
+
+        result.push(
+            <p className="title">
+                <span className="symbol-name">
+                    {gene.hgnc.symbol} 
+                </span>
+                <span className="hgnc-tag">HGNC</span>
+            </p>
+        )
+
+        result.push(
+            <p>
+                <span className="label">HGNC ID </span><br/><a target='_blank' href={'https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/' + gene.hgnc.id }>{gene.hgnc.id}<LinkIcon/></a>
+            </p>
+        )
+
+        for(let occurrence of gene.occurrences) {
+
+            result.push(
+                <p>
+                    <div className="occurrence">OCCURRENCE</div>
+
+                    <div className="section">
+                        <span className="label">Range</span>
+                        <span className="gene-pos">
+                            <span className="build">GRCh38</span>
+                            <span className="separator"></span>
+                            <span className="chr">{occurrence.pos.chr}</span>
+                            <span className="separator"></span>
+                            <span className="start">{occurrence.pos.start}</span>&nbsp;-&nbsp;
+                            <span className="end">{occurrence.pos.end}</span>
+                        </span>
+                    </div>
+
+                    {
+                        occurrence.synonyms.length > 0 ?
+                            <div className="section">
+                                <span className="label">Synonyms</span>
+                                { occurrence.synonyms.map(item => <span>{item}</span>)}
+                            </div>
+                        :
+                            null
+                    }
+
+                    {
+                        occurrence.ensembl.length > 0 ?
+                            <div className="section">
+                                <span className="label">Ensembl</span>
+                                { occurrence.ensembl.map(item => <a target='_blank' href={'https://www.ensembl.org/Homo_sapiens/Gene/Summary?g=' + item }>{item}<LinkIcon/></a>)}
+                            </div>
+                        :
+                            null
+                    }
+
+                    {
+                        occurrence.ncbi.length > 0 ?
+                            <div className="section">
+                                <span className="label">NCBI</span>
+                                { occurrence.ncbi.map(item => <a target='_blank' href={'https://www.ncbi.nlm.nih.gov/gene/?term=' + item }>{item}<LinkIcon/></a>)}
+                            </div>
+                        :
+                            null
+                    }
+                </p>
+            )
+    
+        }
+
+
+
+        /*
+        */
+
+        return <div className="variant-grid-gene-detail-view">{result}</div>
+    }
+
+    return (
+        gene.type === 'HGNC' ? renderGeneHGNC() : null
+    )
+
+}
+
+
+
+const VariantGenesRenderer = props => {
+
+    const render = value => {
+
+        if(value == null) {
+            return null
+        }
+
+        if(lodash.isArray(value) === true) {
+
+            let result = []
+            for(const entry of value) {
+
+                if(entry.type === 'HGNC' && lodash.isString(entry.hgnc.symbol) && entry.hgnc.symbol.length > 0) {
+                    result.push(
+
+                        <DefaultPopover
+                            mode = 'CLICK'
+                            classes={{ triggerContainer: 'variant-gene-container' }}
+                            trigger = {
+                                <span className="variant-gene hgnc">
+                                    { entry.hgnc.symbol }
+                                </span>
+                            }
+                        >
+                            <VariantGeneDetails gene={entry} />
+                        </DefaultPopover>
+                                                
+                    )
+                }
+            }
+
+            if(result.length > 0) {
+                return (
+                    <div className="variant-genes">
+                        {result}
+                    </div>
+                )
+            }
+        }
+
+        return null
+    }
+
+    return (
+        render(props.value)
+    )
+}
+
+
+
+
+
 
 
 
@@ -551,6 +709,8 @@ export default function Grid() {
                     return VarsomeLink
                 case 'gen_pos_renderer':
                     return GenPosRenderer
+                case 'variant_genes_renderer':
+                    return VariantGenesRenderer
             }
         }
 
@@ -1254,9 +1414,9 @@ export default function Grid() {
         // erzeugt (hinzugefügt? gerendert?) wurde und so einen trigger generieren.
         // Eine weitere option wäre, die Höhe der bekannten Teile (padding + expanded rows) fest zu berechnen und dann
         // nur die Höhe des zusätzlichen Teils zu holen und zu addieren. Wenn es sofort (d.h. ohne timeout und/oder rendering)
-        // trigger gehen soll, dann müsste derzusätzliche teil entweder vorher bestimmbar sein, oder im vorraus
-        // gerendert sein (was wahrscheinlich keine gute idee ist, da man hier eventuell aufwändigere dinge rendern möchte
-        // und das nicht für tausende rows beim grid loading machen will)
+        // trigger gehen soll, dann müsste derzusätzliche teil entweder verher bestimmbar sein, oder im vorraus
+        // gerendert sein (was wahrscheinlich keine gute idee ist, da man hier eventuell auswändigere dinge rendern möchte
+        // und das nicht für tausende rows bei grid loading machen will)
 
         // Letztendlich könnte man das top padding hinzuaddieren und dann gleichzeitig mit set row height setzen, um einen
         // einheitlichen öffnen effekt zu bekommen

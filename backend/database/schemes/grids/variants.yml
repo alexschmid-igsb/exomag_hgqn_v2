@@ -39,11 +39,16 @@ scheme:
             required: true        
         alt:
             type: string
-            required: true        
+            required: true
+    genes: 
+      - type: string
+        reference: GRID_genes
     supplement:
         type: any
 layouts:
     default:
+        populate:  
+          - path: genes
         description:
           - label: Identifikation
             type: 
@@ -54,6 +59,12 @@ layouts:
                 label: ID
                 majorField: true
                 pinned: true
+              - id: genes
+                path: genes
+                label: Genes
+                majorField: true
+                pinned: true
+                customValueRenderer: variant_genes_renderer
           - label: GRCh38
             type: 
                 id: primary

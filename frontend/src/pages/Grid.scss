@@ -484,6 +484,174 @@ div.ag-row {
 
 
 
+/* Variant Genes */
+
+div.variant-grid-gene-detail-view {
+    padding: 16px 16px;
+    width: 350px;
+    font-size: 14px;
+    position: relative;
+    background-color: rgba(0,0,0,0.05);
+    color: rgba(0,0,0,0.7);
+
+    & > p {
+
+        background-color: rgba(0,0,0,0.05);
+        border-radius: 3px;
+        border: 1px solid rgba(0,0,0,0.1);
+
+        margin: 0px;
+        margin-bottom: 8px;
+        padding: 8px;
+
+        & span.symbol-name {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        & span.hgnc-tag {
+            font-size: 0.95em;
+            font-weight: bold;
+            color: white;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            background-color: #fab700;
+            padding: 2px 4px;
+            border-radius: 3px;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        & span.label {
+            font-weight: bold;
+        }
+
+        & a {
+            color: #1976d2 !important;
+            text-decoration: none;
+            display: inline-flex;
+            flex-flow: row;
+            padding: 2px;
+            border: 1px solid transparent;
+            background-color: none;
+            margin-top: 4px;
+            margin-left: -4px;
+            margin-bottom: -4px;
+            & > .icon {
+                margin-left: 4px;
+            }
+            &:hover {
+                border-radius: 3px;
+                border: 1px solid rgba(0,0,0,0.1);
+                background-color: rgba(0,0,0,0.1);
+            }
+        }
+
+
+        div.occurrence {
+            color: rgba(0,0,0,0.3);
+            font-weight: bold;
+            font-size: 0.8em;
+            margin-bottom: 12px;
+        }
+
+        span.gene-pos {
+
+            border-radius: 5px; 
+            padding: 3px 5px;
+            font-weight: bold;
+            border: 1px solid rgba(0,0,0,0.4);
+            background-color: rgba(0,0,0,0.15);
+            box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+
+            span.separator {
+                // display: none;
+                border-left: 1px solid rgba(0,0,0,0.2);
+                width: 0px;
+                margin: 0px 6px;
+            }
+        
+            span.build {
+                color: #004E64;
+            }
+        
+            span.chr {
+                color: #004E64;
+            }
+        
+            span.start {
+                color:#5E0035;
+            }
+
+            span.end {
+                color:#388659;
+            }
+        }
+
+
+        div.section {
+            background-color: rgba(255,255,255,0.3);
+            margin-bottom: 12px;
+            display: flex;
+            flex-flow: column;
+            align-items: flex-start;
+            padding: 8px;
+            border-radius: 3px;
+
+            & > span.label {
+                margin-bottom: 4px;
+            }
+
+            &:last-child {
+                margin-bottom: 0px;
+            }
+        }
+    
+
+        &:last-child {
+            margin-bottom: 0px;
+        }
+    }
+
+
+}
+
+div.ag-theme-alpine-modified div.variant-genes {
+
+    & span.variant-gene {
+        border-radius: 3px; 
+        padding: 1px 3px;
+        font-weight: bold;
+        border: 1px solid rgba(0,0,0,0.4);
+        background-color: rgba(0,0,0,0.1);
+        color: rgba(0,0,0,0.65);
+    
+        box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+
+        cursor: pointer;
+
+        transition: border 0.2s, background-color 0.2s, color 0.2s, box-shadow 0.2s;
+    }
+
+    & span.variant-gene:hover {
+        border: 1px solid rgba(0,0,0,0.6);
+        background-color: rgba(255,255,255,0.4);
+        color: rgba(0,0,0,0.9);
+    }
+
+    & > .variant-gene-container {
+        margin-right: 8px;
+    }
+
+    & > .variant-gene-container:last-child {
+        margin-right: 0px;
+    }
+
+}
+
+
+
+
 
 
 
