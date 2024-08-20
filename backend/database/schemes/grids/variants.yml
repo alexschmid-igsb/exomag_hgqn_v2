@@ -65,6 +65,14 @@ layouts:
                 majorField: true
                 pinned: true
                 customValueRenderer: variant_genes_renderer
+                customQuickFilterFields: [
+                    _id,
+                    hgnc.id,
+                    hgnc.symbol,
+                    'occurrences[].synonyms[]',
+                    # 'occurrences[].ensembl[]',
+                    # 'occurrences[].ncbi[]'
+                ]
           - label: GRCh38
             type: 
                 id: primary

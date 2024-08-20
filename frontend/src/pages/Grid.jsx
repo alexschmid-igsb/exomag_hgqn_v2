@@ -90,6 +90,8 @@ import {
 } from '../components/linkout/Linkout'
 
 
+import collectAll from '../util/collectAll'
+
 
 
 const ImportIcon = ({fontSize,className}) => <IconifyIcon fontSize={fontSize} className={className} icon="ph:import-bold"/>
@@ -249,6 +251,9 @@ const LinkIcon = () => <IconifyIcon className="icon" icon="pajamas:external-link
 
 
 
+
+
+
 const VariantGeneDetails = ({gene}) => {
 
     const renderGeneHGNC = () => {
@@ -341,11 +346,8 @@ const VariantGenesRenderer = props => {
 
     const render = value => {
 
-        if(value == null) {
-            return null
-        }
-
         if(lodash.isArray(value) === true) {
+            // console.log(JSON.stringify(value))
 
             let result = []
             for(const entry of value) {
@@ -388,6 +390,48 @@ const VariantGenesRenderer = props => {
 
 
 
+
+
+
+
+
+
+function createQuickFilterKeywords(customQuickFilterFields) {
+
+    return function(params) {
+
+        console.log("createQuickFilterKeywords")
+
+        const value = params.value
+        let result = []
+        
+        if(lodash.isString(value)) {
+            return value
+        }
+
+        if(lodash.isArray(customQuickFilterFields)) {
+
+            if(lodash.isArray(value) === false && lodash.isObject(value) === true) {
+                value = [value]
+            }
+    
+            for(const entry of value) {
+
+                let collected = collectAll(entry,customQuickFilterFields)
+                for(let item of Object.values(collected)) {
+                    if(lodash.isNumber(item) || lodash.isString(item)) {
+                        result.push(item)
+                    }
+                }
+            }
+        }
+
+        console.log(params.value)
+        console.log(result.join(' '))
+
+        return result.join(' ')
+    }
+}
 
 
 
@@ -879,6 +923,9 @@ export default function Grid() {
 
 
 
+
+
+
     function buildColumnDefs(scheme) {
 
         // console.log('buildColumnDefs')
@@ -1000,11 +1047,6 @@ export default function Grid() {
 
                       0. VARIANTS SCHEME ANPASSEN
 
-
-
-
-                      
-
                       1. die test daten wieder seeden
 
                       DONE
@@ -1066,7 +1108,14 @@ export default function Grid() {
                     }
                 }
 
-                // create AGGRid column definition
+                // Setup a quick filter keyword getter when global search path are specified in the field definition
+                let getQuickFilterText = null
+                if(layoutField.customQuickFilterFields != null) {
+                    getQuickFilterText = createQuickFilterKeywords(layoutField.customQuickFilterFields)
+                }
+
+
+                // CREATE AGGRID COLUMN DEFINITION
                 let field = {
                     // autoHeight: true,
                     autoHeight: false,
@@ -1076,13 +1125,14 @@ export default function Grid() {
                         dataPath: dataPath,
                         fieldDefinition: fieldDefinition
                     },
+                    cellRenderer: cellRenderer,
+                    valueRenderer: valueRenderer,
+                    getQuickFilterText: getQuickFilterText,
                     layoutField: layoutField,
                     headerName: layoutField.label,
                     filter: true,
                     resizable: true,
                     columnGroupShow: layoutField.majorField != null && layoutField.majorField === true ? undefined : 'open',
-                    cellRenderer: cellRenderer,
-                    valueRenderer: valueRenderer
                 }
                 group.children.push(field)
 
@@ -1147,9 +1197,6 @@ export default function Grid() {
             es gibt nicht für jedes pfadelement ein type, oder?
             andererseits müssen alle linked felder einen type dazu definiert haben
             und wenn der linked type 
-
-
-
         */
 
         if(context.groupType.id === 'primary') {
@@ -1688,6 +1735,7 @@ export default function Grid() {
                 onColumnVisible={updateColumnStateControl}
                 onColumnMoved={updateColumnStateControl}
 
+                cacheQuickFilter={true}
 
                 // braucht man nicht, wenn man autoHeight verwendet
                 // getRowHeight={getRowHeight}
