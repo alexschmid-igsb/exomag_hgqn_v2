@@ -38,9 +38,14 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 
 import GridsIcon from '@mui/icons-material/AutoAwesomeMotion'
-import GridIcon from '@mui/icons-material/Article'
+import ArticleIcon from '@mui/icons-material/Article'
 import HomeIcon from '@mui/icons-material/HomeRounded'
 import DeleteIcon from '@mui/icons-material/Delete'
+
+import GridConstants from '../grid-constants'
+
+// import JSONView from '../components/util/JSONView'
+import JSONView from '../components/util/JSONViewTopDown'
 
 import jQuery, { hasData } from 'jquery'
 
@@ -442,6 +447,17 @@ function createQuickFilterKeywords(customQuickFilterFields) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 export default function Grid() {
 
     const routeParams = useParams()
@@ -497,13 +513,46 @@ export default function Grid() {
     React.useEffect(() => {
         // dispatch(setToolbar(renderToolbar()))
         dispatch(setToolbar(null))
+
+        setRowViewControl({ isOpen: false, row: null })
+
     }, [gridId])
 
 
+
+
+
+
+
+    const [rowViewMode, setRowViewMode] = React.useState(null)
+
+
     React.useEffect(() => {
+
         if(gridInfo == null || gridInfo.id == null || gridInfo.label == null) {
             return
         }
+
+
+        // TODO: DIESER SWITCH MUSS HIER WEG, DER MODE SOLL KOMPLETT VON AUßEN KONFIGURIERBAR SEIN
+        if(gridId === 'variants') {
+            setRowViewMode('VIEW')
+        } else if(gridId === 'cases') {
+            setRowViewMode('EXPAND')
+        }
+
+        // HIER HARDGECODET UMSCHALTEN ZWISCHEN DEN CLICK MODES BASIEREND AUF DEM 
+        // GRID NAME
+
+        updateBreadcrumbs()
+
+    }, [gridInfo])
+
+
+
+
+
+    const updateBreadcrumbs = () => {
 
         const breadcrumbs = [
             {
@@ -514,16 +563,24 @@ export default function Grid() {
             },
             {
                 key: 'grid',
-                label: gridInfo.label,
-                path: `/grids/${gridId}`,
-                icon: GridIcon
+                label: GridConstants[gridId].label,
+                path: GridConstants[gridId].path,
+                icon: () => <IconifyIcon icon={GridConstants[gridId].icon}/>
             }
         ]
 
+        if(rowViewMode === 'VIEW' && rowViewControl?.isOpen === true && rowViewControl?.row != null) {
+            breadcrumbs.push({
+                    key: 'rowview',
+                    label: rowViewControl?.row?.id,
+                    path: `/grids/${gridId}/${rowViewControl?.row?.id}`,     // TODO: DIESE LINKS SOLLEN DIREKT IN DIE ANSICHT FÜHREN
+                    icon: ArticleIcon
+            })
+        }
+
         dispatch(setBreadcrumbs(breadcrumbs))
-    }, [gridInfo])
 
-
+    }
 
 
 
@@ -534,6 +591,42 @@ export default function Grid() {
     const defaultColDef = React.useMemo(() => ({
         sortable: true
     }))
+
+
+
+
+    const [rowViewControl, setRowViewControl] = React.useState({
+        isOpen: false,
+        row: null
+    })
+
+    const openRowDetailView = (row) => {
+        setRowViewControl({
+            isOpen: true,
+            row: row
+        })
+    }
+
+    const closeRowDetailView = () => {
+        setRowViewControl({
+            isOpen: false,
+            row: null
+        })
+    }
+
+
+    React.useEffect(() => {
+        updateBreadcrumbs()
+    }, [rowViewControl])
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1288,6 +1381,10 @@ export default function Grid() {
 
 
 
+
+
+
+
     // Sorting API: clear sort, save sort, restore from save
     // https://www.ag-grid.com/react-data-grid/row-sorting/#sorting-api
 
@@ -1412,17 +1509,29 @@ export default function Grid() {
 
 
     const rowDoubleClickHandler = event => {
-        
-        console.log("row double click")
-        // console.log(event)
-        // console.log(event.event.target)
 
+
+
+        // get target and row elements
         let clickTarget = jQuery(event.event.target)
-
         let jQueryRowElement = getParentRow(clickTarget)
         let aggridRowNode = event.node
 
-        toggleExpand(aggridRowNode,jQueryRowElement)
+        // console.log("row double click")
+        // console.log(event)
+        // console.log(event.event.target)
+
+        if(rowViewMode === 'VIEW') {
+
+            openRowDetailView(aggridRowNode)
+
+        } else if(rowViewMode === 'EXPAND') {
+
+            // Die grid komponenten sollte über properties konfiguriert werden, ob eine row expansion oder
+            // eine detail view verwendet werden soll
+
+            toggleExpand(aggridRowNode,jQueryRowElement)
+        }
     }
 
 
@@ -1912,6 +2021,8 @@ export default function Grid() {
     return (
         <>
 
+
+
             <div className="search-container">
                 <div className="search-field">
                     <div className="icon-container">
@@ -1934,17 +2045,59 @@ export default function Grid() {
                 </div>
             </div>
 
-
             {/* {renderFilterToolbar()} */}
-            {renderGrid()}
+
+            { renderGrid() }
+
+            <div
+                className={`grid-row-details enter-bottom ${rowViewControl?.isOpen === true ? 'opened' : 'closed'}`}
+                onClick={() => closeRowDetailView()}
+            >
+
+                <div
+                    className="grid-row-details-content"
+                    onClick={event => event.stopPropagation()}
+                >
+
+                    <div className="header">
+                        <IconButton
+                            className="close-row-details-button"
+                            size="small"
+                            onClick={() => closeRowDetailView()}
+                        >
+                            {/* <IconifyIcon icon="mingcute:arrow-left-fill" /> */}
+                            {/* <IconifyIcon icon="ph:arrow-fat-left-duotone" /> */}
+                            {/* <IconifyIcon icon="tabler:arrow-big-left" /> */}
+                            <IconifyIcon icon="ic:round-keyboard-double-arrow-left" />
+                        </IconButton>
+                        <div className="label">
+                            {rowViewControl?.row?.id}
+                        </div>
+                    </div>
+
+                    &lt;ViewComponent&gt;&lt;/ViewComponent&gt; hier rein
+                    
+                    <JSONView target={rowViewControl.row} title={'AGGrid Row'}>
+                    </JSONView>
+
+                </div>
+
+            </div>
+
+
+
+
+
+
+            {/* veraltet */}
             {/* {renderUploadDialog()} */}
-            <ExcelExport
+            {/* <ExcelExport
                 open={exportDialogOpen}
                 onClose={closeExportDialog}
                 api={gridRef?.current?.api}
                 columnApi={gridRef?.current?.columnApi}
                 columnDefs={columnDefs}
-            />
+            /> */}
         </>
     )
 }
