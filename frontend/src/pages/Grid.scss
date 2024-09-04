@@ -753,6 +753,12 @@ div.grid-container + div.grid-row-details {
 
 
     & > div.grid-row-details-content {
+
+        display: flex;
+        flex-flow: column;
+
+        overflow: hidden;
+
         height: 100%;
         margin: 50px;
         padding: 0px;
@@ -760,7 +766,6 @@ div.grid-container + div.grid-row-details {
         border: 1px solid rgba(0,0,0,0.3);
         border-radius: 3px;
         box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-
 
         & > div.header {
 

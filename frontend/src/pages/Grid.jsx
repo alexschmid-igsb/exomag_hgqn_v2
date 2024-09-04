@@ -97,6 +97,9 @@ import {
 
 import collectAll from '../util/collectAll'
 
+import VariantView from '../components/VariantView.jsx'
+
+
 
 
 const ImportIcon = ({fontSize,className}) => <IconifyIcon fontSize={fontSize} className={className} icon="ph:import-bold"/>
@@ -483,7 +486,7 @@ export default function Grid() {
 
 
 
-    const [gridInfo,setGridInfo] = React.useState(null)
+    const [gridInfo,setGridInfo] = React.useState({})
     
     // const [expandedRows, setExpandedRows] = React.useState(new Map())
     const [hasExpandedRows, setHasExpandedRows] = React.useState(false)
@@ -522,10 +525,13 @@ export default function Grid() {
 
 
 
+    // const Bla = VariantView
+
 
 
     const [rowViewMode, setRowViewMode] = React.useState(null)
 
+    const RowViewComponent = gridId === 'variants' ? VariantView : null
 
     React.useEffect(() => {
 
@@ -533,16 +539,14 @@ export default function Grid() {
             return
         }
 
-
-        // TODO: DIESER SWITCH MUSS HIER WEG, DER MODE SOLL KOMPLETT VON AUßEN KONFIGURIERBAR SEIN
+        // TODO
+        // DIESER HARDGECODETE SWITCH MUSS HIER RAUS
+        // DER MODE SOLL KOMPLETT VON AUßEN GESETZT WERDEN
         if(gridId === 'variants') {
             setRowViewMode('VIEW')
         } else if(gridId === 'cases') {
             setRowViewMode('EXPAND')
         }
-
-        // HIER HARDGECODET UMSCHALTEN ZWISCHEN DEN CLICK MODES BASIEREND AUF DEM 
-        // GRID NAME
 
         updateBreadcrumbs()
 
@@ -618,6 +622,15 @@ export default function Grid() {
     React.useEffect(() => {
         updateBreadcrumbs()
     }, [rowViewControl])
+
+
+
+
+    React.useEffect(() => {
+
+
+    }, [rowViewControl])
+
 
 
 
@@ -1778,6 +1791,29 @@ export default function Grid() {
 
 
 
+    const renderRowView = () => {
+
+        console.log("RENDER ROW VIEW")
+        console.log(rowViewControl)
+
+        if(rowViewMode === 'VIEW' && rowViewControl?.row != null && RowViewComponent != null ) {
+
+            console.log('ja')
+
+            return(
+                <RowViewComponent bla={'123'} row={rowViewControl.row} />
+            )
+
+        }
+
+        console.log('nein')
+
+        return null
+    }
+        
+
+
+
 
 
 
@@ -2075,10 +2111,7 @@ export default function Grid() {
                         </div>
                     </div>
 
-                    &lt;ViewComponent&gt;&lt;/ViewComponent&gt; hier rein
-                    
-                    <JSONView target={rowViewControl.row} title={'AGGrid Row'}>
-                    </JSONView>
+                    { renderRowView() }
 
                 </div>
 
