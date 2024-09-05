@@ -108,6 +108,7 @@ div.ag-theme-alpine-modified div.enum-value-renderer > span.enum-value:last-chil
 /* genomic position */
 
 
+div.variant-view span.cell_value_genomic_position,
 div.ag-theme-alpine-modified span.cell_value_genomic_position {
 
     border-radius: 5px; 
@@ -769,7 +770,7 @@ div.grid-container + div.grid-row-details {
 
         & > div.header {
 
-            height: 36px;
+            height: 30px;
             background-color: rgba(0,0,0,0.1);
 
             font-size: 0.8em;
@@ -780,21 +781,22 @@ div.grid-container + div.grid-row-details {
             flex-flow: row;
             align-items: center;
 
+            background-color: rgba(0,0,0,0.12);
             border-bottom: 1px solid rgba(0,0,0,0.05);
 
             & > .close-row-details-button {
                 border-radius: 0px;
-                width: 36px;
-                height: 36px;
+                width: 30px;
+                height: 30px;
                 // margin-right: 8px;
                 font-size: 1.5em;
+                border-left: 1px dashed rgba(0,0,0,0.1);
             }
 
             & > .label {
                 height: 100%;
                 // margin-top: 1px;
-                background-color: rgba(0,0,0,0.05);
-                padding-left: 12px;
+                padding-left: 10px;
 
                 flex: 1;
                 display: flex;

@@ -26,6 +26,7 @@ router.get('/get/:variantId', [auth], async function (req, res, next) {
 
     let result = await database.find('GRID_variants', {
         filter: { _id: variantId },
+        populate: [{ path: 'genes' }]
     })
 
     if(lodash.isArray(result?.data) === true && result.data.length < 1) {

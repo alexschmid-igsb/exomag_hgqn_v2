@@ -8,6 +8,16 @@ import LargeSpinnerOverlay from '../components/util/LargeSpinnerOverlay'
 
 import JSONView from '../components/util/JSONView'
 
+import {
+    Franklin as FranklinLink,
+    Gnomad as GnomadLink,
+    Varsome as VarsomeLink
+} from '../components/linkout/Linkout'
+
+import { Icon as IconifyIcon, InlineIcon as IconifyIconInline } from "@iconify/react"
+
+import VariantGenesRenderer from './VariantGenesRenderer'
+
 import './VariantView.scss'
 
 
@@ -26,8 +36,8 @@ function VariantView(props) {
     }, [variantId])
 
 
-    const [variantData,setVariantData] = React.useState()
-    const [casesData,setCasesData] = React.useState()
+    const [variantData, setVariantData] = React.useState()
+    const [casesData, setCasesData] = React.useState()
 
     const [isLoading, setIsLoading] = React.useState(true)
 
@@ -38,7 +48,7 @@ function VariantView(props) {
         console.log(props)
         console.log(variantId)
 
-        if(variantId == null || lodash.isString(variantId) === false || variantId.length <= 0) {
+        if (variantId == null || lodash.isString(variantId) === false || variantId.length <= 0) {
             return
         }
 
@@ -48,11 +58,8 @@ function VariantView(props) {
 
         API.get(`/api/variants/get/${variantId}`, { doNotThrowFor: [404] }).then(response => {
 
-            // console.log(response)
-
             setVariantData(response.variant)
             setCasesData(response.cases)
-
             setIsLoading(false)
 
         }).catch(e => {
@@ -60,72 +67,112 @@ function VariantView(props) {
             console.error(e)
             navigate('/notfound')
         })
-
-
-
-
-        /*
-        const path = '/api/grid/get/' + gridId
-        */
-
-
-
-
-        /*
-
-        console.log('loadGridData')
-
-        fetch('https://www.ag-grid.com/example-assets/olympic-winners.json')
-        .then((resp) => resp.json())
-        .then((data) => setData(data))
-
-        buildColumnDefs()
-
-        return 
-
-        */
-
-
-
-        /*
-
-        console.log("loadGridData")
-        console.log(gridId)
-
-        const path = '/api/grid/get/' + gridId
-        API.get(path, { doNotThrowFor: [404] }).then(data => {
-            console.log("LOAD GRID DATA")
-            console.log(data)
-
-            buildColumnDefs(data.columns)
-
-            setGridMetadata(data.gridMetadata)
-
-            setData(data.data.map(entry => {
-                entry.push({
-                    isExpanded: false
-                })
-                return entry
-            }))
-        }).catch(err => {
-            console.log(err)
-
-            // anstatt auf 404 umzuleiten macht es hier vielleicht mehr sinn, innerhalb der komponenten einen "not found" error anzuzeigen
-            navigate('/notfound')
-        })
-
-        */
-
-
     }
 
 
+    const renderVariant = () =>
 
-
-
-
-    const renderVariant = () => 
         <>
+            <div className="section-row">
+
+                <div className="section">
+
+                    <div className="section-title">Identifikation</div>
+
+                    <div className="label-value-row">
+                        <div className="label">Variant ID</div>
+                        <div className="value">{variantId}</div>
+                    </div>
+
+                    <div className="label-value-row">
+                        <div className="label">Genes</div>
+                        <div className="value">
+                            <VariantGenesRenderer value={variantData.genes}/>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div className="section">
+
+                    <div className="section-title">Positionen</div>
+
+                    <div className="box">
+                        <div className="box-title GRCh37">GRCh37</div>
+                        <div className="label-value-row">
+                            <div className="label">HGVS gDNA</div>
+                            <div className="value">{variantData.GRCh37.gDNA}</div>
+                        </div>
+                        <div className="label-value-row">
+                            <div className="label">Genomic Position</div>
+                            <div className="value">
+                                <span className="cell_value_genomic_position">
+                                    <span className="build">{variantData.GRCh37.build}</span>
+                                    <span className="separator"></span>
+                                    <span className="chr">{variantData.GRCh37.chr}</span>
+                                    <span className="separator"></span>
+                                    <span className="pos">{variantData.GRCh37.pos}</span>
+                                    <span className="separator"></span>
+                                    <span className="ref">{variantData.GRCh37.ref}</span>
+                                    <span className="separator"></span>
+                                    <span className="alt">{variantData.GRCh37.alt}</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="box">
+                        <div className="box-title GRCh38">GRCh38</div>
+                        <div className="label-value-row">
+                            <div className="label">HGVS gDNA</div>
+                            <div className="value">{variantData.GRCh38.gDNA}</div>
+                        </div>
+                        <div className="label-value-row">
+                            <div className="label">Genomic Position</div>
+                            <div className="value">
+                                <span className="cell_value_genomic_position">
+                                    <span className="build">{variantData.GRCh38.build}</span>
+                                    <span className="separator"></span>
+                                    <span className="chr">{variantData.GRCh38.chr}</span>
+                                    <span className="separator"></span>
+                                    <span className="pos">{variantData.GRCh38.pos}</span>
+                                    <span className="separator"></span>
+                                    <span className="ref">{variantData.GRCh38.ref}</span>
+                                    <span className="separator"></span>
+                                    <span className="alt">{variantData.GRCh38.alt}</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div className="section">
+                    <div className="section-title">Externe Links</div>
+                    <div className="comment">
+                        <IconifyIcon className="icon" icon="tabler:alert-square-rounded-filled" />
+                        <div className="text">
+                            Externe Links werden auf Basis der genomischen Position der Variante generiert. Es kann vorkommen, dass die verlinkte Variante in der externen Datenbank nicht vorhanden ist und der Link somit ins Leere führt.
+                        </div>
+                    </div>
+                    <div className="links">
+                        <FranklinLink value={variantData.GRCh37} />
+                        <GnomadLink value={variantData.GRCh38} />
+                        <VarsomeLink value={variantData.GRCh38} />
+                    </div>
+                </div>
+
+                {/* <div className="section">
+                    <div className="section-title">bla</div>
+                </div> */}
+
+            </div>
+
+
+            <div className="section">
+                <div className="section-title">Klassifikation</div>
+            </div>
+
             <JSONView target={variantData} />
             <JSONView target={casesData} />
         </>
@@ -134,12 +181,12 @@ function VariantView(props) {
 
 
 
-    return(
+    return (
 
         <div className="variant-view">
-            { isLoading === true ?
-                <LargeSpinnerOverlay label="loading..."/>
-            : 
+            {isLoading === true ?
+                <LargeSpinnerOverlay label="loading..." />
+                :
                 renderVariant()
             }
         </div>

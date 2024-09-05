@@ -4,8 +4,9 @@
 
 
 div.variant-view {
+
     position: relative;
-    overflow-y: scroll;
+    overflow-y: auto;
 
     flex: 1;
 
@@ -13,9 +14,202 @@ div.variant-view {
     height: 100%;
 
     display: flex;
-    flex-flow: row;
+    flex-flow: column;
+    align-items: stretch;
 
+    padding: 16px 16px;
+    box-sizing: border-box;
 
     // border: 5px solid red;
     // box-sizing: border-box;
+
+
+    & div.section-row {
+
+        display: flex;
+        flex-flow: row;
+
+        & > div.section {
+            flex: 0;
+
+            margin-bottom: 0px;
+            margin-right: 16px;
+
+            &:last-child {
+                margin-right: 0px;
+            }
+        }
+
+        margin-bottom: 16px;
+
+        &:last-child {
+            margin-bottom: 0px;
+        }
+    }
+    
+    & div.section {
+
+        min-width: 300px;
+
+        display: flex;
+        flex-flow: column;
+
+        padding: 16px 16px;
+        font-size: 14px;
+        position: relative;
+        background-color: rgba(0,0,0,0.05);
+        color: rgba(0,0,0,0.7);
+
+        background-color: rgba(0,0,0,0.05);
+        border-radius: 3px;
+        border: 1px solid rgba(0,0,0,0.1);
+
+        margin: 0px;
+        margin-bottom: 16px;
+        padding: 8px;
+
+        & > div.section-title {
+            letter-spacing: 0.02em;
+            margin-top: -2px;
+            color: rgba(0,0,0,0.9);
+            font-weight: bold;
+            font-size: 0.95em;
+            margin-bottom: 10px;
+            padding-bottom: 2px;
+            border-bottom: 1px solid rgba(0,0,0,0.2);
+        }
+
+        & > div.box {
+            position: relative;
+            background-color: rgba(255,255,255,1);
+            margin-bottom: 16px;
+            display: flex;
+            flex-flow: column;
+            align-items: flex-start;
+            padding: 8px;
+            border-radius: 3px;
+            border: 1px solid rgba(0,0,0,0.1);
+
+            & > div.box-title {
+                font-size: 0.9em;
+                font-weight: bold;
+                color: white;
+                // color: rgba(0,0,0,0.6);
+                position: absolute;
+                right: 6px;
+                top: 6px;
+                background-color: #fab700;
+                background-color: #93ACB5;
+                
+                padding: 2px 4px;
+                border-radius: 3px;
+                border: 1px solid rgba(0,0,0,0.05);
+                border: none;
+
+                &.GRCh37 {
+                    background-color: #849aa3;
+                }
+
+                &.GRCh38 {
+                    background-color: #84A389;
+                }
+            }
+
+            &:last-child {
+                margin-bottom: 0px;
+            }
+        }
+
+        & span.cell_value_genomic_position {
+            display: block;
+            border: none;
+            box-shadow: none;
+            padding: 4px 8px;
+            border-radius: 8px;
+        }
+
+        & div.label-value-row {
+            display: flex;
+            flex-flow: column;
+
+            margin-bottom: 10px;
+
+            &:last-child {
+                margin-bottom: 0px;
+            }
+
+            & > div.label {
+                font-size: 0.9em;
+                font-weight: bold;
+                margin-bottom: 4px;
+            }
+
+            & > div.value {
+                font-size: 0.9em;
+                font-weight: normal;
+            }
+        }
+
+        & div.links {
+            display: flex;
+            flex-flow: column;
+            & > div.link-container {
+                margin-bottom: 8px;
+                justify-content: flex-start;
+                &:last-child{
+                    margin-bottom: 0px;
+                }
+                & > a {
+                    margin: 0px;
+                    box-shadow: none;
+                    background-color: rgba(0,0,0,0.1);
+                    border-color: transparent;
+                    padding: 8px 12px;
+                    border-radius: 8px;
+                    &:hover {
+                        background-color: white;
+                        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+                    }
+                }
+            }
+        }
+
+        & div.comment {
+
+            background-color: rgba(255,255,255,1);
+            margin-bottom: 16px;
+
+            display: flex;
+            flex-flow: row;
+
+            align-items: flex-start;
+            padding: 8px;
+            border-radius: 3px;
+            border: 1px solid rgba(0,0,0,0.1);
+
+            & > .icon {
+                opacity: 0.9;
+                color: #849aa3;
+                // position: absolute;
+                // left: 6px;
+                // top: 6px;
+                width: 24px;
+                height: 24px;
+                min-width: 24px;
+                min-height: 24px;
+                margin-right: 6px;
+            }
+
+            & > div.text {
+                padding-left: 8px;
+                border-left: 1px dashed rgba(0,0,0,0.1);
+                text-align: justify;
+                font-weight: bold;
+                font-size: 0.8em;
+                color: rgba(0,0,0,0.6);
+                hyphens: auto;
+            }
+
+        }
+    }
 }
