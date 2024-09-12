@@ -21,6 +21,120 @@ import VariantGenesRenderer from './VariantGenesRenderer'
 import './VariantView.scss'
 
 
+const valueToCSS = value => {
+    return value.replace(/[^A-Za-z0-9]/g, '');
+    // return lodash.camelCase(value)
+}
+
+
+function ClassificationSummary({variantId, cases: _cases}) {
+
+    // TODO: Pro Category gibt es columns, die nur per expand angezeigt werden können
+    // Dazu einen kleinen button oben rechts in der Category
+    // Bei Klick wird ein flag für die Category auf true gesetzt und alle hidden columns werden gerendert
+    // So können die zusätzlichen Infos pro Category angezeigt werden
+
+    const tableConfig = [
+        {
+            id: 'case',
+            label: 'Case Identification',
+            cols: [
+                {
+                    id: 'sequencingLab',
+                    label: 'Sequencing Lab',
+                    path: 'sequencingLab.shortName'
+                }, {
+                    id: 'internalCaseId',
+                    label: 'Internal Case ID',
+                    path: 'internalCaseId'
+                }
+            ],
+        }, {
+            id: 'clinicalInterpretation',
+            label: 'Clinical Interpretation',
+            cols: [{
+                id: 'acmgClass',
+                label: 'ACMG Class',
+                path: 'variant.acmg.class'
+            }, {
+                id: 'acmgCriteria',
+                label: 'ACMG Criteria',
+                path: 'variant.acmg.criteria'
+            }],
+        }
+    ]
+
+    const cases = React.useMemo( () => lodash.isArray(_cases) ? _cases.map( item => {
+        if(lodash.isArray(item.variants)) {
+            for(let variant of item.variants) {
+                if(variant?.variant?.reference === variantId) {
+                    item.variant = variant
+                    break
+                }
+            }
+        }
+        return item
+    }) : null, [_cases])
+
+
+    const renderValue = (item,col) => {
+
+        let value = lodash.get(item,col.path)
+        let ret = <div className='value'></div>
+
+        console.log(JSON.stringify(value))
+
+        if(lodash.isArray(value)) {
+            ret = <div className='value'>{value.map(item => <div className={`item VALUE-${valueToCSS(item)}`}>{item}</div>)}</div>
+        } else if(lodash.isObject(value)) {
+            ret = <div className='value'>{JSON.stringify(value)}</div>
+        } else {
+            ret = <div className={`value VALUE-${valueToCSS(value)}`}>{value}</div>
+        }
+
+        return ret
+    }
+
+    return (
+
+        <div className="classification-table box">
+            { lodash.isArray(cases) && cases.length > 0 ?
+                lodash.isArray(tableConfig) ? tableConfig.map( category =>
+                    <div className={`category ${category.id}`}>
+                        <div className="label">{category.label}</div>
+                        <div className="columns">
+                            { lodash.isArray(category.cols) ? category.cols.map( col =>
+                                <div className={`column ${col.id}`}>
+                                    <div className={`header ${col.id}`}>{col.label}</div>
+                                    { cases.map( item =>
+                                        <div className={`cell ${col.id}`}>
+                                            {renderValue(item,col)}
+                                        </div>
+                                    )}
+                                </div>
+                            ) : null }
+                        </div>
+                    </div>
+                ) : null
+            :
+                <div className="empty">
+                    no cases found
+                </div>
+            }
+
+
+            
+
+
+
+
+
+
+        </div>
+    )
+
+}
+
 
 
 
@@ -162,19 +276,16 @@ function VariantView(props) {
                     </div>
                 </div>
 
-                {/* <div className="section">
-                    <div className="section-title">bla</div>
-                </div> */}
-
             </div>
 
 
             <div className="section">
                 <div className="section-title">Klassifikation</div>
+                <ClassificationSummary variantId={variantId} cases={casesData}/>
             </div>
 
-            <JSONView target={variantData} />
-            <JSONView target={casesData} />
+            {/* <JSONView target={variantData} />
+            <JSONView target={casesData} /> */}
         </>
 
 

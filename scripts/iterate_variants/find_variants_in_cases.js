@@ -47,14 +47,27 @@ async function target() {
         }
 
 
-        /*
-        if(casesFound.length > 2) {
+        if(casesFound.length > 1) {
+            let max = 0
+            for(let _case of casesFound) {
+                if(_case.variants.length > max) {
+                    max = _case.variants.length
+                }
+            }
+            if(max > 1) {
+                console.log(variant._id)
+                console.log(casesFound.length)
+                console.log(max)
+            }
+
+            
+            /*
             console.log(variant._id)
             for(let item of casesFound) {
                 console.log("   " + item._id)
             }
+            */
         }
-        */
 
 
         // cross check by query
@@ -66,7 +79,7 @@ async function target() {
 
         // length
 
-        console.log(casesFound.length + ' ' + queryCases.length)
+        // console.log(casesFound.length + ' ' + queryCases.length)
 
         if(casesFound.length !== queryCases.length) {
             console.log("ERROR 1")

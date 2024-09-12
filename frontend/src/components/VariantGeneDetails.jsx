@@ -10,6 +10,9 @@ const LinkIcon = () => <IconifyIcon className="icon" icon="pajamas:external-link
 
 
 
+
+
+
 export default function VariantGeneDetails({gene}) {
 
     const renderGeneHGNC = () => {
@@ -81,11 +84,6 @@ export default function VariantGeneDetails({gene}) {
             )
     
         }
-
-
-
-        /*
-        */
 
         return <div className="variant-grid-gene-detail-view">{result}</div>
     }

@@ -43,7 +43,8 @@ router.get('/get/:variantId', [auth], async function (req, res, next) {
     // get cases data
 
     data.cases = (await database.find('GRID_cases', {
-        filter: { variants: { $elemMatch: { 'variant.reference': { $eq: variantId } } } }
+        filter: { variants: { $elemMatch: { 'variant.reference': { $eq: variantId } } } },
+        populate: [{ path: 'sequencingLab' }]
     })).data
 
 
