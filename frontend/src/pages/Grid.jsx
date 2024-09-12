@@ -38,9 +38,14 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 
 import GridsIcon from '@mui/icons-material/AutoAwesomeMotion'
-import GridIcon from '@mui/icons-material/Article'
+import ArticleIcon from '@mui/icons-material/Article'
 import HomeIcon from '@mui/icons-material/HomeRounded'
 import DeleteIcon from '@mui/icons-material/Delete'
+
+import GridConstants from '../grid-constants'
+
+// import JSONView from '../components/util/JSONView'
+import JSONView from '../components/util/JSONViewTopDown'
 
 import jQuery, { hasData } from 'jquery'
 
@@ -81,7 +86,8 @@ import DefaultCellRenderer from '../components/aggrid/DefaultCellRenderer'
 
 import DefaultEnumValueRenderer from '../components/aggrid/DefaultEnumValueRenderer'
 
-// import Linkout from '../components/linkout/Linkout'
+import VariantGenesRenderer from '../components/VariantGenesRenderer.jsx'
+import VariantGeneDetails from '../components/VariantGeneDetails'
 
 import {
     Franklin as FranklinLink,
@@ -91,6 +97,9 @@ import {
 
 
 import collectAll from '../util/collectAll'
+
+import VariantView from '../components/VariantView.jsx'
+
 
 
 
@@ -243,7 +252,6 @@ const GenPosRenderer = props => {
 
 
 
-const LinkIcon = () => <IconifyIcon className="icon" icon="pajamas:external-link"/>
 
 
 
@@ -254,139 +262,10 @@ const LinkIcon = () => <IconifyIcon className="icon" icon="pajamas:external-link
 
 
 
-const VariantGeneDetails = ({gene}) => {
-
-    const renderGeneHGNC = () => {
-        let result = []
-
-        result.push(
-            <p className="title">
-                <span className="symbol-name">
-                    {gene.hgnc.symbol} 
-                </span>
-                <span className="hgnc-tag">HGNC</span>
-            </p>
-        )
-
-        result.push(
-            <p>
-                <span className="label">HGNC ID </span><br/><a target='_blank' href={'https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/' + gene.hgnc.id }>{gene.hgnc.id}<LinkIcon/></a>
-            </p>
-        )
-
-        for(let occurrence of gene.occurrences) {
-
-            result.push(
-                <p>
-                    <div className="occurrence">OCCURRENCE</div>
-
-                    <div className="section">
-                        <span className="label">Range</span>
-                        <span className="gene-pos">
-                            <span className="build">GRCh38</span>
-                            <span className="separator"></span>
-                            <span className="chr">{occurrence.pos.chr}</span>
-                            <span className="separator"></span>
-                            <span className="start">{occurrence.pos.start}</span>&nbsp;-&nbsp;
-                            <span className="end">{occurrence.pos.end}</span>
-                        </span>
-                    </div>
-
-                    {
-                        occurrence.synonyms.length > 0 ?
-                            <div className="section">
-                                <span className="label">Synonyms</span>
-                                { occurrence.synonyms.map(item => <span>{item}</span>)}
-                            </div>
-                        :
-                            null
-                    }
-
-                    {
-                        occurrence.ensembl.length > 0 ?
-                            <div className="section">
-                                <span className="label">Ensembl</span>
-                                { occurrence.ensembl.map(item => <a target='_blank' href={'https://www.ensembl.org/Homo_sapiens/Gene/Summary?g=' + item }>{item}<LinkIcon/></a>)}
-                            </div>
-                        :
-                            null
-                    }
-
-                    {
-                        occurrence.ncbi.length > 0 ?
-                            <div className="section">
-                                <span className="label">NCBI</span>
-                                { occurrence.ncbi.map(item => <a target='_blank' href={'https://www.ncbi.nlm.nih.gov/gene/?term=' + item }>{item}<LinkIcon/></a>)}
-                            </div>
-                        :
-                            null
-                    }
-                </p>
-            )
-    
-        }
 
 
 
-        /*
-        */
 
-        return <div className="variant-grid-gene-detail-view">{result}</div>
-    }
-
-    return (
-        gene.type === 'HGNC' ? renderGeneHGNC() : null
-    )
-
-}
-
-
-
-const VariantGenesRenderer = props => {
-
-    const render = value => {
-
-        if(lodash.isArray(value) === true) {
-            // console.log(JSON.stringify(value))
-
-            let result = []
-            for(const entry of value) {
-
-                if(entry.type === 'HGNC' && lodash.isString(entry.hgnc.symbol) && entry.hgnc.symbol.length > 0) {
-                    result.push(
-
-                        <DefaultPopover
-                            mode = 'CLICK'
-                            classes={{ triggerContainer: 'variant-gene-container' }}
-                            trigger = {
-                                <span className="variant-gene hgnc">
-                                    { entry.hgnc.symbol }
-                                </span>
-                            }
-                        >
-                            <VariantGeneDetails gene={entry} />
-                        </DefaultPopover>
-                                                
-                    )
-                }
-            }
-
-            if(result.length > 0) {
-                return (
-                    <div className="variant-genes">
-                        {result}
-                    </div>
-                )
-            }
-        }
-
-        return null
-    }
-
-    return (
-        render(props.value)
-    )
-}
 
 
 
@@ -442,6 +321,17 @@ function createQuickFilterKeywords(customQuickFilterFields) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 export default function Grid() {
 
     const routeParams = useParams()
@@ -467,7 +357,7 @@ export default function Grid() {
 
 
 
-    const [gridInfo,setGridInfo] = React.useState(null)
+    const [gridInfo,setGridInfo] = React.useState({})
     
     // const [expandedRows, setExpandedRows] = React.useState(new Map())
     const [hasExpandedRows, setHasExpandedRows] = React.useState(false)
@@ -497,13 +387,47 @@ export default function Grid() {
     React.useEffect(() => {
         // dispatch(setToolbar(renderToolbar()))
         dispatch(setToolbar(null))
+
+        setRowViewControl({ isOpen: false, row: null })
+
     }, [gridId])
 
 
+
+
+
+    // const Bla = VariantView
+
+
+
+    const [rowViewMode, setRowViewMode] = React.useState(null)
+
+    const RowViewComponent = gridId === 'variants' ? VariantView : null
+
     React.useEffect(() => {
+
         if(gridInfo == null || gridInfo.id == null || gridInfo.label == null) {
             return
         }
+
+        // TODO
+        // DIESER HARDGECODETE SWITCH MUSS HIER RAUS
+        // DER MODE SOLL KOMPLETT VON AUßEN GESETZT WERDEN
+        if(gridId === 'variants') {
+            setRowViewMode('VIEW')
+        } else if(gridId === 'cases') {
+            setRowViewMode('EXPAND')
+        }
+
+        updateBreadcrumbs()
+
+    }, [gridInfo])
+
+
+
+
+
+    const updateBreadcrumbs = () => {
 
         const breadcrumbs = [
             {
@@ -514,16 +438,24 @@ export default function Grid() {
             },
             {
                 key: 'grid',
-                label: gridInfo.label,
-                path: `/grids/${gridId}`,
-                icon: GridIcon
+                label: GridConstants[gridId].label,
+                path: GridConstants[gridId].path,
+                icon: () => <IconifyIcon icon={GridConstants[gridId].icon}/>
             }
         ]
 
+        if(rowViewMode === 'VIEW' && rowViewControl?.isOpen === true && rowViewControl?.row != null) {
+            breadcrumbs.push({
+                    key: 'rowview',
+                    label: rowViewControl?.row?.id,
+                    path: `/grids/${gridId}/${rowViewControl?.row?.id}`,     // TODO: DIESE LINKS SOLLEN DIREKT IN DIE ANSICHT FÜHREN
+                    icon: ArticleIcon
+            })
+        }
+
         dispatch(setBreadcrumbs(breadcrumbs))
-    }, [gridInfo])
 
-
+    }
 
 
 
@@ -534,6 +466,51 @@ export default function Grid() {
     const defaultColDef = React.useMemo(() => ({
         sortable: true
     }))
+
+
+
+
+    const [rowViewControl, setRowViewControl] = React.useState({
+        isOpen: false,
+        row: null
+    })
+
+    const openRowDetailView = (row) => {
+        setRowViewControl({
+            isOpen: true,
+            row: row
+        })
+    }
+
+    const closeRowDetailView = () => {
+        setRowViewControl({
+            isOpen: false,
+            row: null
+        })
+    }
+
+
+    React.useEffect(() => {
+        updateBreadcrumbs()
+    }, [rowViewControl])
+
+
+
+
+    React.useEffect(() => {
+
+
+    }, [rowViewControl])
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1288,6 +1265,10 @@ export default function Grid() {
 
 
 
+
+
+
+
     // Sorting API: clear sort, save sort, restore from save
     // https://www.ag-grid.com/react-data-grid/row-sorting/#sorting-api
 
@@ -1412,17 +1393,29 @@ export default function Grid() {
 
 
     const rowDoubleClickHandler = event => {
-        
-        console.log("row double click")
-        // console.log(event)
-        // console.log(event.event.target)
 
+
+
+        // get target and row elements
         let clickTarget = jQuery(event.event.target)
-
         let jQueryRowElement = getParentRow(clickTarget)
         let aggridRowNode = event.node
 
-        toggleExpand(aggridRowNode,jQueryRowElement)
+        // console.log("row double click")
+        // console.log(event)
+        // console.log(event.event.target)
+
+        if(rowViewMode === 'VIEW') {
+
+            openRowDetailView(aggridRowNode)
+
+        } else if(rowViewMode === 'EXPAND') {
+
+            // Die grid komponenten sollte über properties konfiguriert werden, ob eine row expansion oder
+            // eine detail view verwendet werden soll
+
+            toggleExpand(aggridRowNode,jQueryRowElement)
+        }
     }
 
 
@@ -1669,6 +1662,29 @@ export default function Grid() {
 
 
 
+    const renderRowView = () => {
+
+        console.log("RENDER ROW VIEW")
+        console.log(rowViewControl)
+
+        if(rowViewMode === 'VIEW' && rowViewControl?.row != null && RowViewComponent != null ) {
+
+            console.log('ja')
+
+            return(
+                <RowViewComponent bla={'123'} row={rowViewControl.row} />
+            )
+
+        }
+
+        console.log('nein')
+
+        return null
+    }
+        
+
+
+
 
 
 
@@ -1912,6 +1928,8 @@ export default function Grid() {
     return (
         <>
 
+
+
             <div className="search-container">
                 <div className="search-field">
                     <div className="icon-container">
@@ -1934,17 +1952,57 @@ export default function Grid() {
                 </div>
             </div>
 
-
             {/* {renderFilterToolbar()} */}
-            {renderGrid()}
+
+            { renderGrid() }
+
+            <div
+                className={`grid-row-details enter-bottom ${rowViewControl?.isOpen === true ? 'opened' : 'closed'}`}
+                onClick={() => closeRowDetailView()}
+            >
+
+                <div
+                    className="grid-row-details-content"
+                    onClick={event => event.stopPropagation()}
+                >
+
+                    <div className="header">
+                        <div className="label">
+                            {rowViewControl?.row?.id}
+                        </div>
+                        <IconButton
+                            className="close-row-details-button"
+                            size="small"
+                            onClick={() => closeRowDetailView()}
+                        >
+                            {/* <IconifyIcon icon="mingcute:arrow-left-fill" /> */}
+                            {/* <IconifyIcon icon="ph:arrow-fat-left-duotone" /> */}
+                            {/* <IconifyIcon icon="tabler:arrow-big-left" /> */}
+                            {/* <IconifyIcon icon="ic:round-keyboard-double-arrow-left" /> */}
+                            <IconifyIcon icon="ic:round-clear" />
+                        </IconButton>
+                    </div>
+
+                    { renderRowView() }
+
+                </div>
+
+            </div>
+
+
+
+
+
+
+            {/* veraltet */}
             {/* {renderUploadDialog()} */}
-            <ExcelExport
+            {/* <ExcelExport
                 open={exportDialogOpen}
                 onClose={closeExportDialog}
                 api={gridRef?.current?.api}
                 columnApi={gridRef?.current?.columnApi}
                 columnDefs={columnDefs}
-            />
+            /> */}
         </>
     )
 }

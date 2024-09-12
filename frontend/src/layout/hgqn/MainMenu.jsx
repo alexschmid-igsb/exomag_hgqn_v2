@@ -20,6 +20,8 @@ import GridIcon from '@mui/icons-material/Article'
 import PopoverMenu from '../../components/PopoverMenu'
 import RouterButton from '../../components/RouterButton'
 
+import GridConstants from '../../grid-constants'
+
 import './MainMenu.scss'
 
 
@@ -107,17 +109,25 @@ export default function MainMenu() {
         },
         {
             key: 'cases',
-            label: 'Cases',
-            path: '/grids/cases',
+            label: GridConstants.cases.label,
+            path: GridConstants.cases.path,
+            icon: <Icon icon={GridConstants.cases.icon}/>
+
+            // label: 'Cases',
+            // path: '/grids/cases',
             // icon: <Icon icon='healthicons:medical-records-negative'/>
             // icon: <Icon icon={ MedicalRecord }/>
-            icon: <Icon icon='bi:journal-medical'/>
+            // icon: <Icon icon='bi:journal-medical'/>
         },
         {
             key: 'variants',
-            label: 'Variants',
-            path: '/grids/variants',
-            icon: <Icon icon='ph:dna'/>
+            label: GridConstants.variants.label,
+            path: GridConstants.variants.path,
+            icon: <Icon icon={GridConstants.variants.icon}/>
+
+            // label: 'Variants',
+            // path: '/grids/variants',
+            // icon: <Icon icon='ph:dna'/>
         },
         {
             type: 'divider'

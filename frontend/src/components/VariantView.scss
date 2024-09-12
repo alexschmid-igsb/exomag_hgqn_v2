@@ -1,0 +1,407 @@
+
+
+
+
+
+div.variant-view {
+
+    position: relative;
+    overflow-y: auto;
+
+    flex: 1;
+
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-flow: column;
+    align-items: stretch;
+
+    padding: 16px 16px;
+    box-sizing: border-box;
+
+    // border: 5px solid red;
+    // box-sizing: border-box;
+
+
+    & div.section-row {
+
+        display: flex;
+        flex-flow: row;
+
+        & > div.section {
+            flex: 0;
+
+            margin-bottom: 0px;
+            margin-right: 16px;
+
+            &:last-child {
+                margin-right: 0px;
+            }
+        }
+
+        margin-bottom: 16px;
+
+        &:last-child {
+            margin-bottom: 0px;
+        }
+    }
+    
+    & div.section {
+
+        min-width: 300px;
+
+        display: flex;
+        flex-flow: column;
+
+        padding: 16px 16px;
+        font-size: 14px;
+        position: relative;
+        background-color: rgba(0,0,0,0.05);
+        color: rgba(0,0,0,0.7);
+
+        background-color: rgba(0,0,0,0.05);
+        border-radius: 3px;
+        border: 1px solid rgba(0,0,0,0.1);
+
+        margin: 0px;
+        margin-bottom: 16px;
+        padding: 8px;
+
+        & > div.section-title {
+            letter-spacing: 0.02em;
+            margin-top: -2px;
+            color: rgba(0,0,0,0.9);
+            font-weight: bold;
+            font-size: 0.95em;
+            margin-bottom: 10px;
+            padding-bottom: 2px;
+            border-bottom: 1px solid rgba(0,0,0,0.2);
+        }
+
+        & > div.box {
+            position: relative;
+            background-color: rgba(255,255,255,1);
+            margin-bottom: 16px;
+            display: flex;
+            flex-flow: column;
+            align-items: flex-start;
+            padding: 8px;
+            border-radius: 3px;
+            border: 1px solid rgba(0,0,0,0.1);
+
+            & > div.box-title {
+                font-size: 0.9em;
+                font-weight: bold;
+                color: white;
+                // color: rgba(0,0,0,0.6);
+                position: absolute;
+                right: 6px;
+                top: 6px;
+                background-color: #fab700;
+                background-color: #93ACB5;
+                
+                padding: 2px 4px;
+                border-radius: 3px;
+                border: 1px solid rgba(0,0,0,0.05);
+                border: none;
+
+                &.GRCh37 {
+                    background-color: #849aa3;
+                }
+
+                &.GRCh38 {
+                    background-color: #84A389;
+                }
+            }
+
+            &:last-child {
+                margin-bottom: 0px;
+            }
+        }
+
+        & span.cell_value_genomic_position {
+            display: block;
+            border: none;
+            box-shadow: none;
+            padding: 4px 8px;
+            border-radius: 8px;
+        }
+
+        & div.label-value-row {
+            display: flex;
+            flex-flow: column;
+
+            margin-bottom: 10px;
+
+            &:last-child {
+                margin-bottom: 0px;
+            }
+
+            & > div.label {
+                font-size: 0.9em;
+                font-weight: bold;
+                margin-bottom: 4px;
+            }
+
+            & > div.value {
+                font-size: 0.9em;
+                font-weight: normal;
+            }
+        }
+
+        & div.links {
+            display: flex;
+            flex-flow: column;
+            & > div.link-container {
+                margin-bottom: 8px;
+                justify-content: flex-start;
+                &:last-child{
+                    margin-bottom: 0px;
+                }
+                & > a {
+                    margin: 0px;
+                    box-shadow: none;
+                    background-color: rgba(0,0,0,0.1);
+                    border-color: transparent;
+                    padding: 8px 12px;
+                    border-radius: 8px;
+                    &:hover {
+                        background-color: white;
+                        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+                    }
+                }
+            }
+        }
+
+        & div.comment {
+
+            background-color: rgba(255,255,255,1);
+            margin-bottom: 16px;
+
+            display: flex;
+            flex-flow: row;
+
+            align-items: flex-start;
+            padding: 8px;
+            border-radius: 3px;
+            border: 1px solid rgba(0,0,0,0.1);
+
+            & > .icon {
+                opacity: 0.9;
+                color: #849aa3;
+                // position: absolute;
+                // left: 6px;
+                // top: 6px;
+                width: 24px;
+                height: 24px;
+                min-width: 24px;
+                min-height: 24px;
+                margin-right: 6px;
+            }
+
+            & > div.text {
+                padding-left: 8px;
+                border-left: 1px dashed rgba(0,0,0,0.1);
+                text-align: justify;
+                font-weight: bold;
+                font-size: 0.8em;
+                color: rgba(0,0,0,0.6);
+                hyphens: auto;
+            }
+
+        }
+    }
+
+
+
+
+    & div.classification-table {
+
+        display: flex;
+        flex-flow: row !important;
+
+        // padding: 8px !important;
+
+        & > div.category {
+
+            display: flex;
+            flex-flow: column;
+
+            // border: 3px solid blue;
+
+            & > div.label {
+                min-height: 32px;
+                max-height: 32px;
+                height: 32px;
+
+                font-weight: bold;
+                font-size: 0.9em;
+
+                border-right: 1px solid rgba(0,0,0,0.2);
+                border-bottom: 1px solid rgba(0,0,0,0.5);
+
+                display: flex;
+                flex-flow: row; 
+                align-items: center;
+                padding: 0px 6px;
+            }
+
+            &:last-child {
+                & > div.label,
+                & > div.columns > div.column:last-child > div.header,
+                & > div.columns > div.column:last-child > div.cell {                
+                    border-right: none;
+                }
+            }
+    
+            & > div.columns {
+
+                display: flex;
+                flex-flow: row;
+
+                & > div.column {
+
+                    & > div.header,
+                    & > div.cell {
+                        min-height: 32px;
+                        max-height: 32px;
+                        height: 32px;
+
+                        display: flex;
+                        flex-flow: row; 
+                        align-items: center;
+                        padding: 0px 6px;
+                    }
+
+                    & > div.header {
+                        
+                        font-size: 0.85em;
+                        font-weight: bold;
+
+                        border-right: 1px solid rgba(0,0,0,0.2);
+                        border-bottom: 1px solid rgba(0,0,0,0.5);
+                    }
+
+                    & > div.cell {
+                        font-size: 0.85em;
+                        border-right: 1px solid rgba(0,0,0,0.2);
+                    }
+                }
+            }
+        }
+
+        & > div.empty {
+            font-weight: bold;
+            font-size: 0.9em;
+            color: rgba(0,0,0,0.6);
+        }
+
+        & > div.category > div.columns > div.column.acmgClass > div.cell {
+
+            & > div.value {
+                display: block;
+                border: none;
+                box-shadow: none;
+                padding: 3px 6px;
+                border-radius: 5px;
+                font-weight: bold;
+                background-color: rgba(0,0,0,0.15);
+
+                &.VALUE-benign {
+                    color: rgb(7, 100, 24);
+                }
+    
+                &.VALUE-likelybenign {
+                    color: rgb(80, 168, 56);
+                }
+    
+                &.VALUE-unclear {
+                    color: rgb(255, 171, 69);
+                }
+    
+                &.VALUE-likelypathogenic {
+                    color: rgb(235, 91, 43);
+                }
+    
+                &.VALUE-pathogenic {
+                    color: rgb(199, 7, 0);
+                }
+    
+            }
+        }
+
+        & > div.category > div.columns > div.column.acmgCriteria > div.cell > div.value {
+            display: flex;
+            flex-flow: row;
+
+            & > div.item {
+                display: block;
+                border: none;
+                box-shadow: none;
+                padding: 3px 6px;
+                border-radius: 5px;
+                font-weight: bold;
+                background-color: rgba(0,0,0,0.15);
+
+                margin-right: 4px;
+                &:last-child {
+                    margin-right: 0px;
+                }
+
+                &.VALUE-PVS1 {
+                    color: rgb(199, 7, 0);
+                }
+
+                &.VALUE-PS1,
+                &.VALUE-PS2,
+                &.VALUE-PS3,
+                &.VALUE-PS4 {
+                    color: rgb(217, 49, 21);
+                }
+
+                &.VALUE-PM1,
+                &.VALUE-PM2,
+                &.VALUE-PM3,
+                &.VALUE-PM4,
+                &.VALUE-PM5,
+                &.VALUE-PM6 {
+                    color: rgb(235, 91, 43);
+                }
+
+                &.VALUE-PP1,
+                &.VALUE-PP2,
+                &.VALUE-PP3,
+                &.VALUE-PP4,
+                &.VALUE-PP5 {
+                    color: rgb(253, 133, 64);
+                }
+
+                &.VALUE-BP1,
+                &.VALUE-BP2,
+                &.VALUE-BP3,
+                &.VALUE-BP4,
+                &.VALUE-BP5,
+                &.VALUE-BP6,
+                &.VALUE-BP7 {
+                    color: rgb(80, 168, 56);
+                }
+
+                &.VALUE-BS1,
+                &.VALUE-BS2,
+                &.VALUE-BS3,
+                &.VALUE-BS4 {
+                    color: rgb(37, 136, 49);
+                }
+
+                &.VALUE-BA1 {
+                    color: rgb(7, 100, 24);
+                }
+
+
+            }
+        }
+
+    }
+
+}
