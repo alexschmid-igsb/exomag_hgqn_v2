@@ -15,6 +15,18 @@ scheme:
           - excel_template
           - excel_clinvar
           - phenopacket
+    uploadFormatConfig:
+        csv:
+            preset:
+                type: string
+                enum:
+                  - csv
+                  - tsv
+                  - custom
+            field_delimiter:
+                type: string
+            record_terminator:
+                type: string
     uploadedFiles:
       - id:
             type: string

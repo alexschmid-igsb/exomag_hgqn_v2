@@ -217,6 +217,30 @@ export default function Import() {
     }
 
 
+    const changeUploadFormatConfig = newUploadFormatConfig => {
+        console.log(`change upload format config to`)
+        console.log(newUploadFormatConfig)
+
+        setUIBlockMsg('set upload format config ...')
+        API.post('/api/import/set-upload-format-config', {
+            params: {
+                importId: importId,
+                uploadFormat: importInstance.uploadFormat,
+                uploadFormatConfig: newUploadFormatConfig
+            }
+        }).then( response => {
+            console.log(response)
+            setImportInstance(response.data)
+            setRejectedFiles([])
+            setUIBlockMsg(null)
+        })
+    }
+
+
+
+
+
+
 
     const handleFileUpload = files => {
 
@@ -505,6 +529,10 @@ export default function Import() {
                     <UploadView
                         uploadFormat={importInstance.uploadFormat}
                         onUploadFormatChange={changeUploadFormat}
+
+                        uploadFormatConfig={importInstance.uploadFormatConfig}
+                        onUploadFormatConfigChange={changeUploadFormatConfig}
+
                         onFileUpload={handleFileUpload}
                         uiBlockMsg={uiBlockMsg}
                         uploadedFiles={importInstance.uploadedFiles}
@@ -527,14 +555,18 @@ export default function Import() {
                         onClick: confirmFieldMappingStep
                     }}
                 >
-                    <DataMappingView
-                        uiBlockMsg={uiBlockMsg}
-                        importInstance={importInstance}
-                        onExcelSheetChange={changeExcelSheet}
-                        onMappingChange={changeMapping}
-                        mappingIsValid={mappingIsValid}
-                        onMappingIsValidChange={setMappingIsValid}
-                    />
+                    { importInstance.uploadFormat === 'excel_template' || importInstance.uploadFormat === 'csv' ?
+                        <DataMappingView
+                            uiBlockMsg={uiBlockMsg}
+                            importInstance={importInstance}
+                            onExcelSheetChange={changeExcelSheet}
+                            onMappingChange={changeMapping}
+                            mappingIsValid={mappingIsValid}
+                            onMappingIsValidChange={setMappingIsValid}
+                        />
+                    : 
+                        <span>no field mapping for this upload format</span>
+                    }
                 </Step>
 
 

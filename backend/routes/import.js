@@ -36,6 +36,25 @@ async function sleep(ms) {
 
 
 
+// initiale werte für die upload format config
+const init_uploadFormatConfig = {
+    csv: {
+        preset: 'csv',
+        field_delimiter: ',',
+        record_terminator: '\\n'
+    },
+    excel_template: {
+
+    },
+    excel_clinvar: {
+
+    },
+    phenopacket: {
+
+    }
+}
+
+
 
 // get all imports (without the file data) for the admin view
 router.get('/get-all-imports-admin', [auth, isSuperuser], async function (req, res, next) {
@@ -75,7 +94,9 @@ router.post('/get-full-import-admin', [auth, isSuperuser], async function (req, 
         throw new BackendError('could not get import', 500, error)
     }
 
-    await sleep(2000)
+    if (debug === true) {
+        await sleep(2000)
+    }
 
     res.send(dbRes)
 })
@@ -127,7 +148,9 @@ router.post('/get-import', [auth], async function (req, res, next) {
         throw new BackendError('could not get import', 500, error)
     }
 
-    // await sleep(5000)
+    if (debug === true) {
+        await sleep(5000)
+    }
 
     res.send(dbRes)
 })
@@ -142,12 +165,13 @@ router.post('/create', [auth], async function (req, res, next) {
         throw new BackendError('import name is missing')
     }
 
-    // Der import wird per default mit uploadFormat: 'excel_template' angelegt. Die properties valueMapping und pocessing
-    // werden passend dazu angelegt werden.
+    // Der import wird per default mit uploadFormat: 'excel_template' angelegt. Die properties valueMapping und processing
+    // werden passend dazu angelegt werden. Die defaults für upload format config werden gesetzt.
     let newImport = {
         name: name,
         progress: 'file_upload',
         uploadFormat: 'excel_template',
+        uploadFormatConfig: init_uploadFormatConfig,
         user: req.auth.user._id,
         created: new Date(),
         uploadedFiles: [],
@@ -195,8 +219,10 @@ router.post('/set-upload-format', [auth], async function (req, res, next) {
         throw new BackendError('upload format is missing')
     }
 
+    // wichtig: config und uploaded files werden gelöscht bzw. neu initialisiert
     let update = {
         uploadFormat: uploadFormat,
+        uploadFormatConfig: init_uploadFormatConfig,
         uploadedFiles: [],
     }
 
@@ -231,6 +257,74 @@ router.post('/set-upload-format', [auth], async function (req, res, next) {
             filter: { _id: importId, user: userId },
             populate: [ { path: 'user', select: '-password' } ]
         }, update)
+    } catch (error) {
+        throw new BackendError('could not get import', 500, error)
+    }
+
+    if (debug === true) {
+        await sleep(2000)
+    }
+
+    res.send(dbRes)
+})
+
+
+
+
+
+// set upload format config for specific import
+router.post('/set-upload-format-config', [auth], async function (req, res, next) {
+
+    const userId = req.auth.user._id
+
+    const importId = req.body.importId ? req.body.importId.trim() : undefined
+    if (importId == null) {
+        throw new BackendError('import id is missing')
+    }
+
+    const uploadFormat = req.body.uploadFormat ? req.body.uploadFormat.trim() : undefined
+    if (uploadFormat == null) {
+        throw new BackendError('upload format is missing')
+    }
+
+    const uploadFormatConfig = lodash.isObject(req.body.uploadFormatConfig) ? req.body.uploadFormatConfig : undefined
+    if (uploadFormatConfig == null) {
+        throw new BackendError('upload format is missing')
+    }
+
+    console.log("NEUE CONFIG")
+    console.log(uploadFormatConfig.csv)
+
+    // hier ist der zentrale punkt an dem die delimiter entsprechend der presets gesetzt werden und
+    // damit ggf usereingaben überschrieben werden
+    switch(uploadFormatConfig.csv.preset) {
+        case 'csv':
+            uploadFormatConfig.csv.field_delimiter = ','
+            uploadFormatConfig.csv.record_terminator = '\\n'
+            break;
+        case 'tsv':
+            uploadFormatConfig.csv.field_delimiter = '\\t'
+            uploadFormatConfig.csv.record_terminator = '\\n'
+            break;
+    }
+
+    let update = {
+        uploadFormatConfig: uploadFormatConfig,
+        uploadedFiles: [],
+    }
+
+    // console.log("EXECUTE UPATE")
+    // console.log(update)
+
+    // execute update
+    let dbRes = null
+    try {
+        dbRes = await database.findOneAndUpdate('STATIC_imports', {
+            fields: '-uploadedFiles.data',
+            filter: { _id: importId, user: userId },
+            populate: [ { path: 'user', select: '-password' } ]
+        }, update)
+        console.log(dbRes)
     } catch (error) {
         throw new BackendError('could not get import', 500, error)
     }
@@ -287,7 +381,9 @@ router.post('/set-progress', [auth], async function (req, res, next) {
         throw new BackendError('could not get import', 500, error)
     }
 
-    // await sleep(1000)
+    if (debug === true) {
+        await sleep(1000)
+    }
 
     res.send(dbRes)
 })
@@ -356,8 +452,10 @@ router.post('/upload-files', [auth, upload], async (req, res) => {
 
     // uploadFormat
     const uploadFormat = importInstance.uploadFormat
+    const uploadFormatConfig = importInstance.uploadFormatConfig
     console.log("\n\nuploadFormat:")
     console.log(uploadFormat)
+    console.log(uploadFormatConfig)
 
 
     // organize existing files by id
@@ -475,6 +573,26 @@ router.post('/upload-files', [auth, upload], async (req, res) => {
                 } else {
                     accept = true
                 }
+            }
+        }
+        else if (uploadFormat === 'csv') {
+            if
+            (
+                (entry.name.toLowerCase().endsWith('.csv') && (uploadFormatConfig?.csv?.preset === 'csv' || uploadFormatConfig?.csv?.preset === 'custom'))
+                ||
+                (entry.name.toLowerCase().endsWith('.tsv') && (uploadFormatConfig?.csv?.preset === 'tsv' || uploadFormatConfig?.csv?.preset === 'custom'))
+            ) {
+                if (isFirst === false) {
+                    entry.message = 'multiple csv (or tsv) files'
+                    entry.action = 'IGNORED'
+                    accept = false
+                } else {
+                    accept = true
+                }
+            } else {
+                entry.message = 'no csv (or tsv) file',
+                entry.action = 'IGNORED'
+                accept = false
             }
         }
         /*
@@ -1131,7 +1249,7 @@ router.post('/excel-template-set-mapping', [auth], async function (req, res, nex
     }
 
     if (debug === true) {
-        // await sleep(2000)
+        await sleep(2000)
     }
 
     res.send(dbRes)
