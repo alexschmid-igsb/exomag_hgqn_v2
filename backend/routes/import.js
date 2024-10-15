@@ -19,6 +19,9 @@ const BackendError = require('../util/BackendError')
 const xlsx = require('xlsx')
 xlsx.helper = require('../util/xlsx-helper')
 
+const Readable = require('node:stream').Readable
+const { parse } = require('csv-parse')
+
 
 
 
@@ -41,7 +44,7 @@ const init_uploadFormatConfig = {
     csv: {
         preset: 'csv',
         field_delimiter: ',',
-        record_terminator: '\\n'
+        // record_terminator: '\\n'             // stattdessen die das auto detect feature von csv-parse verwenden
     },
     excel_template: {
 
@@ -300,17 +303,17 @@ router.post('/set-upload-format-config', [auth], async function (req, res, next)
     switch(uploadFormatConfig.csv.preset) {
         case 'csv':
             uploadFormatConfig.csv.field_delimiter = ','
-            uploadFormatConfig.csv.record_terminator = '\\n'
+            // uploadFormatConfig.csv.record_terminator = '\\n'
             break;
         case 'tsv':
             uploadFormatConfig.csv.field_delimiter = '\\t'
-            uploadFormatConfig.csv.record_terminator = '\\n'
+            // uploadFormatConfig.csv.record_terminator = '\\n'
             break;
     }
 
     let update = {
         uploadFormatConfig: uploadFormatConfig,
-        uploadedFiles: [],
+        // uploadedFiles: [],                                           // die uploaded files bleiben beim config change erhalten, nur beim change des formats werden diese gecleart
     }
 
     // console.log("EXECUTE UPATE")
@@ -354,16 +357,17 @@ router.post('/set-progress', [auth], async function (req, res, next) {
         throw new BackendError('progress is missing')
     }
 
-    /*
-    const progress = req.body.progress ? req.body.progress.trim() : undefined
-    if (progress == null) {
-        throw new BackendError('progress is missing')
-    }
-    */
-
     let update = {
         progress: progress
     }
+
+    // // in csv upload mode, parse the csv header columns as soon as the the progress reaches 'field_mapping'
+    // if(progress === 'field_mapping' && )
+
+
+
+
+
 
     // console.log("PROGRESS")
     // console.log(update)
@@ -486,7 +490,8 @@ router.post('/upload-files', [auth, upload], async (req, res) => {
                 name: receivedFile.originalname,
                 size: receivedFile.size,
                 type: 'uploaded',
-                error: new Error('file has no data')
+                message: 'empty file',
+                action: 'IGNORED'
             })
         } else if (receivedFile.buffer instanceof Buffer && receivedFile.buffer.length > 0) {
 
@@ -561,44 +566,54 @@ router.post('/upload-files', [auth, upload], async (req, res) => {
         }
 
         if (uploadFormat === 'excel_template' || uploadFormat === 'excel_clinvar') {
-            if (entry.name.toLowerCase().endsWith('.xls') === false && entry.name.toLowerCase().endsWith('.xlsx') === false) {
-                entry.message = 'no excel file',
-                    entry.action = 'IGNORED'
-                accept = false
-            } else {
-                if (isFirst === false) {
-                    entry.message = 'multiple excel file'
-                    entry.action = 'IGNORED'
-                    accept = false
-                } else {
-                    accept = true
-                }
-            }
-        }
-        else if (uploadFormat === 'csv') {
-            if
-            (
-                (entry.name.toLowerCase().endsWith('.csv') && (uploadFormatConfig?.csv?.preset === 'csv' || uploadFormatConfig?.csv?.preset === 'custom'))
-                ||
-                (entry.name.toLowerCase().endsWith('.tsv') && (uploadFormatConfig?.csv?.preset === 'tsv' || uploadFormatConfig?.csv?.preset === 'custom'))
-            ) {
-                if (isFirst === false) {
-                    entry.message = 'multiple csv (or tsv) files'
-                    entry.action = 'IGNORED'
-                    accept = false
-                } else {
-                    accept = true
-                }
-            } else {
-                entry.message = 'no csv (or tsv) file',
+
+            if (isFirst === false) {
+                entry.message = 'only one file allowed in excel mode'
                 entry.action = 'IGNORED'
                 accept = false
+            } else {
+                if (entry.name.toLowerCase().endsWith('.xls') === false && entry.name.toLowerCase().endsWith('.xlsx') === false) {
+                    entry.message = 'no excel file',
+                        entry.action = 'IGNORED'
+                    accept = false
+                } else {
+                    accept = true
+                }
             }
+
+        } else if (uploadFormat === 'csv') {
+
+            if (isFirst === false) {
+                entry.message = 'only one file allowed in CSV mode'
+                entry.action = 'IGNORED'
+                accept = false
+            } else {
+                if
+                (
+                    (entry.name.toLowerCase().endsWith('.csv') && (uploadFormatConfig?.csv?.preset === 'csv' || uploadFormatConfig?.csv?.preset === 'custom'))
+                    ||
+                    (entry.name.toLowerCase().endsWith('.tsv') && (uploadFormatConfig?.csv?.preset === 'tsv' || uploadFormatConfig?.csv?.preset === 'custom'))
+                ) {
+                    accept = true
+                } else if( (uploadFormatConfig?.csv?.preset === 'csv') && entry.name.toLowerCase().endsWith('.csv') === false ) {
+                    entry.message = 'no CSV file type',
+                    entry.action = 'IGNORED'
+                    accept = false
+                } else if( (uploadFormatConfig?.csv?.preset === 'tsv') && entry.name.toLowerCase().endsWith('.tsv') === false ) {
+                    entry.message = 'no TSV file type',
+                    entry.action = 'IGNORED'
+                    accept = false
+                } else {
+                    entry.message = 'wrong file type',
+                    entry.action = 'IGNORED'
+                    accept = false
+                }
+            }
+
         }
         /*
         else if(uploadFormat === 'phenopackets') {
             // TODO
-            // parsen und fehler in info hinzufügen
         }
         */
 
@@ -1261,7 +1276,132 @@ router.post('/excel-template-set-mapping', [auth], async function (req, res, nex
 
 
 
-// trigger processing for excel template import
+
+
+async function loadCSVHeaderFromBuffer(buffer,config) {
+    return new Promise( (resolve,reject) => {
+
+        let inputStream = Readable.from(buffer)
+
+        const parser = parse({
+            columns: true,
+            delimiter: config.csv.field_delimiter,
+            // record_delimiter:                            steht per default auf 'auto detect', das sollte man erstmal auch so lassen
+            trim: true,
+            skip_empty_lines: true
+        })
+        
+        parser.on('readable', function () {
+            let record = parser.read()
+            inputStream.destroy()
+            if(record == null || lodash.isObject(record) === false || lodash.isArray(record)) {
+                reject(new Error('could not parse even a single record from csv stream'))
+            } else {
+                let headers = Object.keys(record)
+                if(headers == null || lodash.isArray(headers) === false) {
+                    reject(new Error('could not parse headers from csv stream'))
+                } else {
+                    resolve(headers)
+                }
+            }
+        })
+        
+        parser.on('error', function (err) {
+            reject(new Error('could not parse csv stream', { cause: err }))
+        })
+
+        inputStream.pipe(parser)
+    })
+}
+
+
+// load csv header names (mode 'csv' only)
+router.post('/load-csv-header', [auth], async function (req, res, next) {
+
+    const userId = req.auth.user._id
+
+    const importId = req.body.importId ? req.body.importId.trim() : undefined
+    if (importId == null) {
+        throw new BackendError('import id is missing')
+    }
+
+    let current = null
+    try {
+        let dbRes = await database.find('STATIC_imports', {
+            // fields: '-uploadedFiles.data',
+            filter: { _id: importId, user: userId },
+            populate: [ { path: 'user', select: '-password' } ]
+        })
+        current = dbRes.data[0]
+    } catch (error) {
+        throw new BackendError('could not get import', 500, error)
+    }
+
+
+    // load csv header
+    let columnNames = null
+    if (current.uploadFormat === 'csv' && current.uploadedFiles != null && current.uploadedFiles.length === 1) {
+
+        let file = current.uploadedFiles[0]
+        try {
+            columnNames = await loadCSVHeaderFromBuffer(file.data.buffer, current.uploadFormatConfig)
+        } catch (err) {
+            console.log(err)
+            throw new BackendError("Internal Error: Could not load column names from csv file", 500, err)
+        }
+    }
+
+
+    const scheme = database.getScheme('GRID_cases')
+    const dataDesc = {
+        // bleibt erstmal leer, weil im frontend nicht gebraucht. Eventuell wird das später benötigt. Im naiven fall kämen dann hier einfach die schemeDescription rein..
+        fields: {}  
+    }
+    dataDesc.layout = scheme.layouts.default
+
+
+    // values to update
+    let update = {
+        valueMapping: {
+            ...current.valueMapping,
+            excel: {
+                ...current.valueMapping.excel,
+                dataSheet: undefined,
+                columnNames: columnNames,
+                dataDesc: dataDesc,
+                mapping: [],
+            }
+        }
+    }
+
+    // execute update
+    let dbRes = null
+    try {
+        dbRes = await database.findOneAndUpdate('STATIC_imports', {
+            fields: '-uploadedFiles.data',
+            filter: { _id: importId, user: userId },
+            populate: [ { path: 'user', select: '-password' } ]
+        }, update)
+    } catch (error) {
+        throw new BackendError('could not update import', 500, error)
+    }
+
+    if (debug === true) {
+        await sleep(2000)
+    }
+
+    await sleep(3000)
+
+    res.send(dbRes)
+})
+
+
+
+
+
+
+
+// trigger processing for excel or csv template import
 router.post('/excel-template-trigger-processing', [auth], async function (req, res, next) {
 
     const userId = req.auth.user._id
@@ -1303,7 +1443,7 @@ router.post('/excel-template-trigger-processing', [auth], async function (req, r
 
 
 
-// trigger processing for excel template import
+// cancel processing for excel or csv template import
 router.post('/excel-template-cancel-processing', [auth], async function (req, res, next) {
 
     const userId = req.auth.user._id
@@ -1374,7 +1514,7 @@ router.post('/excel-template-cancel-processing', [auth], async function (req, re
 
 
 
-// trigger processing for excel template import
+// clear processing for canceled excel or csv template import
 router.post('/excel-template-clear-canceled', [auth], async function (req, res, next) {
 
     const userId = req.auth.user._id

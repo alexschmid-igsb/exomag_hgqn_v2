@@ -21,6 +21,7 @@ import FileUpload from '../../components/FileUpload'
 
 import JSONView from '../../components/util/JSONView'
 import LargeSpinnerOverlay from '../../components/util/LargeSpinnerOverlay'
+import LargeErrorOverlay from '../../components/util/LargeErrorOverlay'
 import FileList from './FileList'
 
 import UploadFormats from './UploadFormats'
@@ -35,38 +36,32 @@ import './DataMappingView.scss'
 
 
 
+// WICHTIG: CSV UND TSV WERDEN AB DEM MAPPING ALS GLEICH ANGESEHEN. DIE COLUMN NAMES UND DAS MAPPING WERDEN FÜR CSV AN
+//          DER GLEICHEN STELLE ABGELEGT WIE FÜR excel_template
 
 
+
+
+// auch für csv
 
 const ExcelTemplateMapping = ({
     importInstance,
     onExcelSheetChange,
     onMappingChange,
+    loadCSVHeader,
     mappingIsValid,
     onMappingIsValidChange
 }) => {
 
-    
-
-
-    /*
-    React.useEffect( () => {
-        // console.log("EXCEL TEMPLATE MAPPING")
-        // console.log("importInstance effect")
-        console.log(importInstance.valueMapping.excel.casesScheme)
-
-        // problem:
-        // man macht setMapping -> reneder der componenten -> setMapping nach außen (andere reference)
-
-
-    }, [importInstance])
-    */
-
-
-
-
-
-
+    // für csv muss nur einmal 
+    React.useEffect(() => {
+        if(importInstance?.uploadFormat === 'csv') {
+            // if(importInstance.valueMapping.excel.columnNames == null) {
+            //     loadCSVHeader()
+            // }
+            loadCSVHeader()
+        }
+    }, [])
 
     const handleExcelSheetChange = event => {
         let value = event.target.value
@@ -79,39 +74,43 @@ const ExcelTemplateMapping = ({
         }
     }
 
-
-
-
-
     return (
         <>
-            <div className='label first'>
-                <div className='index'>a</div>
-                <span className='text'>select data sheet</span>
-            </div>
-            <FormControl
-                fullWidth
-                variant="filled"
-                size="small"
-            >
-                <Select
-                    className="select-excel-sheet"
-                    value={importInstance?.valueMapping?.excel?.dataSheet == null ? '' : importInstance?.valueMapping?.excel?.dataSheet}
-                    onChange={handleExcelSheetChange}
-                >
-                    {
-                        lodash.isArray(importInstance?.valueMapping?.excel?.sheets) && importInstance?.valueMapping?.excel?.sheets.length > 0 ? 
-                            importInstance?.valueMapping?.excel?.sheets.map( entry => <MenuItem value={entry}>{entry}</MenuItem>)
-                        :
-                            <MenuItem value={''}><em>&lt;None&gt;</em></MenuItem>
-                    }
-                </Select>
-            </FormControl>
-
-            { importInstance?.valueMapping?.excel?.dataSheet == null ? null : 
+            { importInstance?.uploadFormat === 'excel_template' ? 
                 <>
-                    <div className='label field'>
-                        <div className='index'>b</div>
+                    <div className='label first'>
+                        <div className='index'>a</div>
+                        <span className='text'>select data sheet</span>
+                    </div>
+                    <FormControl
+                        fullWidth
+                        variant="filled"
+                        size="small"
+                    >
+                        <Select
+                            className="select-excel-sheet"
+                            value={importInstance?.valueMapping?.excel?.dataSheet == null ? '' : importInstance?.valueMapping?.excel?.dataSheet}
+                            onChange={handleExcelSheetChange}
+                        >
+                            {
+                                lodash.isArray(importInstance?.valueMapping?.excel?.sheets) && importInstance?.valueMapping?.excel?.sheets.length > 0 ? 
+                                    importInstance?.valueMapping?.excel?.sheets.map( entry => <MenuItem value={entry}>{entry}</MenuItem>)
+                                :
+                                    <MenuItem value={''}><em>&lt;None&gt;</em></MenuItem>
+                            }
+                        </Select>
+                    </FormControl>
+                </>
+            :
+                null
+            }
+
+            {
+                (importInstance?.uploadFormat === 'excel_template' && importInstance?.valueMapping?.excel?.dataSheet && importInstance.valueMapping.excel.columnNames != null) || 
+                (importInstance?.uploadFormat === 'csv' && importInstance.valueMapping.excel.columnNames != null) ?
+                <>
+                    <div className={`label field ${importInstance?.uploadFormat === 'csv' ? 'first' : ''}`}>
+                        <div className='index'>{importInstance?.uploadFormat === 'excel_template' ? 'b' : importInstance?.uploadFormat === 'csv' ? 'a' : ''}</div>
                         <span className='text'>field mapping</span>
                     </div>
                     <ColumnMapping
@@ -128,6 +127,8 @@ const ExcelTemplateMapping = ({
                         targetFields={importInstance.valueMapping.excel.dataDesc}
                     />
                 </>
+            :
+                null
             }
 
         </>
@@ -188,9 +189,11 @@ export default function DataMappingView(props) {
         importInstance,
         onExcelSheetChange,
         onMappingChange,
+        loadCSVHeader,
         mappingIsValid,
         onMappingIsValidChange,
-        uiBlockMsg
+        uiBlockMsg,
+        uiErrorMsg
     } = props
 
 
@@ -204,19 +207,24 @@ export default function DataMappingView(props) {
 
         <div className='data-mapping-view'>
 
-
             { uiBlockMsg != null ?
                 <LargeSpinnerOverlay label={uiBlockMsg}/>
             :
                 null
             }
 
+            { uiErrorMsg != null ?
+                <LargeErrorOverlay title={uiErrorMsg.title} message={uiErrorMsg.message} details={uiErrorMsg.details}/>
+            :
+                null
+            }
 
-            { importInstance?.uploadFormat === 'excel_template' ? 
+            { importInstance?.uploadFormat === 'excel_template' || importInstance?.uploadFormat === 'csv' ? 
                 <ExcelTemplateMapping
                     importInstance={importInstance}
                     onExcelSheetChange={onExcelSheetChange}
                     onMappingChange={onMappingChange}
+                    loadCSVHeader={loadCSVHeader}
                     mappingIsValid={mappingIsValid}
                     onMappingIsValidChange={onMappingIsValidChange}
                  />

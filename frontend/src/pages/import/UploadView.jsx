@@ -119,14 +119,16 @@ export default function UploadView(props) {
         onUploadFormatConfigChange(updated)
     }
 
-    const handleRecordTerminatorChange = event => {
-        let value = event?.target?.value
-        let updated = lodash.cloneDeep(uploadFormatConfig)
-        updated.csv.record_terminator = value
-        // console.log("record terminator change")
-        // console.log(value)
-        onUploadFormatConfigChange(updated)
-    }
+    // der record terminator ist eigentlich immer ein newline. csv-parse bietet ein autodetect, das wir hier verwenden wollen
+    // um die anzahl der fehler quellen minimal zu halten
+    // const handleRecordTerminatorChange = event => {
+    //     let value = event?.target?.value
+    //     let updated = lodash.cloneDeep(uploadFormatConfig)
+    //     updated.csv.record_terminator = value
+    //     // console.log("record terminator change")
+    //     // console.log(value)
+    //     onUploadFormatConfigChange(updated)
+    // }
 
 
 
@@ -191,13 +193,13 @@ export default function UploadView(props) {
                                 onChange={handleFieldDelimiterChange}
                                 disabled={uploadFormatConfig.csv.preset === 'csv' || uploadFormatConfig.csv.preset === 'tsv'}
                             />
-                            <TextField
+                            {/* <TextField
                                 value={uploadFormatConfig.csv.record_terminator}
                                 label="Record Terminator"
                                 variant="filled"
                                 onChange={handleRecordTerminatorChange}
                                 disabled={uploadFormatConfig.csv.preset === 'csv' || uploadFormatConfig.csv.preset === 'tsv'}
-                            />
+                            /> */}
                         </div>
 
                     </FormControl>

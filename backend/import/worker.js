@@ -250,6 +250,9 @@ async function main() {
         })
 
 
+        hier muss die data abhängig vom format geladen werden
+        
+
         // try to load load row data from uploaded excel file
         let rowData = null
         try {
