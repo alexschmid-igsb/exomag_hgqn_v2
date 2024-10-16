@@ -75,6 +75,9 @@ const createEmptyRecord = () => {
 
 const performColumnMapping = (record,mapping) => {
 
+    console.log("perform column mapping")
+    console.log(mapping)
+
     record.genericCase = {}
 
     let i = 1
@@ -300,9 +303,12 @@ class Processing {
 
     process(record) {
 
+        console.log("excel processing start")
+        console.log(record)
+
         // perform the column mapping
         performColumnMapping(record, this.mapping)
-        // console.log(JSON.stringify(record.genericCase,null,4))
+        console.log(JSON.stringify(record.genericCase,null,4))
 
         // perform the top-level cell splitting
         performCellSplitting(record)
@@ -311,8 +317,8 @@ class Processing {
             return
         }
 
-        // console.log("NCAH SPLIT")
-        // console.log(JSON.stringify(record.genericCase,null,4))
+        console.log("NCAH SPLIT")
+        console.log(JSON.stringify(record.genericCase,null,4))
 
         performCompHetSplitting(record)
         if(record.report.hasTopLevelErrors() === true) {

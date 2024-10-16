@@ -55,11 +55,12 @@ const ExcelTemplateMapping = ({
 
     // für csv muss nur einmal 
     React.useEffect(() => {
-        if(importInstance?.uploadFormat === 'csv') {
-            // if(importInstance.valueMapping.excel.columnNames == null) {
-            //     loadCSVHeader()
-            // }
+        console.log("INIT EXCEL TEMPLATE MAPPING")
+        if(importInstance?.uploadFormat === 'csv' && importInstance.valueMapping.excel.columnNames == null) {
+            console.log("JA")
             loadCSVHeader()
+        } else {
+            console.log("NEIN")
         }
     }, [])
 
@@ -195,11 +196,6 @@ export default function DataMappingView(props) {
         uiBlockMsg,
         uiErrorMsg
     } = props
-
-
-
-
-
 
 
 
