@@ -13,6 +13,7 @@
         "commander": "^11.0.0",
         "cookie-parser": "~1.4.4",
         "csv": "^6.3.10",
+        "csv-generate": "^4.4.1",
         "debug": "~2.6.9",
         "decompress": "^4.2.1",
         "express": "~4.16.1",

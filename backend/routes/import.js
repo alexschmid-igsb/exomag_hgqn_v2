@@ -19,6 +19,9 @@ const BackendError = require('../util/BackendError')
 const xlsx = require('xlsx')
 xlsx.helper = require('../util/xlsx-helper')
 
+const Readable = require('node:stream').Readable
+const { parse } = require('csv-parse')
+
 
 
 
@@ -34,6 +37,25 @@ async function sleep(ms) {
 
 
 
+
+
+// initiale werte für die upload format config
+const init_uploadFormatConfig = {
+    csv: {
+        preset: 'csv',
+        field_delimiter: ',',
+        // record_terminator: '\\n'             // stattdessen die das auto detect feature von csv-parse verwenden
+    },
+    excel_template: {
+
+    },
+    excel_clinvar: {
+
+    },
+    phenopacket: {
+
+    }
+}
 
 
 
@@ -75,7 +97,9 @@ router.post('/get-full-import-admin', [auth, isSuperuser], async function (req, 
         throw new BackendError('could not get import', 500, error)
     }
 
-    await sleep(2000)
+    if (debug === true) {
+        await sleep(2000)
+    }
 
     res.send(dbRes)
 })
@@ -127,7 +151,9 @@ router.post('/get-import', [auth], async function (req, res, next) {
         throw new BackendError('could not get import', 500, error)
     }
 
-    // await sleep(5000)
+    if (debug === true) {
+        await sleep(5000)
+    }
 
     res.send(dbRes)
 })
@@ -142,12 +168,13 @@ router.post('/create', [auth], async function (req, res, next) {
         throw new BackendError('import name is missing')
     }
 
-    // Der import wird per default mit uploadFormat: 'excel_template' angelegt. Die properties valueMapping und pocessing
-    // werden passend dazu angelegt werden.
+    // Der import wird per default mit uploadFormat: 'excel_template' angelegt. Die properties valueMapping und processing
+    // werden passend dazu angelegt werden. Die defaults für upload format config werden gesetzt.
     let newImport = {
         name: name,
         progress: 'file_upload',
         uploadFormat: 'excel_template',
+        uploadFormatConfig: init_uploadFormatConfig,
         user: req.auth.user._id,
         created: new Date(),
         uploadedFiles: [],
@@ -195,8 +222,10 @@ router.post('/set-upload-format', [auth], async function (req, res, next) {
         throw new BackendError('upload format is missing')
     }
 
+    // wichtig: config und uploaded files werden gelöscht bzw. neu initialisiert
     let update = {
         uploadFormat: uploadFormat,
+        uploadFormatConfig: init_uploadFormatConfig,
         uploadedFiles: [],
     }
 
@@ -246,6 +275,81 @@ router.post('/set-upload-format', [auth], async function (req, res, next) {
 
 
 
+// set upload format config for specific import
+router.post('/set-upload-format-config', [auth], async function (req, res, next) {
+
+    const userId = req.auth.user._id
+
+    const importId = req.body.importId ? req.body.importId.trim() : undefined
+    if (importId == null) {
+        throw new BackendError('import id is missing')
+    }
+
+    const uploadFormat = req.body.uploadFormat ? req.body.uploadFormat.trim() : undefined
+    if (uploadFormat == null) {
+        throw new BackendError('upload format is missing')
+    }
+
+    const uploadFormatConfig = lodash.isObject(req.body.uploadFormatConfig) ? req.body.uploadFormatConfig : undefined
+    if (uploadFormatConfig == null) {
+        throw new BackendError('upload format is missing')
+    }
+
+    console.log("NEUE CONFIG")
+    console.log(uploadFormatConfig.csv)
+
+    // hier ist der zentrale punkt an dem die delimiter entsprechend der presets gesetzt werden und
+    // damit ggf usereingaben überschrieben werden
+    switch(uploadFormatConfig.csv.preset) {
+        case 'csv':
+            uploadFormatConfig.csv.field_delimiter = ','
+            // uploadFormatConfig.csv.record_terminator = '\\n'
+            break;
+        case 'tsv':
+            uploadFormatConfig.csv.field_delimiter = '\\t'
+            // uploadFormatConfig.csv.record_terminator = '\\n'
+            break;
+    }
+
+    let update = {
+        uploadFormatConfig: uploadFormatConfig,
+        // uploadedFiles: [],                                           // die uploaded files bleiben beim config change erhalten, nur beim change des formats werden diese gecleart
+        valueMapping: {
+            excel: {
+                dataSheet: undefined,
+                columnNames: undefined,
+                mapping: [],
+            }
+        }
+    }
+
+    // console.log("EXECUTE UPATE")
+    // console.log(update)
+
+    // execute update
+    let dbRes = null
+    try {
+        dbRes = await database.findOneAndUpdate('STATIC_imports', {
+            fields: '-uploadedFiles.data',
+            filter: { _id: importId, user: userId },
+            populate: [ { path: 'user', select: '-password' } ]
+        }, update)
+        console.log(dbRes)
+    } catch (error) {
+        throw new BackendError('could not get import', 500, error)
+    }
+
+    if (debug === true) {
+        await sleep(2000)
+    }
+
+    res.send(dbRes)
+})
+
+
+
+
+
 router.post('/set-progress', [auth], async function (req, res, next) {
 
     const userId = req.auth.user._id
@@ -260,16 +364,17 @@ router.post('/set-progress', [auth], async function (req, res, next) {
         throw new BackendError('progress is missing')
     }
 
-    /*
-    const progress = req.body.progress ? req.body.progress.trim() : undefined
-    if (progress == null) {
-        throw new BackendError('progress is missing')
-    }
-    */
-
     let update = {
         progress: progress
     }
+
+    // // in csv upload mode, parse the csv header columns as soon as the the progress reaches 'field_mapping'
+    // if(progress === 'field_mapping' && )
+
+
+
+
+
 
     // console.log("PROGRESS")
     // console.log(update)
@@ -287,7 +392,9 @@ router.post('/set-progress', [auth], async function (req, res, next) {
         throw new BackendError('could not get import', 500, error)
     }
 
-    // await sleep(1000)
+    if (debug === true) {
+        await sleep(1000)
+    }
 
     res.send(dbRes)
 })
@@ -356,8 +463,10 @@ router.post('/upload-files', [auth, upload], async (req, res) => {
 
     // uploadFormat
     const uploadFormat = importInstance.uploadFormat
+    const uploadFormatConfig = importInstance.uploadFormatConfig
     console.log("\n\nuploadFormat:")
     console.log(uploadFormat)
+    console.log(uploadFormatConfig)
 
 
     // organize existing files by id
@@ -388,7 +497,8 @@ router.post('/upload-files', [auth, upload], async (req, res) => {
                 name: receivedFile.originalname,
                 size: receivedFile.size,
                 type: 'uploaded',
-                error: new Error('file has no data')
+                message: 'empty file',
+                action: 'IGNORED'
             })
         } else if (receivedFile.buffer instanceof Buffer && receivedFile.buffer.length > 0) {
 
@@ -463,24 +573,54 @@ router.post('/upload-files', [auth, upload], async (req, res) => {
         }
 
         if (uploadFormat === 'excel_template' || uploadFormat === 'excel_clinvar') {
-            if (entry.name.toLowerCase().endsWith('.xls') === false && entry.name.toLowerCase().endsWith('.xlsx') === false) {
-                entry.message = 'no excel file',
-                    entry.action = 'IGNORED'
+
+            if (isFirst === false) {
+                entry.message = 'only one file allowed in excel mode'
+                entry.action = 'IGNORED'
                 accept = false
             } else {
-                if (isFirst === false) {
-                    entry.message = 'multiple excel file'
-                    entry.action = 'IGNORED'
+                if (entry.name.toLowerCase().endsWith('.xls') === false && entry.name.toLowerCase().endsWith('.xlsx') === false) {
+                    entry.message = 'no excel file',
+                        entry.action = 'IGNORED'
                     accept = false
                 } else {
                     accept = true
                 }
             }
+
+        } else if (uploadFormat === 'csv') {
+
+            if (isFirst === false) {
+                entry.message = 'only one file allowed in CSV mode'
+                entry.action = 'IGNORED'
+                accept = false
+            } else {
+                if
+                (
+                    (entry.name.toLowerCase().endsWith('.csv') && (uploadFormatConfig?.csv?.preset === 'csv' || uploadFormatConfig?.csv?.preset === 'custom'))
+                    ||
+                    (entry.name.toLowerCase().endsWith('.tsv') && (uploadFormatConfig?.csv?.preset === 'tsv' || uploadFormatConfig?.csv?.preset === 'custom'))
+                ) {
+                    accept = true
+                } else if( (uploadFormatConfig?.csv?.preset === 'csv') && entry.name.toLowerCase().endsWith('.csv') === false ) {
+                    entry.message = 'no CSV file type',
+                    entry.action = 'IGNORED'
+                    accept = false
+                } else if( (uploadFormatConfig?.csv?.preset === 'tsv') && entry.name.toLowerCase().endsWith('.tsv') === false ) {
+                    entry.message = 'no TSV file type',
+                    entry.action = 'IGNORED'
+                    accept = false
+                } else {
+                    entry.message = 'wrong file type',
+                    entry.action = 'IGNORED'
+                    accept = false
+                }
+            }
+
         }
         /*
         else if(uploadFormat === 'phenopackets') {
             // TODO
-            // parsen und fehler in info hinzufügen
         }
         */
 
@@ -623,7 +763,7 @@ router.post('/excel-template-set-sheet', [auth], async function (req, res, next)
         }
     }
 
-
+    
 
     const scheme = database.getScheme('GRID_cases')
     const dataDesc = {
@@ -665,382 +805,6 @@ router.post('/excel-template-set-sheet', [auth], async function (req, res, next)
     transform(scheme.schemeDescription)
     */
     dataDesc.layout = scheme.layouts.default                    // sollte die wahl des layouts nicht felxibel anstatt hardgecoded sein?
-
-
-
-
-
-    /*
-    // test data
-    let testData =
-        [
-            {
-                _id: "8246ef45-4601-49f7-ae3f-fd347bbd2e90",
-                internalCaseId: "X24A97HU3434E2",
-                sequencingLab: "Bonn",
-                externalCaseId: "MAT3_X892_82",
-                gestaltMatcherId: "23048092",
-                face2GeneId: "98384234",
-                sex: "female",
-                singleDuoTrio: "trio",
-                caseStatus: "unsolved",
-                testConducted: "Exome",
-                selektivvertrag: "nein",
-                diseaseCategory: "dings",
-                referringClinician: "C. Müller",
-                bisherigeDiagnostik: "none",
-                wetlabMetainfo: "empty",
-                AutoCasc: "wjfjwiefjoiwjf",
-                prenatal: 12,
-                ageInMonths: 34,
-                ageinYears: 2,
-                autozygosity: 1.4,
-                variants: [
-                    {
-                        gene: "SOX9",
-                        variantSolvesCase: "primary",
-                        ifNewDiseaseGeneLevelOfEvidence: "bla",
-                        acmg: {
-                            class: "pathogenic",
-                            criteria: [
-                                "PS1",
-                                "PM4",
-                                "PP3",
-                                "BS2",
-                                "BP3"
-                            ]
-                        },
-                        zygosity: "heterozygous",
-                        segregationsanalyse: "not performed",
-                        modeOfInheritance: "dominant",
-                        variant: {
-                            reference: "GRCh38-7-73570818-C-T",
-                            transcript: "abcd"
-                        },
-                        _id: "6537c8e1fdcd74c709d11f0f"
-                    }
-                ],
-            },
-            {
-                _id: "984be0d2-2938-4a96-810d-e39d92335641",
-                internalCaseId: "HU7281931_AFH",
-                sequencingLab: "München",
-                externalCaseId: "xUI-29391-21",
-                gestaltMatcherId: "109823",
-                face2GeneId: "8889219",
-                sex: "male",
-                singleDuoTrio: "single",
-                caseStatus: "solved",
-                testConducted: "Panel",
-                selektivvertrag: "ja",
-                diseaseCategory: "organ abnormality",
-                referringClinician: "M. Meier",
-                bisherigeDiagnostik: "keine",
-                wetlabMetainfo: "keine",
-                AutoCasc: "id_3b2c5f33e",
-                prenatal: 8,
-                ageInMonths: 14,
-                ageinYears: 1,
-                autozygosity: 1.2,
-                variants: [
-                    {
-                        gene: "MLH3",
-                        variantSolvesCase: "candidate",
-                        ifNewDiseaseGeneLevelOfEvidence: "bla",
-                        acmg: {
-                            class: "likely pathogenic",
-                            criteria: [
-                                "PVS1",
-                                "PS3",
-                                "BP6",
-                                "BP3"
-                            ]
-                        },
-                        zygosity: "comp het",
-                        segregationsanalyse: "de novo",
-                        modeOfInheritance: "recessive",
-                        variant: {
-                            reference: "GRCh38-7-73570818-C-T",
-                            transcript: "abcd"
-                        },
-                        _id: "6537c8e1fdcd74c709d11f10"
-                    },
-                    {
-                        gene: "TBL2",
-                        variantSolvesCase: "incidental",
-                        ifNewDiseaseGeneLevelOfEvidence: "bla",
-                        acmg: {
-                            class: "unclear",
-                            criteria: [
-                                "BA1",
-                                "PS3",
-                                "BS4",
-                                "BP3",
-                                "PP3",
-                                "BP4"
-                            ]
-                        },
-                        zygosity: "homoplasmic",
-                        segregationsanalyse: "transmitted from father",
-                        modeOfInheritance: "mitochondrial",
-                        variant: {
-                            reference: "GRCh38-17-72121764-GACCAGTACC-G",
-                            transcript: "abcd"
-                        },
-                        _id: "6537c8e1fdcd74c709d11f11"
-                    }
-                ],
-            },
-            {
-                _id: "ce28651c-bf57-4f77-8036-6c89027e9b1c",
-                internalCaseId: "A7-95c-362",
-                sequencingLab: "Berlin",
-                externalCaseId: "AB_345",
-                gestaltMatcherId: "239472743",
-                face2GeneId: "7478234",
-                sex: "female",
-                singleDuoTrio: "duo",
-                caseStatus: "unsolved",
-                testConducted: "Genome",
-                selektivvertrag: "nein",
-                diseaseCategory: "neurodevelopmental",
-                referringClinician: "X. Huber",
-                bisherigeDiagnostik: "blabla",
-                wetlabMetainfo: "nein",
-                AutoCasc: "49234923",
-                prenatal: 8,
-                ageInMonths: 26,
-                ageinYears: 5,
-                autozygosity: 1.1,
-                variants: [
-                    {
-                        gene: "PIGV",
-                        variantSolvesCase: "primary",
-                        ifNewDiseaseGeneLevelOfEvidence: "bla",
-                        acmg: {
-                            class: "likely benign",
-                            criteria: [
-                                "BS2",
-                                "PM4",
-                                "PP2",
-                                "BP6"
-                            ]
-                        },
-                        zygosity: "homozygous",
-                        segregationsanalyse: "not performed",
-                        modeOfInheritance: "X-linked",
-                        variant: {
-                            reference: "GRCh38-7-73570818-C-T",
-                            transcript: "abcd"
-                        },
-                        _id: "6537c8e1fdcd74c709d11f12"
-                    },
-                    {
-                        gene: "POR",
-                        variantSolvesCase: "incidental",
-                        ifNewDiseaseGeneLevelOfEvidence: "bla",
-                        acmg: {
-                            class: "benign",
-                            criteria: [
-                                "PM1",
-                                "PM5",
-                                "PM6",
-                                "PP3",
-                                "BA1",
-                                "BA1"
-                            ]
-                        },
-                        zygosity: "heteroplasmic",
-                        segregationsanalyse: "transmitted from mother",
-                        modeOfInheritance: "unclear",
-                        variant: {
-                            reference: "GRCh38-14-75018816-G-C",
-                            transcript: "abcd"
-                        },
-                        _id: "6537c8e1fdcd74c709d11f13"
-                    },
-                    {
-                        gene: "MLH3",
-                        variantSolvesCase: "primary",
-                        ifNewDiseaseGeneLevelOfEvidence: "bla",
-                        acmg: {
-                            class: "likely pathogenic",
-                            criteria: [
-                                "PVS1",
-                                "PS1",
-                                "PS2",
-                                "PS3",
-                                "PS4",
-                                "PM1",
-                                "PM2",
-                                "PM3",
-                                "PM4",
-                                "PM5",
-                                "PM6",
-                                "PP1",
-                                "PP2",
-                                "PP3",
-                                "PP4",
-                                "PP5",
-                                "BP1",
-                                "BP2",
-                                "BP3",
-                                "BP4",
-                                "BP5",
-                                "BP6",
-                                "BP7",
-                                "BS1",
-                                "BS2",
-                                "BS3",
-                                "BS4",
-                                "BA1"
-                            ]
-                        },
-                        zygosity: "hemi",
-                        segregationsanalyse: "de novo",
-                        modeOfInheritance: "X-linked",
-                        variant: {
-                            reference: "GRCh38-7-75980326-CCT-C",
-                            transcript: "abcd"
-                        },
-                        _id: "6537c8e1fdcd74c709d11f14"
-                    }
-                ],
-            }
-        ]
-
-        let casesScheme = database.getScheme('GRID_cases').schemeDescription
-        let casesLayout = database.getScheme('GRID_cases').layouts['default']
-
-        // console.log("HOIER :wefpj wfi wojfoi wjoifj woiejfoi wjefoi wjoij oiweif wij")
-        console.log(casesLayout)
-        console.log(casesScheme)
-
-        */
-
-
-
-
-    // das hier ist exemplarisch ein processing?
-    /*
-    let index = 1;
-    for(let row of testData) {
-    
-
-        row['___validation___'] = {
-            hasErrors: false
-        }
-
-        row['___index___'] = index
-
-
-        for(let group of casesLayout.description) {
-            // console.log(group.label)
-            // console.log(group.type)
-            if(group.type.id === 'primary') {
-
-                for(let field of group.fields) {
-
-                    // todo: auch hier muss man schauen, ob es ein array type ist
-
-                    let value = lodash.get(row,field.id)
-                    let valueValidated = {
-                        value: value,
-                        validation: {
-                            isValid: true
-                        }
-                    }
-                    lodash.set(row,field.id,valueValidated)
-                }
-
-            } else if(group.type.id === 'nested') {
-
-                let type = casesScheme[group.type.root]
-
-                if(lodash.isArray(type)) {
-
-                    let rootType = type[0]
-
-                    let rootData = lodash.get(row,group.type.root)
-
-                    for(let rootEntry of rootData) {
-
-                        for(let field of group.fields) {
-
-                            // todo: hier MUSS der zugehörige type geholt werden, da arrays berücksichtigt werden müssen
-
-                            // console.log(field)
-
-                            let value = undefined
-                            if(field.path != null) {
-                                value = lodash.get(rootEntry,field.path)
-                            } else {
-                                value = lodash.get(rootEntry,field.id)
-                            }
-
-                            let valueValidated = {
-                                value: value,
-                                validation: {
-                                    isValid: true
-                                }
-                            }
-
-                            if(field.path != null) {
-                                lodash.set(rootEntry,field.path,valueValidated)
-                            } else {
-                                lodash.set(rootEntry,field.id,valueValidated)
-                            }
-
-                        }
-
-                    }
-
-                } else {
-
-
-                    let rootType = type
-
-                    let rootEntry = lodash.get(row,group.type.root)
-
-                    for(let field of group.fields) {
-
-                        // todo: hier MUSS der zugehörige type geholt werden, da arrays berücksichtigt werden müssen
-
-                        // console.log(field)
-
-                        let value = undefined
-                        if(field.path != null) {
-                            value = lodash.get(rootEntry,field.path)
-                        } else {
-                            value = lodash.get(rootEntry,field.id)
-                        }
-
-                        let valueValidated = {
-                            value: value,
-                            validation: {
-                                isValid: true
-                            }
-                        }
-
-                        if(field.path != null) {
-                            lodash.set(rootEntry,field.path,valueValidated)
-                        } else {
-                            lodash.set(rootEntry,field.id,valueValidated)
-                        }
-
-                    }
-
-
-                }
-
-
-            }
-        }
-
-        index++
-    }
-    console.log(testData)
-    */
 
 
     // values to update
@@ -1131,7 +895,7 @@ router.post('/excel-template-set-mapping', [auth], async function (req, res, nex
     }
 
     if (debug === true) {
-        // await sleep(2000)
+        await sleep(2000)
     }
 
     res.send(dbRes)
@@ -1143,7 +907,130 @@ router.post('/excel-template-set-mapping', [auth], async function (req, res, nex
 
 
 
-// trigger processing for excel template import
+
+
+async function loadCSVHeaderFromBuffer(buffer,config) {
+    return new Promise( (resolve,reject) => {
+
+        let inputStream = Readable.from(buffer)
+
+        const parser = parse({
+            columns: true,
+            delimiter: config.csv.field_delimiter,
+            // record_delimiter:                            steht per default auf 'auto detect', das sollte man erstmal auch so lassen
+            trim: true,
+            skip_empty_lines: true
+        })
+        
+        parser.on('readable', function () {
+            let record = parser.read()
+            inputStream.destroy()
+            if(record == null || lodash.isObject(record) === false || lodash.isArray(record)) {
+                reject(new Error('could not parse even a single record from csv stream'))
+            } else {
+                let headers = Object.keys(record)
+                if(headers == null || lodash.isArray(headers) === false) {
+                    reject(new Error('could not parse headers from csv stream'))
+                } else {
+                    resolve(headers)
+                }
+            }
+        })
+        
+        parser.on('error', function (err) {
+            reject(new Error('could not parse csv stream', { cause: err }))
+        })
+
+        inputStream.pipe(parser)
+    })
+}
+
+
+// load csv header names (mode 'csv' only)
+router.post('/load-csv-header', [auth], async function (req, res, next) {
+
+    const userId = req.auth.user._id
+
+    const importId = req.body.importId ? req.body.importId.trim() : undefined
+    if (importId == null) {
+        throw new BackendError('import id is missing')
+    }
+
+    let current = null
+    try {
+        let dbRes = await database.find('STATIC_imports', {
+            // fields: '-uploadedFiles.data',
+            filter: { _id: importId, user: userId },
+            populate: [ { path: 'user', select: '-password' } ]
+        })
+        current = dbRes.data[0]
+    } catch (error) {
+        throw new BackendError('could not get import', 500, error)
+    }
+
+
+    // load csv header
+    let columnNames = null
+    if (current.uploadFormat === 'csv' && current.uploadedFiles != null && current.uploadedFiles.length === 1) {
+
+        let file = current.uploadedFiles[0]
+        try {
+            columnNames = await loadCSVHeaderFromBuffer(file.data.buffer, current.uploadFormatConfig)
+        } catch (err) {
+            console.log(err)
+            throw new BackendError("Internal Error: Could not load column names from csv file", 500, err)
+        }
+    }
+
+
+    const scheme = database.getScheme('GRID_cases')
+    const dataDesc = {
+        // bleibt erstmal leer, weil im frontend nicht gebraucht. Eventuell wird das später benötigt. Im naiven fall kämen dann hier einfach die schemeDescription rein..
+        fields: {}  
+    }
+    dataDesc.layout = scheme.layouts.default
+
+
+    // values to update
+    let update = {
+        valueMapping: {
+            ...current.valueMapping,
+            excel: {
+                ...current.valueMapping.excel,
+                dataSheet: undefined,
+                columnNames: columnNames,
+                dataDesc: dataDesc,
+                mapping: [],
+            }
+        }
+    }
+
+    // execute update
+    let dbRes = null
+    try {
+        dbRes = await database.findOneAndUpdate('STATIC_imports', {
+            fields: '-uploadedFiles.data',
+            filter: { _id: importId, user: userId },
+            populate: [ { path: 'user', select: '-password' } ]
+        }, update)
+    } catch (error) {
+        throw new BackendError('could not update import', 500, error)
+    }
+
+    if (debug === true) {
+        await sleep(2000)
+    }
+
+    res.send(dbRes)
+})
+
+
+
+
+
+
+
+// trigger processing for excel or csv template import
 router.post('/excel-template-trigger-processing', [auth], async function (req, res, next) {
 
     const userId = req.auth.user._id
@@ -1185,7 +1072,7 @@ router.post('/excel-template-trigger-processing', [auth], async function (req, r
 
 
 
-// trigger processing for excel template import
+// cancel processing for excel or csv template import
 router.post('/excel-template-cancel-processing', [auth], async function (req, res, next) {
 
     const userId = req.auth.user._id
@@ -1256,7 +1143,7 @@ router.post('/excel-template-cancel-processing', [auth], async function (req, re
 
 
 
-// trigger processing for excel template import
+// clear processing for canceled excel or csv template import
 router.post('/excel-template-clear-canceled', [auth], async function (req, res, next) {
 
     const userId = req.auth.user._id

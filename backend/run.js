@@ -86,16 +86,8 @@ app.use( function(req, res, next) {
     next(createError(404, req.path))
 })
 
-// WICHTIG: Im folgenden geht es um die async error Problematik und eine Lösung wird beschrieben
-// https://zellwk.com/blog/async-await-express/
 
-// Ersetzt diese art des error handlings auch den 404 handler von oben?
-app.use(async function (err, req, res, next) {
-
-    // Generiere Fehlerinfos für die Anzeige im Frontend (auch für async code)
-
-    console.log('\n')
-    console.log('GLOBAL ERROR HANDLER\n')
+async function generateErrorResponse(err) {
 
     let status = err.status || 500
 
@@ -106,25 +98,34 @@ app.use(async function (err, req, res, next) {
         stackTrace: await StackTrace.fromError(err)
     }
 
-    console.log(`STATUS:  ${error.status}`)
-    console.log(`NAME:    ${error.name}`)
-    console.log(`MESSAGE: ${error.message}`)
+    if(err.cause != null) {
+        error.cause = await generateErrorResponse(err.cause)
+    }
 
+    return error
+}
+
+
+// WICHTIG: Im folgenden geht es um die async error Problematik und eine Lösung wird beschrieben
+// https://zellwk.com/blog/async-await-express/
+
+// Ersetzt diese art des error handlings auch den 404 handler von oben?
+app.use(async function (err, req, res, next) {
+
+    // anzeige des fehlers inklusive des causes über die prettified console
     console.error(err)
 
-    /*
-    console.log(error.status)
-    console.log()
-    console.log(error.name)
-    console.log()
-    console.log(error.message)
-    console.log()
-    console.log(err)
-    console.log()
-    */
+    
+    // Generiere Fehlerinfos für die Anzeige im Frontend (auch für async code)
+    console.log('\n')
+    console.log('GLOBAL ERROR HANDLER\n')
 
+    let error = await generateErrorResponse(err)
 
-    res.status(status)
+    console.log("error response")
+    console.log(error)
+
+    res.status(error.status)
     res.send(error)
 })
 

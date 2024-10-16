@@ -34,6 +34,58 @@ div.upload-view {
     padding: 20px 30px;
 
 
+    position: relative;
+
+
+    & > div.MuiFormControl-root {
+
+        margin-bottom: 14px; 
+
+        & > label.MuiFormLabel-root {
+            // border: 5px solid green;
+            color: rgba(0,0,0,0.8) !important;
+            font-weight: bold;
+            font-size: 0.8em;
+            margin-bottom: 2px;
+        }
+
+        & > div.row {
+            display: flex;
+            flex-flow: row;
+            & > * {
+                margin-right: 8px;
+                &:last-child {
+                    margin-right: 0px;
+                }
+            }
+        }
+
+
+    }
+
+    & div[role=radiogroup] {
+        margin-top: 2px;
+        margin-bottom: 6px;
+
+        // border: 3px solid red;
+        & > label {
+            & > span.MuiRadio-root {
+                padding: 0px;
+                margin-left: 9px;
+            }
+            & > span.MuiFormControlLabel-label {
+                padding: 0px;
+                // border: 2px solid yellow;
+                margin-left: 4px;
+                font-size: 0.75em;
+                font-weight: bold;
+                color: rgba(0,0,0,0.7);
+            }
+        }
+    }
+
+
+
 
 
     & div.select-upload-format {
@@ -88,9 +140,11 @@ div.upload-view {
     }
 
     & span.warning {
-        align-self: center;
+        // align-self: center;
+        // margin-left: 8px;
+
+        align-self: flex-start;
         margin-top: 8px;
-        margin-left: 8px;
         color: #AAA;
         font-size: 0.8em;
     }

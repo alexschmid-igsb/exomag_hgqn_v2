@@ -1,0 +1,173 @@
+
+
+
+
+div.large-error-overlay {
+
+    z-index: 100;
+    // background-color: red;
+    // background-color: rgba(255,255,255,0.9);
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+
+    background-color: #F9F9F9;
+    border: 1px solid rgba(0,0,0,0.1);
+    box-sizing: border-box;
+    border-radius: inherit;
+    transition: opacity 0.5s;
+
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+
+    overflow-y: auto;
+
+    .error-icon {
+        display: block;
+        margin-top: 60px;
+        opacity: 0.6;
+        font-size: 160px;
+        align-self: center;
+        color: #cf000f;
+    }
+
+    & > div.title {
+        margin-top: 40px;
+        font-weight: bold;
+        color: black;
+        font-size: 20px;
+    }
+
+    & > div.message {
+        margin-top: 6px;
+        color: rgba(0,0,0,0.8);
+        font-size: 20px;
+    }
+
+    & > div.details {
+        margin: 50px 30px 0px 30px;
+        color: rgba(0,0,0,0.8);
+        font-size: 16px;
+        display: flex;
+        flex-flow: column;
+        & > span {
+            margin-bottom: 18px;
+        }
+    }
+
+}
+
+div.large-error-overlay.initial {
+    opacity: 0.0;
+}
+
+div.large-error-overlay.running {
+    opacity: 1.0;
+}
+
+
+
+
+#loader-wrapper {
+    // position: fixed;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+
+    & > div.label {
+        margin-top: 25px;
+        font-family: "Roboto";
+        font-weight: 500;
+        font-size: 13px;
+        text-transform: uppercase;
+        color: rgba(0,0,0,0.6);
+    }
+}
+
+#loader {
+    display: block;
+    position: relative;
+    // left: 50%;
+    // top: 50%;
+    // margin: -75px 0 0 -75px;
+
+
+    // width: 150px;
+    // height: 150px;
+
+    width: 80px;
+    height: 30px;
+
+    
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-top-color: #3498db;
+
+   -webkit-animation: spin 4s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
+   animation: spin 4s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
+}
+ 
+#loader:before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-top-color: #e74c3c;
+    -webkit-animation: spin 6s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
+    animation: spin 6s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
+}
+ 
+#loader:after {
+    content: "";
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-top-color: #f9c922;
+    -webkit-animation: spin 3s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
+    animation: spin 3s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
+}
+ 
+@-webkit-keyframes spin {
+    0%   {
+        -webkit-transform: rotate(0deg);  /* Chrome, Opera 15+, Safari 3.1+ */
+        -ms-transform: rotate(0deg);  /* IE 9 */
+        transform: rotate(0deg);  /* Firefox 16+, IE 10+, Opera */
+    }
+    100% {
+        -webkit-transform: rotate(360deg);  /* Chrome, Opera 15+, Safari 3.1+ */
+        -ms-transform: rotate(360deg);  /* IE 9 */
+        transform: rotate(360deg);  /* Firefox 16+, IE 10+, Opera */
+    }
+}
+
+@keyframes spin {
+    0%   {
+        -webkit-transform: rotate(0deg);  /* Chrome, Opera 15+, Safari 3.1+ */
+        -ms-transform: rotate(0deg);  /* IE 9 */
+        transform: rotate(0deg);  /* Firefox 16+, IE 10+, Opera */
+    }
+    100% {
+        -webkit-transform: rotate(360deg);  /* Chrome, Opera 15+, Safari 3.1+ */
+        -ms-transform: rotate(360deg);  /* IE 9 */
+        transform: rotate(360deg);  /* Firefox 16+, IE 10+, Opera */
+    }
+}

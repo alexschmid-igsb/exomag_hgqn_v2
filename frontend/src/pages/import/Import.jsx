@@ -44,6 +44,7 @@ export default function Import() {
     const [importInstance, _setImportInstance] = React.useState({})
     const [rejectedFiles, setRejectedFiles] = React.useState([])
     const [uiBlockMsg, setUIBlockMsg] = React.useState(null)
+    const [uiErrorMsg, setUIErrorMsg] = React.useState(null)
     const [isLoading, setIsLoading] = React.useState(true)
     const [mappingIsValid, setMappingIsValid] = React.useState(false)
     const [processingIntervalId, setProcessingIntervalId] = React.useState(null)
@@ -144,7 +145,7 @@ export default function Import() {
 
         // console.log(importInstance)
 
-        if(importInstance.uploadFormat === 'excel_template') {
+        if(importInstance.uploadFormat === 'excel_template' || importInstance.uploadFormat === 'csv') {
 
             let state = importInstance?.processing?.excel?.state
 
@@ -217,6 +218,30 @@ export default function Import() {
     }
 
 
+    const changeUploadFormatConfig = newUploadFormatConfig => {
+        console.log(`change upload format config to`)
+        console.log(newUploadFormatConfig)
+
+        setUIBlockMsg('set upload format config ...')
+        API.post('/api/import/set-upload-format-config', {
+            params: {
+                importId: importId,
+                uploadFormat: importInstance.uploadFormat,
+                uploadFormatConfig: newUploadFormatConfig
+            }
+        }).then( response => {
+            console.log(response)
+            setImportInstance(response.data)
+            setRejectedFiles([])
+            setUIBlockMsg(null)
+        })
+    }
+
+
+
+
+
+
 
     const handleFileUpload = files => {
 
@@ -226,13 +251,7 @@ export default function Import() {
         console.log("handle upload")
         console.log(files)
 
-
-
-
-
         setUIBlockMsg('uploading files ...')
-
-
 
         API.sendFiles('/api/import/upload-files', files, { params: { importId: importId }}).then(response => {
 
@@ -240,15 +259,7 @@ export default function Import() {
 
             setImportInstance(response.updatedImport)
             setRejectedFiles(response.rejectedFiles)
-
-
-
-
         })
-
-
-
-
     }
 
     
@@ -282,6 +293,37 @@ export default function Import() {
         })
     }
 
+
+    const loadCSVHeader = () => {
+        // setImportInstance({...importInstance, uploadFormat: newUploadFormat})
+        setUIBlockMsg('loading csv header')
+        API.post('/api/import/load-csv-header', {
+            doNotThrowFor: [500],
+            params: {
+                importId: importId
+            }
+        }).then( response => {
+            setImportInstance(response.data)
+            setUIBlockMsg(null)
+        }).catch( err => {
+            setUIBlockMsg(null)
+
+            let details = []
+            let rec = err
+            while(rec != null) {
+                details.push(rec.message)
+                rec = rec?.cause
+            }
+            setUIErrorMsg({
+                title: 'CSV Parsing Error',
+                message: 'Could not parse uploaded CSV file.',
+                details: details
+            })
+
+            console.log("HIER wlkeä lkwnew")
+            console.dir(err, { depth: null })
+        })
+    }
 
 
 
@@ -322,6 +364,8 @@ export default function Import() {
 
     const goBackToFileUpload = event => {
         setIsLoading(true)
+        setUIBlockMsg(null)
+        setUIErrorMsg(null)
         API.post('/api/import/set-progress', {
             params: {
                 importId: importId,
@@ -336,6 +380,8 @@ export default function Import() {
 
     const confirmFieldMappingStep = event => {
         setIsLoading(true)
+        setUIBlockMsg(null)
+        setUIErrorMsg(null)
         API.post('/api/import/set-progress', {
             params: {
                 importId: importId,
@@ -350,6 +396,8 @@ export default function Import() {
 
     const goBackToFieldMapping = event => {
         setIsLoading(true)
+        setUIBlockMsg(null)
+        setUIErrorMsg(null)
         API.post('/api/import/set-progress', {
             params: {
                 importId: importId,
@@ -387,6 +435,7 @@ export default function Import() {
         console.log(importInstance)
         switch(importInstance.uploadFormat) {
             case 'excel_template':
+            case 'csv':
                 if(importInstance?.processing?.excel?.state === 'PENDING') {
                     setIsLoading(true)
                     API.post('/api/import/excel-template-trigger-processing', {
@@ -413,6 +462,7 @@ export default function Import() {
         console.log(importInstance)
         switch(importInstance.uploadFormat) {
             case 'excel_template':
+            case 'csv':
                 if(importInstance?.processing?.excel?.state === 'RUNNING') {
                     setIsLoading(true)
                     API.post('/api/import/excel-template-cancel-processing', {
@@ -437,6 +487,7 @@ export default function Import() {
         console.log(importInstance)
         switch(importInstance.uploadFormat) {
             case 'excel_template':
+            case 'csv':
                 // if(importInstance?.processing?.excel?.state === 'CANCELED') {
                     if(importInstance?.processing?.excel?.state === 'CANCELED' || importInstance?.processing?.excel?.state === 'FINISHED') {
                     setIsLoading(true)
@@ -505,8 +556,13 @@ export default function Import() {
                     <UploadView
                         uploadFormat={importInstance.uploadFormat}
                         onUploadFormatChange={changeUploadFormat}
+
+                        uploadFormatConfig={importInstance.uploadFormatConfig}
+                        onUploadFormatConfigChange={changeUploadFormatConfig}
+
                         onFileUpload={handleFileUpload}
                         uiBlockMsg={uiBlockMsg}
+                        uiErrorMsg={uiErrorMsg}
                         uploadedFiles={importInstance.uploadedFiles}
                         rejectedFiles={rejectedFiles}
                     />
@@ -527,14 +583,20 @@ export default function Import() {
                         onClick: confirmFieldMappingStep
                     }}
                 >
-                    <DataMappingView
-                        uiBlockMsg={uiBlockMsg}
-                        importInstance={importInstance}
-                        onExcelSheetChange={changeExcelSheet}
-                        onMappingChange={changeMapping}
-                        mappingIsValid={mappingIsValid}
-                        onMappingIsValidChange={setMappingIsValid}
-                    />
+                    { importInstance.uploadFormat === 'excel_template' || importInstance.uploadFormat === 'csv' ?
+                        <DataMappingView
+                            uiBlockMsg={uiBlockMsg}
+                            uiErrorMsg={uiErrorMsg}
+                            importInstance={importInstance}
+                            onExcelSheetChange={changeExcelSheet}
+                            onMappingChange={changeMapping}
+                            loadCSVHeader={loadCSVHeader}
+                            mappingIsValid={mappingIsValid}
+                            onMappingIsValidChange={setMappingIsValid}
+                        />
+                    : 
+                        <span>no field mapping for this upload format</span>
+                    }
                 </Step>
 
 
@@ -557,6 +619,7 @@ export default function Import() {
                 >
                     <DataValidationView
                         uiBlockMsg={uiBlockMsg}
+                        uiErrorMsg={uiErrorMsg}
                         importInstance={importInstance}
                         cancelValidation={cancelValidation}
                         restartValidation={restartValidation}
