@@ -1,0 +1,126 @@
+
+
+
+
+div.visualizations {
+
+    
+
+
+
+    & > .MuiAccordion-root {
+
+        &::before {
+            display: none;
+        }
+
+        transition: border-radius 0.5s, opacity 0.5s, margin 0.5s, box-shadow 0.5s;
+
+        // border: 3px solid red !important;
+        border: none;
+        box-shadow: none;
+        // margin: 10px !important;
+
+        // background-color: red;
+
+        border-radius: 0px;
+        opacity: 0.8;
+
+        background-color: rgba(0,0,0,0.05);
+
+        &:first-of-type {
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            & > .MuiAccordionSummary-root {
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
+            }
+        }
+
+        &:last-of-type {
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+            & > .MuiAccordionSummary-root {
+                border-bottom-left-radius: 5px;
+                border-bottom-right-radius: 5px;
+                border-bottom: none;
+            }
+        }
+
+        &.Mui-expanded {
+            opacity: 1.0;
+            border-radius: 10px;
+            // box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+        }
+
+
+        & > .MuiAccordionSummary-root {
+
+            transition: border 0.5s;
+
+            border: none;
+            border-bottom: 1px dashed rgba(0,0,0,0.1);
+            min-height: unset;
+            padding: 10px;
+
+            &.Mui-expanded {
+                border-bottom: 1px dashed transparent;
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+                border-bottom-left-radius: 0px;
+                border-bottom-right-radius: 0px;
+            }
+
+            &:hover {
+                background-color: rgba(0,0,0,0.05);
+            }
+
+            & > .MuiAccordionSummary-content {
+                font-weight: bold;
+                color: rgba(0,0,0,0.7);
+                margin: 0px;
+                margin-left: 10px;
+            }
+        }
+    }
+
+
+    & .MuiAccordionDetails-root {
+        padding: 18px 18px 18px 18px;
+
+        & span.empty {
+            // font-weight: bold;
+            font-size: 0.9em;
+            color: rgba(0,0,0,0.3);
+            background-color: rgba(0,0,0,0.1);
+            padding: 4px 8px;
+            border-radius: 3px;
+            margin-left: -4px;
+        }
+
+        & > div.grid {
+            // border: 5px solid red;
+            background-color: rgba(0,0,0,0.2);
+
+            display: flex;
+            flex-flow: row;
+            flex-wrap: wrap;
+
+            align-items: stretch;
+            justify-content: flex-start;
+
+            gap: 40px;
+
+
+            & > .entry {
+                min-width: 400px;
+                // margin: 10px;
+
+            }
+        }
+    }
+
+
+
+
+}

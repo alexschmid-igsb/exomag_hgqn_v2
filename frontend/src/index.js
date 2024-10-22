@@ -26,6 +26,7 @@ import ImportsAdmin from './admin/ImportsAdmin'
 import EmailTemplatesPreview from './admin/EmailTemplatesPreview'
 import Imports from './pages/import/Imports'
 import Import from './pages/import/Import'
+import Visualizations from './pages/visualization/Visualizations'
 
 
 import './fonts/IBMPlexSans/IBMPlexSans-Thin.ttf'
@@ -60,9 +61,10 @@ root.render(
                             <Route path="grids/:gridId" element={<Grid />} />
                             <Route path="grids/:gridId/:gridLayout" element={<Grid />} />
                             <Route path="grids" element={<Grids />} />
+                            <Route path="users" element={<UserList />} />
                             <Route path="imports" element={<Imports />} />
                             <Route path="imports/:importId" element={<Import />} />
-                            <Route path="users" element={<UserList />} />
+                            <Route path="visualizations" element={<Visualizations />} />
                             <Route path="admin" element={<Admin />} />
                             <Route path="admin/status" element={<Status />} />
                             <Route path="admin/imports" element={<ImportsAdmin />} />

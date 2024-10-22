@@ -129,6 +129,12 @@ export default function MainMenu() {
             label: 'Data Import',
             path: '/imports',
             icon: <Icon icon='bi:database-up'/>
+        },
+        {
+            key: 'visualizations',
+            label: 'Visualizations',
+            path: '/visualizations',
+            icon: <Icon icon='solar:chart-bold-duotone'/>
         }
     ]
 
