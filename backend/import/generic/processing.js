@@ -1,8 +1,10 @@
-
 const Report =  require("../Report")
 const BackendError = require("../../util/BackendError")
+
 const FetchAPI = require('../FetchAPI')
 const StackTrace = require('stacktrace-js')
+
+const { DateTime } = require("luxon")
 
 const lodash = require('lodash')
 
@@ -183,9 +185,11 @@ const validateInteger = (record, fullPath, value, desc) => {
 
 
 const validateDate = (record, fullPath, value, desc) => {
-    const dateTest = /^\d\d\.\d\d\.\d\d\d\d$/
-    if(dateTest.test(value)) {
+    if(/^\d\d\.\d\d\.\d\d\d\d$/.test(value)) {
         let date = DateTime.fromFormat(value, 'dd.MM.yyyy').toUTC()
+        return new Date(date).toISOString()
+    } else if(/^\d\d\d\d-\d\d-\d\d$/.test(value)) {
+        let date = DateTime.fromFormat(value, 'yyyy-MM-dd').toUTC()
         return new Date(date).toISOString()
     } else {
         let date = Date.parse(value)
